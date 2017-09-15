@@ -14,7 +14,7 @@
 				</excludes>
 			</resource>
 			<resource>
-				<directory>src/main/resources/karedi</directory>
+				<directory>src/main/resources/com/github/nianna/karedi</directory>
 				<excludes>
 					<exclude>**/*.java</exclude>
 				</excludes>
@@ -36,7 +36,7 @@
 				<configuration>
 					<archive>
 						<manifest>
-							<mainClass>main.java.karedi.KarediApp</mainClass>
+							<mainClass>main.java.com.github.nianna.karedi.KarediApp</mainClass>
 						</manifest>
 					</archive>
 				</configuration>
@@ -47,7 +47,7 @@
 				<configuration>
 					<archive>
 						<manifest>
-							<mainClass>main.java.karedi.KarediApp</mainClass>
+							<mainClass>main.java.com.github.nianna.karedi.KarediApp</mainClass>
 						</manifest>
 					</archive>
 					<descriptorRefs>
