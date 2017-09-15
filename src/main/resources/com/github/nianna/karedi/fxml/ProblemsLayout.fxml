@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.TreeView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.control.TreeItem?>
+<?import org.controlsfx.glyphfont.Glyph?>
+
+<AnchorPane fx:id="pane" xmlns="http://javafx.com/javafx/8.0.60"
+	xmlns:fx="http://javafx.com/fxml/1"
+	fx:controller="main.java.com.github.nianna.karedi.controller.ProblemsController">
+	<children>
+		<TreeView fx:id="tree" disable="true" showRoot="false"
+			AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
+			AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+			<TreeItem>
+				<children>
+					<TreeItem fx:id="errorsRoot">
+						<graphic>
+							<Glyph fx:id="errorGlyph" fontFamily="FontAwesome" icon="TIMES"
+								minWidth="15" alignment="center" />
+						</graphic>
+					</TreeItem>
+					<TreeItem fx:id="warningsRoot">
+						<graphic>
+							<Glyph fx:id="warningGlyph" fontFamily="FontAwesome" icon="EXCLAMATION"
+								minWidth="15" alignment="center" />
+						</graphic>
+					</TreeItem>
+				</children>
+			</TreeItem>
+		</TreeView>
+	</children>
+</AnchorPane>

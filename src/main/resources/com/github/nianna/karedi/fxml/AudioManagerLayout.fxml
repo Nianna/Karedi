@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.ContextMenu?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane fx:id="pane" xmlns="http://javafx.com/javafx/8.0.60"
+	xmlns:fx="http://javafx.com/fxml/1"
+	fx:controller="main.java.com.github.nianna.karedi.controller.AudioManagerController">
+	<children>
+		<TableView fx:id="table" disable="true" onKeyPressed="#onKeyPressed"
+			AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
+			AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+			<columns>
+				<TableColumn fx:id="nameColumn" sortable="false"
+					text="%common.filename" />
+				<TableColumn fx:id="volumeColumn" sortable="false"
+					text="%common.volume" />
+			</columns>
+			<contextMenu>
+				<ContextMenu fx:id="baseContextMenu">
+					<items>
+						<MenuItem mnemonicParsing="false" onAction="#handleAdd"
+							text="%common.add" />
+					</items>
+				</ContextMenu>
+			</contextMenu>
+			<columnResizePolicy>
+				<TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+			</columnResizePolicy>
+		</TableView>
+	</children>
+</AnchorPane>

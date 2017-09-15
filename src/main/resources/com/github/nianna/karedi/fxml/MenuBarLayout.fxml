@@ -1,0 +1,717 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.CheckMenuItem?>
+<?import javafx.scene.control.SeparatorMenuItem?>
+<?import javafx.scene.input.KeyCodeCombination?>
+
+<MenuBar fx:id="menuBar" xmlns:fx="http://javafx.com/fxml/1"
+	fx:controller="main.java.com.github.nianna.karedi.controller.MenuBarController">
+	<menus>
+		<Menu mnemonicParsing="true" text="%ui.menu.file">
+			<items>
+				<MenuItem fx:id="newSongMenuItem" mnemonicParsing="false"
+					text="%ui.menu.new">
+					<accelerator>
+						<KeyCodeCombination alt="UP" code="N" control="UP"
+							meta="UP" shift="UP" shortcut="DOWN" />
+					</accelerator>
+				</MenuItem>
+				<MenuItem fx:id="openMenuItem" mnemonicParsing="false"
+					text="%ui.menu.open">
+					<accelerator>
+						<KeyCodeCombination alt="UP" code="O" control="UP"
+							meta="UP" shift="UP" shortcut="DOWN" />
+					</accelerator>
+				</MenuItem>
+				<MenuItem fx:id="reloadMenuItem" mnemonicParsing="false"
+					text="%ui.menu.reload">
+					<accelerator>
+						<KeyCodeCombination alt="UP" code="F5" control="UP"
+							meta="UP" shift="UP" shortcut="UP" />
+					</accelerator>
+				</MenuItem>
+				<MenuItem fx:id="saveMenuItem" mnemonicParsing="false"
+					text="%ui.menu.save">
+					<accelerator>
+						<KeyCodeCombination alt="UP" code="S" control="UP"
+							meta="UP" shift="UP" shortcut="DOWN" />
+					</accelerator>
+				</MenuItem>
+				<MenuItem fx:id="saveAsMenuItem" mnemonicParsing="false"
+					text="%ui.menu.save_as" />
+				<SeparatorMenuItem mnemonicParsing="false" />
+				<Menu mnemonicParsing="false" text="%ui.menu.import">
+					<items>
+						<MenuItem fx:id="importAudioMenuItem" mnemonicParsing="false"
+							text="%ui.menu.import.audio" />
+					</items>
+				</Menu>
+				<Menu mnemonicParsing="false" text="%ui.menu.export">
+					<items>
+						<MenuItem fx:id="exportAsSingleplayerMenuItem"
+							mnemonicParsing="false" text="%ui.menu.export.single" />
+						<MenuItem fx:id="exportAsDuetMenuItem" mnemonicParsing="false"
+							text="%ui.menu.export.duet" />
+					</items>
+				</Menu>
+				<SeparatorMenuItem mnemonicParsing="false" />
+				<MenuItem fx:id="exitMenuItem" mnemonicParsing="false"
+					text="%ui.menu.exit" />
+			</items>
+		</Menu>
+		<Menu mnemonicParsing="true" text="%ui.menu.edit">
+			<items>
+				<MenuItem fx:id="cutMenuItem" mnemonicParsing="false" text="%ui.menu.cut">
+					<accelerator>
+						<KeyCodeCombination alt="UP" code="X" control="UP"
+							meta="UP" shift="UP" shortcut="DOWN" />
+					</accelerator>
+				</MenuItem>
+				<MenuItem fx:id="copyMenuItem" mnemonicParsing="false"
+					text="%ui.menu.copy">
+					<accelerator>
+						<KeyCodeCombination alt="UP" code="C" control="UP"
+							meta="UP" shift="UP" shortcut="DOWN" />
+					</accelerator>
+				</MenuItem>
+				<MenuItem fx:id="pasteMenuItem" mnemonicParsing="false"
+					text="%ui.menu.paste">
+					<accelerator>
+						<KeyCodeCombination alt="UP" code="V" control="UP"
+							meta="UP" shift="UP" shortcut="DOWN" />
+					</accelerator>
+				</MenuItem>
+				<Menu mnemonicParsing="false" text="%ui.menu.merge">
+					<items>
+						<MenuItem fx:id="mergeTonesMenuItem" mnemonicParsing="false"
+							text="%ui.menu.merge.tones">
+							<accelerator>
+								<KeyCodeCombination alt="UP" code="E"
+									control="UP" meta="UP" shift="UP" shortcut="DOWN" />
+							</accelerator>
+						</MenuItem>
+						<MenuItem fx:id="mergeSynchroMenuItem" mnemonicParsing="false"
+							text="%ui.menu.merge.synchro">
+							<accelerator>
+								<KeyCodeCombination alt="UP" code="E"
+									control="UP" meta="UP" shift="DOWN" shortcut="UP" />
+							</accelerator>
+						</MenuItem>
+						<MenuItem fx:id="mergeLyricsMenuItem" mnemonicParsing="false"
+							text="%ui.menu.merge.lyrics">
+							<accelerator>
+								<KeyCodeCombination alt="DOWN" code="E"
+									control="UP" meta="UP" shift="UP" shortcut="UP" />
+							</accelerator>
+						</MenuItem>
+						<MenuItem fx:id="mergeTonesSynchroMenuItem"
+							mnemonicParsing="false" text="Tones &amp; Synchro" visible="false">
+							<accelerator>
+								<KeyCodeCombination alt="UP" code="E"
+									control="UP" meta="UP" shift="DOWN" shortcut="DOWN" />
+							</accelerator>
+						</MenuItem>
+						<MenuItem fx:id="mergeTonesLyricsMenuItem"
+							mnemonicParsing="false" text="Tones &amp; Lyrics" visible="false">
+							<accelerator>
+								<KeyCodeCombination alt="DOWN" code="E"
+									control="UP" meta="UP" shift="UP" shortcut="DOWN" />
+							</accelerator>
+						</MenuItem>
+						<MenuItem fx:id="mergeSynchroLyricsMenuItem"
+							mnemonicParsing="false" text="Synchro &amp; Lyrics" visible="false">
+							<accelerator>
+								<KeyCodeCombination alt="DOWN" code="E"
+									control="UP" meta="UP" shift="DOWN" shortcut="UP" />
+							</accelerator>
+						</MenuItem>
+						<MenuItem fx:id="mergeTonesSynchroLyricsMenuItem"
+							mnemonicParsing="false" text="Tones, Synchro &amp; Lyrics"
+							visible="false">
+							<accelerator>
+								<KeyCodeCombination alt="DOWN" code="E"
+									control="UP" meta="UP" shift="DOWN" shortcut="DOWN" />
+							</accelerator>
+						</MenuItem>
+					</items>
+				</Menu>
+				<SeparatorMenuItem mnemonicParsing="false" />
+				<Menu mnemonicParsing="false" text="%ui.menu.add">
+					<items>
+						<MenuItem fx:id="addNoteMenuItem" mnemonicParsing="false"
+							text="%ui.menu.add.note">
+							<accelerator>
+								<KeyCodeCombination alt="UP" code="ENTER"
+									control="UP" meta="UP" shift="UP" shortcut="DOWN" />
+							</accelerator>
+						</MenuItem>
+						<MenuItem fx:id="addTrackMenuItem" mnemonicParsing="false"
+							text="%ui.menu.add.track" />
+					</items>
+				</Menu>
+				<Menu mnemonicParsing="false" text="%ui.menu.delete">
+					<items>
+						<MenuItem fx:id="deleteSelectedNotesMenuItem"
+							mnemonicParsing="false" text="%ui.menu.delete.notes">
+							<accelerator>
+								<KeyCodeCombination alt="UP" code="DELETE"
+									control="UP" meta="UP" shift="UP" shortcut="UP" />
+							</accelerator>
+						</MenuItem>
+						<MenuItem fx:id="deleteSelectedLyricsMenuItem"
+							mnemonicParsing="false" text="%ui.menu.delete.lyrics">
+							<accelerator>
+								<KeyCodeCombination alt="UP" code="DELETE"
+									control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+							</accelerator>
+						</MenuItem>
+						<MenuItem fx:id="deleteSelectedNotesAndLyricsMenuItem"
+							mnemonicParsing="false" text="%ui.menu.delete.notes_lyrics">
+							<accelerator>
+								<KeyCodeCombination alt="UP" code="DELETE"
+									control="UP" meta="UP" shift="DOWN" shortcut="UP" />
+							</accelerator>
+						</MenuItem>
+						<SeparatorMenuItem mnemonicParsing="false" />
+						<MenuItem fx:id="deleteTrackMenuItem" mnemonicParsing="false"
+							text="%ui.menu.delete.track" />
+					</items>
+				</Menu>
+				<SeparatorMenuItem mnemonicParsing="false" />
+				<Menu mnemonicParsing="false" text="%ui.menu.move">
+					<items>
+						<MenuItem fx:id="moveSelectionLeftMenuItem"
+							mnemonicParsing="false" text="%ui.menu.move.left">
+							<accelerator>
+								<KeyCodeCombination alt="UP" code="LEFT"
+									control="UP" meta="UP" shift="DOWN" shortcut="UP" />
+							</accelerator>
+						</MenuItem>
+						<MenuItem fx:id="moveSelectionRightMenuItem"
+							mnemonicParsing="false" text="%ui.menu.move.right">
+							<accelerator>
+								<KeyCodeCombination alt="UP" code="RIGHT"
+									control="UP" meta="UP" shift="DOWN" shortcut="UP" />
+							</accelerator>
+						</MenuItem>
+						<MenuItem fx:id="moveSelectionDownMenuItem"
+							mnemonicParsing="false" text="%ui.menu.move.down">
+							<accelerator>
+								<KeyCodeCombination alt="UP" code="DOWN"
+									control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+							</accelerator>
+						</MenuItem>
+						<MenuItem fx:id="moveSelectionUpMenuItem"
+							mnemonicParsing="false" text="%ui.menu.move.up">
+							<accelerator>
+								<KeyCodeCombination alt="UP" code="UP"
+									control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+							</accelerator>
+						</MenuItem>
+					</items>
+				</Menu>
+				<Menu mnemonicParsing="false" text="%ui.menu.start">
+					<items>
+						<MenuItem fx:id="startEarlierMenuItem" mnemonicParsing="false"
+							text="%ui.menu.start.earlier">
+							<accelerator>
+								<KeyCodeCombination alt="UP" code="LEFT"
+									control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+							</accelerator>
+						</MenuItem>
+						<MenuItem fx:id="startLaterMenuItem" mnemonicParsing="false"
+							text="%ui.menu.start.later">
+							<accelerator>
+								<KeyCodeCombination alt="UP" code="RIGHT"
+									control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+							</accelerator>
+						</MenuItem>
+					</items>
+				</Menu>
+				<Menu mnemonicParsing="false" text="%ui.menu.end">
+					<items>
+						<MenuItem fx:id="endEarlierMenuItem" mnemonicParsing="false"
+							text="%ui.menu.end.earlier">
+							<accelerator>
+								<KeyCodeCombination alt="DOWN" code="LEFT"
+									control="UP" meta="UP" shift="UP" shortcut="UP" />
+							</accelerator>
+						</MenuItem>
+						<MenuItem fx:id="endLaterMenuItem" mnemonicParsing="false"
+							text="%ui.menu.end.later">
+							<accelerator>
+								<KeyCodeCombination alt="DOWN" code="RIGHT"
+									control="UP" meta="UP" shift="UP" shortcut="UP" />
+							</accelerator>
+						</MenuItem>
+					</items>
+				</Menu>
+				<SeparatorMenuItem mnemonicParsing="false" />
+				<MenuItem fx:id="joinNotesMenuItem" mnemonicParsing="false"
+					text="%ui.menu.join_notes">
+					<accelerator>
+						<KeyCodeCombination alt="UP" code="EQUALS"
+							control="UP" meta="UP" shift="UP" shortcut="UP" />
+					</accelerator>
+				</MenuItem>
+				<MenuItem fx:id="splitNoteMenuItem" mnemonicParsing="false"
+					text="%ui.menu.split_note">
+					<accelerator>
+						<KeyCodeCombination alt="UP" code="MINUS"
+							control="UP" meta="UP" shift="UP" shortcut="UP" />
+					</accelerator>
+				</MenuItem>
+				<MenuItem fx:id="toggleLineBreakMenuItem" mnemonicParsing="false"
+					text="%ui.menu.toggle_line">
+					<accelerator>
+						<KeyCodeCombination alt="UP" code="ENTER"
+							control="UP" meta="UP" shift="UP" shortcut="UP" />
+					</accelerator>
+				</MenuItem>
+				<SeparatorMenuItem mnemonicParsing="false" />
+				<Menu mnemonicParsing="false" text="%ui.menu.mark_as">
+					<items>
+						<MenuItem fx:id="markAsGoldenMenuItem" mnemonicParsing="false"
+							text="%ui.menu.mark_as.golden">
+							<accelerator>
+								<KeyCodeCombination alt="UP" code="G"
+									control="UP" meta="UP" shift="UP" shortcut="UP" />
+							</accelerator>
+						</MenuItem>
+						<MenuItem fx:id="markAsFreestyleMenuItem"
+							mnemonicParsing="false" text="%ui.menu.mark_as.freestyle">
+							<accelerator>
+								<KeyCodeCombination alt="UP" code="F"
+									control="UP" meta="UP" shift="UP" shortcut="UP" />
+							</accelerator>
+						</MenuItem>
+					</items>
+				</Menu>
+				<SeparatorMenuItem mnemonicParsing="false" />
+				<MenuItem fx:id="undoMenuItem" mnemonicParsing="false"
+					text="%ui.menu.undo">
+					<accelerator>
+						<KeyCodeCombination alt="UP" code="Z" control="UP"
+							meta="UP" shift="UP" shortcut="DOWN" />
+					</accelerator>
+				</MenuItem>
+				<MenuItem fx:id="redoMenuItem" mnemonicParsing="false"
+					text="%ui.menu.redo">
+					<accelerator>
+						<KeyCodeCombination alt="UP" code="Y" control="UP"
+							meta="UP" shift="UP" shortcut="DOWN" />
+					</accelerator>
+				</MenuItem>
+			</items>
+		</Menu>
+		<Menu mnemonicParsing="true" text="%ui.menu.lyrics">
+			<MenuItem fx:id="editLyricsMenuItem" mnemonicParsing="false"
+				text="%ui.menu.lyrics.edit">
+				<accelerator>
+					<KeyCodeCombination alt="UP" code="F2" control="UP"
+						meta="UP" shift="UP" shortcut="UP" />
+				</accelerator>
+			</MenuItem>
+			<Menu mnemonicParsing="false" text="%ui.menu.lyrics.insert">
+				<items>
+					<MenuItem fx:id="insertMinusMenuItem" mnemonicParsing="false"
+						text="%ui.menu.lyrics.insert.minus">
+					<accelerator>
+							<KeyCodeCombination alt="UP" code="MINUS"
+								control="UP" meta="UP" shift="UP" shortcut="DOWN" />
+						</accelerator>
+					</MenuItem>
+					<MenuItem fx:id="insertSpaceMenuItem" mnemonicParsing="false"
+						text="%ui.menu.lyrics.insert.space">
+						<accelerator>
+							<KeyCodeCombination alt="UP" code="SPACE"
+								control="UP" meta="UP" shift="UP" shortcut="DOWN" />
+						</accelerator>
+					</MenuItem>
+				</items>
+			</Menu>
+			<SeparatorMenuItem mnemonicParsing="false" />
+			<Menu mnemonicParsing="false" text="%ui.menu.lyrics.roll">
+				<items>
+					<MenuItem fx:id="rollLyricsLeftMenuItem" mnemonicParsing="false"
+						text="%ui.menu.lyrics.roll.left">
+						<accelerator>
+							<KeyCodeCombination alt="UP" code="R" control="UP"
+								meta="UP" shift="DOWN" shortcut="DOWN" />
+						</accelerator>
+					</MenuItem>
+					<MenuItem fx:id="rollLyricsRightMenuItem" mnemonicParsing="false"
+						text="%ui.menu.lyrics.roll.right">
+						<accelerator>
+							<KeyCodeCombination alt="UP" code="R" control="UP"
+								meta="UP" shift="UP" shortcut="DOWN" />
+						</accelerator>
+					</MenuItem>
+				</items>
+			</Menu>
+		</Menu>
+		<Menu mnemonicParsing="true" text="%ui.menu.play">
+			<items>
+				<Menu mnemonicParsing="false" text="%ui.menu.play.selection">
+					<items>
+						<MenuItem fx:id="playSelectionAudioMenuItem" disable="true"
+							mnemonicParsing="false" text="%ui.menu.play.mode.audio">
+							<accelerator>
+								<KeyCodeCombination alt="UP" code="SPACE"
+									control="UP" meta="UP" shift="UP" shortcut="UP" />
+							</accelerator>
+						</MenuItem>
+						<MenuItem fx:id="playSelectionMidiMenuItem" disable="true"
+							mnemonicParsing="false" text="%ui.menu.play.mode.midi">
+							<accelerator>
+								<KeyCodeCombination alt="UP" code="SPACE"
+									control="UP" meta="UP" shift="DOWN" shortcut="UP" />
+							</accelerator>
+						</MenuItem>
+						<MenuItem fx:id="playSelectionAudioMidiMenuItem" disable="true"
+							mnemonicParsing="false" text="%ui.menu.play.mode.audio_midi">
+							<accelerator>
+								<KeyCodeCombination alt="UP" code="SPACE"
+									control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+							</accelerator>
+						</MenuItem>
+					</items>
+				</Menu>
+				<Menu mnemonicParsing="false" text="%ui.menu.play.visible">
+					<items>
+						<MenuItem fx:id="playVisibleAudioMenuItem" disable="true"
+							mnemonicParsing="false" text="%ui.menu.play.mode.audio">
+							<accelerator>
+								<KeyCodeCombination alt="UP" code="P"
+									control="UP" meta="UP" shift="UP" shortcut="UP" />
+							</accelerator>
+						</MenuItem>
+						<MenuItem fx:id="playVisibleMidiMenuItem" disable="true"
+							mnemonicParsing="false" text="%ui.menu.play.mode.midi">
+							<accelerator>
+								<KeyCodeCombination alt="UP" code="P"
+									control="UP" meta="UP" shift="DOWN" shortcut="UP" />
+							</accelerator>
+						</MenuItem>
+						<MenuItem fx:id="playVisibleAudioMidiMenuItem" disable="true"
+							mnemonicParsing="false" text="%ui.menu.play.mode.audio_midi">
+							<accelerator>
+								<KeyCodeCombination alt="UP" code="P"
+									control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+							</accelerator>
+						</MenuItem>
+					</items>
+				</Menu>
+				<Menu mnemonicParsing="false" text="%ui.menu.play.to_end">
+					<items>
+						<MenuItem fx:id="playToTheEndAudioMenuItem" disable="true"
+							mnemonicParsing="false" text="%ui.menu.play.mode.audio">
+						</MenuItem>
+						<MenuItem fx:id="playToTheEndMidiMenuItem" disable="true"
+							mnemonicParsing="false" text="%ui.menu.play.mode.midi">
+						</MenuItem>
+						<MenuItem fx:id="playToTheEndAudioMidiMenuItem" disable="true"
+							mnemonicParsing="false" text="%ui.menu.play.mode.audio_midi">
+						</MenuItem>
+					</items>
+				</Menu>
+				<Menu mnemonicParsing="false" text="%ui.menu.play.whole_song">
+					<items>
+						<MenuItem fx:id="playAllAudioMenuItem" disable="true"
+							mnemonicParsing="false" text="%ui.menu.play.mode.audio">
+						</MenuItem>
+						<MenuItem fx:id="playAllMidiMenuItem" disable="true"
+							mnemonicParsing="false" text="%ui.menu.play.mode.midi">
+						</MenuItem>
+						<MenuItem fx:id="playAllAudioMidiMenuItem" disable="true"
+							mnemonicParsing="false" text="%ui.menu.play.mode.audio_midi">
+						</MenuItem>
+					</items>
+				</Menu>
+				<Menu mnemonicParsing="false" text="%ui.menu.play.medley">
+					<items>
+						<MenuItem fx:id="playMedleyAudioMenuItem" disable="true"
+							mnemonicParsing="false" text="%ui.menu.play.mode.audio">
+						</MenuItem>
+						<MenuItem fx:id="playMedleyMidiMenuItem" disable="true"
+							mnemonicParsing="false" text="%ui.menu.play.mode.midi">
+						</MenuItem>
+						<MenuItem fx:id="playMedleyAudioMidiMenuItem" disable="true"
+							mnemonicParsing="false" text="%ui.menu.play.mode.audio_midi">
+						</MenuItem>
+					</items>
+				</Menu>
+				<SeparatorMenuItem mnemonicParsing="false" />
+				<Menu mnemonicParsing="false" text="%ui.menu.play.an">
+					<items>
+						<MenuItem fx:id="playBeforeMenuItem" mnemonicParsing="false"
+							text="%ui.menu.play.an.before">
+							<accelerator>
+								<KeyCodeCombination alt="DOWN" code="UP"
+									control="UP" meta="UP" shift="UP" shortcut="UP" />
+							</accelerator>
+						</MenuItem>
+						<MenuItem fx:id="playAfterMenuItem" mnemonicParsing="false"
+							text="%ui.menu.play.an.after">
+							<accelerator>
+								<KeyCodeCombination alt="DOWN" code="DOWN"
+									control="UP" meta="UP" shift="UP" shortcut="UP" />
+							</accelerator>
+						</MenuItem>
+					</items>
+				</Menu>
+				<SeparatorMenuItem mnemonicParsing="false" />
+				<MenuItem fx:id="stopPlaybackMenuItem" mnemonicParsing="false"
+					text="%ui.menu.play.stop">
+				</MenuItem>
+				<SeparatorMenuItem mnemonicParsing="false" />
+				<CheckMenuItem fx:id="toggleTicksMenuItem"
+					mnemonicParsing="false" text="%ui.menu.play.enable_ticks">
+					<accelerator>
+						<KeyCodeCombination alt="UP" code="W" control="DOWN"
+							meta="UP" shift="UP" shortcut="UP" />
+					</accelerator>
+				</CheckMenuItem>
+			</items>
+		</Menu>
+		<Menu fx:id="selectionMenu" mnemonicParsing="true" text="%ui.menu.select">
+			<items>
+				<MenuItem fx:id="selectPreviousMenuItem" mnemonicParsing="false"
+					text="%ui.menu.select.previous">
+					<accelerator>
+						<KeyCodeCombination alt="UP" code="LEFT"
+							control="UP" meta="UP" shift="UP" shortcut="UP" />
+					</accelerator>
+				</MenuItem>
+				<MenuItem fx:id="selectNextMenuItem" mnemonicParsing="false"
+					text="%ui.menu.select.next">
+					<accelerator>
+						<KeyCodeCombination alt="UP" code="RIGHT"
+							control="UP" meta="UP" shift="UP" shortcut="UP" />
+					</accelerator>
+				</MenuItem>
+				<SeparatorMenuItem mnemonicParsing="false" />
+				<MenuItem fx:id="selectLessMenuItem" mnemonicParsing="false"
+					text="%ui.menu.select.less">
+					<accelerator>
+						<KeyCodeCombination alt="UP" code="UP" control="UP"
+							meta="UP" shift="DOWN" shortcut="UP" />
+					</accelerator>
+				</MenuItem>
+				<MenuItem fx:id="selectMoreMenuItem" mnemonicParsing="false"
+					text="%ui.menu.select.more">
+					<accelerator>
+						<KeyCodeCombination alt="UP" code="DOWN"
+							control="UP" meta="UP" shift="DOWN" shortcut="UP" />
+					</accelerator>
+				</MenuItem>
+				<SeparatorMenuItem mnemonicParsing="false" />
+				<MenuItem fx:id="selectNoneMenuItem" mnemonicParsing="false"
+					text="%ui.menu.select.none">
+					<accelerator>
+						<KeyCodeCombination alt="UP" code="D" control="DOWN"
+							meta="UP" shift="UP" shortcut="UP" />
+					</accelerator>
+				</MenuItem>
+				<MenuItem fx:id="selectVisibleMenuItem" mnemonicParsing="false"
+					text="%ui.menu.select.visible">
+					<accelerator>
+						<KeyCodeCombination alt="UP" code="A" control="UP"
+							meta="UP" shift="UP" shortcut="DOWN" />
+					</accelerator>
+				</MenuItem>
+				<MenuItem fx:id="selectAllMenuItem" mnemonicParsing="false"
+					text="%ui.menu.select.all">
+					<accelerator>
+						<KeyCodeCombination alt="UP" code="A" control="UP"
+							meta="UP" shift="DOWN" shortcut="DOWN" />
+					</accelerator>
+				</MenuItem>
+			</items>
+		</Menu>
+		<Menu mnemonicParsing="true" text="%ui.menu.tags">
+			<items>
+				<Menu mnemonicParsing="false" text="%ui.menu.tags.boundaries">
+					<items>
+						<MenuItem fx:id="setGapTagValueMenuItem" disable="true"
+							mnemonicParsing="false" text="%ui.menu.tags.boundaries.gap">
+						</MenuItem>
+						<MenuItem fx:id="setStartTagValueMenuItem" disable="true"
+							mnemonicParsing="false" text="%ui.menu.tags.boundaries.start">
+						</MenuItem>
+						<MenuItem fx:id="setEndTagValueMenuItem" disable="true"
+							mnemonicParsing="false" text="%ui.menu.tags.boundaries.end">
+						</MenuItem>
+					</items>
+				</Menu>
+				<Menu mnemonicParsing="false" text="%ui.menu.tags.bpm">
+					<items>
+						<MenuItem fx:id="editBpmMenuItem" disable="true"
+							mnemonicParsing="false" text="%ui.menu.tags.bpm.edit">
+						</MenuItem>
+						<SeparatorMenuItem mnemonicParsing="false" />
+						<MenuItem fx:id="divideBpmByTwoMenuItem" disable="true"
+							mnemonicParsing="false" text="%ui.menu.tags.bpm.halve">
+							<accelerator>
+								<KeyCodeCombination alt="UP" code="D"
+									control="UP" meta="UP" shift="UP" shortcut="DOWN" />
+							</accelerator>
+						</MenuItem>
+						<MenuItem fx:id="multiplyBpmByTwoMenuItem" disable="true"
+							mnemonicParsing="false" text="%ui.menu.tags.bpm.double">
+							<accelerator>
+								<KeyCodeCombination alt="UP" code="M"
+									control="UP" meta="UP" shift="UP" shortcut="DOWN" />
+							</accelerator>
+						</MenuItem>
+					</items>
+				</Menu>
+				<Menu mnemonicParsing="false" text="%ui.menu.tags.medley">
+					<items>
+						<MenuItem fx:id="editMedleyMenuItem" disable="true"
+							mnemonicParsing="false" text="%ui.menu.tags.medley.edit">
+						</MenuItem>
+						<SeparatorMenuItem mnemonicParsing="false" />
+						<MenuItem fx:id="medleyFromSelectionMenuItem" disable="true"
+							mnemonicParsing="false" text="%ui.menu.tags.medley.selection">
+						</MenuItem>
+						<MenuItem fx:id="setMedleyStartMenuItem" disable="true"
+							mnemonicParsing="false" text="%ui.menu.tags.medley.start">
+						</MenuItem>
+						<MenuItem fx:id="setMedleyEndMenuItem" disable="true"
+							mnemonicParsing="false" text="%ui.menu.tags.medley.end">
+						</MenuItem>
+					</items>
+				</Menu>
+				<SeparatorMenuItem mnemonicParsing="false" />
+				<MenuItem fx:id="renameMenuItem" disable="true"
+					mnemonicParsing="false" text="%ui.menu.tags.rename_files">
+				</MenuItem>
+				<SeparatorMenuItem mnemonicParsing="false" />
+				<MenuItem fx:id="addTagMenuItem" disable="true"
+					mnemonicParsing="false" text="%ui.menu.tags.add">
+				</MenuItem>
+			</items>
+		</Menu>
+		<Menu mnemonicParsing="true" text="%ui.menu.view">
+			<items>
+				<MenuItem fx:id="previousLineMenuItem" mnemonicParsing="false"
+					text="%ui.menu.view.line.previous">
+					<accelerator>
+						<KeyCodeCombination alt="UP" code="UP" control="UP"
+							meta="UP" shift="UP" shortcut="UP" />
+					</accelerator>
+				</MenuItem>
+				<MenuItem fx:id="nextLineMenuItem" mnemonicParsing="false"
+					text="%ui.menu.view.line.previous">
+					<accelerator>
+						<KeyCodeCombination alt="UP" code="DOWN"
+							control="UP" meta="UP" shift="UP" shortcut="UP" />
+					</accelerator>
+				</MenuItem>
+				<SeparatorMenuItem mnemonicParsing="false" />
+				<MenuItem fx:id="previousTrackMenuItem" mnemonicParsing="false"
+					text="%ui.menu.view.track.previous">
+					<accelerator>
+						<KeyCodeCombination alt="UP" code="TAB"
+							control="UP" meta="UP" shift="DOWN" shortcut="UP" />
+					</accelerator>
+				</MenuItem>
+				<MenuItem fx:id="nextTrackMenuItem" mnemonicParsing="false"
+					text="%ui.menu.view.track.next">
+					<accelerator>
+						<KeyCodeCombination alt="UP" code="TAB"
+							control="UP" meta="UP" shift="UP" shortcut="UP" />
+					</accelerator>
+				</MenuItem>
+				<SeparatorMenuItem mnemonicParsing="false" />
+				<MenuItem fx:id="viewMedleyMenuItem" mnemonicParsing="false"
+					text="%ui.menu.view.medley">
+				</MenuItem>
+				<SeparatorMenuItem mnemonicParsing="false" />
+				<MenuItem fx:id="fitToVisibleMenuItem" mnemonicParsing="false"
+					text="%ui.menu.view.fit.visible">
+					<accelerator>
+						<KeyCodeCombination alt="UP" code="F" control="DOWN"
+							meta="UP" shift="UP" shortcut="UP" />
+					</accelerator>
+				</MenuItem>
+				<MenuItem fx:id="fitToSelectionMenuItem" mnemonicParsing="false"
+					text="%ui.menu.view.fit.selection">
+					<accelerator>
+						<KeyCodeCombination alt="UP" code="F" control="UP"
+							meta="UP" shift="DOWN" shortcut="UP" />
+					</accelerator>
+				</MenuItem>
+				<MenuItem fx:id="fitHorizontallyMenuItem" mnemonicParsing="false"
+					text="%ui.menu.view.fit.horizontally">
+					<accelerator>
+						<KeyCodeCombination alt="UP" code="F" control="DOWN"
+							meta="UP" shift="DOWN" shortcut="UP" />
+					</accelerator>
+				</MenuItem>
+				<MenuItem fx:id="fitVerticallyMenuItem" mnemonicParsing="false"
+					text="%ui.menu.view.fit.vertically">
+					<accelerator>
+						<KeyCodeCombination alt="DOWN" code="F"
+							control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+					</accelerator>
+				</MenuItem>
+				<SeparatorMenuItem mnemonicParsing="false" />
+				<MenuItem fx:id="togglePianoMenuItem" mnemonicParsing="false"
+					text="%ui.menu.toggle_piano">
+					<accelerator>
+						<KeyCodeCombination alt="UP" code="B" control="DOWN"
+							meta="UP" shift="UP" shortcut="UP" />
+					</accelerator>
+				</MenuItem>
+				<MenuItem fx:id="switchModeMenuItem" mnemonicParsing="false"
+					text="%ui.menu.view.switch_mode">
+					<accelerator>
+						<KeyCodeCombination alt="UP" code="F6" control="UP"
+							meta="UP" shift="UP" shortcut="UP" />
+					</accelerator>
+				</MenuItem>
+			</items>
+		</Menu>
+		<Menu mnemonicParsing="true" text="%ui.menu.extras">
+			<items>
+				<MenuItem fx:id="tapNotesMenuItem" mnemonicParsing="false"
+					text="%ui.menu.tap_notes">
+					<accelerator>
+						<KeyCodeCombination alt="UP" code="T" control="UP"
+							meta="UP" shift="UP" shortcut="DOWN" />
+					</accelerator>
+				</MenuItem>
+				<MenuItem fx:id="writeTonesMenuItem" mnemonicParsing="false"
+					text="%ui.menu.write_tones">
+					<accelerator>
+						<KeyCodeCombination alt="UP" code="W" control="UP"
+							meta="UP" shift="DOWN" shortcut="UP" />
+					</accelerator>
+				</MenuItem>
+			</items>
+		</Menu>
+		<Menu fx:id="helpMenu" mnemonicParsing="true" text="%ui.menu.help">
+			<items>
+				<Menu mnemonicParsing="false" text="%ui.menu.debug">
+					<items>
+						<MenuItem fx:id="resetPianoMenuItem" mnemonicParsing="false"
+							text="%ui.menu.reset_piano">
+						</MenuItem>
+					</items>
+				</Menu>
+				<MenuItem fx:id="aboutMenuItem" mnemonicParsing="false"
+					text="%ui.menu.about" disable="true">
+					<accelerator>
+						<KeyCodeCombination alt="UP" code="H" control="UP"
+							meta="UP" shift="UP" shortcut="DOWN" />
+					</accelerator>
+				</MenuItem>
+			</items>
+		</Menu>
+	</menus>
+</MenuBar>

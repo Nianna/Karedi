@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import main.java.com.github.nianna.karedi.display.MainChart?>
+<?import javafx.scene.shape.Rectangle?>
+<?import main.java.com.github.nianna.karedi.display.Piano?>
+
+<AnchorPane fx:id="pane" xmlns="http://javafx.com/javafx/8.0.60"
+	xmlns:fx="http://javafx.com/fxml/1"
+	fx:controller="main.java.com.github.nianna.karedi.controller.EditorController">
+	<children>
+		<HBox fx:id="hBox" onKeyPressed="#onKeyPressed"
+			AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
+			AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+			<children>
+				<Piano fx:id="piano" />
+				<MainChart fx:id="chart" HBox.hgrow="SOMETIMES"
+					onMouseClicked="#onMouseClicked" onScroll="#onScroll">
+					<chartChildren>
+						<Rectangle fx:id="medleyArea" styleClass="medley-area"
+							mouseTransparent="true" />
+					</chartChildren>
+					<plotAreaChildren>
+						<Rectangle fx:id="markerLine" width="2" />
+					</plotAreaChildren>
+				</MainChart>
+			</children>
+		</HBox>
+	</children>
+</AnchorPane>

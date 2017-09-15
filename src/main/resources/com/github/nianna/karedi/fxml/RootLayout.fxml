@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.geometry.Insets?>
+
+<BorderPane fx:id="rootPane" prefHeight="768.0" prefWidth="1024.0"
+	xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1"
+	fx:controller="main.java.com.github.nianna.karedi.controller.RootController">
+	<top>
+		<VBox BorderPane.alignment="CENTER">
+			<children>
+				<fx:include fx:id="menuBar" source="MenuBarLayout.fxml" />
+				<fx:include fx:id="toolbar" source="ToolbarLayout.fxml" />
+			</children>
+		</VBox>
+	</top>
+	<center>
+		<SplitPane fx:id="splitPane" dividerPositions="0.21529745042492918, 0.8484419263456091"
+			orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0"
+			BorderPane.alignment="CENTER">
+			<items>
+				<SplitPane fx:id="tabBar" dividerPositions="0.3366013071895425, 0.6699346405228758">
+					<items>
+						<TabPane prefHeight="200.0" prefWidth="200.0"
+							tabClosingPolicy="UNAVAILABLE">
+							<tabs>
+								<Tab fx:id="tracksTab" text="%ui.root.section.tracks">
+									<content>
+										<fx:include fx:id="tracks" source="TracksLayout.fxml" />
+									</content>
+								</Tab>
+								<Tab fx:id="audioTab" text="%ui.root.section.audio">
+									<content>
+										<fx:include fx:id="audioManager" source="AudioManagerLayout.fxml" />
+									</content>
+								</Tab>
+							</tabs>
+						</TabPane>
+						<TabPane tabClosingPolicy="UNAVAILABLE">
+							<tabs>
+								<Tab fx:id="historyTab" text="%ui.root.section.history">
+									<content>
+										<fx:include fx:id="history" source="HistoryLayout.fxml" />
+									</content>
+								</Tab>
+								<Tab fx:id="scratchpadTab" text="%ui.root.section.scratchpad">
+									<content>
+										<fx:include fx:id="scratchpad" source="ScratchpadLayout.fxml" />
+									</content>
+								</Tab>
+							</tabs>
+						</TabPane>
+						<TabPane tabClosingPolicy="UNAVAILABLE">
+							<tabs>
+								<Tab fx:id="lyricsTab" text="%ui.root.section.lyrics">
+									<content>
+										<fx:include fx:id="lyricsEditor" source="LyricsEditorLayout.fxml" />
+									</content>
+								</Tab>
+								<Tab fx:id="tagsTab" text="%ui.root.section.tags">
+									<content>
+										<fx:include fx:id="tagsTable" source="TagsTableLayout.fxml" />
+									</content>
+								</Tab>
+							</tabs>
+						</TabPane>
+					</items>
+				</SplitPane>
+				<AnchorPane>
+					<children>
+						<BorderPane fx:id="pane" centerShape="false"
+							AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
+							AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+							<top>
+								<fx:include fx:id="trackFillBar" source="TrackFillBarsLayout.fxml" />
+							</top>
+							<center>
+								<fx:include fx:id="editor" source="EditorLayout.fxml" />
+							</center>
+							<bottom>
+								<HBox fx:id="bottomHBox" BorderPane.alignment="CENTER">
+									<children>
+										<fx:include fx:id="lineNumber" source="LineNumberLayout.fxml" />
+										<fx:include fx:id="lyricsLabel" source="LyricsLabelLayout.fxml"
+											HBox.hgrow="SOMETIMES" />
+									</children>
+									<padding>
+										<Insets bottom="5.0" />
+									</padding>
+								</HBox>
+							</bottom>
+						</BorderPane>
+					</children>
+				</AnchorPane>
+				<AnchorPane>
+					<TabPane fx:id="infoTabPane" minHeight="28.0"
+						tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0"
+						AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
+						AnchorPane.topAnchor="0.0">
+						<tabs>
+							<Tab fx:id="loggerTab" text="%ui.root.section.log">
+								<content>
+									<fx:include fx:id="log" source="LogLayout.fxml" />
+								</content>
+							</Tab>
+							<Tab fx:id="problemsTab" text="%ui.root.section.problems">
+								<content>
+									<fx:include fx:id="problems" source="ProblemsLayout.fxml" />
+								</content>
+							</Tab>
+						</tabs>
+					</TabPane>
+				</AnchorPane>
+			</items>
+		</SplitPane>
+	</center>
+</BorderPane>

@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.SplitMenuButton?>
+<?import javafx.scene.control.ToolBar?>
+<?import javafx.scene.control.Tooltip?>
+<?import org.controlsfx.glyphfont.*?>
+
+<ToolBar fx:id="toolBar" xmlns="http://javafx.com/javafx/8.0.60"
+	xmlns:fx="http://javafx.com/fxml/1"
+	fx:controller="main.java.com.github.nianna.karedi.controller.ToolbarController">
+	<items>
+		<Button fx:id="newButton" focusTraversable="false"
+			mnemonicParsing="false" alignment="center">
+			<graphic>
+				<Glyph fontFamily="FontAwesome" icon="FILE_TEXT_ALT" />
+			</graphic>
+			<tooltip>
+				<Tooltip text="%ui.menu.new" />
+			</tooltip>
+		</Button>
+		<Button fx:id="openButton" focusTraversable="false"
+			mnemonicParsing="false" alignment="center">
+			<graphic>
+				<Glyph fx:id="saveGlyph" fontFamily="FontAwesome" icon="FOLDER_OPEN" />
+			</graphic>
+			<tooltip>
+				<Tooltip text="%ui.menu.open" />
+			</tooltip>
+		</Button>
+		<Button fx:id="saveButton" focusTraversable="false"
+			mnemonicParsing="false" alignment="center">
+			<graphic>
+				<Glyph fontFamily="FontAwesome" icon="FLOPPY_ALT" />
+			</graphic>
+			<tooltip>
+				<Tooltip text="%ui.menu.save" />
+			</tooltip>
+		</Button>
+		<Separator orientation="VERTICAL" />
+		<Button fx:id="undoButton" focusTraversable="false"
+			mnemonicParsing="false" alignment="center">
+			<graphic>
+				<Glyph fontFamily="FontAwesome" icon="UNDO" />
+			</graphic>
+			<tooltip>
+				<Tooltip text="%ui.menu.undo" />
+			</tooltip>
+		</Button>
+		<Button fx:id="redoButton" focusTraversable="false"
+			mnemonicParsing="false" alignment="center">
+			<graphic>
+				<Glyph fontFamily="FontAwesome" icon="REPEAT" />
+			</graphic>
+			<tooltip>
+				<Tooltip text="%ui.menu.redo" />
+			</tooltip>
+		</Button>
+		<Separator orientation="VERTICAL" />
+		<Button fx:id="cutButton" focusTraversable="false"
+			mnemonicParsing="false" alignment="center">
+			<graphic>
+				<Glyph fontFamily="FontAwesome" icon="SCISSORS" />
+			</graphic>
+			<tooltip>
+				<Tooltip text="%ui.menu.cut" />
+			</tooltip>
+		</Button>
+		<Button fx:id="copyButton" focusTraversable="false"
+			mnemonicParsing="false" alignment="center">
+			<graphic>
+				<Glyph fontFamily="FontAwesome" icon="COPY" />
+			</graphic>
+			<tooltip>
+				<Tooltip text="%ui.menu.copy" />
+			</tooltip>
+		</Button>
+		<Button fx:id="pasteButton" focusTraversable="false"
+			mnemonicParsing="false" alignment="center">
+			<graphic>
+				<Glyph fontFamily="FontAwesome" icon="CLIPBOARD" />
+			</graphic>
+			<tooltip>
+				<Tooltip text="%ui.menu.paste" />
+			</tooltip>
+		</Button>
+		<Separator orientation="VERTICAL" />
+		<Button fx:id="addNoteButton" focusTraversable="false"
+			mnemonicParsing="false" alignment="center">
+			<graphic>
+				<Glyph fontFamily="FontAwesome" icon="PLUS_SQUARE" />
+			</graphic>
+			<tooltip>
+				<Tooltip text="%ui.toolbar.add_note" />
+			</tooltip>
+		</Button>
+		<Button fx:id="deleteNotesButton" focusTraversable="false"
+			mnemonicParsing="false" alignment="center">
+			<graphic>
+				<Glyph fontFamily="FontAwesome" icon="TRASH" />
+			</graphic>
+			<tooltip>
+				<Tooltip text="%ui.toolbar.delete_selected" />
+			</tooltip>
+		</Button>
+		<Button fx:id="splitNoteButton" focusTraversable="false"
+			mnemonicParsing="false" alignment="center">
+			<graphic>
+				<Glyph fontFamily="FontAwesome" icon="UNLINK" />
+			</graphic>
+			<tooltip>
+				<Tooltip text="%ui.menu.split_note" />
+			</tooltip>
+		</Button>
+		<Button fx:id="joinNotesButton" focusTraversable="false"
+			mnemonicParsing="false" alignment="center">
+			<graphic>
+				<Glyph fontFamily="FontAwesome" icon="LINK" />
+			</graphic>
+			<tooltip>
+				<Tooltip text="%ui.menu.join_notes" />
+			</tooltip>
+		</Button>
+		<Separator orientation="VERTICAL" />
+		<Button fx:id="rollLeftButton" focusTraversable="false"
+			mnemonicParsing="false" alignment="center">
+			<graphic>
+				<Glyph fontFamily="FontAwesome" icon="ARROW_CIRCLE_LEFT" />
+			</graphic>
+			<tooltip>
+				<Tooltip text="%ui.toolbar.roll_lyrics.left" />
+			</tooltip>
+		</Button>
+		<Button fx:id="rollRightButton" focusTraversable="false"
+			mnemonicParsing="false" alignment="center">
+			<graphic>
+				<Glyph fontFamily="FontAwesome" icon="ARROW_CIRCLE_RIGHT" />
+			</graphic>
+			<tooltip>
+				<Tooltip text="%ui.toolbar.roll_lyrics.right" />
+			</tooltip>
+		</Button>
+		<Separator orientation="VERTICAL" />
+		<Button fx:id="markAsGoldenButton" focusTraversable="false"
+			mnemonicParsing="false" alignment="center">
+			<graphic>
+				<Glyph fontFamily="FontAwesome" icon="STAR" />
+			</graphic>
+			<tooltip>
+				<Tooltip text="%ui.toolbar.mark_as.golden" />
+			</tooltip>
+		</Button>
+		<Button fx:id="markAsFreestyleButton" focusTraversable="false"
+			mnemonicParsing="false" alignment="center">
+			<graphic>
+				<Glyph fontFamily="FontAwesome" icon="ITALIC" />
+			</graphic>
+			<tooltip>
+				<Tooltip text="%ui.toolbar.mark_as.freestyle" />
+			</tooltip>
+		</Button>
+		<Separator orientation="VERTICAL" />
+		<Button fx:id="switchModeButton" focusTraversable="false"
+			mnemonicParsing="false" alignment="center">
+			<graphic>
+				<Glyph fx:id="switchModeGlyph" fontFamily="FontAwesome" />
+			</graphic>
+			<tooltip>
+				<Tooltip text="%ui.menu.view.switch_mode" />
+			</tooltip>
+		</Button>
+	</items>
+</ToolBar>

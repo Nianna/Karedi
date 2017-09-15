@@ -1,0 +1,11 @@
+.root {
+    -fx-base: gray;
+}
+
+.code-area {
+	-fx-background-color: -fx-color;
+}
+
+.code-area:focused {
+	-fx-background-color: -fx-background;
+}

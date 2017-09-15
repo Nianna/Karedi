@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Group?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.shape.Rectangle?>
+
+<AnchorPane xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1"
+	fx:controller="main.java.com.github.nianna.karedi.controller.TrackFillBarsController">
+	<children>
+		<Pane fx:id="pane" maxHeight="0.0" minHeight="5.0" prefHeight="20.0"
+			onMouseClicked="#onMouseClicked" AnchorPane.bottomAnchor="0.0"
+			AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
+			AnchorPane.topAnchor="0.0">
+			<children>
+				<Group fx:id="content">
+					<children>
+						<Rectangle fx:id="rect" fill="TRANSPARENT"
+							onMouseDragged="#onMouseDragged" stroke="BLACK" strokeWidth="2.0"
+							translateY="1.0" />
+					</children>
+				</Group>
+			</children>
+			<padding>
+				<Insets bottom="1.0" left="1.0" right="1.0" top="1.0" />
+			</padding>
+		</Pane>
+	</children>
+</AnchorPane>

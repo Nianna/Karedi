@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.ContextMenu?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane fx:id="pane" xmlns="http://javafx.com/javafx/8.0.60"
+	xmlns:fx="http://javafx.com/fxml/1"
+	fx:controller="main.java.com.github.nianna.karedi.controller.TracksController"
+	onKeyPressed="#onKeyPressed">
+	<children>
+		<TableView fx:id="table" disable="true" editable="true"
+			AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
+			AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" onKeyPressed="#onKeyPressed">
+			<columns>
+				<TableColumn fx:id="colorColumn" maxWidth="50" minWidth="50"
+					onEditCommit="#onColorColumnEditCommit" sortable="false" text="%tracks.color" />
+				<TableColumn fx:id="nameColumn" onEditCancel="#onNameColumnEditCancel"
+					onEditCommit="#onNameColumnEditCommit" onEditStart="#onNameColumnEditStart"
+					sortable="false" text="%tracks.name" />
+				<TableColumn fx:id="mutedColumn" sortable="false"
+					text="%tracks.muted" />
+				<TableColumn fx:id="visibleColumn" sortable="false"
+					text="%tracks.visible" />
+			</columns>
+			<columnResizePolicy>
+				<TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+			</columnResizePolicy>
+			<contextMenu>
+				<ContextMenu fx:id="baseContextMenu">
+					<items>
+						<MenuItem mnemonicParsing="false" onAction="#handleAdd"
+							text="%common.add" />
+					</items>
+				</ContextMenu>
+			</contextMenu>
+		</TableView>
+	</children>
+</AnchorPane>
