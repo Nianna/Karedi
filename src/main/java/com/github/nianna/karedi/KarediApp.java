@@ -78,8 +78,7 @@ public class KarediApp extends Application {
 		try {
 			loadGlyphFont();
 
-			//Locale locale = new Locale("en", "UK");
-			Locale locale = new Locale("pl");
+			Locale locale = new Locale("en", "UK");
 			ResourceBundle bundle = ResourceBundle.getBundle("messages", locale);
 			I18N.setBundle(bundle);
 
