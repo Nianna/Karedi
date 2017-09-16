@@ -11,13 +11,13 @@ import main.java.com.github.nianna.karedi.util.ListenersManager;
 import main.java.com.github.nianna.karedi.util.ListenersUtils;
 
 public class ScoreCounter implements Observable {
-	/* 
-	 * The overall score is a sum of points given for singing notes correctly and
-	 * bonuses for singing whole lines without any mistakes.
-	 * Currently the following rules for calculating score are used:
-	 * 1. Each beat of any normal note is worth the same amount of points.
-	 * 2. Golden note is worth 2 times more that a normal note of the same length.
-	 * 3. Freestyle notes are worth 0 points (regardless of their length).
+	/*
+	 * The overall score is a sum of points given for singing notes correctly
+	 * and bonuses for singing whole lines without any mistakes. Currently the
+	 * following rules for calculating score are used: 1. Each beat of any
+	 * normal note is worth the same amount of points. 2. Golden note is worth 2
+	 * times more that a normal note of the same length. 3. Freestyle notes are
+	 * worth 0 points (regardless of their length).
 	 */
 
 	private static final int MAX_SCORE = 10000;
@@ -37,6 +37,7 @@ public class ScoreCounter implements Observable {
 		case FREESTYLE:
 			return 0;
 		case GOLDEN:
+		case GOLDEN_RAP:
 			return 2;
 		default:
 			return 1;
@@ -56,7 +57,7 @@ public class ScoreCounter implements Observable {
 
 		scaledTotalLength += getScaledLengthOf(note.getType(), note.getLength());
 
-		if (note.getType() == Type.GOLDEN) {
+		if (note.getType().isGolden()) {
 			goldenNotesTotalLength += note.getLength();
 		}
 
@@ -68,7 +69,7 @@ public class ScoreCounter implements Observable {
 			scaledTotalLength -= getScaledLengthOf(note.getType(), oldLength);
 			scaledTotalLength += getScaledLengthOf(note.getType(), newLength);
 
-			if (note.getType() == Type.GOLDEN) {
+			if (note.getType().isGolden()) {
 				goldenNotesTotalLength += newLength - oldLength;
 			}
 
@@ -81,11 +82,11 @@ public class ScoreCounter implements Observable {
 			scaledTotalLength -= getScaledLengthOf(oldType, note.getLength());
 			scaledTotalLength += getScaledLengthOf(newType, note.getLength());
 
-			if (oldType == Type.GOLDEN) {
+			if (oldType.isGolden()) {
 				goldenNotesTotalLength -= note.getLength();
 			}
 
-			if (newType == Type.GOLDEN) {
+			if (newType.isGolden()) {
 				goldenNotesTotalLength += note.getLength();
 			}
 
@@ -98,7 +99,7 @@ public class ScoreCounter implements Observable {
 		note.lengthProperty().removeListener(lengthListenersMap.remove(note));
 
 		scaledTotalLength -= getScaledLengthOf(note.getType(), note.getLength());
-		if (note.getType() == Type.GOLDEN) {
+		if (note.getType().isGolden()) {
 			goldenNotesTotalLength -= note.getLength();
 		}
 
