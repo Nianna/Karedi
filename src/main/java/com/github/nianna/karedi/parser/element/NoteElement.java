@@ -4,7 +4,9 @@ public class NoteElement implements VisitableSongElement {
 	public enum Type {
 		FREESTYLE,
 		GOLDEN,
-		NORMAL
+		NORMAL,
+		RAP,
+		GOLDEN_RAP
 	}
 
 	private final Type type;

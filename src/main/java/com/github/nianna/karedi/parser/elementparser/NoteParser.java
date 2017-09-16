@@ -17,7 +17,7 @@ import main.java.com.github.nianna.karedi.parser.element.VisitableSongElement;
  * tone. Note's representation ends with its lyrics.
  */
 public class NoteParser extends SongElementParser {
-	private static final String NOTE_PATTERN = "([*:F]) (-*[0-9]+) ([0-9]+) (-*[0-9]+) (.+)";
+	private static final String NOTE_PATTERN = "([*:FGR]) (-*[0-9]+) ([0-9]+) (-*[0-9]+) (.+)";
 
 	public NoteParser() {
 		super(NOTE_PATTERN);
@@ -40,6 +40,10 @@ public class NoteParser extends SongElementParser {
 			return Type.GOLDEN;
 		case "F":
 			return Type.FREESTYLE;
+		case "R":
+			return Type.RAP;
+		case "G":
+			return Type.GOLDEN_RAP;
 		default:
 			return Type.NORMAL;
 		}

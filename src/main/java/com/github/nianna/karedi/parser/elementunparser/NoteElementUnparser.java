@@ -19,6 +19,10 @@ public class NoteElementUnparser extends SongElementUnparser {
 			return "*";
 		case FREESTYLE:
 			return "F";
+		case RAP:
+			return "R";
+		case GOLDEN_RAP:
+			return "G";
 		default:
 			return ":";
 		}

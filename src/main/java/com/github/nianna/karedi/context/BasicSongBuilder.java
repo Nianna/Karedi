@@ -118,12 +118,24 @@ public class BasicSongBuilder implements SongBuilder, SongElementVisitor {
 		String lyrics = noteElement.getLyrics();
 
 		Note note = new Note(startsAt, length, tone, lyrics);
-		if (type == Type.GOLDEN) {
-			note.setType(Note.Type.GOLDEN);
-		}
-		if (type == Type.FREESTYLE) {
-			note.setType(Note.Type.FREESTYLE);
-		}
+		note.setType(convertType(type));
+
 		return note;
 	}
+	
+	private Note.Type convertType(Type type) {
+		switch (type) {
+			case GOLDEN:
+				return Note.Type.GOLDEN;
+			case FREESTYLE:
+				return Note.Type.FREESTYLE;
+			case RAP:
+				return Note.Type.RAP;
+			case GOLDEN_RAP:
+				return Note.Type.GOLDEN_RAP;
+			default:
+				return Note.Type.NORMAL;
+		}
+	}
+		
 }

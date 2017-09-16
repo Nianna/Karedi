@@ -25,7 +25,7 @@ public class Note
 		implements Comparable<Note>, IntBounded, Movable<Integer>, Resizable<Integer>, Problematic {
 
 	public enum Type {
-		NORMAL, GOLDEN, FREESTYLE
+		NORMAL, GOLDEN, FREESTYLE, RAP, GOLDEN_RAP
 	}
 
 	private ReadOnlyObjectWrapper<Integer> length = new ReadOnlyObjectWrapper<Integer>();

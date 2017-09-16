@@ -83,6 +83,10 @@ public class SongDisassembler {
 			return Type.GOLDEN;
 		case FREESTYLE:
 			return Type.FREESTYLE;
+		case RAP:
+			return Type.RAP;
+		case GOLDEN_RAP:
+			return Type.GOLDEN_RAP;
 		default:
 			return Type.NORMAL;
 		}
