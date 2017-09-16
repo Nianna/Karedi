@@ -151,9 +151,11 @@ public class KarediApp extends Application {
 
 			Optional<ButtonType> result = alert.showAndWait();
 			if (!result.isPresent()) {
-				System.out.println("CANCELLE?D");
 				return false;
 			} else {
+				if (result.get() == ButtonType.CANCEL) {
+					return false;
+				}
 				if (result.get() == SaveChangesAlert.SAVE_BUTTON) {
 					appContext.execute(KarediActions.SAVE);
 					if (appContext.needsSaving()) {
