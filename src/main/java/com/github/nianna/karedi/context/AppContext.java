@@ -43,6 +43,7 @@ import javafx.stage.Modality;
 import main.java.com.github.nianna.karedi.I18N;
 import main.java.com.github.nianna.karedi.KarediApp;
 import main.java.com.github.nianna.karedi.KarediApp.ViewMode;
+import main.java.com.github.nianna.karedi.Settings;
 import main.java.com.github.nianna.karedi.action.ActionMap;
 import main.java.com.github.nianna.karedi.action.KarediAction;
 import main.java.com.github.nianna.karedi.action.KarediActions;
@@ -86,6 +87,7 @@ import main.java.com.github.nianna.karedi.dialog.ExportWithErrorsAlert;
 import main.java.com.github.nianna.karedi.dialog.ModifyBpmDialog;
 import main.java.com.github.nianna.karedi.dialog.ModifyBpmDialog.BpmEditResult;
 import main.java.com.github.nianna.karedi.dialog.OverwriteAlert;
+import main.java.com.github.nianna.karedi.dialog.PreferencesDialog;
 import main.java.com.github.nianna.karedi.parser.BaseParser;
 import main.java.com.github.nianna.karedi.parser.BaseUnparser;
 import main.java.com.github.nianna.karedi.parser.Parser;
@@ -725,6 +727,8 @@ public class AppContext {
 
 			add(KarediActions.ROLL_LYRICS_LEFT, new RollLyricsLeftAction());
 			add(KarediActions.ROLL_LYRICS_RIGHT, new RollLyricsRightAction());
+
+			add(KarediActions.SHOW_PREFERENCES, new ShowPreferencesAction());
 		}
 
 		private void addPlayActions() {
@@ -1767,9 +1771,10 @@ public class AppContext {
 		@Override
 		protected void onAction(ActionEvent event) {
 			player.stop();
-			Command cmd = new ChangePreStateCommandDecorator(new DeleteSelectionAction(false).getCommand(), c -> {
-				execute(KarediActions.COPY);
-			});
+			Command cmd = new ChangePreStateCommandDecorator(
+					new DeleteSelectionAction(false).getCommand(), c -> {
+						execute(KarediActions.COPY);
+					});
 			cmd.setTitle(I18N.get("common.cut"));
 			execute(cmd);
 		}
@@ -2235,6 +2240,20 @@ public class AppContext {
 		@Override
 		protected void onAction(ActionEvent event) {
 			MidiPlayer.reset();
+		}
+	}
+
+	private class ShowPreferencesAction extends KarediAction {
+
+		private ShowPreferencesAction() {
+			setDisabledCondition(false);
+		}
+
+		@Override
+		protected void onAction(ActionEvent event) {
+			PreferencesDialog dialog = new PreferencesDialog();
+			dialog.showAndWait().filter(locale -> locale != I18N.getCurrentLocale())
+					.ifPresent(Settings::setLocale);
 		}
 	}
 

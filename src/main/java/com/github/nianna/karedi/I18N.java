@@ -46,4 +46,11 @@ public class I18N {
 	public static boolean isLocaleSupported(Locale locale) {
 		return getSupportedLocales().contains(locale);
 	}
+
+	public static Locale getCurrentLocale() {
+		if (bundle != null) {
+			return bundle.getLocale();
+		}
+		return null;
+	}
 }
