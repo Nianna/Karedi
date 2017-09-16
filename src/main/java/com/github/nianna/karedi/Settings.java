@@ -10,10 +10,10 @@ public final class Settings {
 	private static final String LOCALE_LANGUAGE_KEY = "ui_locale_language";
 	private static final String LOCALE_COUNTRY_KEY = "ui_locale_country";
 
+	private static Preferences prefs = Preferences.userNodeForPackage(Settings.class);
+
 	private Settings() {
 	}
-
-	private static Preferences prefs = Preferences.userNodeForPackage(Settings.class);
 
 	public static Color defaultTrackColor(int number) {
 		switch (number) {

@@ -32,6 +32,8 @@ public enum KarediActions {
 	DELETE_SELECTION_HARD,
 	DELETE_LYRICS,
 	DELETE_TRACK,
+	
+	SHOW_PREFERENCES,
 
 	// History
 	UNDO,
@@ -130,6 +132,6 @@ public enum KarediActions {
 	SET_GAP_TAG,
 
 	// DEBUG
-	RESET_SEQUENCER,
+	RESET_SEQUENCER, 
 
 }

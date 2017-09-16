@@ -64,7 +64,8 @@
 		</Menu>
 		<Menu mnemonicParsing="true" text="%ui.menu.edit">
 			<items>
-				<MenuItem fx:id="cutMenuItem" mnemonicParsing="false" text="%ui.menu.cut">
+				<MenuItem fx:id="cutMenuItem" mnemonicParsing="false"
+					text="%ui.menu.cut">
 					<accelerator>
 						<KeyCodeCombination alt="UP" code="X" control="UP"
 							meta="UP" shift="UP" shortcut="DOWN" />
@@ -305,6 +306,11 @@
 							meta="UP" shift="UP" shortcut="DOWN" />
 					</accelerator>
 				</MenuItem>
+				<SeparatorMenuItem mnemonicParsing="false" />
+				<MenuItem fx:id="showPreferencesMenuItem" mnemonicParsing="false"
+					text="%ui.menu.show_preferences">
+				</MenuItem>
+
 			</items>
 		</Menu>
 		<Menu mnemonicParsing="true" text="%ui.menu.lyrics">
@@ -319,7 +325,7 @@
 				<items>
 					<MenuItem fx:id="insertMinusMenuItem" mnemonicParsing="false"
 						text="%ui.menu.lyrics.insert.minus">
-					<accelerator>
+						<accelerator>
 							<KeyCodeCombination alt="UP" code="MINUS"
 								control="UP" meta="UP" shift="UP" shortcut="DOWN" />
 						</accelerator>

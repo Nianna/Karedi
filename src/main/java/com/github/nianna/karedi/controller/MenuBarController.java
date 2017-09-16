@@ -109,6 +109,8 @@ public class MenuBarController implements Controller {
 	private MenuItem endEarlierMenuItem;
 	@FXML
 	private MenuItem endLaterMenuItem;
+	@FXML
+	private MenuItem showPreferencesMenuItem;
 
 	@FXML
 	private MenuItem rollLyricsLeftMenuItem;
@@ -305,6 +307,8 @@ public class MenuBarController implements Controller {
 
 		bind(undoMenuItem, KarediActions.UNDO);
 		bind(redoMenuItem, KarediActions.REDO);
+		
+		bind(showPreferencesMenuItem, KarediActions.SHOW_PREFERENCES);
 	}
 
 	private void bindLyricsMenu() {
