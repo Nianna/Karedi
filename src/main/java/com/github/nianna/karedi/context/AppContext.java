@@ -54,7 +54,6 @@ import main.java.com.github.nianna.karedi.audio.Player.Mode;
 import main.java.com.github.nianna.karedi.audio.Player.Status;
 import main.java.com.github.nianna.karedi.command.AddNoteCommand;
 import main.java.com.github.nianna.karedi.command.BackupStateCommandDecorator;
-import main.java.com.github.nianna.karedi.command.ChangeNotesTypeCommand;
 import main.java.com.github.nianna.karedi.command.ChangePostStateCommandDecorator;
 import main.java.com.github.nianna.karedi.command.ChangePreStateCommandDecorator;
 import main.java.com.github.nianna.karedi.command.Command;
@@ -62,6 +61,7 @@ import main.java.com.github.nianna.karedi.command.CommandComposite;
 import main.java.com.github.nianna.karedi.command.DeleteNotesCommand;
 import main.java.com.github.nianna.karedi.command.DeleteTextCommand;
 import main.java.com.github.nianna.karedi.command.JoinNotesCommand;
+import main.java.com.github.nianna.karedi.command.MarkAsTypeCommand;
 import main.java.com.github.nianna.karedi.command.MergeNotesCommand;
 import main.java.com.github.nianna.karedi.command.MergeNotesCommand.MergeMode;
 import main.java.com.github.nianna.karedi.command.MoveCollectionCommand;
@@ -437,7 +437,7 @@ public class AppContext {
 	public void loadSongFile(File file) {
 		loadSongFile(file, true);
 	}
-			
+
 	private void loadSongFile(File file, boolean resetPlayer) {
 		if (file != null) {
 			reset(resetPlayer);
@@ -724,6 +724,7 @@ public class AppContext {
 			add(KarediActions.JOIN_SELECTION, new JoinSelectionAction());
 			add(KarediActions.MARK_AS_FREESTYLE, new ChangeSelectionTypeAction(Type.FREESTYLE));
 			add(KarediActions.MARK_AS_GOLDEN, new ChangeSelectionTypeAction(Type.GOLDEN));
+			add(KarediActions.MARK_AS_RAP, new ChangeSelectionTypeAction(Type.RAP));
 
 			add(KarediActions.ROLL_LYRICS_LEFT, new RollLyricsLeftAction());
 			add(KarediActions.ROLL_LYRICS_RIGHT, new RollLyricsRightAction());
@@ -1892,13 +1893,9 @@ public class AppContext {
 
 		@Override
 		protected void onAction(ActionEvent event) {
-			List<Note> notes = new ArrayList<>(getSelected());
-			if (notes.stream().allMatch(note -> note.getType().equals(type))) {
-				execute(new ChangeNotesTypeCommand(notes, Type.NORMAL));
-			} else {
-				execute(new ChangeNotesTypeCommand(notes, type));
-			}
+			execute(new MarkAsTypeCommand(new ArrayList<>(getSelected()), type));
 		}
+
 	}
 
 	private class EditBpmAction extends KarediAction {

@@ -25,7 +25,19 @@ public class Note
 		implements Comparable<Note>, IntBounded, Movable<Integer>, Resizable<Integer>, Problematic {
 
 	public enum Type {
-		NORMAL, GOLDEN, FREESTYLE, RAP, GOLDEN_RAP
+		NORMAL,
+		GOLDEN,
+		FREESTYLE,
+		RAP,
+		GOLDEN_RAP;
+
+		public boolean isGolden() {
+			return this == GOLDEN || this == GOLDEN_RAP;
+		}
+
+		public boolean isRap() {
+			return this == RAP || this == GOLDEN_RAP;
+		}
 	}
 
 	private ReadOnlyObjectWrapper<Integer> length = new ReadOnlyObjectWrapper<Integer>();
