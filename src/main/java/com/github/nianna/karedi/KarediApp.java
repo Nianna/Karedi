@@ -78,7 +78,8 @@ public class KarediApp extends Application {
 		try {
 			loadGlyphFont();
 
-			Locale locale = new Locale("en", "UK");
+			Locale locale = Settings.getLocale().filter(I18N::isLocaleSupported)
+					.orElse(I18N.getDefaultLocale());
 			ResourceBundle bundle = ResourceBundle.getBundle("messages", locale);
 			I18N.setBundle(bundle);
 
@@ -147,7 +148,7 @@ public class KarediApp extends Application {
 	public boolean saveChangesIfUserWantsTo() {
 		if (appContext.needsSaving()) {
 			Alert alert = new SaveChangesAlert(getFileName(appContext.getActiveFile()));
-			
+
 			Optional<ButtonType> result = alert.showAndWait();
 			if (!result.isPresent()) {
 				System.out.println("CANCELLE?D");
