@@ -204,6 +204,7 @@ public class NoteNode {
 
 	public void select() {
 		noteDisplayer.select();
+		noteDisplayer.toFront();
 	}
 
 	public void deselect() {
