@@ -4,6 +4,8 @@ Karedi is a new, improved graphical editor designed for creating songs for Ultra
 Its main objective is to simplify the process of creation for both beginners and advanced users while assuring high-quality of the final txt files.
 
 The project is still under development, every bug report will be greatly appreciated.
+##
+![karedi](https://user-images.githubusercontent.com/31940002/30511294-ff9004bc-9ad5-11e7-8b59-f5c45d9d87d0.png)
 
 ## Main features
 Karedi's main features include:
@@ -26,7 +28,7 @@ Karedi's main features include:
       * Write Tones - set tones of selected notes by pressing an appropriate key, e.g. "E".
       
 Please refer to the [wiki](https://github.com/Nianna/Karedi/wiki) to learn more.
-  
+
 ## Requirements
 
 Karedi requires <b>Java 8</b>, please update it to the newest version to ensure that everything runs smoothly.
