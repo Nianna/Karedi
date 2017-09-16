@@ -76,6 +76,8 @@ public class MenuBarController implements Controller {
 	@FXML
 	private MenuItem markAsFreestyleMenuItem;
 	@FXML
+	private MenuItem markAsRapMenuItem;
+	@FXML
 	private MenuItem addNoteMenuItem;
 	@FXML
 	private MenuItem addTrackMenuItem;
@@ -301,6 +303,7 @@ public class MenuBarController implements Controller {
 
 		bind(markAsFreestyleMenuItem, KarediActions.MARK_AS_FREESTYLE);
 		bind(markAsGoldenMenuItem, KarediActions.MARK_AS_GOLDEN);
+		bind(markAsRapMenuItem, KarediActions.MARK_AS_RAP);
 		bind(toggleLineBreakMenuItem, KarediActions.TOGGLE_LINEBREAK);
 		bind(splitNoteMenuItem, KarediActions.SPLIT_SELECTION);
 		bind(joinNotesMenuItem, KarediActions.JOIN_SELECTION);

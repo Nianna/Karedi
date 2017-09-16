@@ -289,6 +289,13 @@
 									control="UP" meta="UP" shift="UP" shortcut="UP" />
 							</accelerator>
 						</MenuItem>
+						<MenuItem fx:id="markAsRapMenuItem"
+							mnemonicParsing="false" text="%ui.menu.mark_as.rap">
+							<accelerator>
+								<KeyCodeCombination alt="UP" code="R"
+									control="UP" meta="UP" shift="UP" shortcut="UP" />
+							</accelerator>
+						</MenuItem>
 					</items>
 				</Menu>
 				<SeparatorMenuItem mnemonicParsing="false" />
