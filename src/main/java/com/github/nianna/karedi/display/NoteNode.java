@@ -96,8 +96,9 @@ public class NoteNode {
 
 		noteDisplayer.barHeightProperty().bind(yUnitLength.multiply(1.1));
 
-		note.typeProperty().addListener((obsVal, oldVal, newVal) -> updateNoteStyle(newVal));
-		updateNoteStyle(note.getType());
+		note.typeProperty()
+				.addListener((obsVal, oldVal, newVal) -> updateNoteStyle(oldVal, newVal));
+		updateNoteStyle(null, note.getType());
 
 		note.firstInLineProperty().addListener((obsVal, oldVal, newVal) -> {
 			noteDisplayer.breaksLine(newVal);
@@ -105,17 +106,8 @@ public class NoteNode {
 		noteDisplayer.breaksLine(note.isFirstInLine());
 	}
 
-	private void updateNoteStyle(Type type) {
-		switch (type) {
-		case GOLDEN:
-			noteDisplayer.markAsGolden();
-			break;
-		case FREESTYLE:
-			noteDisplayer.markAsFreestyle();
-			break;
-		default:
-			noteDisplayer.markAsNormal();
-		}
+	private void updateNoteStyle(Type oldType, Type newType) {
+		noteDisplayer.updateType(oldType, newType);
 		Bounds barBounds = noteDisplayer.getBar().getBoundsInParent();
 		double leftMargin = BASIC_RESIZE_MARGIN + Math.abs(barBounds.getMinX());
 		double rightMargin = BASIC_RESIZE_MARGIN

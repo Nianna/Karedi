@@ -9,6 +9,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.effect.DropShadow;
+import javafx.scene.effect.GaussianBlur;
 import javafx.scene.effect.SepiaTone;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
@@ -22,6 +23,7 @@ import javafx.scene.paint.LinearGradient;
 import javafx.scene.paint.Stop;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
+import main.java.com.github.nianna.karedi.song.Note.Type;
 
 public class NoteNodeDisplayer extends Pane {
 	private static final double DIMENSION_CHANGE_THRESHOLD = 2.5;
@@ -42,9 +44,11 @@ public class NoteNodeDisplayer extends Pane {
 
 	private DropShadow borderGlow = new DropShadow();
 	private SepiaTone selectedEffect = new SepiaTone();
+	private GaussianBlur rapEffect = new GaussianBlur(5);
 
 	private boolean isSelected;
 	private boolean isStyled;
+	private boolean isRap;
 
 	private double lastRefreshHeight;
 	private double lastRefreshWidth;
@@ -117,6 +121,9 @@ public class NoteNodeDisplayer extends Pane {
 
 	private void repaintBar() {
 		Color color = getColor();
+		if (isRap) {
+			color = color.darker();
+		}
 		LinearGradient grad1 = new LinearGradient(0.5, 0, 0.5, 1, true, CycleMethod.NO_CYCLE,
 				new Stop(0, color.deriveColor(0, 1.0, 0.6, 1.0)),
 				new Stop(1, color.deriveColor(0, 1.0, 0.5, 1.0)));
@@ -191,22 +198,33 @@ public class NoteNodeDisplayer extends Pane {
 	}
 
 	void select() {
-		if (isStyled) {
-			borderGlow.setInput(selectedEffect);
-			bar.setEffect(borderGlow);
-		} else {
-			bar.setEffect(selectedEffect);
+		if (!isSelected) {
+			if (isStyled) {
+				borderGlow.setInput(selectedEffect);
+			} else {
+				if (isRap) {
+					rapEffect.setInput(selectedEffect);
+				} else {
+					bar.setEffect(selectedEffect);
+				}
+			}
+			isSelected = true;
 		}
-		isSelected = true;
 	}
 
 	void deselect() {
-		if (isStyled) {
-			borderGlow.setInput(null);
-		} else {
-			bar.setEffect(null);
+		if (isSelected) {
+			if (isStyled) {
+				borderGlow.setInput(null);
+			} else {
+				if (isRap) {
+					rapEffect.setInput(null);
+				} else {
+					bar.setEffect(null);
+				}
+			}
+			isSelected = false;
 		}
-		isSelected = false;
 	}
 
 	Node getBar() {
@@ -217,44 +235,73 @@ public class NoteNodeDisplayer extends Pane {
 		return cutBar;
 	}
 
-	void markAsGolden() {
-		lyrics.getStyleClass().remove(FREESTYLE_CLASS);
-		if (isSelected) {
-			borderGlow.setInput(new SepiaTone());
-		} else {
-			borderGlow.setInput(null);
-		}
-		borderGlow.setColor(Color.YELLOW);
-		bar.setEffect(borderGlow);
-		isStyled = true;
-	}
-
-	void markAsFreestyle() {
-		if (isSelected) {
-			borderGlow.setInput(new SepiaTone());
-		} else {
-			borderGlow.setInput(null);
-		}
-		borderGlow.setColor(Color.GRAY.darker());
-		lyrics.getStyleClass().add(FREESTYLE_CLASS);
-		bar.setEffect(borderGlow);
-		isStyled = true;
-	}
-
-	void markAsNormal() {
-		if (isStyled) {
-			lyrics.getStyleClass().remove(FREESTYLE_CLASS);
-			bar.setEffect(borderGlow.getInput());
-			isStyled = false;
-		}
-	}
-
 	void breaksLine(boolean breaksLine) {
 		if (breaksLine) {
 			lyrics.getStyleClass().add(UNDERLINED_CLASS);
 		} else {
 			lyrics.getStyleClass().remove(UNDERLINED_CLASS);
 		}
+	}
+
+	public void updateType(Type oldType, Type newType) {
+		if (oldType != newType) {
+			resetTypeEffect(oldType);
+			setTypeEffect(newType);
+			repaintBar();
+		}
+	}
+
+	private void resetTypeEffect(Type type) {
+		lyrics.getStyleClass().remove(FREESTYLE_CLASS);
+		if (isSelected) {
+			bar.setEffect(selectedEffect);
+		} else {
+			bar.setEffect(null);
+		}
+		isStyled = false;
+		isRap = false;
+	}
+
+	private void setTypeEffect(Type type) {
+		// Styles are set like this: rap -> golden/freestyle -> selected
+		if (type != null) {
+			switch (type) {
+			case FREESTYLE:
+				addFreestyleEffect();
+				break;
+			case GOLDEN:
+				addGoldenEffect();
+				break;
+			case GOLDEN_RAP:
+				addGoldenEffect();
+				// fall through
+			case RAP:
+				addRapEffect();
+				break;
+			default:
+			}
+		}
+	}
+
+	private void addGoldenEffect() {
+		borderGlow.setColor(Color.YELLOW);
+		borderGlow.setInput(bar.getEffect());
+		bar.setEffect(borderGlow);
+		isStyled = true;
+	}
+
+	private void addFreestyleEffect() {
+		borderGlow.setColor(Color.GRAY.darker());
+		lyrics.getStyleClass().add(FREESTYLE_CLASS);
+		borderGlow.setInput(bar.getEffect());
+		bar.setEffect(borderGlow);
+		isStyled = true;
+	}
+
+	private void addRapEffect() {
+		rapEffect.setInput(bar.getEffect());
+		bar.setEffect(rapEffect);
+		isRap = true;
 	}
 
 }
