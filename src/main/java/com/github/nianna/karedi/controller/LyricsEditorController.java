@@ -672,6 +672,10 @@ public class LyricsEditorController implements Controller {
 				return "freestyle-lyrics";
 			case GOLDEN:
 				return "golden-lyrics";
+			case RAP:
+				return "rap-lyrics";
+			case GOLDEN_RAP:
+				return "golden-rap-lyrics";
 			default:
 				return "";
 			}

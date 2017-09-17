@@ -85,6 +85,14 @@
 	-fx-font-weight: 900;
 }
 
+.rap-lyrics {
+
+}
+
+.golden-rap-lyrics {
+	-fx-font-weight: 900;
+}
+
 .freestyle-lyrics {
 	-fx-font-style: italic;
 }
