@@ -109,10 +109,8 @@ public class NoteNode {
 	private void updateNoteStyle(Type oldType, Type newType) {
 		noteDisplayer.updateType(oldType, newType);
 		Bounds barBounds = noteDisplayer.getBar().getBoundsInParent();
-		double leftMargin = BASIC_RESIZE_MARGIN + Math.abs(barBounds.getMinX());
-		double rightMargin = BASIC_RESIZE_MARGIN
-				+ Math.abs(barBounds.getMaxX() - noteDisplayer.getWidth());
-		resizer.setMargins(new Insets(0, leftMargin, 0, rightMargin));
+		double horizontalMargin = BASIC_RESIZE_MARGIN + Math.abs(barBounds.getMinX());
+		resizer.setMargins(new Insets(0, horizontalMargin, 0, horizontalMargin));
 	}
 
 	private void onMouseClicked(MouseEvent event) {
