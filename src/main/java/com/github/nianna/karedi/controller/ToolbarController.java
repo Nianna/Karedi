@@ -54,6 +54,8 @@ public class ToolbarController implements Controller {
 	private Button markAsGoldenButton;
 	@FXML
 	private Button markAsFreestyleButton;
+	@FXML
+	private Button markAsRapButton;
 
 	@FXML
 	private Button switchModeButton;
@@ -87,6 +89,7 @@ public class ToolbarController implements Controller {
 
 		bind(markAsGoldenButton, KarediActions.MARK_AS_GOLDEN);
 		bind(markAsFreestyleButton, KarediActions.MARK_AS_FREESTYLE);
+		bind(markAsRapButton, KarediActions.MARK_AS_RAP);
 
 		bind(switchModeButton, KarediActions.SWITCH_MODE);
 

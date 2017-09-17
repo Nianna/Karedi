@@ -161,6 +161,15 @@
 				<Tooltip text="%ui.toolbar.mark_as.freestyle" />
 			</tooltip>
 		</Button>
+		<Button fx:id="markAsRapButton" focusTraversable="false"
+			mnemonicParsing="false" alignment="center">
+			<graphic>
+				<Glyph fontFamily="FontAwesome" icon="SQUARE_ALT" />
+			</graphic>
+			<tooltip>
+				<Tooltip text="%ui.toolbar.mark_as.rap" />
+			</tooltip>
+		</Button>
 		<Separator orientation="VERTICAL" />
 		<Button fx:id="switchModeButton" focusTraversable="false"
 			mnemonicParsing="false" alignment="center">
