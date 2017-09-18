@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
+import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
 public class I18N {
@@ -17,7 +18,7 @@ public class I18N {
 		if (bundle != null) {
 			try {
 				return MessageFormat.format(bundle.getString(key), args);
-			} catch (IllegalArgumentException e) {
+			} catch (IllegalArgumentException| MissingResourceException e) {
 				e.printStackTrace();
 				return key;
 			}
