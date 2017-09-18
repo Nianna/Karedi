@@ -27,7 +27,7 @@ import main.java.com.github.nianna.karedi.song.Note.Type;
 
 public class NoteNodeDisplayer extends Pane {
 	private static final double DIMENSION_CHANGE_THRESHOLD = 2.5;
-	private static final int BORDER_GLOW_DEPTH = 40;
+	private static final int BORDER_GLOW_DEPTH = 30;
 	private static final Color DEFAULT_COLOR = Color.BLACK;
 
 	private static final double CUT_BAR_HEIGHT = 5;
@@ -80,6 +80,7 @@ public class NoteNodeDisplayer extends Pane {
 	private void styleBorderGlow() {
 		borderGlow.setWidth(BORDER_GLOW_DEPTH);
 		borderGlow.setHeight(BORDER_GLOW_DEPTH);
+		borderGlow.setSpread(0.6);
 	}
 
 	private void styleCutBar() {
