@@ -12,12 +12,7 @@ import javafx.scene.Node;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.effect.GaussianBlur;
 import javafx.scene.effect.SepiaTone;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
-import javafx.scene.layout.CornerRadii;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.CycleMethod;
 import javafx.scene.paint.LinearGradient;
@@ -41,10 +36,11 @@ public class NoteNodeDisplayer extends Pane {
 
 	private Rectangle cutBar = new Rectangle();
 	private VBox bar = new VBox();
+	private GridPane underBar = new GridPane();
 	private Text lyrics = new Text();
 	private Text length = new Text();
 	private Text tone = new Text();
-	private GridPane noteBox = new GridPane();
+	private VBox noteBox = new VBox();
 
 	private ObjectProperty<Color> color = new SimpleObjectProperty<>(DEFAULT_COLOR);
 	private ObjectProperty<Color> fontColor = new SimpleObjectProperty<>(DEFAULT_FONT_COLOR);
@@ -78,11 +74,12 @@ public class NoteNodeDisplayer extends Pane {
 		bar.getChildren().addAll(lyrics);
 		bar.setAlignment(Pos.CENTER);
 
+		noteBox.getChildren().addAll(bar, underBar);
+		underBar.add(tone, 0, 0);
+		underBar.add(length, 1, 0);
+		underBar.setHgap(5);
+		GridPane.setHgrow(length, Priority.ALWAYS);
 		GridPane.setHalignment(length, HPos.RIGHT);
-		noteBox.add(bar, 0, 0, 2, 1);
-		noteBox.add(tone, 0, 1);
-		noteBox.add(length, 1, 1);
-		noteBox.setHgap(6);
 
 		bar.heightProperty().addListener((observable, oldValue, newValue) ->
 				lyrics.setFont(Font.font(lyrics.getFont().getFamily(), FontWeight.BOLD, newValue.intValue() * 0.4)));
