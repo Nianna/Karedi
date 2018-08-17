@@ -34,6 +34,21 @@ public final class Settings {
 		}
 	}
 
+	public static Color defaultTrackFontColor(int number) {
+		switch (number) {
+			case 1:
+			case 2:
+			case 5:
+				return Color.WHITE;
+			case 3:
+			case 4:
+			case 6:
+				return Color.BLACK;
+			default:
+				return Color.WHITE;
+		}
+	}
+
 	public static Optional<Locale> getLocale() {
 		String languageCode = prefs.get(LOCALE_LANGUAGE_KEY, null);
 		String countryCode = prefs.get(LOCALE_COUNTRY_KEY, "");

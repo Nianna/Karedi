@@ -32,6 +32,7 @@ public class NoteNodeDisplayer extends Pane {
 	private static final double DIMENSION_CHANGE_THRESHOLD = 2.5;
 	private static final int BORDER_GLOW_DEPTH = 30;
 	private static final Color DEFAULT_COLOR = Color.BLACK;
+	private static final Color DEFAULT_FONT_COLOR = Color.WHITE;
 
 	private static final double CUT_BAR_HEIGHT = 5;
 
@@ -46,6 +47,7 @@ public class NoteNodeDisplayer extends Pane {
 	private GridPane noteBox = new GridPane();
 
 	private ObjectProperty<Color> color = new SimpleObjectProperty<>(DEFAULT_COLOR);
+	private ObjectProperty<Color> fontColor = new SimpleObjectProperty<>(DEFAULT_FONT_COLOR);
 
 	private DropShadow borderGlow = new DropShadow();
 	private SepiaTone selectedEffect = new SepiaTone();
@@ -90,6 +92,7 @@ public class NoteNodeDisplayer extends Pane {
 		disabledProperty().addListener(this::onDisabledChanged);
 		styleBorderGlow();
 		styleCutBar();
+		fontColor.addListener((observable, oldValue, newValue) -> lyrics.setFill(newValue));
 	}
 
 	private void styleBorderGlow() {
@@ -168,6 +171,10 @@ public class NoteNodeDisplayer extends Pane {
 
 	final void setColor(Color value) {
 		colorProperty().set(value);
+	}
+
+	ObjectProperty<Color> fontColorProperty() {
+		return fontColor;
 	}
 
 	StringProperty lyricsProperty() {

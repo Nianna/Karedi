@@ -73,6 +73,7 @@ public class NoteNode {
 		SongTrack track = note.getLine().getTrack();
 
 		noteDisplayer.colorProperty().bind(track.colorProperty());
+		noteDisplayer.fontColorProperty().bind(track.fontColorProperty());
 		noteDisplayer.visibleProperty().bind(track.visibleProperty());
 		noteDisplayer.disableProperty()
 				.bind(Bindings.notEqual(appContext.activeTrackProperty(), track));
