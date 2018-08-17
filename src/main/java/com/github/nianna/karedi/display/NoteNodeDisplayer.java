@@ -5,6 +5,7 @@ import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.StringProperty;
+import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
@@ -15,13 +16,15 @@ import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.Region;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.CycleMethod;
 import javafx.scene.paint.LinearGradient;
 import javafx.scene.paint.Stop;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import main.java.com.github.nianna.karedi.song.Note.Type;
 
@@ -36,9 +39,11 @@ public class NoteNodeDisplayer extends Pane {
 	private static final String UNDERLINED_CLASS = "underlined";
 
 	private Rectangle cutBar = new Rectangle();
-	private Region bar = new Region();
+	private VBox bar = new VBox();
 	private Text lyrics = new Text();
-	private VBox noteBox = new VBox();
+	private Text length = new Text();
+	private Text tone = new Text();
+	private GridPane noteBox = new GridPane();
 
 	private ObjectProperty<Color> color = new SimpleObjectProperty<>(DEFAULT_COLOR);
 
@@ -62,13 +67,23 @@ public class NoteNodeDisplayer extends Pane {
 		barHeightProperty().addListener(this::onBarHeightInvalidated);
 		bar.widthProperty().addListener(this::onBarWidthInvalidated);
 
-		bar.setPadding(new Insets(5));
 		repaintBar();
 
 		lyrics.getStyleClass().add("note-lyrics");
+		length.getStyleClass().add("under-note-lyrics");
+		tone.getStyleClass().add("under-note-lyrics");
 
-		noteBox.getChildren().addAll(bar, lyrics);
-		noteBox.setAlignment(Pos.BASELINE_CENTER);
+		bar.getChildren().addAll(lyrics);
+		bar.setAlignment(Pos.CENTER);
+
+		GridPane.setHalignment(length, HPos.RIGHT);
+		noteBox.add(bar, 0, 0, 2, 1);
+		noteBox.add(tone, 0, 1);
+		noteBox.add(length, 1, 1);
+		noteBox.setHgap(6);
+
+		bar.heightProperty().addListener((observable, oldValue, newValue) ->
+				lyrics.setFont(Font.font(lyrics.getFont().getFamily(), FontWeight.BOLD, newValue.intValue() * 0.4)));
 
 		getChildren().addAll(noteBox, cutBar);
 
@@ -155,16 +170,24 @@ public class NoteNodeDisplayer extends Pane {
 		colorProperty().set(value);
 	}
 
-	StringProperty textProperty() {
+	StringProperty lyricsProperty() {
 		return lyrics.textProperty();
 	}
 
-	final String getText() {
-		return textProperty().get();
+	final String getLyrics() {
+		return lyricsProperty().get();
 	}
 
-	final void setText(String value) {
-		textProperty().set(value);
+	final void setLyrics(String value) {
+		lyricsProperty().set(value);
+	}
+
+	StringProperty lengthProperty() {
+		return length.textProperty();
+	}
+
+	StringProperty toneProperty() {
+		return tone.textProperty();
 	}
 
 	@Override
