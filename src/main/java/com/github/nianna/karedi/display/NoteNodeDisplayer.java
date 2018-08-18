@@ -82,7 +82,7 @@ public class NoteNodeDisplayer extends Pane {
 		GridPane.setHalignment(length, HPos.RIGHT);
 
 		bar.heightProperty().addListener((observable, oldValue, newValue) ->
-				lyrics.setFont(Font.font(lyrics.getFont().getFamily(), FontWeight.BOLD, newValue.intValue() * 0.4)));
+				lyrics.setFont(Font.font(lyrics.getFont().getFamily(), FontWeight.BOLD, newValue.intValue() * 0.5)));
 
 		getChildren().addAll(noteBox, cutBar);
 
