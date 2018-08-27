@@ -12,6 +12,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.Region;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
+import javafx.util.Pair;
 import javafx.util.StringConverter;
 import main.java.com.github.nianna.karedi.control.Grid;
 import main.java.com.github.nianna.karedi.util.MathUtils;
@@ -265,8 +266,7 @@ public class MainChart extends Region {
         if (xAxis.getTickMarks().size() > MAX_MINOR_VERTICAL_LINES) {
             verticalMarksStream = verticalMarksStream.filter(tick -> tick.getValue().intValue() % 4 == 0);
         }
-        List<Double> verticalMarks = verticalMarksStream.mapToDouble(tick -> xAxis.getDisplayPosition(tick.getValue()))
-                .boxed()
+        List<Pair<Integer, Double>> verticalMarks = verticalMarksStream.map(tick -> new Pair<>(tick.getValue().intValue(), xAxis.getDisplayPosition(tick.getValue())))
                 .collect(Collectors.toList());
         grid.drawVerticalLines(verticalMarks, yAxis.getHeight());
     }

@@ -121,8 +121,12 @@
     -fx-color: -fx-accent;
 }
 
-.chart-vertical-grid-lines {
+.chart-minor-vertical-grid-lines {
 	-fx-stroke: #bababa;
+}
+
+.chart-bigger-vertical-grid-lines {
+	-fx-stroke: #6a6a6a;
 }
 
 .chart-horizontal-grid-lines {
