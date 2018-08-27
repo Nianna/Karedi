@@ -14,7 +14,7 @@ public class Grid extends Group {
 
     public Grid() {
         horizontalLines.getStyleClass().setAll("chart-horizontal-grid-lines");
-        minorVerticalLines.getStyleClass().setAll("chart-minor-vertical-grid-lines");
+        minorVerticalLines.getStyleClass().setAll("chart-vertical-grid-lines");
         verticalLines.getStyleClass().setAll("chart-bigger-vertical-grid-lines");
         this.getChildren().addAll(minorVerticalLines, verticalLines, horizontalLines);
     }

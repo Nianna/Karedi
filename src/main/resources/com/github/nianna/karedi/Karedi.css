@@ -121,7 +121,7 @@
     -fx-color: -fx-accent;
 }
 
-.chart-minor-vertical-grid-lines {
+.chart-vertical-grid-lines {
 	-fx-stroke: #bababa;
 }
 
