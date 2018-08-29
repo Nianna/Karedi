@@ -89,6 +89,14 @@ class SongPlayer {
 		player.setTickingEnabled(value);
 	}
 
+	public boolean isMidiToggled() {
+		return player.isMidiToggled();
+	}
+
+	public void setMidiToggled(boolean value) {
+		player.setMidiToggled(value);
+	}
+
 	public void stop() {
 		player.stop();
 	}

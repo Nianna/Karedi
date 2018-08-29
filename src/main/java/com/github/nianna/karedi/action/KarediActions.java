@@ -79,6 +79,7 @@ public enum KarediActions {
 	STOP_PLAYBACK,
 
 	TOGGLE_TICKS,
+	TOGGLE_MIDI,
 
 	TOGGLE_LINEBREAK,
 

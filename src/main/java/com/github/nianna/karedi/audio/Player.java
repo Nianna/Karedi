@@ -43,6 +43,7 @@ public class Player {
 
 	private boolean tickingEnabled = true;
 	private boolean midiEnabled;
+	private boolean midiToggled = false;
 
 	private ChangeListener<Number> timeListener = this::onTimeChanged;
 	private ChangeListener<Number> volumeChangeListener = this::onVolumeChanged;
@@ -72,7 +73,7 @@ public class Player {
 		}
 		List<Integer> notesToPlay = getNotesToPlay(newTime.longValue());
 		if (!notesToPlay.isEmpty()) {
-			if (midiEnabled) {
+			if (midiEnabled || midiToggled) {
 				MidiPlayer.play(notesToPlay);
 			} else {
 				if (tickingEnabled) {
@@ -244,6 +245,14 @@ public class Player {
 
 	public boolean isTickingEnabled() {
 		return tickingEnabled;
+	}
+
+	public void setMidiToggled(boolean value) {
+		midiToggled = value;
+	}
+
+	public boolean isMidiToggled() {
+		return midiToggled;
 	}
 
 	private class TimeUpdater extends Task<Long> {

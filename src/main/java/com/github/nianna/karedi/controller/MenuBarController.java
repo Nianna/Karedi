@@ -201,6 +201,8 @@ public class MenuBarController implements Controller {
 	private MenuItem stopPlaybackMenuItem;
 	@FXML
 	private CheckMenuItem toggleTicksMenuItem;
+	@FXML
+	private CheckMenuItem toggleMidiMenuItem;
 
 	@FXML
 	private MenuItem multiplyBpmByTwoMenuItem;
@@ -348,6 +350,7 @@ public class MenuBarController implements Controller {
 
 		bind(stopPlaybackMenuItem, KarediActions.STOP_PLAYBACK);
 		bind(toggleTicksMenuItem, KarediActions.TOGGLE_TICKS);
+		bind(toggleMidiMenuItem, KarediActions.TOGGLE_MIDI);
 	}
 
 	private void bindSelectMenu() {

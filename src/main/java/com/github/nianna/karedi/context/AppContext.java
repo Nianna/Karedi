@@ -769,6 +769,7 @@ public class AppContext {
 			add(KarediActions.PLAY_AFTER_SELECTION, new PlayAuxiliaryNoteAfterSelectionAction());
 			add(KarediActions.STOP_PLAYBACK, new StopPlaybackAction());
 			add(KarediActions.TOGGLE_TICKS, new ToggleTicksAction());
+			add(KarediActions.TOGGLE_MIDI, new ToggleMidiAction());
 		}
 
 		private void addSelectionActions() {
@@ -1681,6 +1682,19 @@ public class AppContext {
 		@Override
 		protected void onAction(ActionEvent event) {
 			player.setTickingEnabled(!player.isTickingEnabled());
+		}
+
+	}
+
+	private class ToggleMidiAction extends KarediAction {
+
+		private ToggleMidiAction() {
+			setSelected(player.isMidiToggled());
+		}
+
+		@Override
+		protected void onAction(ActionEvent event) {
+			player.setMidiToggled(!player.isMidiToggled());
 		}
 
 	}

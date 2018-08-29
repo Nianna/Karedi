@@ -488,6 +488,13 @@
 							meta="UP" shift="UP" shortcut="UP" />
 					</accelerator>
 				</CheckMenuItem>
+				<CheckMenuItem fx:id="toggleMidiMenuItem"
+							   mnemonicParsing="false" text="%ui.menu.play.toggle_midi">
+					<accelerator>
+						<KeyCodeCombination alt="DOWN" code="P" control="DOWN"
+											meta="UP" shift="UP" shortcut="UP" />
+					</accelerator>
+				</CheckMenuItem>
 			</items>
 		</Menu>
 		<Menu fx:id="selectionMenu" mnemonicParsing="true" text="%ui.menu.select">
