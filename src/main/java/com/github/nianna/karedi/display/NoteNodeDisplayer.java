@@ -81,8 +81,7 @@ public class NoteNodeDisplayer extends Pane {
 		GridPane.setHgrow(length, Priority.ALWAYS);
 		GridPane.setHalignment(length, HPos.RIGHT);
 
-		bar.heightProperty().addListener((observable, oldValue, newValue) ->
-				lyrics.setFont(Font.font(lyrics.getFont().getFamily(), FontWeight.BOLD, newValue.intValue() * 0.5)));
+		bar.heightProperty().addListener(this::onBarHeightChanged);
 
 		getChildren().addAll(noteBox, cutBar);
 
@@ -112,6 +111,10 @@ public class NoteNodeDisplayer extends Pane {
 			bar.setOpacity(1);
 			lyrics.setOpacity(1);
 		}
+	}
+
+	private void onBarHeightChanged(Observable obs, Number oldValue, Number newValue) {
+		lyrics.setFont(Font.font(lyrics.getFont().getFamily(), FontWeight.BOLD, newValue.intValue() * 0.5));
 	}
 
 	private void onBarHeightInvalidated(Observable obs) {
