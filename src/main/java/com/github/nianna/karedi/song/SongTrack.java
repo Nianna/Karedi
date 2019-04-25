@@ -32,6 +32,7 @@ public class SongTrack implements IntBounded, Problematic, MovableContainer<Song
 	private ReadOnlyObjectWrapper<String> name = new ReadOnlyObjectWrapper<>();
 
 	private ReadOnlyObjectWrapper<Color> color = new ReadOnlyObjectWrapper<>();
+	private ReadOnlyObjectWrapper<Color> fontColor = new ReadOnlyObjectWrapper<>();
 
 	private List<ListChangeListener<? super Note>> noteListListeners = new ArrayList<>();
 
@@ -48,6 +49,7 @@ public class SongTrack implements IntBounded, Problematic, MovableContainer<Song
 	public SongTrack(Integer player) {
 		this(getDefaultTrackName(player));
 		setColor(Settings.defaultTrackColor(player));
+		setFontColor(Settings.defaultTrackFontColor(player));
 	}
 
 	public SongTrack(Integer player, Collection<? extends SongLine> lines) {
@@ -69,6 +71,18 @@ public class SongTrack implements IntBounded, Problematic, MovableContainer<Song
 
 	public final Color getColor() {
 		return color.get();
+	}
+
+	public ReadOnlyObjectProperty<Color> fontColorProperty() {
+		return fontColor.getReadOnlyProperty();
+	}
+
+	public final void setFontColor(Color value) {
+		fontColor.set(value);
+	}
+
+	public final Color getFontColor() {
+		return fontColor.get();
 	}
 
 	public void setSong(Song song) {

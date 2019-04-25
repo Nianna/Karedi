@@ -17,6 +17,8 @@
 			<columns>
 				<TableColumn fx:id="colorColumn" maxWidth="50" minWidth="50"
 					onEditCommit="#onColorColumnEditCommit" sortable="false" text="%tracks.color" />
+				<TableColumn fx:id="fontColorColumn" maxWidth="50" minWidth="50"
+							 onEditCommit="#onFontColorColumnEditCommit" sortable="false" text="%tracks.fontColor" />
 				<TableColumn fx:id="nameColumn" onEditCancel="#onNameColumnEditCancel"
 					onEditCommit="#onNameColumnEditCommit" onEditStart="#onNameColumnEditStart"
 					sortable="false" text="%tracks.name" />

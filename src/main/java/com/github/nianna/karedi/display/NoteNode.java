@@ -73,13 +73,20 @@ public class NoteNode {
 		SongTrack track = note.getLine().getTrack();
 
 		noteDisplayer.colorProperty().bind(track.colorProperty());
+		noteDisplayer.fontColorProperty().bind(track.fontColorProperty());
 		noteDisplayer.visibleProperty().bind(track.visibleProperty());
 		noteDisplayer.disableProperty()
 				.bind(Bindings.notEqual(appContext.activeTrackProperty(), track));
 
-		noteDisplayer.textProperty().bind(Bindings.createStringBinding(() -> {
+		noteDisplayer.lyricsProperty().bind(Bindings.createStringBinding(() -> {
 			return note.getLyrics().trim();
 		}, note.lyricsProperty()));
+		noteDisplayer.lengthProperty().bind(Bindings.createStringBinding(() -> {
+			return String.valueOf(note.getLength());
+		}, note.lengthProperty()));
+		noteDisplayer.toneProperty().bind(Bindings.createStringBinding(() -> {
+			return String.valueOf(note.getTone());
+		}, note.toneProperty()));
 
 		ReadOnlyDoubleProperty xUnitLength = editorController.xUnitLengthProperty();
 		ReadOnlyDoubleProperty yUnitLength = editorController.yUnitLengthProperty();

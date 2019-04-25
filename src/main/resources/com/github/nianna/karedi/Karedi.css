@@ -64,7 +64,11 @@
 }
 
 .note-lyrics {
-	-fx-padding: 1;
+	-fx-font-weight: bold;
+	-fx-fill: white;
+}
+
+.under-note-lyrics {
 	-fx-font-weight: bold;
 }
 

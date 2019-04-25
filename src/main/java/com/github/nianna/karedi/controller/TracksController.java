@@ -4,6 +4,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.function.BiConsumer;
 
+import main.java.com.github.nianna.karedi.command.track.ChangeTrackFontColorCommand;
 import org.controlsfx.control.action.Action;
 
 import javafx.beans.Observable;
@@ -46,6 +47,8 @@ public class TracksController implements Controller {
 	@FXML
 	private TableColumn<SongTrack, Color> colorColumn;
 	@FXML
+	private TableColumn<SongTrack, Color> fontColorColumn;
+	@FXML
 	private TableColumn<SongTrack, String> nameColumn;
 	@FXML
 	private TableColumn<SongTrack, Boolean> visibleColumn;
@@ -60,12 +63,13 @@ public class TracksController implements Controller {
 	@FXML
 	public void initialize() {
 		configureColorColumn();
+		configureFontColorColumn();
 		configureNameColumn();
 		configureVisibleColumn();
 		configureMutedColumn();
 
-		mutedColumn.setMaxWidth(Integer.MAX_VALUE * 20f);
-		visibleColumn.setMaxWidth(Integer.MAX_VALUE * 20f);
+		mutedColumn.setMaxWidth(Integer.MAX_VALUE * 15f);
+		visibleColumn.setMaxWidth(Integer.MAX_VALUE * 15f);
 		nameColumn.setMaxWidth(Integer.MAX_VALUE * 50f);
 	}
 
@@ -147,9 +151,20 @@ public class TracksController implements Controller {
 		colorColumn.setCellFactory(ColorPickerTableCell.forTableColumn(colorColumn));
 	}
 
+	private void configureFontColorColumn() {
+		fontColorColumn.setCellValueFactory(cell -> cell.getValue().fontColorProperty());
+		fontColorColumn.setCellFactory(ColorPickerTableCell.forTableColumn(fontColorColumn));
+	}
+
 	@FXML
 	private void onColorColumnEditCommit(CellEditEvent<SongTrack, Color> event) {
 		appContext.execute(new ChangeTrackColorCommand(event.getRowValue(), event.getNewValue()));
+		table.requestFocus();
+	}
+
+	@FXML
+	private void onFontColorColumnEditCommit(CellEditEvent<SongTrack, Color> event) {
+		appContext.execute(new ChangeTrackFontColorCommand(event.getRowValue(), event.getNewValue()));
 		table.requestFocus();
 	}
 

@@ -5,23 +5,21 @@ import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.StringProperty;
+import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.effect.GaussianBlur;
 import javafx.scene.effect.SepiaTone;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
-import javafx.scene.layout.CornerRadii;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.Region;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.CycleMethod;
 import javafx.scene.paint.LinearGradient;
 import javafx.scene.paint.Stop;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import main.java.com.github.nianna.karedi.song.Note.Type;
 
@@ -29,6 +27,7 @@ public class NoteNodeDisplayer extends Pane {
 	private static final double DIMENSION_CHANGE_THRESHOLD = 2.5;
 	private static final int BORDER_GLOW_DEPTH = 30;
 	private static final Color DEFAULT_COLOR = Color.BLACK;
+	private static final Color DEFAULT_FONT_COLOR = Color.WHITE;
 
 	private static final double CUT_BAR_HEIGHT = 5;
 
@@ -36,11 +35,15 @@ public class NoteNodeDisplayer extends Pane {
 	private static final String UNDERLINED_CLASS = "underlined";
 
 	private Rectangle cutBar = new Rectangle();
-	private Region bar = new Region();
+	private VBox bar = new VBox();
+	private GridPane underBar = new GridPane();
 	private Text lyrics = new Text();
+	private Text length = new Text();
+	private Text tone = new Text();
 	private VBox noteBox = new VBox();
 
 	private ObjectProperty<Color> color = new SimpleObjectProperty<>(DEFAULT_COLOR);
+	private ObjectProperty<Color> fontColor = new SimpleObjectProperty<>(DEFAULT_FONT_COLOR);
 
 	private DropShadow borderGlow = new DropShadow();
 	private SepiaTone selectedEffect = new SepiaTone();
@@ -62,19 +65,30 @@ public class NoteNodeDisplayer extends Pane {
 		barHeightProperty().addListener(this::onBarHeightInvalidated);
 		bar.widthProperty().addListener(this::onBarWidthInvalidated);
 
-		bar.setPadding(new Insets(5));
 		repaintBar();
 
 		lyrics.getStyleClass().add("note-lyrics");
+		length.getStyleClass().add("under-note-lyrics");
+		tone.getStyleClass().add("under-note-lyrics");
 
-		noteBox.getChildren().addAll(bar, lyrics);
-		noteBox.setAlignment(Pos.BASELINE_CENTER);
+		bar.getChildren().addAll(lyrics);
+		bar.setAlignment(Pos.CENTER);
+
+		noteBox.getChildren().addAll(bar, underBar);
+		underBar.add(tone, 0, 0);
+		underBar.add(length, 1, 0);
+		underBar.setHgap(5);
+		GridPane.setHgrow(length, Priority.ALWAYS);
+		GridPane.setHalignment(length, HPos.RIGHT);
+
+		bar.heightProperty().addListener(this::onBarHeightChanged);
 
 		getChildren().addAll(noteBox, cutBar);
 
 		disabledProperty().addListener(this::onDisabledChanged);
 		styleBorderGlow();
 		styleCutBar();
+		fontColor.addListener((observable, oldValue, newValue) -> lyrics.setFill(newValue));
 	}
 
 	private void styleBorderGlow() {
@@ -97,6 +111,10 @@ public class NoteNodeDisplayer extends Pane {
 			bar.setOpacity(1);
 			lyrics.setOpacity(1);
 		}
+	}
+
+	private void onBarHeightChanged(Observable obs, Number oldValue, Number newValue) {
+		lyrics.setFont(Font.font(lyrics.getFont().getFamily(), FontWeight.BOLD, newValue.intValue() * 0.5));
 	}
 
 	private void onBarHeightInvalidated(Observable obs) {
@@ -155,16 +173,28 @@ public class NoteNodeDisplayer extends Pane {
 		colorProperty().set(value);
 	}
 
-	StringProperty textProperty() {
+	ObjectProperty<Color> fontColorProperty() {
+		return fontColor;
+	}
+
+	StringProperty lyricsProperty() {
 		return lyrics.textProperty();
 	}
 
-	final String getText() {
-		return textProperty().get();
+	final String getLyrics() {
+		return lyricsProperty().get();
 	}
 
-	final void setText(String value) {
-		textProperty().set(value);
+	final void setLyrics(String value) {
+		lyricsProperty().set(value);
+	}
+
+	StringProperty lengthProperty() {
+		return length.textProperty();
+	}
+
+	StringProperty toneProperty() {
+		return tone.textProperty();
 	}
 
 	@Override
