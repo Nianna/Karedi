@@ -19,6 +19,7 @@ import javafx.scene.paint.LinearGradient;
 import javafx.scene.paint.Stop;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
+import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import main.java.com.github.nianna.karedi.Settings;
@@ -32,9 +33,6 @@ public class NoteNodeDisplayer extends Pane {
 
 	private static final double CUT_BAR_HEIGHT = 5;
 
-	private static final String FREESTYLE_CLASS = "freestyle";
-	private static final String UNDERLINED_CLASS = "underlined";
-
 	private Rectangle cutBar = new Rectangle();
 	private VBox bar = new VBox();
 	private GridPane underBar = new GridPane();
@@ -45,6 +43,7 @@ public class NoteNodeDisplayer extends Pane {
 
 	private ObjectProperty<Color> color = new SimpleObjectProperty<>(DEFAULT_COLOR);
 	private ObjectProperty<Color> fontColor = new SimpleObjectProperty<>(DEFAULT_FONT_COLOR);
+	private FontPosture fontPosture = FontPosture.REGULAR;
 
 	private DropShadow borderGlow = new DropShadow();
 	private SepiaTone selectedEffect = new SepiaTone();
@@ -68,14 +67,14 @@ public class NoteNodeDisplayer extends Pane {
 
 		repaintBar();
 
-		lyrics.getStyleClass().add("note-lyrics");
 		length.getStyleClass().add("under-note-lyrics");
 		tone.getStyleClass().add("under-note-lyrics");
 
-		bar.getChildren().addAll(lyrics);
-		bar.setAlignment(Pos.CENTER);
+		StackPane barWithLyricsWrapper = new StackPane();
+		barWithLyricsWrapper.getChildren().addAll(bar, lyrics);
+		barWithLyricsWrapper.setAlignment(Pos.CENTER);
 
-		noteBox.getChildren().addAll(bar, underBar);
+		noteBox.getChildren().addAll(barWithLyricsWrapper, underBar);
 		underBar.add(tone, 0, 0);
 		underBar.add(length, 1, 0);
 		underBar.setHgap(5);
@@ -116,7 +115,7 @@ public class NoteNodeDisplayer extends Pane {
 	}
 
 	private void onBarHeightChanged(Observable obs, Number oldValue, Number newValue) {
-		lyrics.setFont(Font.font(lyrics.getFont().getFamily(), FontWeight.BOLD, newValue.intValue() * 0.5));
+		repaintLyrics();
 	}
 
 	private void onBarHeightInvalidated(Observable obs) {
@@ -161,6 +160,18 @@ public class NoteNodeDisplayer extends Pane {
 		bar.setBackground(background);
 		lastRefreshHeight = getBarHeight();
 		lastRefreshWidth = getBarWidth();
+	}
+
+	private void repaintLyrics() {
+		lyrics.setFont(
+				Font.font(
+						lyrics.getFont().getFamily(),
+						FontWeight.BOLD,
+						fontPosture,
+						bar.getHeight() * 0.5
+				)
+		);
+		lyrics.setFill(fontColor.get());
 	}
 
 	ObjectProperty<Color> colorProperty() {
@@ -270,22 +281,23 @@ public class NoteNodeDisplayer extends Pane {
 
 	void breaksLine(boolean breaksLine) {
 		if (breaksLine) {
-			lyrics.getStyleClass().add(UNDERLINED_CLASS);
+			lyrics.setUnderline(true);
 		} else {
-			lyrics.getStyleClass().remove(UNDERLINED_CLASS);
+			lyrics.setUnderline(false);
 		}
 	}
 
 	public void updateType(Type oldType, Type newType) {
 		if (oldType != newType) {
-			resetTypeEffect(oldType);
+			resetTypeEffect();
 			setTypeEffect(newType);
 			repaintBar();
+			repaintLyrics();
 		}
 	}
 
-	private void resetTypeEffect(Type type) {
-		lyrics.getStyleClass().remove(FREESTYLE_CLASS);
+	private void resetTypeEffect() {
+		fontPosture = FontPosture.REGULAR;
 		if (isSelected) {
 			bar.setEffect(selectedEffect);
 		} else {
@@ -325,7 +337,7 @@ public class NoteNodeDisplayer extends Pane {
 
 	private void addFreestyleEffect() {
 		borderGlow.setColor(Color.GRAY.darker());
-		lyrics.getStyleClass().add(FREESTYLE_CLASS);
+		fontPosture = FontPosture.ITALIC;
 		borderGlow.setInput(bar.getEffect());
 		bar.setEffect(borderGlow);
 		isStyled = true;
