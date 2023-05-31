@@ -59,21 +59,8 @@
 	-fx-alignment: CENTER_LEFT;
 }
 
-.underlined {
-	-fx-underline: true;
-}
-
-.note-lyrics {
-	-fx-font-weight: bold;
-	-fx-fill: white;
-}
-
 .under-note-lyrics {
 	-fx-font-weight: bold;
-}
-
-.freestyle {
-	-fx-font-style: italic;
 }
 
 .medley-area {
