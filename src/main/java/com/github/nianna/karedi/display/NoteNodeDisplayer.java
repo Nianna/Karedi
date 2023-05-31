@@ -21,6 +21,7 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
+import main.java.com.github.nianna.karedi.Settings;
 import main.java.com.github.nianna.karedi.song.Note.Type;
 
 public class NoteNodeDisplayer extends Pane {
@@ -78,6 +79,7 @@ public class NoteNodeDisplayer extends Pane {
 		underBar.add(tone, 0, 0);
 		underBar.add(length, 1, 0);
 		underBar.setHgap(5);
+		underBar.setVisible(Settings.isDisplayNoteNodeUnderBarEnabled());
 		GridPane.setHgrow(length, Priority.ALWAYS);
 		GridPane.setHalignment(length, HPos.RIGHT);
 

@@ -2249,8 +2249,10 @@ public class AppContext {
 		@Override
 		protected void onAction(ActionEvent event) {
 			PreferencesDialog dialog = new PreferencesDialog();
-			dialog.showAndWait().filter(locale -> locale != I18N.getCurrentLocale())
-					.ifPresent(Settings::setLocale);
+			dialog.showAndWait().ifPresent(result -> {
+				Settings.setLocale(result.getSelectedLocale());
+				Settings.setDisplayNoteNodeUnderBarEnabled(result.isDisplayNoteNodeUnderBarEnabled());
+			});
 		}
 	}
 
