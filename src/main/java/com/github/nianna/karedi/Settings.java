@@ -9,6 +9,7 @@ import javafx.scene.paint.Color;
 public final class Settings {
 	private static final String LOCALE_LANGUAGE_KEY = "ui_locale_language";
 	private static final String LOCALE_COUNTRY_KEY = "ui_locale_country";
+	private static final String DISPLAY_NOTENODE_UNDERBAR_KEY = "ui_display_notenode_underbar";
 
 	private static Preferences prefs = Preferences.userNodeForPackage(Settings.class);
 
@@ -66,6 +67,14 @@ public final class Settings {
 			prefs.remove(LOCALE_LANGUAGE_KEY);
 			prefs.remove(LOCALE_COUNTRY_KEY);
 		}
+	}
+
+	public static void setDisplayNoteNodeUnderBarEnabled(boolean enabled) {
+		prefs.putBoolean(DISPLAY_NOTENODE_UNDERBAR_KEY, enabled);
+	}
+
+	public static boolean isDisplayNoteNodeUnderBarEnabled() {
+		return prefs.getBoolean(DISPLAY_NOTENODE_UNDERBAR_KEY, true);
 	}
 
 }
