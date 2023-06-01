@@ -22,4 +22,8 @@ public abstract class CommandDecorator extends Command {
 		return cmd;
 	}
 
+	@Override
+	public boolean requiresSave() {
+		return cmd.requiresSave();
+	}
 }

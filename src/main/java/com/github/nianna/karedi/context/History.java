@@ -15,6 +15,7 @@ public class History {
 	private final ObservableList<Command> unmodifiableHistory = FXCollections
 			.unmodifiableObservableList(history);
 	private ReadOnlyObjectWrapper<Command> activeCommand = new ReadOnlyObjectWrapper<>();
+	private ReadOnlyObjectWrapper<Command> latestCommandRequiringSave = new ReadOnlyObjectWrapper<>();
 	private ReadOnlyIntegerWrapper activeIndex = new ReadOnlyIntegerWrapper(-1);
 	private ReadOnlyIntegerWrapper size = new ReadOnlyIntegerWrapper();
 
@@ -33,6 +34,14 @@ public class History {
 
 	public final Command getActiveCommand() {
 		return activeCommand.get();
+	}
+
+	public final ReadOnlyObjectProperty<Command> lastCommandRequiringSaveProperty() {
+		return latestCommandRequiringSave.getReadOnlyProperty();
+	}
+
+	public final Command getLastCommandRequiringSave() {
+		return latestCommandRequiringSave.get();
 	}
 
 	public ReadOnlyIntegerProperty activeIndexProperty() {
@@ -105,8 +114,14 @@ public class History {
 		activeIndex.set(index);
 		if (index >= 0 && index < history.size()) {
 			activeCommand.set(history.get(index));
+			for (int i = index; i >= 0; i--) {
+				if (history.get(index).requiresSave()) {
+					latestCommandRequiringSave.set(history.get(index));
+				}
+			}
 		} else {
 			activeCommand.set(null);
+			latestCommandRequiringSave.set(null);
 		}
 	}
 

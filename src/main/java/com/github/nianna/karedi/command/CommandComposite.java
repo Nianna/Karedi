@@ -45,4 +45,8 @@ public abstract class CommandComposite extends Command {
 
 	protected abstract void buildSubCommands();
 
+	@Override
+	public boolean requiresSave() {
+		return subCommands.stream().anyMatch(Command::requiresSave);
+	}
 }

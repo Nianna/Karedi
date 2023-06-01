@@ -1,7 +1,7 @@
 package main.java.com.github.nianna.karedi.command;
 
 /**
- * An operation that may be executed and undone. It modifies song's parts and
+ * An operation that may be executed and undone. It usually modifies song's parts and
  * therefore has an effect on the contents of the song's txt file.
  * <p>
  * Each command must have a title.
@@ -38,5 +38,14 @@ public abstract class Command {
 	 * may be unpredictable.
 	 */
 	public abstract void undo();
+
+	/**
+	 * Whether the command modifies txt file contents and save is required.
+	 *
+	 * @return {@code true} if this command changes something in txt file
+	 */
+	public boolean requiresSave() {
+		return true;
+	}
 
 }
