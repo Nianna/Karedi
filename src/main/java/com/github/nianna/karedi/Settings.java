@@ -20,7 +20,7 @@ public final class Settings {
 			.collect(Collectors.toList());
 
 	private static final List<Color> DEFAULT_TRACK_FONT_COLORS = Stream
-			.of(Color.WHITE, Color.WHITE, Color.BLACK, Color.BLACK, Color.WHITE, Color.BLACK)
+			.of(Color.WHITE, Color.WHITE, Color.WHITE, Color.BLACK, Color.WHITE, Color.BLACK)
 			.collect(Collectors.toList());
 
 	private static final String LOCALE_LANGUAGE_KEY = "ui_locale_language";
@@ -61,7 +61,7 @@ public final class Settings {
 	}
 
 	private static Color getDefaultColor(int trackNumber, List<Color> defaultColors, Color fallbackColor) {
-		if (trackNumber < defaultColors.size()) {
+		if (trackNumber > 0 && trackNumber <= defaultColors.size()) {
 			return defaultColors.get(trackNumber - 1);
 		}
 		return fallbackColor;
