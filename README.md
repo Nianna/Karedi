@@ -34,6 +34,10 @@ Karedi's main features include:
       
 Please refer to the [wiki](https://github.com/Nianna/Karedi/wiki) to learn more.
 
+## Tutorial
+
+For tutorials explaining how to use this software, please refer to the [project's wiki](https://github.com/Nianna/Karedi/wiki). 
+
 ## Requirements
 
 Karedi requires <b>Java 8</b>, please update it to the newest version to ensure that everything runs smoothly.
