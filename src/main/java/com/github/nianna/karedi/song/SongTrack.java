@@ -1,11 +1,5 @@
 package main.java.com.github.nianna.karedi.song;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
-
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
 import javafx.beans.property.ReadOnlyObjectProperty;
@@ -21,6 +15,12 @@ import main.java.com.github.nianna.karedi.region.BoundingBox;
 import main.java.com.github.nianna.karedi.region.IntBounded;
 import main.java.com.github.nianna.karedi.region.MovableContainer;
 import main.java.com.github.nianna.karedi.util.MathUtils;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 public class SongTrack implements IntBounded, Problematic, MovableContainer<SongLine, Integer> {
 
@@ -42,14 +42,17 @@ public class SongTrack implements IntBounded, Problematic, MovableContainer<Song
 	private SongTrackChecker trackChecker = new SongTrackChecker(this);
 	private Song song;
 
+	private Integer player;
+
 	private SongTrack(String trackName) {
 		setName(trackName);
 	}
 
 	public SongTrack(Integer player) {
 		this(getDefaultTrackName(player));
-		setColor(Settings.defaultTrackColor(player));
-		setFontColor(Settings.defaultTrackFontColor(player));
+		this.player = player;
+		setColor(Settings.getTrackColor(player));
+		setFontColor(Settings.getTrackFontColor(player));
 	}
 
 	public SongTrack(Integer player, Collection<? extends SongLine> lines) {
@@ -59,6 +62,10 @@ public class SongTrack implements IntBounded, Problematic, MovableContainer<Song
 
 	public static String getDefaultTrackName(Integer number) {
 		return "PLAYER " + number;
+	}
+
+	public Integer getPlayer() {
+		return player;
 	}
 
 	public ReadOnlyObjectProperty<Color> colorProperty() {

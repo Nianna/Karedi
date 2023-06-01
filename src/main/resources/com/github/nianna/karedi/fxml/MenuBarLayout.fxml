@@ -1,14 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Menu?>
-<?import javafx.scene.control.MenuBar?>
-<?import javafx.scene.control.MenuItem?>
-<?import javafx.scene.control.CheckMenuItem?>
-<?import javafx.scene.control.SeparatorMenuItem?>
+<?import javafx.scene.control.*?>
 <?import javafx.scene.input.KeyCodeCombination?>
-
 <MenuBar fx:id="menuBar" xmlns:fx="http://javafx.com/fxml/1"
-	fx:controller="main.java.com.github.nianna.karedi.controller.MenuBarController">
+		 fx:controller="main.java.com.github.nianna.karedi.controller.MenuBarController">
 	<menus>
 		<Menu mnemonicParsing="true" text="%ui.menu.file">
 			<items>
@@ -314,10 +309,13 @@
 					</accelerator>
 				</MenuItem>
 				<SeparatorMenuItem mnemonicParsing="false" />
+				<MenuItem fx:id="resetTrackColorsMenuItem" mnemonicParsing="false"
+						  text="%ui.menu.reset_track_colors">
+				</MenuItem>
+				<SeparatorMenuItem mnemonicParsing="false" />
 				<MenuItem fx:id="showPreferencesMenuItem" mnemonicParsing="false"
 					text="%ui.menu.show_preferences">
 				</MenuItem>
-
 			</items>
 		</Menu>
 		<Menu mnemonicParsing="true" text="%ui.menu.lyrics">

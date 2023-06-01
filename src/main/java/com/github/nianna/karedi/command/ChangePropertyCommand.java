@@ -6,8 +6,8 @@ import java.util.function.Supplier;
 public abstract class ChangePropertyCommand<T> extends Command {
 	private Supplier<T> supplier;
 	private Consumer<T> consumer;
-	private T newValue;
-	private T oldValue;
+	protected T newValue;
+	protected T oldValue;
 
 	public ChangePropertyCommand(String title, Supplier<T> supplier, Consumer<T> consumer,
 			T newValue) {
