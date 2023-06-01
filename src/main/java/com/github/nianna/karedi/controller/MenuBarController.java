@@ -112,6 +112,8 @@ public class MenuBarController implements Controller {
 	@FXML
 	private MenuItem endLaterMenuItem;
 	@FXML
+	private MenuItem resetTrackColorsMenuItem;
+	@FXML
 	private MenuItem showPreferencesMenuItem;
 
 	@FXML
@@ -310,7 +312,9 @@ public class MenuBarController implements Controller {
 
 		bind(undoMenuItem, KarediActions.UNDO);
 		bind(redoMenuItem, KarediActions.REDO);
-		
+
+		bind(resetTrackColorsMenuItem, KarediActions.RESET_TRACK_COLORS);
+
 		bind(showPreferencesMenuItem, KarediActions.SHOW_PREFERENCES);
 	}
 

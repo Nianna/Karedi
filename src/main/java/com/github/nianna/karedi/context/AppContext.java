@@ -1,18 +1,5 @@
 package main.java.com.github.nianna.karedi.context;
 
-import java.io.File;
-import java.nio.file.Files;
-import java.nio.file.StandardCopyOption;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.TreeMap;
-import java.util.logging.Logger;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
 import javafx.beans.binding.Bindings;
@@ -66,6 +53,7 @@ import main.java.com.github.nianna.karedi.command.MergeNotesCommand;
 import main.java.com.github.nianna.karedi.command.MergeNotesCommand.MergeMode;
 import main.java.com.github.nianna.karedi.command.MoveCollectionCommand;
 import main.java.com.github.nianna.karedi.command.PasteCommand;
+import main.java.com.github.nianna.karedi.command.ResetTrackColorsCommand;
 import main.java.com.github.nianna.karedi.command.ResizeNotesCommand;
 import main.java.com.github.nianna.karedi.command.RollLyricsLeftCommand;
 import main.java.com.github.nianna.karedi.command.RollLyricsRightCommand;
@@ -112,6 +100,19 @@ import main.java.com.github.nianna.karedi.util.Converter;
 import main.java.com.github.nianna.karedi.util.ForbiddenCharacterRegex;
 import main.java.com.github.nianna.karedi.util.ListenersUtils;
 import main.java.com.github.nianna.karedi.util.MathUtils;
+
+import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.TreeMap;
+import java.util.logging.Logger;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class AppContext {
 	private static final Logger LOGGER = Logger.getLogger(KarediApp.class.getPackage().getName());
@@ -729,6 +730,8 @@ public class AppContext {
 			add(KarediActions.ROLL_LYRICS_LEFT, new RollLyricsLeftAction());
 			add(KarediActions.ROLL_LYRICS_RIGHT, new RollLyricsRightAction());
 
+			add(KarediActions.RESET_TRACK_COLORS, new ResetTrackColorsAction());
+
 			add(KarediActions.SHOW_PREFERENCES, new ShowPreferencesAction());
 		}
 
@@ -943,12 +946,10 @@ public class AppContext {
 		protected void onAction(ActionEvent event) {
 			if (KarediApp.getInstance().saveChangesIfUserWantsTo()) {
 				backupTrackAndLine();
-				backupColors();
 				loadSongFile(getActiveFile(), false);
 
 				if (getSong() != null) {
 					restoreTrackAndLine();
-					restoreColors();
 				}
 			}
 		}
@@ -964,23 +965,12 @@ public class AppContext {
 			}
 		}
 
-		private void backupColors() {
-			colors = getSong().getTracks().stream().map(SongTrack::getColor)
-					.collect(Collectors.toList());
-		}
-
 		private void restoreTrackAndLine() {
 			if (trackNumber != null && getSong().size() > trackNumber) {
 				setActiveTrack(getSong().get(trackNumber));
 				if (lineNumber != null && getActiveTrack().size() > lineNumber) {
 					setActiveLine(getActiveTrack().get(lineNumber));
 				}
-			}
-		}
-
-		private void restoreColors() {
-			for (int i = 0; i < getSong().size() && i < colors.size(); ++i) {
-				getSong().getTrack(i).setColor(colors.get(i));
 			}
 		}
 	}
@@ -2255,5 +2245,20 @@ public class AppContext {
 			});
 		}
 	}
+
+	private class ResetTrackColorsAction extends KarediAction {
+
+		private ResetTrackColorsAction() {
+			setDisabledCondition(activeTrackIsNull);
+		}
+
+		@Override
+		protected void onAction(ActionEvent event) {
+			Command cmd = new ResetTrackColorsCommand(getActiveTrack());
+			execute(cmd);
+		}
+
+	}
+
 
 }

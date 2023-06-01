@@ -33,7 +33,9 @@ public enum KarediActions {
 	DELETE_SELECTION_HARD,
 	DELETE_LYRICS,
 	DELETE_TRACK,
-	
+
+	RESET_TRACK_COLORS,
+
 	SHOW_PREFERENCES,
 
 	// History
