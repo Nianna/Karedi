@@ -12,7 +12,14 @@ import javafx.scene.Node;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.effect.GaussianBlur;
 import javafx.scene.effect.SepiaTone;
-import javafx.scene.layout.*;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.CornerRadii;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.CycleMethod;
 import javafx.scene.paint.LinearGradient;
@@ -24,6 +31,8 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import main.java.com.github.nianna.karedi.Settings;
 import main.java.com.github.nianna.karedi.song.Note.Type;
+
+import static javafx.scene.effect.BlurType.ONE_PASS_BOX;
 
 public class NoteNodeDisplayer extends Pane {
 	private static final double DIMENSION_CHANGE_THRESHOLD = 2.5;
@@ -61,7 +70,10 @@ public class NoteNodeDisplayer extends Pane {
 		this.setFocusTraversable(true);
 		this.setStyle("");
 
-		color.addListener(obs -> repaintBar());
+		color.addListener(obs -> {
+			repaintBar();
+			repaintLyrics();
+		});
 		barHeightProperty().addListener(this::onBarHeightInvalidated);
 		bar.widthProperty().addListener(this::onBarWidthInvalidated);
 
@@ -91,7 +103,7 @@ public class NoteNodeDisplayer extends Pane {
 		disabledProperty().addListener(this::onDisabledChanged);
 		styleBorderGlow();
 		styleCutBar();
-		fontColor.addListener((observable, oldValue, newValue) -> lyrics.setFill(newValue));
+		fontColor.addListener((observable, oldValue, newValue) -> repaintLyrics());
 	}
 
 	private void styleBorderGlow() {
@@ -174,6 +186,8 @@ public class NoteNodeDisplayer extends Pane {
 				)
 		);
 		lyrics.setFill(fontColor.get());
+		Color outlineColor = isSelected ? getColor().grayscale() : getColor();
+		lyrics.setEffect(new DropShadow(ONE_PASS_BOX, outlineColor, 2, 1, 0, 0));
 	}
 
 	ObjectProperty<Color> colorProperty() {
@@ -255,6 +269,7 @@ public class NoteNodeDisplayer extends Pane {
 				}
 			}
 			isSelected = true;
+			repaintLyrics();
 		}
 	}
 
@@ -270,6 +285,7 @@ public class NoteNodeDisplayer extends Pane {
 				}
 			}
 			isSelected = false;
+			repaintLyrics();
 		}
 	}
 
