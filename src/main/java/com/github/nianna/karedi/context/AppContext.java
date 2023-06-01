@@ -53,7 +53,7 @@ import main.java.com.github.nianna.karedi.command.MergeNotesCommand;
 import main.java.com.github.nianna.karedi.command.MergeNotesCommand.MergeMode;
 import main.java.com.github.nianna.karedi.command.MoveCollectionCommand;
 import main.java.com.github.nianna.karedi.command.PasteCommand;
-import main.java.com.github.nianna.karedi.command.ResetTrackColorsCommand;
+import main.java.com.github.nianna.karedi.command.track.ResetTrackColorsCommand;
 import main.java.com.github.nianna.karedi.command.ResizeNotesCommand;
 import main.java.com.github.nianna.karedi.command.RollLyricsLeftCommand;
 import main.java.com.github.nianna.karedi.command.RollLyricsRightCommand;
@@ -455,7 +455,7 @@ public class AppContext {
 	private boolean saveSongToFile(File file) {
 		if (file != null) {
 			if (songSaver.saveSongToFile(file, getSong())) {
-				lastSavedCommand.set(history.getActiveCommand());
+				lastSavedCommand.set(history.getLastCommandRequiringSave());
 				return true;
 			}
 		}
@@ -625,7 +625,7 @@ public class AppContext {
 
 	// Other
 	public boolean needsSaving() {
-		return getSong() != null && lastSavedCommand.get() != history.getActiveCommand();
+		return getSong() != null && lastSavedCommand.get() != history.getLastCommandRequiringSave();
 	}
 
 	public Logger getMainLogger() {
@@ -979,7 +979,7 @@ public class AppContext {
 
 		private SaveSongAction() {
 			setDisabledCondition(activeSongIsNull
-					.or(lastSavedCommand.isEqualTo(history.activeCommandProperty())));
+					.or(lastSavedCommand.isEqualTo(history.lastCommandRequiringSaveProperty())));
 		}
 
 		@Override

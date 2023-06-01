@@ -30,4 +30,9 @@ public class ChangeTrackFontColorCommand extends ChangePropertyCommand<Color> {
         Settings.saveTrackColor(oldValue, trackNumber);
         super.undo();
     }
+
+    @Override
+    public boolean requiresSave() {
+        return false;
+    }
 }
