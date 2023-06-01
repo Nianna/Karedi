@@ -1,3 +1,6 @@
+[![Java CI](https://github.com/Nianna/Karedi/actions/workflows/maven.yml/badge.svg?branch=master)](https://github.com/Nianna/Karedi/actions/workflows/maven.yml)
+![Java](https://img.shields.io/badge/Java-8-b07219)
+
 # Karedi
 
 Karedi is a new, improved graphical editor designed for creating songs for Ultrastar - one of the most popular karaoke games for PC.
@@ -5,7 +8,9 @@ Its main objective is to simplify the process of creation for both beginners and
 
 The project is still under development, every bug report will be greatly appreciated.
 ##
-![karedi](https://user-images.githubusercontent.com/31940002/30511294-ff9004bc-9ad5-11e7-8b59-f5c45d9d87d0.png)
+
+![karedi](https://github.com/Nianna/Karedi/assets/31940002/568093fb-43cd-4c1e-b8a7-69f188d7e9c2)
+
 
 ## Main features
 Karedi's main features include:
@@ -41,8 +46,6 @@ If you want to run it on Linux, please make sure to use Java distributed by Orac
 ## Downloads
 
 The program is currently released as an executable jar file, you can found the newest version in the [Releases](https://github.com/Nianna/Karedi/releases/latest) section.
-<br><br>
-<b>Quick download: [Karedi-1.0.jar](https://github.com/Nianna/Karedi/releases/download/v1.0.0/Karedi-1.0.0.jar)</a></b>
 
 ## Libraries
 
