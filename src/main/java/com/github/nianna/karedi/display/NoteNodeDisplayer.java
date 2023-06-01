@@ -73,6 +73,8 @@ public class NoteNodeDisplayer extends Pane {
 		StackPane barWithLyricsWrapper = new StackPane();
 		barWithLyricsWrapper.getChildren().addAll(bar, lyrics);
 		barWithLyricsWrapper.setAlignment(Pos.CENTER);
+		barWithLyricsWrapper.maxWidthProperty().bind(bar.maxWidthProperty());
+		barWithLyricsWrapper.minWidthProperty().bind(bar.minWidthProperty());
 
 		noteBox.getChildren().addAll(barWithLyricsWrapper, underBar);
 		underBar.add(tone, 0, 0);
