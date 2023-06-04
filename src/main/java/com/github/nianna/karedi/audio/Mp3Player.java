@@ -53,7 +53,7 @@ public class Mp3Player {
 		private int endFrame;
 		private AdvancedPlayer player;
 
-		public PlayTask(long startMillis, long endMillis) {
+		PlayTask(long startMillis, long endMillis) {
 			super();
 			if (startMillis < endMillis) {
 				startFrame = getFrameForMillis(file.getFPS(), startMillis);

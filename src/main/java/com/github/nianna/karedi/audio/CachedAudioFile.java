@@ -20,7 +20,7 @@ public interface CachedAudioFile {
 	 * 
 	 * @return the array of bytes with audio data
 	 */
-	public byte[] getCache();
+	byte[] getCache();
 
 	/**
 	 * Obtains the frames per second value of this file. It can be later used
@@ -28,21 +28,21 @@ public interface CachedAudioFile {
 	 * 
 	 * @return the frames per second value of this audio file
 	 */
-	public Double getFPS();
+	Double getFPS();
 
 	/**
 	 * Obtains the media length in milliseconds.
 	 * 
 	 * @return the length in milliseconds
 	 */
-	public long getDuration();
+	long getDuration();
 
 	/**
 	 * Gets the associated file.
 	 * 
 	 * @return file
 	 */
-	public File getFile();
+	File getFile();
 
 	/**
 	 * Loads the content of the file and caches it. Updates all properties.
@@ -50,19 +50,19 @@ public interface CachedAudioFile {
 	 * @throws IOException
 	 *             if an input error has occurred
 	 */
-	public void reload() throws IOException;
+	void reload() throws IOException;
 
 	/**
 	 * The volume of the file. It is expressed as a number between 0 and 1, 0.6
 	 * is assumed to be the original volume.
 	 */
-	public DoubleProperty volumeProperty();
+	DoubleProperty volumeProperty();
 
-	default public Double getVolume() {
+	default Double getVolume() {
 		return volumeProperty().get();
 	}
 
-	default public void setVolume(double value) {
+	default void setVolume(double value) {
 		volumeProperty().set(value);
 	}
 
@@ -72,7 +72,7 @@ public interface CachedAudioFile {
 	 * @return the name of the file (just the last name in the pathname's
 	 *         sequence)
 	 */
-	default public String getName() {
+	default String getName() {
 		return getFile().getName();
 	}
 

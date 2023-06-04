@@ -97,7 +97,7 @@ public class LogController implements Controller {
 		private Label date;
 		private Label msg;
 
-		public LogListCell() {
+		LogListCell() {
 			grid = new GridPane();
 			grid.setHgap(10);
 			grid.setVgap(4);

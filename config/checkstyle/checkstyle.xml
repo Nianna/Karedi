@@ -113,7 +113,7 @@
         <!-- Modifier Checks                                    -->
         <!-- See https://checkstyle.org/config_modifier.html -->
 <!--   TODO     <module name="ModifierOrder"/>-->
-<!--   TODO     <module name="RedundantModifier"/>-->
+        <module name="RedundantModifier"/>
 
         <!-- Checks for blocks. You know, those {}'s         -->
         <!-- See https://checkstyle.org/config_blocks.html -->

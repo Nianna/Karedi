@@ -34,7 +34,7 @@ public class AudioFileLoader {
 	private static class LoadMp3FileTask extends Task<Mp3File> {
 		private File file;
 
-		public LoadMp3FileTask(File file) {
+		LoadMp3FileTask(File file) {
 			this.file = file;
 		}
 

@@ -8,5 +8,5 @@ package com.github.nianna.karedi.region;
  *            the type of the units in which the borders can be moved
  */
 public interface Resizable<T> {
-	public void resize(Direction direction, T by);
+	void resize(Direction direction, T by);
 }

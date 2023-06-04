@@ -9,6 +9,6 @@ package com.github.nianna.karedi.region;
  *            expressed
  */
 public interface Movable<T> {
-	public boolean move(Direction direction, T by);
-	public boolean canMove(Direction direction, T by);
+	boolean move(Direction direction, T by);
+	boolean canMove(Direction direction, T by);
 }

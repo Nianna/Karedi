@@ -455,7 +455,7 @@ public class EditorController implements Controller {
 
 	private class TogglePianoVisibilityAction extends KarediAction {
 
-		public TogglePianoVisibilityAction() {
+		TogglePianoVisibilityAction() {
 			super();
 			setDisabledCondition(appContext.activeSongProperty().isNull());
 		}

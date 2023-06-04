@@ -10,7 +10,7 @@ class RescaleNoteToBpmCommand extends Command {
 	private int oldLength;
 	private int oldStart;
 
-	public RescaleNoteToBpmCommand(Note note, double scale) {
+	RescaleNoteToBpmCommand(Note note, double scale) {
 		super(I18N.get("command.rescale_note_bpm"));
 		this.note = note;
 		this.scale = scale;

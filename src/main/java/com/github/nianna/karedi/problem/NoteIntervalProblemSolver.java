@@ -16,7 +16,7 @@ class NoteIntervalProblemSolver implements Solvable {
 	private final Note second;
 	private final int requestedInterval;
 
-	public NoteIntervalProblemSolver(Note first, Note second, int requestedInterval) {
+	NoteIntervalProblemSolver(Note first, Note second, int requestedInterval) {
 		this.first = first;
 		this.second = second;
 		this.requestedInterval = requestedInterval;

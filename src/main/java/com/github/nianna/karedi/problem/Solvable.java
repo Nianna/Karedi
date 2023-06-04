@@ -5,6 +5,6 @@ import java.util.Optional;
 import com.github.nianna.karedi.command.Command;
 
 public interface Solvable {
-	public Optional<Command> getSolution();
-	public Optional<Command> getInvasiveSolution();
+	Optional<Command> getSolution();
+	Optional<Command> getInvasiveSolution();
 }

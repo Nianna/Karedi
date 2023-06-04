@@ -13,10 +13,10 @@ import java.util.List;
  *            be expressed
  */
 public interface MovableContainer<S extends Movable<T>, T> extends Movable<T> {
-	public List<S> getMovableChildren();
+	List<S> getMovableChildren();
 
 	@Override
-	default public boolean move(Direction direction, T by) {
+	default boolean move(Direction direction, T by) {
 		boolean outcome = false;
 		for (S child : getMovableChildren()) {
 			outcome = child.move(direction, by) || outcome;
@@ -25,7 +25,7 @@ public interface MovableContainer<S extends Movable<T>, T> extends Movable<T> {
 	}
 
 	@Override
-	default public boolean canMove(Direction direction, T by) {
+	default boolean canMove(Direction direction, T by) {
 		boolean outcome = false;
 		for (S child : getMovableChildren()) {
 			outcome = child.canMove(direction, by) || outcome;

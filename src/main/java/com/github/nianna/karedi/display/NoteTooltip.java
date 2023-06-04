@@ -13,7 +13,7 @@ class NoteTooltip extends Tooltip {
 	private Note note;
 	private NoteTooltipDisplayer displayer = new NoteTooltipDisplayer();
 
-	public NoteTooltip(AppContext appContext, Note note) {
+	NoteTooltip(AppContext appContext, Note note) {
 		this.appContext = appContext;
 		this.note = note;
 		setOnShowing(this::onShowing);

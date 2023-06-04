@@ -19,7 +19,7 @@ public class ChooseFileDialog extends SkippableDialog<File> {
 	}
 
 	@FXML
-	private final void initialize() {
+	private void initialize() {
 		setOkButtonDisable(true);
 	}
 

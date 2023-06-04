@@ -29,7 +29,7 @@ class SongPlayer {
 	private BeatMillisConverter converter;
 	private Song song;
 
-	public SongPlayer(BeatMillisConverter converter) {
+	SongPlayer(BeatMillisConverter converter) {
 		setConverter(converter);
 	}
 

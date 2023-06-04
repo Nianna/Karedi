@@ -6,7 +6,7 @@ import com.github.nianna.karedi.I18N;
 import com.github.nianna.karedi.song.Note;
 
 public class MergeNotesCommand extends CommandComposite {
-	public static enum MergeMode {
+	public enum MergeMode {
 		TONES,
 		SYNCHRO,
 		LYRICS,
