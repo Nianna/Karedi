@@ -102,8 +102,8 @@
         <module name="EmptyForIteratorPad"/>
         <module name="GenericWhitespace"/>
         <module name="MethodParamPad"/>
-<!--   TODO     <module name="NoWhitespaceAfter"/>-->
-<!--   TODO     <module name="NoWhitespaceBefore"/>-->
+<!--        <module name="NoWhitespaceAfter"/>-->
+        <module name="NoWhitespaceBefore"/>
         <module name="OperatorWrap"/>
         <module name="ParenPad"/>
         <module name="TypecastParenPad"/>

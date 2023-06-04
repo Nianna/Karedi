@@ -14,7 +14,7 @@ public class SaveChangesAlert extends Alert {
 		setHeaderText(null);
 		setContentText(I18N.get("alert.save_changes.content", fileName));
 
-		getButtonTypes().setAll(SAVE_BUTTON, DISCARD_BUTTON , ButtonType.CANCEL);
+		getButtonTypes().setAll(SAVE_BUTTON, DISCARD_BUTTON, ButtonType.CANCEL);
 	}
 
 }
