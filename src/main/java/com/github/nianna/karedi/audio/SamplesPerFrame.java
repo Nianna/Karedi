@@ -13,7 +13,7 @@ public final class SamplesPerFrame {
 	private SamplesPerFrame() {
 	}
 
-	private static final int[][] samplesPerFrame = new int[][] {
+	private static final int[][] SAMPLES_PER_FRAME = new int[][] {
 		{   // MPEG Version 1
 			384,    // Layer1
 	        1152,   // Layer2
@@ -30,11 +30,11 @@ public final class SamplesPerFrame {
 		if (version != null && layer != null) {
 			switch (version) {
 			case MpegFrame.MPEG_VERSION_1_0:
-				return get(samplesPerFrame[0], layer);
+				return get(SAMPLES_PER_FRAME[0], layer);
 			case MpegFrame.MPEG_VERSION_2_0:
-				return get(samplesPerFrame[1], layer);
+				return get(SAMPLES_PER_FRAME[1], layer);
 			case MpegFrame.MPEG_VERSION_2_5:
-				return get(samplesPerFrame[1], layer);
+				return get(SAMPLES_PER_FRAME[1], layer);
 			}
 		}
 		return DEFAULT;

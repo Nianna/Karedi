@@ -13,7 +13,7 @@ class NoteTooltip extends Tooltip {
 	private Note note;
 	private NoteTooltipDisplayer displayer = new NoteTooltipDisplayer();
 
-	public NoteTooltip(AppContext appContext, Note note) {
+	NoteTooltip(AppContext appContext, Note note) {
 		this.appContext = appContext;
 		this.note = note;
 		setOnShowing(this::onShowing);
@@ -30,8 +30,9 @@ class NoteTooltip extends Tooltip {
 		displayer.startBeatProperty().bind(note.startProperty().asString());
 		displayer.startTimeProperty().bind(Bindings.createStringBinding(() -> {
 			double startTime = MathUtils.msToSeconds(appContext.beatToMillis(note.getStart()));
-			if (startTime >= 0)
+			if (startTime >= 0) {
 				return startTime + " s";
+			}
 			return "?";
 		}, note.startProperty()));
 	}

@@ -242,7 +242,7 @@ public class TagsTableController implements Controller {
 			return validator.apply(textField, textField.getText());
 		}
 
-		public TagValueTableCell(Function<Tag, Validator<String>> validatorSupplier) {
+		TagValueTableCell(Function<Tag, Validator<String>> validatorSupplier) {
 			this.validatorSupplier = validatorSupplier;
 			textField.setOnAction(event -> {
 				if (applyValidator().getErrors().size() == 0) {

@@ -4,6 +4,9 @@ import javafx.scene.paint.Color;
 
 public class ColorUtils {
 
+    private ColorUtils() {
+    }
+
     public static String serialize(Color color) {
         return color.toString();
     }

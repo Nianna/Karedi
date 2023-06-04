@@ -9,16 +9,19 @@ import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
 public class I18N {
-	private static Locale POLISH = new Locale("pl", "PL");
-	private static Locale BRITISH_ENGLISH = new Locale("en", "GB");
+	private static final Locale POLISH = new Locale("pl", "PL");
+	private static final Locale BRITISH_ENGLISH = new Locale("en", "GB");
 
 	private static ResourceBundle bundle;
+
+	private I18N() {
+	}
 
 	public static String get(final String key, final Object... args) {
 		if (bundle != null) {
 			try {
 				return MessageFormat.format(bundle.getString(key), args);
-			} catch (IllegalArgumentException| MissingResourceException e) {
+			} catch (IllegalArgumentException | MissingResourceException e) {
 				e.printStackTrace();
 				return key;
 			}

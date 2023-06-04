@@ -15,8 +15,9 @@ public final class BindingsUtils {
 
 	public static <T> ObjectBinding<T> valueAt(ObservableList<T> list, int index) {
 		return Bindings.createObjectBinding(() -> {
-			if (index >= 0 && index < list.size())
+			if (index >= 0 && index < list.size()) {
 				return list.get(index);
+			}
 			return null;
 		}, list);
 	}

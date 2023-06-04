@@ -243,7 +243,7 @@ public class TracksController implements Controller {
 	private class TrackTooltip extends Tooltip {
 		private TitledKeyValueGrid grid = new TitledKeyValueGrid();
 
-		public TrackTooltip(SongTrack track) {
+		TrackTooltip(SongTrack track) {
 			grid.addTitle(track.nameProperty());
 			Label bonusLabel = grid.addRow(I18N.get("tracks.tooltip.golden_bonus"), "");
 			Label beatLabel = grid.addRow(I18N.get("tracks.tooltip.beat_range"), "");
@@ -263,7 +263,7 @@ public class TracksController implements Controller {
 	private class TrackPropertyCheckboxTableCell extends CheckBoxTableCell<SongTrack> {
 		private BiConsumer<SongTrack, Boolean> newValueConsumer;
 
-		public TrackPropertyCheckboxTableCell(TableColumn<SongTrack, Boolean> column,
+		TrackPropertyCheckboxTableCell(TableColumn<SongTrack, Boolean> column,
 				BiConsumer<SongTrack, Boolean> newValueConsumer) {
 			super(column);
 			this.newValueConsumer = newValueConsumer;

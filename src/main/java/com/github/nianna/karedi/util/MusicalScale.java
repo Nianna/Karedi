@@ -23,7 +23,7 @@ public final class MusicalScale {
 
 		private String string;
 
-		private Note(String string) {
+		Note(String string) {
 			this.string = string;
 		}
 

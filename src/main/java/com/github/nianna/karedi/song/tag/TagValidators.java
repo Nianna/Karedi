@@ -14,6 +14,9 @@ import com.github.nianna.karedi.util.StringValidators;
 
 public class TagValidators {
 
+	private TagValidators() {
+	}
+
 	public static Validator<String> forKey(String key) {
 		return TagKey.optionalValueOf(key).map(TagValidators::forKey).orElse(defaultValidator());
 	}

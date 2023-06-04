@@ -251,7 +251,7 @@ public class Player {
 		private long endMillis;
 		private long updateInterval;
 
-		public TimeUpdater(long startMillis, long endMillis, long updateInterval) {
+		TimeUpdater(long startMillis, long endMillis, long updateInterval) {
 			super();
 			this.startMillis = startMillis;
 			this.endMillis = endMillis;

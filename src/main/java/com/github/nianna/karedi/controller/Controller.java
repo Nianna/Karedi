@@ -5,30 +5,30 @@ import javafx.scene.Node;
 import com.github.nianna.karedi.context.AppContext;
 
 public interface Controller {
-	public void setAppContext(AppContext appContext);
-	public Node getContent();
+	void setAppContext(AppContext appContext);
+	Node getContent();
 
-	default public boolean isDisabled() {
+	default boolean isDisabled() {
 		return getContent().isDisabled();
 	}
 
-	default public void setDisable(boolean value) {
+	default void setDisable(boolean value) {
 		getContent().setDisable(value);
 	}
 
-	default public Node getFocusableContent() {
+	default Node getFocusableContent() {
 		return getContent();
 	}
 
-	default public boolean isFocused() {
+	default boolean isFocused() {
 		return getFocusableContent().isFocused();
 	}
 
-	default public void requestFocus() {
+	default void requestFocus() {
 		getFocusableContent().requestFocus();
 	}
 
-	default public ReadOnlyBooleanProperty focusedProperty() {
+	default ReadOnlyBooleanProperty focusedProperty() {
 		return getFocusableContent().focusedProperty();
 	}
 

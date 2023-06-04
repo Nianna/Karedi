@@ -40,7 +40,7 @@ public final class Utils {
 		return true;
 	}
 
-	public static final String getArrow(Direction direction) {
+	public static String getArrow(Direction direction) {
 		switch (direction) {
 		case LEFT:
 			return "\u2190";

@@ -8,14 +8,14 @@ import com.github.nianna.karedi.util.MathUtils;
  */
 public interface IntBounded extends Bounded<Integer> {
 
-	default public boolean isValid() {
+	default boolean isValid() {
 		return getLowerXBound() != null && getUpperXBound() != null && getLowerYBound() != null
 				&& getUpperYBound() != null
 				&& MathUtils.min(getLowerXBound(), getUpperXBound()).equals(getLowerXBound())
 				&& MathUtils.min(getLowerYBound(), getUpperYBound()).equals(getLowerYBound());
 	}
 
-	default public int compareTo(IntBounded o) {
+	default int compareTo(IntBounded o) {
 		if (this.isValid()) {
 			if (o.isValid()) {
 				return compareTo((Bounded<Integer>) o);

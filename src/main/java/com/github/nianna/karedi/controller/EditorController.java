@@ -455,7 +455,7 @@ public class EditorController implements Controller {
 
 	private class TogglePianoVisibilityAction extends KarediAction {
 
-		public TogglePianoVisibilityAction() {
+		TogglePianoVisibilityAction() {
 			super();
 			setDisabledCondition(appContext.activeSongProperty().isNull());
 		}
@@ -526,8 +526,7 @@ public class EditorController implements Controller {
 				return;
 			}
 			if (lastNote != null) {
-				// ignore keyPressed events generated while the key is being
-				// held down
+				// ignore keyPressed events generated while the key is being held down
 			} else {
 				if (event.getCode() == KeyCode.ENTER) {
 					line = null;
@@ -959,7 +958,7 @@ public class EditorController implements Controller {
 	}
 
 	private class NoteLengthChangeScheduler {
-		private final static int TIME_LIMIT = 300;
+		private static final int TIME_LIMIT = 300;
 		private Timer keyPressedTimer = new Timer();
 		private int newLength = 0;
 		private Note currentlyResizedNote = null;

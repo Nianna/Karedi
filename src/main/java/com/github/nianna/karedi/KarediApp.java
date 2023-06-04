@@ -28,9 +28,9 @@ import com.github.nianna.karedi.controller.RootController;
 import com.github.nianna.karedi.dialog.SaveChangesAlert;
 
 public class KarediApp extends Application {
-	private final static String APP_NAME = "Karedi";
-	private final static String BASIC_CSS_STYLESHEET = "/Karedi.css";
-	private final static String NIGHT_MODE_CSS_STYLESHEET = "/NightMode.css";
+	private static final String APP_NAME = "Karedi";
+	private static final String BASIC_CSS_STYLESHEET = "/Karedi.css";
+	private static final String NIGHT_MODE_CSS_STYLESHEET = "/NightMode.css";
 
 	private static KarediApp instance;
 

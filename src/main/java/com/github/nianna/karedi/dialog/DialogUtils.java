@@ -12,6 +12,10 @@ import javafx.scene.text.Text;
 import com.github.nianna.karedi.I18N;
 
 public class DialogUtils {
+
+	private DialogUtils() {
+	}
+
 	public static <T> void addDescription(Dialog<T> dialog, String description, double margin) {
 		GridPane grid = new GridPane();
 		grid.setAlignment(Pos.BASELINE_LEFT);
