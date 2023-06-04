@@ -52,7 +52,7 @@ public class NoteNode {
 		dragger = NodeUtils.makeDraggable(noteDisplayer.getBar());
 
 		dragger.activeProperty().addListener((obsVal, oldVal, newVal) -> {
-			if (newVal == true) {
+			if (newVal) {
 				dragBeatOffset = note.getStart()
 						- editorController.sceneXtoBeat(dragger.getSceneStartPoint().getX());
 			}
