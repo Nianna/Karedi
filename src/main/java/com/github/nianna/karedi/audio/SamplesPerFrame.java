@@ -1,4 +1,4 @@
-package main.java.com.github.nianna.karedi.audio;
+package com.github.nianna.karedi.audio;
 
 import com.mpatric.mp3agic.MpegFrame;
 

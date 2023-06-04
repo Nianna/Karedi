@@ -1,4 +1,4 @@
-package main.java.com.github.nianna.karedi.display;
+package com.github.nianna.karedi.display;
 
 import javafx.beans.Observable;
 import javafx.beans.property.DoubleProperty;
@@ -29,8 +29,8 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
-import main.java.com.github.nianna.karedi.Settings;
-import main.java.com.github.nianna.karedi.song.Note.Type;
+import com.github.nianna.karedi.Settings;
+import com.github.nianna.karedi.song.Note.Type;
 
 import static javafx.scene.effect.BlurType.ONE_PASS_BOX;
 

@@ -1,4 +1,4 @@
-package main.java.com.github.nianna.karedi.song;
+package com.github.nianna.karedi.song;
 
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
@@ -8,13 +8,13 @@ import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.scene.paint.Color;
-import main.java.com.github.nianna.karedi.Settings;
-import main.java.com.github.nianna.karedi.problem.Problem;
-import main.java.com.github.nianna.karedi.problem.Problematic;
-import main.java.com.github.nianna.karedi.region.BoundingBox;
-import main.java.com.github.nianna.karedi.region.IntBounded;
-import main.java.com.github.nianna.karedi.region.MovableContainer;
-import main.java.com.github.nianna.karedi.util.MathUtils;
+import com.github.nianna.karedi.Settings;
+import com.github.nianna.karedi.problem.Problem;
+import com.github.nianna.karedi.problem.Problematic;
+import com.github.nianna.karedi.region.BoundingBox;
+import com.github.nianna.karedi.region.IntBounded;
+import com.github.nianna.karedi.region.MovableContainer;
+import com.github.nianna.karedi.util.MathUtils;
 
 import java.util.ArrayList;
 import java.util.Collection;

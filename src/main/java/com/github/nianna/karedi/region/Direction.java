@@ -1,4 +1,4 @@
-package main.java.com.github.nianna.karedi.region;
+package com.github.nianna.karedi.region;
 
 public enum Direction {
 	LEFT,

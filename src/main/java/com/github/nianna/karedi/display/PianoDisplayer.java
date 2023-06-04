@@ -1,10 +1,10 @@
-package main.java.com.github.nianna.karedi.display;
+package com.github.nianna.karedi.display;
 
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
-import main.java.com.github.nianna.karedi.control.ResizableCanvas;
-import main.java.com.github.nianna.karedi.util.MusicalScale;
-import main.java.com.github.nianna.karedi.util.MusicalScale.Note;
+import com.github.nianna.karedi.control.ResizableCanvas;
+import com.github.nianna.karedi.util.MusicalScale;
+import com.github.nianna.karedi.util.MusicalScale.Note;
 
 class PianoDisplayer extends ResizableCanvas {
 	private static final double DOT_DEFAULT_RADIUS = 5;

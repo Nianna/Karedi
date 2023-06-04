@@ -1,13 +1,13 @@
-package main.java.com.github.nianna.karedi.parser;
+package com.github.nianna.karedi.parser;
 
-import main.java.com.github.nianna.karedi.parser.element.InvalidSongElementException;
-import main.java.com.github.nianna.karedi.parser.element.VisitableSongElement;
-import main.java.com.github.nianna.karedi.parser.elementparser.EndOfSongParser;
-import main.java.com.github.nianna.karedi.parser.elementparser.LineBreakParser;
-import main.java.com.github.nianna.karedi.parser.elementparser.NoteParser;
-import main.java.com.github.nianna.karedi.parser.elementparser.SongElementParser;
-import main.java.com.github.nianna.karedi.parser.elementparser.TagParser;
-import main.java.com.github.nianna.karedi.parser.elementparser.TrackParser;
+import com.github.nianna.karedi.parser.element.InvalidSongElementException;
+import com.github.nianna.karedi.parser.element.VisitableSongElement;
+import com.github.nianna.karedi.parser.elementparser.EndOfSongParser;
+import com.github.nianna.karedi.parser.elementparser.LineBreakParser;
+import com.github.nianna.karedi.parser.elementparser.NoteParser;
+import com.github.nianna.karedi.parser.elementparser.SongElementParser;
+import com.github.nianna.karedi.parser.elementparser.TagParser;
+import com.github.nianna.karedi.parser.elementparser.TrackParser;
 
 /**
  * Creates appropriate {@link VisitableSongElement}s from their string representations.

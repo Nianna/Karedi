@@ -2,13 +2,13 @@
 
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import main.java.com.github.nianna.karedi.display.MainChart?>
+<?import com.github.nianna.karedi.display.MainChart?>
 <?import javafx.scene.shape.Rectangle?>
-<?import main.java.com.github.nianna.karedi.display.Piano?>
+<?import com.github.nianna.karedi.display.Piano?>
 
 <AnchorPane fx:id="pane" xmlns="http://javafx.com/javafx/8.0.60"
 	xmlns:fx="http://javafx.com/fxml/1"
-	fx:controller="main.java.com.github.nianna.karedi.controller.EditorController">
+	fx:controller="com.github.nianna.karedi.controller.EditorController">
 	<children>
 		<HBox fx:id="hBox" onKeyPressed="#onKeyPressed"
 			AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"

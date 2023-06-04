@@ -1,15 +1,15 @@
-package main.java.com.github.nianna.karedi.problem;
+package com.github.nianna.karedi.problem;
 
 import java.util.Arrays;
 import java.util.Optional;
 
-import main.java.com.github.nianna.karedi.I18N;
-import main.java.com.github.nianna.karedi.command.Command;
-import main.java.com.github.nianna.karedi.command.CommandComposite;
-import main.java.com.github.nianna.karedi.command.MoveOneCommand;
-import main.java.com.github.nianna.karedi.command.ResizeNotesCommand;
-import main.java.com.github.nianna.karedi.region.Direction;
-import main.java.com.github.nianna.karedi.song.Note;
+import com.github.nianna.karedi.I18N;
+import com.github.nianna.karedi.command.Command;
+import com.github.nianna.karedi.command.CommandComposite;
+import com.github.nianna.karedi.command.MoveOneCommand;
+import com.github.nianna.karedi.command.ResizeNotesCommand;
+import com.github.nianna.karedi.region.Direction;
+import com.github.nianna.karedi.song.Note;
 
 class NoteIntervalProblemSolver implements Solvable {
 	private final Note first;

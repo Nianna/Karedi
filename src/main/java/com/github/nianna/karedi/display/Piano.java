@@ -1,4 +1,4 @@
-package main.java.com.github.nianna.karedi.display;
+package com.github.nianna.karedi.display;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,8 +10,8 @@ import javafx.beans.property.SimpleIntegerProperty;
 import javafx.scene.control.Tooltip;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Region;
-import main.java.com.github.nianna.karedi.audio.MidiPlayer;
-import main.java.com.github.nianna.karedi.util.MusicalScale;
+import com.github.nianna.karedi.audio.MidiPlayer;
+import com.github.nianna.karedi.util.MusicalScale;
 
 public class Piano extends Region {
 	private static final double WIDTH = 70;

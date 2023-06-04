@@ -1,7 +1,7 @@
-package main.java.com.github.nianna.karedi.context;
+package com.github.nianna.karedi.context;
 
-import main.java.com.github.nianna.karedi.parser.element.VisitableSongElement;
-import main.java.com.github.nianna.karedi.song.Song;
+import com.github.nianna.karedi.parser.element.VisitableSongElement;
+import com.github.nianna.karedi.song.Song;
 
 public interface SongBuilder {
 	public Song getResult();

@@ -1,4 +1,4 @@
-package main.java.com.github.nianna.karedi.dialog;
+package com.github.nianna.karedi.dialog;
 
 import java.util.Optional;
 
@@ -8,11 +8,11 @@ import javafx.application.Platform;
 import javafx.beans.Observable;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
-import main.java.com.github.nianna.karedi.control.NonNegativeDoubleTextField;
-import main.java.com.github.nianna.karedi.dialog.ModifyBpmDialog.BpmEditResult;
-import main.java.com.github.nianna.karedi.song.tag.TagKey;
-import main.java.com.github.nianna.karedi.song.tag.TagValidators;
-import main.java.com.github.nianna.karedi.util.NumericNodeUtils;
+import com.github.nianna.karedi.control.NonNegativeDoubleTextField;
+import com.github.nianna.karedi.dialog.ModifyBpmDialog.BpmEditResult;
+import com.github.nianna.karedi.song.tag.TagKey;
+import com.github.nianna.karedi.song.tag.TagValidators;
+import com.github.nianna.karedi.util.NumericNodeUtils;
 
 public abstract class ModifyBpmDialog extends ValidatedDialog<BpmEditResult> {
 	@FXML

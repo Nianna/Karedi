@@ -1,4 +1,4 @@
-package main.java.com.github.nianna.karedi.context;
+package com.github.nianna.karedi.context;
 
 import java.util.Collection;
 import java.util.Optional;

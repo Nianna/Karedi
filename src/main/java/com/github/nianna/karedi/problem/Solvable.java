@@ -1,8 +1,8 @@
-package main.java.com.github.nianna.karedi.problem;
+package com.github.nianna.karedi.problem;
 
 import java.util.Optional;
 
-import main.java.com.github.nianna.karedi.command.Command;
+import com.github.nianna.karedi.command.Command;
 
 public interface Solvable {
 	public Optional<Command> getSolution();

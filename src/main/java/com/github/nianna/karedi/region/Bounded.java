@@ -1,4 +1,4 @@
-package main.java.com.github.nianna.karedi.region;
+package com.github.nianna.karedi.region;
 
 import javafx.beans.Observable;
 import javafx.beans.property.ReadOnlyObjectProperty;

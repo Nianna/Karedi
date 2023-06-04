@@ -1,7 +1,7 @@
-package main.java.com.github.nianna.karedi.parser;
+package com.github.nianna.karedi.parser;
 
-import main.java.com.github.nianna.karedi.parser.element.InvalidSongElementException;
-import main.java.com.github.nianna.karedi.parser.element.VisitableSongElement;
+import com.github.nianna.karedi.parser.element.InvalidSongElementException;
+import com.github.nianna.karedi.parser.element.VisitableSongElement;
 
 /**
  * Creates abstract song elements from correctly formatted Strings.

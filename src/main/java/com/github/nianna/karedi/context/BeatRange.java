@@ -1,10 +1,10 @@
-package main.java.com.github.nianna.karedi.context;
+package com.github.nianna.karedi.context;
 
 import javafx.beans.InvalidationListener;
 import javafx.beans.property.ReadOnlyIntegerProperty;
 import javafx.beans.property.ReadOnlyIntegerWrapper;
-import main.java.com.github.nianna.karedi.region.IntBounded;
-import main.java.com.github.nianna.karedi.util.BeatMillisConverter;
+import com.github.nianna.karedi.region.IntBounded;
+import com.github.nianna.karedi.util.BeatMillisConverter;
 
 public class BeatRange {
 	private static final int MIN_BEAT = 0;

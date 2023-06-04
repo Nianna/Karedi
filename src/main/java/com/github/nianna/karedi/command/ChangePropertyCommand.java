@@ -1,4 +1,4 @@
-package main.java.com.github.nianna.karedi.command;
+package com.github.nianna.karedi.command;
 
 import java.util.function.Consumer;
 import java.util.function.Supplier;

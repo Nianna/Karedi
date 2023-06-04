@@ -1,7 +1,7 @@
-package main.java.com.github.nianna.karedi.dialog;
+package com.github.nianna.karedi.dialog;
 
 import javafx.scene.control.Alert;
-import main.java.com.github.nianna.karedi.I18N;
+import com.github.nianna.karedi.I18N;
 
 public class ExportWithErrorsAlert extends Alert {
 

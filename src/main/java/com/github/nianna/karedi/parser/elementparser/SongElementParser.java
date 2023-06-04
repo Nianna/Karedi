@@ -1,11 +1,11 @@
-package main.java.com.github.nianna.karedi.parser.elementparser;
+package com.github.nianna.karedi.parser.elementparser;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import main.java.com.github.nianna.karedi.parser.Parser;
-import main.java.com.github.nianna.karedi.parser.element.InvalidSongElementException;
-import main.java.com.github.nianna.karedi.parser.element.VisitableSongElement;
+import com.github.nianna.karedi.parser.Parser;
+import com.github.nianna.karedi.parser.element.InvalidSongElementException;
+import com.github.nianna.karedi.parser.element.VisitableSongElement;
 
 /**
  * The base class for all parsers that are responsible for recognizing a

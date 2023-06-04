@@ -1,12 +1,12 @@
-package main.java.com.github.nianna.karedi.context;
+package com.github.nianna.karedi.context;
 
 import javafx.beans.InvalidationListener;
 import javafx.beans.property.ReadOnlyObjectProperty;
-import main.java.com.github.nianna.karedi.region.Area;
-import main.java.com.github.nianna.karedi.region.BoundingBox;
-import main.java.com.github.nianna.karedi.region.Direction;
-import main.java.com.github.nianna.karedi.region.IntBounded;
-import main.java.com.github.nianna.karedi.util.MusicalScale;
+import com.github.nianna.karedi.region.Area;
+import com.github.nianna.karedi.region.BoundingBox;
+import com.github.nianna.karedi.region.Direction;
+import com.github.nianna.karedi.region.IntBounded;
+import com.github.nianna.karedi.util.MusicalScale;
 
 public class VisibleArea implements IntBounded {
 	public static final int MIN_WIDTH = 4;

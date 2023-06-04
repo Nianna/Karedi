@@ -1,4 +1,4 @@
-package main.java.com.github.nianna.karedi.context;
+package com.github.nianna.karedi.context;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -16,10 +16,10 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.logging.Logger;
 
-import main.java.com.github.nianna.karedi.I18N;
-import main.java.com.github.nianna.karedi.parser.Parser;
-import main.java.com.github.nianna.karedi.parser.element.InvalidSongElementException;
-import main.java.com.github.nianna.karedi.song.Song;
+import com.github.nianna.karedi.I18N;
+import com.github.nianna.karedi.parser.Parser;
+import com.github.nianna.karedi.parser.element.InvalidSongElementException;
+import com.github.nianna.karedi.song.Song;
 
 public class SongLoader {
 	private static final String UTF8_BOM = "\uFEFF";

@@ -1,4 +1,4 @@
-package main.java.com.github.nianna.karedi.parser.elementunparser;
+package com.github.nianna.karedi.parser.elementunparser;
 
 import java.util.Objects;
 

@@ -1,13 +1,13 @@
-package main.java.com.github.nianna.karedi.song;
+package com.github.nianna.karedi.song;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import main.java.com.github.nianna.karedi.problem.InvalidNoteLengthProblem;
-import main.java.com.github.nianna.karedi.problem.InvalidNoteLyricsProblem;
-import main.java.com.github.nianna.karedi.problem.NotNormalizedNoteLyricsProblem;
-import main.java.com.github.nianna.karedi.problem.Problem;
-import main.java.com.github.nianna.karedi.problem.Problematic;
-import main.java.com.github.nianna.karedi.util.LyricsHelper;
+import com.github.nianna.karedi.problem.InvalidNoteLengthProblem;
+import com.github.nianna.karedi.problem.InvalidNoteLyricsProblem;
+import com.github.nianna.karedi.problem.NotNormalizedNoteLyricsProblem;
+import com.github.nianna.karedi.problem.Problem;
+import com.github.nianna.karedi.problem.Problematic;
+import com.github.nianna.karedi.util.LyricsHelper;
 
 public class NoteChecker implements Problematic {
 	private ObservableList<Problem> problems = FXCollections.observableArrayList();

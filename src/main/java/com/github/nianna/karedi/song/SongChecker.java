@@ -1,28 +1,28 @@
-package main.java.com.github.nianna.karedi.song;
+package com.github.nianna.karedi.song;
 
 import java.util.Optional;
 
 import org.controlsfx.validation.ValidationResult;
 
 import javafx.collections.ObservableList;
-import main.java.com.github.nianna.karedi.problem.InvalidMedleyBeatRangeProblem;
-import main.java.com.github.nianna.karedi.problem.InvalidMedleyLengthProblem;
-import main.java.com.github.nianna.karedi.problem.MedleyMissingProblem;
-import main.java.com.github.nianna.karedi.problem.NonZeroFirstBeatProblem;
-import main.java.com.github.nianna.karedi.problem.NotesAfterEndProblem;
-import main.java.com.github.nianna.karedi.problem.NotesBeforeStartProblem;
-import main.java.com.github.nianna.karedi.problem.Problem;
-import main.java.com.github.nianna.karedi.problem.Problem.Severity;
-import main.java.com.github.nianna.karedi.problem.Problematic;
-import main.java.com.github.nianna.karedi.problem.ProblemsCombiner;
-import main.java.com.github.nianna.karedi.problem.TagValidationErrorProblem;
-import main.java.com.github.nianna.karedi.song.tag.Tag;
-import main.java.com.github.nianna.karedi.song.tag.TagKey;
-import main.java.com.github.nianna.karedi.song.tag.TagValidators;
-import main.java.com.github.nianna.karedi.util.Converter;
-import main.java.com.github.nianna.karedi.util.ListenersUtils;
-import main.java.com.github.nianna.karedi.util.MathUtils;
-import main.java.com.github.nianna.karedi.util.ValidationUtils;
+import com.github.nianna.karedi.problem.InvalidMedleyBeatRangeProblem;
+import com.github.nianna.karedi.problem.InvalidMedleyLengthProblem;
+import com.github.nianna.karedi.problem.MedleyMissingProblem;
+import com.github.nianna.karedi.problem.NonZeroFirstBeatProblem;
+import com.github.nianna.karedi.problem.NotesAfterEndProblem;
+import com.github.nianna.karedi.problem.NotesBeforeStartProblem;
+import com.github.nianna.karedi.problem.Problem;
+import com.github.nianna.karedi.problem.Problem.Severity;
+import com.github.nianna.karedi.problem.Problematic;
+import com.github.nianna.karedi.problem.ProblemsCombiner;
+import com.github.nianna.karedi.problem.TagValidationErrorProblem;
+import com.github.nianna.karedi.song.tag.Tag;
+import com.github.nianna.karedi.song.tag.TagKey;
+import com.github.nianna.karedi.song.tag.TagValidators;
+import com.github.nianna.karedi.util.Converter;
+import com.github.nianna.karedi.util.ListenersUtils;
+import com.github.nianna.karedi.util.MathUtils;
+import com.github.nianna.karedi.util.ValidationUtils;
 
 public class SongChecker implements Problematic {
 	private Song song;

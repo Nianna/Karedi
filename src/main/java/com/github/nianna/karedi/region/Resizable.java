@@ -1,4 +1,4 @@
-package main.java.com.github.nianna.karedi.region;
+package com.github.nianna.karedi.region;
 
 /**
  * A {@code Resizable} can be understood as a two-dimensional region whose size

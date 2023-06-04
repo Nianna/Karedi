@@ -9,7 +9,7 @@ import javafx.beans.binding.IntegerBinding;
 import javafx.beans.binding.ObjectBinding;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import main.java.com.github.nianna.karedi.util.BindingsUtils;
+import com.github.nianna.karedi.util.BindingsUtils;
 
 public class BindingsUtilsTest {
 	ObservableList<Integer> list = FXCollections.observableArrayList();

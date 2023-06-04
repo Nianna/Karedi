@@ -1,9 +1,9 @@
-package main.java.com.github.nianna.karedi.command.track;
+package com.github.nianna.karedi.command.track;
 
-import main.java.com.github.nianna.karedi.I18N;
-import main.java.com.github.nianna.karedi.Settings;
-import main.java.com.github.nianna.karedi.command.CommandComposite;
-import main.java.com.github.nianna.karedi.song.SongTrack;
+import com.github.nianna.karedi.I18N;
+import com.github.nianna.karedi.Settings;
+import com.github.nianna.karedi.command.CommandComposite;
+import com.github.nianna.karedi.song.SongTrack;
 
 public class ResetTrackColorsCommand extends CommandComposite {
 

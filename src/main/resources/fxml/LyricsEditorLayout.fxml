@@ -6,5 +6,5 @@
 
 <AnchorPane fx:id="pane" xmlns="http://javafx.com/javafx/8.0.60"
 	xmlns:fx="http://javafx.com/fxml/1"
-	fx:controller="main.java.com.github.nianna.karedi.controller.LyricsEditorController">
+	fx:controller="com.github.nianna.karedi.controller.LyricsEditorController">
 </AnchorPane>

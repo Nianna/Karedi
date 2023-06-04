@@ -1,4 +1,4 @@
-package main.java.com.github.nianna.karedi.display;
+package com.github.nianna.karedi.display;
 
 import javafx.beans.property.ReadOnlyDoubleProperty;
 import javafx.beans.property.ReadOnlyDoubleWrapper;
@@ -14,8 +14,8 @@ import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
 import javafx.util.Pair;
 import javafx.util.StringConverter;
-import main.java.com.github.nianna.karedi.control.Grid;
-import main.java.com.github.nianna.karedi.util.MathUtils;
+import com.github.nianna.karedi.control.Grid;
+import com.github.nianna.karedi.util.MathUtils;
 
 import java.util.List;
 import java.util.stream.Collectors;

@@ -1,4 +1,4 @@
-package main.java.com.github.nianna.karedi.song.tag;
+package com.github.nianna.karedi.song.tag;
 
 import java.time.Year;
 import java.util.Optional;
@@ -7,10 +7,10 @@ import org.controlsfx.validation.ValidationResult;
 import org.controlsfx.validation.Validator;
 
 import javafx.scene.control.Control;
-import main.java.com.github.nianna.karedi.I18N;
-import main.java.com.github.nianna.karedi.util.Converter;
-import main.java.com.github.nianna.karedi.util.ForbiddenCharacterRegex;
-import main.java.com.github.nianna.karedi.util.StringValidators;
+import com.github.nianna.karedi.I18N;
+import com.github.nianna.karedi.util.Converter;
+import com.github.nianna.karedi.util.ForbiddenCharacterRegex;
+import com.github.nianna.karedi.util.StringValidators;
 
 public class TagValidators {
 

@@ -1,4 +1,4 @@
-package main.java.com.github.nianna.karedi.song;
+package com.github.nianna.karedi.song;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -15,17 +15,17 @@ import javafx.beans.property.ReadOnlyObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
-import main.java.com.github.nianna.karedi.problem.Problem;
-import main.java.com.github.nianna.karedi.problem.Problematic;
-import main.java.com.github.nianna.karedi.region.BoundingBox;
-import main.java.com.github.nianna.karedi.region.IntBounded;
-import main.java.com.github.nianna.karedi.song.tag.Tag;
-import main.java.com.github.nianna.karedi.song.tag.TagKey;
-import main.java.com.github.nianna.karedi.util.BeatMillisConverter;
-import main.java.com.github.nianna.karedi.util.BindingsUtils;
-import main.java.com.github.nianna.karedi.util.Converter;
-import main.java.com.github.nianna.karedi.util.ListenersManager;
-import main.java.com.github.nianna.karedi.util.ListenersUtils;
+import com.github.nianna.karedi.problem.Problem;
+import com.github.nianna.karedi.problem.Problematic;
+import com.github.nianna.karedi.region.BoundingBox;
+import com.github.nianna.karedi.region.IntBounded;
+import com.github.nianna.karedi.song.tag.Tag;
+import com.github.nianna.karedi.song.tag.TagKey;
+import com.github.nianna.karedi.util.BeatMillisConverter;
+import com.github.nianna.karedi.util.BindingsUtils;
+import com.github.nianna.karedi.util.Converter;
+import com.github.nianna.karedi.util.ListenersManager;
+import com.github.nianna.karedi.util.ListenersUtils;
 
 public class Song implements IntBounded, Problematic {
 	public static final double DEFAULT_BPM = 240;

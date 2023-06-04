@@ -1,4 +1,4 @@
-package main.java.com.github.nianna.karedi.controller;
+package com.github.nianna.karedi.controller;
 
 import javafx.beans.Observable;
 import javafx.fxml.FXML;
@@ -8,10 +8,10 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.MenuItem;
 import javafx.scene.layout.AnchorPane;
 import javafx.util.Callback;
-import main.java.com.github.nianna.karedi.action.KarediActions;
-import main.java.com.github.nianna.karedi.command.Command;
-import main.java.com.github.nianna.karedi.context.AppContext;
-import main.java.com.github.nianna.karedi.util.BindingsUtils;
+import com.github.nianna.karedi.action.KarediActions;
+import com.github.nianna.karedi.command.Command;
+import com.github.nianna.karedi.context.AppContext;
+import com.github.nianna.karedi.util.BindingsUtils;
 
 public class HistoryController implements Controller {
 	@FXML

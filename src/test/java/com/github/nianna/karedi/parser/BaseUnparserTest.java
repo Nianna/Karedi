@@ -8,14 +8,14 @@ import java.util.stream.Collectors;
 import org.junit.Assert;
 import org.junit.Test;
 
-import main.java.com.github.nianna.karedi.parser.BaseUnparser;
-import main.java.com.github.nianna.karedi.parser.element.EndOfSongElement;
-import main.java.com.github.nianna.karedi.parser.element.LineBreakElement;
-import main.java.com.github.nianna.karedi.parser.element.NoteElement;
-import main.java.com.github.nianna.karedi.parser.element.NoteElement.Type;
-import main.java.com.github.nianna.karedi.parser.element.TagElement;
-import main.java.com.github.nianna.karedi.parser.element.TrackElement;
-import main.java.com.github.nianna.karedi.parser.element.VisitableSongElement;
+import com.github.nianna.karedi.parser.BaseUnparser;
+import com.github.nianna.karedi.parser.element.EndOfSongElement;
+import com.github.nianna.karedi.parser.element.LineBreakElement;
+import com.github.nianna.karedi.parser.element.NoteElement;
+import com.github.nianna.karedi.parser.element.NoteElement.Type;
+import com.github.nianna.karedi.parser.element.TagElement;
+import com.github.nianna.karedi.parser.element.TrackElement;
+import com.github.nianna.karedi.parser.element.VisitableSongElement;
 
 public class BaseUnparserTest {
 	private static BaseUnparser unparser = new BaseUnparser();

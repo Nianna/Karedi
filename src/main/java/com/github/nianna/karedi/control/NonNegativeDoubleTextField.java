@@ -1,10 +1,10 @@
-package main.java.com.github.nianna.karedi.control;
+package com.github.nianna.karedi.control;
 
 import java.util.Optional;
 
-import main.java.com.github.nianna.karedi.util.Converter;
-import main.java.com.github.nianna.karedi.util.ForbiddenCharacterRegex;
-import main.java.com.github.nianna.karedi.util.MathUtils;
+import com.github.nianna.karedi.util.Converter;
+import com.github.nianna.karedi.util.ForbiddenCharacterRegex;
+import com.github.nianna.karedi.util.MathUtils;
 
 public class NonNegativeDoubleTextField extends RestrictedTextField {
 	private static final int ROUND_TO_PLACES = 3;

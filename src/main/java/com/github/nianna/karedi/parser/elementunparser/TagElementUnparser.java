@@ -1,6 +1,6 @@
-package main.java.com.github.nianna.karedi.parser.elementunparser;
+package com.github.nianna.karedi.parser.elementunparser;
 
-import main.java.com.github.nianna.karedi.parser.element.TagElement;
+import com.github.nianna.karedi.parser.element.TagElement;
 
 public class TagElementUnparser extends SongElementUnparser {
 

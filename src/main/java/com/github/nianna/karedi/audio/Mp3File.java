@@ -1,4 +1,4 @@
-package main.java.com.github.nianna.karedi.audio;
+package com.github.nianna.karedi.audio;
 
 import java.io.File;
 import java.io.IOException;
@@ -9,7 +9,7 @@ import com.mpatric.mp3agic.UnsupportedTagException;
 
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
-import main.java.com.github.nianna.karedi.I18N;
+import com.github.nianna.karedi.I18N;
 
 public class Mp3File implements CachedAudioFile {
 	private static final Logger LOGGER = Logger.getLogger(Mp3File.class.getName());

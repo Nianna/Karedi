@@ -1,9 +1,9 @@
-package main.java.com.github.nianna.karedi.command;
+package com.github.nianna.karedi.command;
 
 import javafx.util.Pair;
-import main.java.com.github.nianna.karedi.I18N;
-import main.java.com.github.nianna.karedi.song.Note;
-import main.java.com.github.nianna.karedi.util.LyricsHelper;
+import com.github.nianna.karedi.I18N;
+import com.github.nianna.karedi.song.Note;
+import com.github.nianna.karedi.util.LyricsHelper;
 
 public class SplitNoteCommand extends CommandComposite {
 	private Note note;

@@ -1,4 +1,4 @@
-package main.java.com.github.nianna.karedi.parser.element;
+package com.github.nianna.karedi.parser.element;
 
 public class InvalidSongElementException extends Exception {
 	private static final long serialVersionUID = 183063255466120123L;

@@ -1,15 +1,15 @@
-package main.java.com.github.nianna.karedi.song;
+package com.github.nianna.karedi.song;
 
 import javafx.collections.ObservableList;
-import main.java.com.github.nianna.karedi.problem.IntervalTooSmallProblem;
-import main.java.com.github.nianna.karedi.problem.NoIntervalBetweenLinesProblem;
-import main.java.com.github.nianna.karedi.problem.OverlappingLinesProblem;
-import main.java.com.github.nianna.karedi.problem.Problem;
-import main.java.com.github.nianna.karedi.problem.Problematic;
-import main.java.com.github.nianna.karedi.problem.ProblemsCombiner;
-import main.java.com.github.nianna.karedi.problem.UncommonGoldenBonusProblem;
-import main.java.com.github.nianna.karedi.util.ListenersUtils;
-import main.java.com.github.nianna.karedi.util.MathUtils;
+import com.github.nianna.karedi.problem.IntervalTooSmallProblem;
+import com.github.nianna.karedi.problem.NoIntervalBetweenLinesProblem;
+import com.github.nianna.karedi.problem.OverlappingLinesProblem;
+import com.github.nianna.karedi.problem.Problem;
+import com.github.nianna.karedi.problem.Problematic;
+import com.github.nianna.karedi.problem.ProblemsCombiner;
+import com.github.nianna.karedi.problem.UncommonGoldenBonusProblem;
+import com.github.nianna.karedi.util.ListenersUtils;
+import com.github.nianna.karedi.util.MathUtils;
 
 public class SongTrackChecker implements Problematic {
 	private SongTrack track;

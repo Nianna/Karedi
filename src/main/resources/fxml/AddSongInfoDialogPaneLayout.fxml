@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
-<?import main.java.com.github.nianna.karedi.control.NonNegativeIntegerTextField?>
+<?import com.github.nianna.karedi.control.NonNegativeIntegerTextField?>
 
 <!-- <?import org.controlsfx.glyphfont.*?> -->
 

@@ -10,8 +10,8 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import org.controlsfx.glyphfont.*?>
-<?import main.java.com.github.nianna.karedi.control.FilenameTextField?>
-<?import main.java.com.github.nianna.karedi.control.ManageableGridPane?>
+<?import com.github.nianna.karedi.control.FilenameTextField?>
+<?import com.github.nianna.karedi.control.ManageableGridPane?>
 
 <!-- <?import org.controlsfx.glyphfont.*?> -->
 

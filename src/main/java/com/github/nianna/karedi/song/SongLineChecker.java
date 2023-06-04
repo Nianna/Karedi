@@ -1,12 +1,12 @@
-package main.java.com.github.nianna.karedi.song;
+package com.github.nianna.karedi.song;
 
 import javafx.collections.ObservableList;
-import main.java.com.github.nianna.karedi.problem.ConnectedNotesProblem;
-import main.java.com.github.nianna.karedi.problem.OverlappingNotesProblem;
-import main.java.com.github.nianna.karedi.problem.Problem;
-import main.java.com.github.nianna.karedi.problem.Problematic;
-import main.java.com.github.nianna.karedi.problem.ProblemsCombiner;
-import main.java.com.github.nianna.karedi.util.ListenersUtils;
+import com.github.nianna.karedi.problem.ConnectedNotesProblem;
+import com.github.nianna.karedi.problem.OverlappingNotesProblem;
+import com.github.nianna.karedi.problem.Problem;
+import com.github.nianna.karedi.problem.Problematic;
+import com.github.nianna.karedi.problem.ProblemsCombiner;
+import com.github.nianna.karedi.util.ListenersUtils;
 
 public class SongLineChecker implements Problematic {
 	private ProblemsCombiner combiner;

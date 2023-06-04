@@ -5,21 +5,6 @@
 	<artifactId>Karedi</artifactId>
 	<version>1.2.1</version>
 	<build>
-		<sourceDirectory>src</sourceDirectory>
-		<resources>
-			<resource>
-				<directory>src</directory>
-				<excludes>
-					<exclude>**/*.java</exclude>
-				</excludes>
-			</resource>
-			<resource>
-				<directory>src/main/resources/com/github/nianna/karedi</directory>
-				<excludes>
-					<exclude>**/*.java</exclude>
-				</excludes>
-			</resource>
-		</resources>
 		<plugins>
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
@@ -36,7 +21,7 @@
 				<configuration>
 					<archive>
 						<manifest>
-							<mainClass>main.java.com.github.nianna.karedi.KarediApp</mainClass>
+							<mainClass>com.github.nianna.karedi.KarediApp</mainClass>
 						</manifest>
 					</archive>
 				</configuration>
@@ -47,7 +32,7 @@
 				<configuration>
 					<archive>
 						<manifest>
-							<mainClass>main.java.com.github.nianna.karedi.KarediApp</mainClass>
+							<mainClass>com.github.nianna.karedi.KarediApp</mainClass>
 						</manifest>
 					</archive>
 					<descriptorRefs>

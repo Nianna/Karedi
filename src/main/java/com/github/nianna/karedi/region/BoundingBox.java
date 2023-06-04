@@ -1,4 +1,4 @@
-package main.java.com.github.nianna.karedi.region;
+package com.github.nianna.karedi.region;
 
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
@@ -6,8 +6,8 @@ import javafx.beans.property.ReadOnlyObjectProperty;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
-import main.java.com.github.nianna.karedi.util.ListenersManager;
-import main.java.com.github.nianna.karedi.util.MathUtils;
+import com.github.nianna.karedi.util.ListenersManager;
+import com.github.nianna.karedi.util.MathUtils;
 
 /**
  * A {@code BoundingBox} is the smallest rectangle in which all of the passed

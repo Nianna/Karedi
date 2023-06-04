@@ -4,7 +4,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import main.java.com.github.nianna.karedi.util.BeatMillisConverter;
+import com.github.nianna.karedi.util.BeatMillisConverter;
 
 public class BeatMillisConverterTest {
 	private static final double BPM = 300;

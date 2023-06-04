@@ -1,4 +1,4 @@
-package main.java.com.github.nianna.karedi.parser.element;
+package com.github.nianna.karedi.parser.element;
 
 public class EndOfSongElement implements VisitableSongElement {
 

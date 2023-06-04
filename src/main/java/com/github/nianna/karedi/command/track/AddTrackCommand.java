@@ -1,12 +1,12 @@
-package main.java.com.github.nianna.karedi.command.track;
+package com.github.nianna.karedi.command.track;
 
 import java.util.List;
 
-import main.java.com.github.nianna.karedi.I18N;
-import main.java.com.github.nianna.karedi.command.Command;
-import main.java.com.github.nianna.karedi.song.Song;
-import main.java.com.github.nianna.karedi.song.SongLine;
-import main.java.com.github.nianna.karedi.song.SongTrack;
+import com.github.nianna.karedi.I18N;
+import com.github.nianna.karedi.command.Command;
+import com.github.nianna.karedi.song.Song;
+import com.github.nianna.karedi.song.SongLine;
+import com.github.nianna.karedi.song.SongTrack;
 
 public class AddTrackCommand extends Command {
 	private SongTrack track;

@@ -7,7 +7,7 @@
 
 <AnchorPane fx:id="pane" xmlns="http://javafx.com/javafx/8.0.60"
 	xmlns:fx="http://javafx.com/fxml/1"
-	fx:controller="main.java.com.github.nianna.karedi.controller.HistoryController">
+	fx:controller="com.github.nianna.karedi.controller.HistoryController">
 	<children>
 		<ListView fx:id="list" disable="true" prefHeight="200.0"
 			prefWidth="200.0" AnchorPane.bottomAnchor="0.0"

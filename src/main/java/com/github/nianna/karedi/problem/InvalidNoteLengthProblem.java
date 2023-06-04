@@ -1,15 +1,15 @@
-package main.java.com.github.nianna.karedi.problem;
+package com.github.nianna.karedi.problem;
 
 import java.util.Arrays;
 import java.util.Optional;
 
-import main.java.com.github.nianna.karedi.I18N;
-import main.java.com.github.nianna.karedi.command.Command;
-import main.java.com.github.nianna.karedi.command.ResizeNotesCommand;
-import main.java.com.github.nianna.karedi.region.BoundingBox;
-import main.java.com.github.nianna.karedi.region.Direction;
-import main.java.com.github.nianna.karedi.region.IntBounded;
-import main.java.com.github.nianna.karedi.song.Note;
+import com.github.nianna.karedi.I18N;
+import com.github.nianna.karedi.command.Command;
+import com.github.nianna.karedi.command.ResizeNotesCommand;
+import com.github.nianna.karedi.region.BoundingBox;
+import com.github.nianna.karedi.region.Direction;
+import com.github.nianna.karedi.region.IntBounded;
+import com.github.nianna.karedi.song.Note;
 
 public class InvalidNoteLengthProblem extends IntBoundedProblem {
 	public static final String TITLE = I18N.get("problem.note.invalid_length.title");

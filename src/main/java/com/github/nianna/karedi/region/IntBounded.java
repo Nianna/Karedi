@@ -1,6 +1,6 @@
-package main.java.com.github.nianna.karedi.region;
+package com.github.nianna.karedi.region;
 
-import main.java.com.github.nianna.karedi.util.MathUtils;
+import com.github.nianna.karedi.util.MathUtils;
 
 /**
  * A non-generic version of {@link Bounded}, designed for regions whose borders

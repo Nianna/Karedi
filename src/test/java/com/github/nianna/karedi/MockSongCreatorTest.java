@@ -4,8 +4,8 @@ import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import main.java.com.github.nianna.karedi.song.Song;
-import main.java.com.github.nianna.karedi.song.SongTrack;
+import com.github.nianna.karedi.song.Song;
+import com.github.nianna.karedi.song.SongTrack;
 
 public class MockSongCreatorTest {
 	private static final int TRACKS_COUNT = 2;

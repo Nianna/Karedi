@@ -1,7 +1,7 @@
-package main.java.com.github.nianna.karedi.problem;
+package com.github.nianna.karedi.problem;
 
-import main.java.com.github.nianna.karedi.I18N;
-import main.java.com.github.nianna.karedi.song.tag.TagKey;
+import com.github.nianna.karedi.I18N;
+import com.github.nianna.karedi.song.tag.TagKey;
 
 public class InvalidMedleyLengthProblem extends TagProblem {
 	public static final String TITLE = I18N.get("problem.medley.invalid_length.title");

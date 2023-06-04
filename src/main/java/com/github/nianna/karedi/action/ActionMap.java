@@ -1,4 +1,4 @@
-package main.java.com.github.nianna.karedi.action;
+package com.github.nianna.karedi.action;
 
 import java.util.HashMap;
 import java.util.Map;

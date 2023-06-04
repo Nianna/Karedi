@@ -1,4 +1,4 @@
-package main.java.com.github.nianna.karedi.audio;
+package com.github.nianna.karedi.audio;
 
 import java.util.List;
 import java.util.logging.Logger;
@@ -13,7 +13,7 @@ import javax.sound.midi.Sequencer;
 import org.jfugue.midi.MidiParserListener;
 import org.staccato.StaccatoParser;
 
-import main.java.com.github.nianna.karedi.I18N;
+import com.github.nianna.karedi.I18N;
 
 /**
  * Generates requested tones. Uses default sequencer of the {@link MidiSystem}.

@@ -1,4 +1,4 @@
-package main.java.com.github.nianna.karedi.controller;
+package com.github.nianna.karedi.controller;
 
 import java.text.SimpleDateFormat;
 import java.util.logging.Handler;
@@ -20,9 +20,9 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
-import main.java.com.github.nianna.karedi.context.AppContext;
-import main.java.com.github.nianna.karedi.event.StateEvent;
-import main.java.com.github.nianna.karedi.event.StateEvent.State;
+import com.github.nianna.karedi.context.AppContext;
+import com.github.nianna.karedi.event.StateEvent;
+import com.github.nianna.karedi.event.StateEvent.State;
 
 public class LogController implements Controller {
 

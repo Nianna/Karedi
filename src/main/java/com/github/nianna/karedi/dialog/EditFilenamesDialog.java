@@ -1,4 +1,4 @@
-package main.java.com.github.nianna.karedi.dialog;
+package com.github.nianna.karedi.dialog;
 
 import java.util.Optional;
 
@@ -16,12 +16,12 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
-import main.java.com.github.nianna.karedi.I18N;
-import main.java.com.github.nianna.karedi.control.ManageableGridPane;
-import main.java.com.github.nianna.karedi.control.RestrictedTextField;
-import main.java.com.github.nianna.karedi.dialog.EditFilenamesDialog.FilenamesEditResult;
-import main.java.com.github.nianna.karedi.song.tag.TagKey;
-import main.java.com.github.nianna.karedi.song.tag.TagValidators;
+import com.github.nianna.karedi.I18N;
+import com.github.nianna.karedi.control.ManageableGridPane;
+import com.github.nianna.karedi.control.RestrictedTextField;
+import com.github.nianna.karedi.dialog.EditFilenamesDialog.FilenamesEditResult;
+import com.github.nianna.karedi.song.tag.TagKey;
+import com.github.nianna.karedi.song.tag.TagValidators;
 
 public class EditFilenamesDialog extends ValidatedDialog<FilenamesEditResult> {
 	private static final String ARTIST_TITLE_SEPARATOR = " - ";

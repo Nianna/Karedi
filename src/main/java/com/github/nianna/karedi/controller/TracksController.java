@@ -1,10 +1,10 @@
-package main.java.com.github.nianna.karedi.controller;
+package com.github.nianna.karedi.controller;
 
 import java.util.Collections;
 import java.util.List;
 import java.util.function.BiConsumer;
 
-import main.java.com.github.nianna.karedi.command.track.ChangeTrackFontColorCommand;
+import com.github.nianna.karedi.command.track.ChangeTrackFontColorCommand;
 import org.controlsfx.control.action.Action;
 
 import javafx.beans.Observable;
@@ -25,19 +25,19 @@ import javafx.scene.input.TransferMode;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.util.Callback;
-import main.java.com.github.nianna.karedi.I18N;
-import main.java.com.github.nianna.karedi.action.KarediActions;
-import main.java.com.github.nianna.karedi.command.track.ChangeTrackColorCommand;
-import main.java.com.github.nianna.karedi.command.track.ChangeTrackNameCommand;
-import main.java.com.github.nianna.karedi.command.track.ReorderTracksCommand;
-import main.java.com.github.nianna.karedi.context.AppContext;
-import main.java.com.github.nianna.karedi.control.CheckBoxTableCell;
-import main.java.com.github.nianna.karedi.control.ColorPickerTableCell;
-import main.java.com.github.nianna.karedi.control.TitledKeyValueGrid;
-import main.java.com.github.nianna.karedi.song.Song;
-import main.java.com.github.nianna.karedi.song.SongTrack;
-import main.java.com.github.nianna.karedi.util.ContextMenuBuilder;
-import main.java.com.github.nianna.karedi.util.TableViewUtils;
+import com.github.nianna.karedi.I18N;
+import com.github.nianna.karedi.action.KarediActions;
+import com.github.nianna.karedi.command.track.ChangeTrackColorCommand;
+import com.github.nianna.karedi.command.track.ChangeTrackNameCommand;
+import com.github.nianna.karedi.command.track.ReorderTracksCommand;
+import com.github.nianna.karedi.context.AppContext;
+import com.github.nianna.karedi.control.CheckBoxTableCell;
+import com.github.nianna.karedi.control.ColorPickerTableCell;
+import com.github.nianna.karedi.control.TitledKeyValueGrid;
+import com.github.nianna.karedi.song.Song;
+import com.github.nianna.karedi.song.SongTrack;
+import com.github.nianna.karedi.util.ContextMenuBuilder;
+import com.github.nianna.karedi.util.TableViewUtils;
 
 public class TracksController implements Controller {
 	@FXML

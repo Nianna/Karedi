@@ -1,15 +1,15 @@
-package main.java.com.github.nianna.karedi.dialog;
+package com.github.nianna.karedi.dialog;
 
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.control.ButtonType;
-import main.java.com.github.nianna.karedi.I18N;
-import main.java.com.github.nianna.karedi.control.NonNegativeIntegerTextField;
-import main.java.com.github.nianna.karedi.song.Song.Medley;
-import main.java.com.github.nianna.karedi.song.tag.TagKey;
-import main.java.com.github.nianna.karedi.song.tag.TagValidators;
-import main.java.com.github.nianna.karedi.util.NumericNodeUtils;
+import com.github.nianna.karedi.I18N;
+import com.github.nianna.karedi.control.NonNegativeIntegerTextField;
+import com.github.nianna.karedi.song.Song.Medley;
+import com.github.nianna.karedi.song.tag.TagKey;
+import com.github.nianna.karedi.song.tag.TagValidators;
+import com.github.nianna.karedi.util.NumericNodeUtils;
 
 public class EditMedleyDialog extends ValidatedDialog<Medley> {
 

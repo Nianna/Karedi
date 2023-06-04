@@ -1,9 +1,9 @@
-package main.java.com.github.nianna.karedi.region;
+package com.github.nianna.karedi.region;
 
 import javafx.beans.InvalidationListener;
 import javafx.beans.property.ReadOnlyObjectProperty;
 import javafx.beans.property.ReadOnlyObjectWrapper;
-import main.java.com.github.nianna.karedi.util.ListenersManager;
+import com.github.nianna.karedi.util.ListenersManager;
 
 /**
  * {@code Area} is a two-dimensional region that is restricted by 4 integer

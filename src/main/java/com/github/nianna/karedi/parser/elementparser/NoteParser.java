@@ -1,10 +1,10 @@
-package main.java.com.github.nianna.karedi.parser.elementparser;
+package com.github.nianna.karedi.parser.elementparser;
 
 import java.util.regex.Matcher;
 
-import main.java.com.github.nianna.karedi.parser.element.NoteElement;
-import main.java.com.github.nianna.karedi.parser.element.NoteElement.Type;
-import main.java.com.github.nianna.karedi.parser.element.VisitableSongElement;
+import com.github.nianna.karedi.parser.element.NoteElement;
+import com.github.nianna.karedi.parser.element.NoteElement.Type;
+import com.github.nianna.karedi.parser.element.VisitableSongElement;
 
 /**
  * The default parser of the {@link NoteElement}.

@@ -7,7 +7,7 @@
 <?import javafx.scene.shape.Rectangle?>
 
 <AnchorPane xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1"
-	fx:controller="main.java.com.github.nianna.karedi.controller.TrackFillBarsController">
+	fx:controller="com.github.nianna.karedi.controller.TrackFillBarsController">
 	<children>
 		<Pane fx:id="pane" maxHeight="0.0" minHeight="5.0" prefHeight="20.0"
 			onMouseClicked="#onMouseClicked" AnchorPane.bottomAnchor="0.0"

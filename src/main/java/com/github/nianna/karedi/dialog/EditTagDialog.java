@@ -1,4 +1,4 @@
-package main.java.com.github.nianna.karedi.dialog;
+package com.github.nianna.karedi.dialog;
 
 import org.controlsfx.control.textfield.TextFields;
 import org.controlsfx.validation.ValidationResult;
@@ -12,12 +12,12 @@ import javafx.scene.Node;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Dialog;
 import javafx.scene.control.TextField;
-import main.java.com.github.nianna.karedi.I18N;
-import main.java.com.github.nianna.karedi.control.RestrictedTextField;
-import main.java.com.github.nianna.karedi.song.tag.Tag;
-import main.java.com.github.nianna.karedi.song.tag.TagKey;
-import main.java.com.github.nianna.karedi.song.tag.TagValidators;
-import main.java.com.github.nianna.karedi.util.ValidationUtils;
+import com.github.nianna.karedi.I18N;
+import com.github.nianna.karedi.control.RestrictedTextField;
+import com.github.nianna.karedi.song.tag.Tag;
+import com.github.nianna.karedi.song.tag.TagKey;
+import com.github.nianna.karedi.song.tag.TagValidators;
+import com.github.nianna.karedi.util.ValidationUtils;
 
 public class EditTagDialog extends Dialog<Tag> {
 	@FXML

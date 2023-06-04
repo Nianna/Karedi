@@ -4,8 +4,8 @@ import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import main.java.com.github.nianna.karedi.parser.element.TrackElement;
-import main.java.com.github.nianna.karedi.parser.elementunparser.TrackElementUnparser;
+import com.github.nianna.karedi.parser.element.TrackElement;
+import com.github.nianna.karedi.parser.elementunparser.TrackElementUnparser;
 
 public class TrackElementUnparserTest {
 	private static TrackElementUnparser unparser;

@@ -1,4 +1,4 @@
-package main.java.com.github.nianna.karedi.command;
+package com.github.nianna.karedi.command;
 
 public abstract class CommandDecorator extends Command {
 	private Command cmd;

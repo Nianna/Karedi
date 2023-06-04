@@ -1,7 +1,7 @@
-package main.java.com.github.nianna.karedi;
+package com.github.nianna.karedi;
 
 import javafx.scene.paint.Color;
-import main.java.com.github.nianna.karedi.util.ColorUtils;
+import com.github.nianna.karedi.util.ColorUtils;
 
 import java.util.List;
 import java.util.Locale;

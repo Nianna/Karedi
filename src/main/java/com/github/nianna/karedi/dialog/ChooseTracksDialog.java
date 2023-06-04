@@ -1,9 +1,9 @@
-package main.java.com.github.nianna.karedi.dialog;
+package com.github.nianna.karedi.dialog;
 
 import java.util.List;
 
-import main.java.com.github.nianna.karedi.I18N;
-import main.java.com.github.nianna.karedi.song.SongTrack;
+import com.github.nianna.karedi.I18N;
+import com.github.nianna.karedi.song.SongTrack;
 
 public class ChooseTracksDialog extends CheckListViewDialog<SongTrack> {
 

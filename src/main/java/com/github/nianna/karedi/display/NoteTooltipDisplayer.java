@@ -1,9 +1,9 @@
-package main.java.com.github.nianna.karedi.display;
+package com.github.nianna.karedi.display;
 
 import javafx.beans.property.StringProperty;
 import javafx.scene.control.Label;
-import main.java.com.github.nianna.karedi.I18N;
-import main.java.com.github.nianna.karedi.control.TitledKeyValueGrid;
+import com.github.nianna.karedi.I18N;
+import com.github.nianna.karedi.control.TitledKeyValueGrid;
 
 class NoteTooltipDisplayer extends TitledKeyValueGrid {
 	private Label lyricsLabel = new Label();

@@ -1,7 +1,7 @@
-package main.java.com.github.nianna.karedi.dialog;
+package com.github.nianna.karedi.dialog;
 
-import main.java.com.github.nianna.karedi.I18N;
-import main.java.com.github.nianna.karedi.KarediApp;
+import com.github.nianna.karedi.I18N;
+import com.github.nianna.karedi.KarediApp;
 
 public class ChooseDirectoryDialog extends ChooseFileDialog {
 

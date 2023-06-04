@@ -1,4 +1,4 @@
-package main.java.com.github.nianna.karedi.context;
+package com.github.nianna.karedi.context;
 
 import java.util.Collection;
 import java.util.LinkedList;
@@ -12,7 +12,7 @@ import javafx.beans.property.ReadOnlyIntegerWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.SortedList;
-import main.java.com.github.nianna.karedi.song.Note;
+import com.github.nianna.karedi.song.Note;
 
 public class NoteSelection implements Selection<Note> {
 
