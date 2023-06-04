@@ -18,7 +18,7 @@ public class I18N {
 		if (bundle != null) {
 			try {
 				return MessageFormat.format(bundle.getString(key), args);
-			} catch (IllegalArgumentException| MissingResourceException e) {
+			} catch (IllegalArgumentException | MissingResourceException e) {
 				e.printStackTrace();
 				return key;
 			}

@@ -108,7 +108,7 @@
         <module name="ParenPad"/>
         <module name="TypecastParenPad"/>
         <module name="WhitespaceAfter"/>
-<!--  TODO      <module name="WhitespaceAround"/>-->
+        <module name="WhitespaceAround"/>
 
         <!-- Modifier Checks                                    -->
         <!-- See https://checkstyle.org/config_modifier.html -->
