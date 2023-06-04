@@ -8,7 +8,7 @@ import javafx.scene.control.Dialog;
 import com.github.nianna.karedi.I18N;
 
 public abstract class SkippableDialog<T> extends Dialog<Optional<T>> {
-	protected final ButtonType SKIP_TYPE = new ButtonType(I18N.get("common.skip"), ButtonData.NEXT_FORWARD);
+	protected static final ButtonType SKIP_TYPE = new ButtonType(I18N.get("common.skip"), ButtonData.NEXT_FORWARD);
 
 	public SkippableDialog() {
 		getDialogPane().getButtonTypes().addAll(ButtonType.OK, SKIP_TYPE, ButtonType.CANCEL);
