@@ -125,7 +125,7 @@
 
         <!-- Checks for common coding problems               -->
         <!-- See https://checkstyle.org/config_coding.html -->
-<!--   TODO     <module name="EmptyStatement"/>-->
+        <module name="EmptyStatement"/>
         <module name="EqualsHashCode"/>
 <!--        <module name="HiddenField"/>-->
         <module name="IllegalInstantiation"/>

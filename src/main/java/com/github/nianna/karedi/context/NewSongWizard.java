@@ -55,7 +55,6 @@ class NewSongWizard {
 			});
 			return true;
 		}
-		;
 		return false;
 	}
 
