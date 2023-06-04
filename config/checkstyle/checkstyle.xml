@@ -127,7 +127,7 @@
         <!-- See https://checkstyle.org/config_coding.html -->
 <!--   TODO     <module name="EmptyStatement"/>-->
         <module name="EqualsHashCode"/>
-<!--   TODO     <module name="HiddenField"/>-->
+<!--        <module name="HiddenField"/>-->
         <module name="IllegalInstantiation"/>
         <module name="InnerAssignment"/>
 <!--   TODO     <module name="MagicNumber"/>-->
