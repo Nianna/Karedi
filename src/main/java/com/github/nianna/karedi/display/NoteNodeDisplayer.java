@@ -43,7 +43,8 @@ public class NoteNodeDisplayer extends Pane {
 	private static final double CUT_BAR_HEIGHT = 5;
 
 	private Rectangle cutBar = new Rectangle();
-	private VBox bar = new VBox();
+	private StackPane bar = new StackPane();
+	private VBox barBackground = new VBox();
 	private GridPane underBar = new GridPane();
 	private Text lyrics = new Text();
 	private Text length = new Text();
@@ -82,13 +83,12 @@ public class NoteNodeDisplayer extends Pane {
 		length.getStyleClass().add("under-note-lyrics");
 		tone.getStyleClass().add("under-note-lyrics");
 
-		StackPane barWithLyricsWrapper = new StackPane();
-		barWithLyricsWrapper.getChildren().addAll(bar, lyrics);
-		barWithLyricsWrapper.setAlignment(Pos.CENTER);
-		barWithLyricsWrapper.maxWidthProperty().bind(bar.maxWidthProperty());
-		barWithLyricsWrapper.minWidthProperty().bind(bar.minWidthProperty());
+		bar.getChildren().addAll(barBackground, lyrics);
+		bar.setAlignment(Pos.CENTER);
+		barBackground.maxWidthProperty().bind(bar.maxWidthProperty());
+		barBackground.minWidthProperty().bind(bar.minWidthProperty());
 
-		noteBox.getChildren().addAll(barWithLyricsWrapper, underBar);
+		noteBox.getChildren().addAll(bar, underBar);
 		underBar.add(tone, 0, 0);
 		underBar.add(length, 1, 0);
 		underBar.setHgap(5);
@@ -120,10 +120,10 @@ public class NoteNodeDisplayer extends Pane {
 
 	private void onDisabledChanged(Observable obs, Boolean wasDisabled, Boolean isDisabled) {
 		if (isDisabled) {
-			bar.setOpacity(0.6);
+			barBackground.setOpacity(0.6);
 			lyrics.setOpacity(0.25);
 		} else {
-			bar.setOpacity(1);
+			barBackground.setOpacity(1);
 			lyrics.setOpacity(1);
 		}
 	}
@@ -146,9 +146,9 @@ public class NoteNodeDisplayer extends Pane {
 
 	private void refreshBar() {
 		// Refresh background to force repainting (corner radii)
-		Background background = bar.getBackground();
-		bar.setBackground(null);
-		bar.setBackground(background);
+		Background background = barBackground.getBackground();
+		barBackground.setBackground(null);
+		barBackground.setBackground(background);
 		lastRefreshHeight = getBarHeight();
 		lastRefreshWidth = getBarWidth();
 	}
@@ -171,7 +171,7 @@ public class NoteNodeDisplayer extends Pane {
 		BackgroundFill fill2 = new BackgroundFill(grad2, new CornerRadii(10), new Insets(1));
 		BackgroundFill fill3 = new BackgroundFill(grad3, new CornerRadii(10), new Insets(2));
 		Background background = new Background(fill1, fill2, fill3);
-		bar.setBackground(background);
+		barBackground.setBackground(background);
 		lastRefreshHeight = getBarHeight();
 		lastRefreshWidth = getBarWidth();
 	}
@@ -265,7 +265,7 @@ public class NoteNodeDisplayer extends Pane {
 				if (isRap) {
 					rapEffect.setInput(selectedEffect);
 				} else {
-					bar.setEffect(selectedEffect);
+					barBackground.setEffect(selectedEffect);
 				}
 			}
 			isSelected = true;
@@ -281,7 +281,7 @@ public class NoteNodeDisplayer extends Pane {
 				if (isRap) {
 					rapEffect.setInput(null);
 				} else {
-					bar.setEffect(null);
+					barBackground.setEffect(null);
 				}
 			}
 			isSelected = false;
@@ -317,9 +317,9 @@ public class NoteNodeDisplayer extends Pane {
 	private void resetTypeEffect() {
 		fontPosture = FontPosture.REGULAR;
 		if (isSelected) {
-			bar.setEffect(selectedEffect);
+			barBackground.setEffect(selectedEffect);
 		} else {
-			bar.setEffect(null);
+			barBackground.setEffect(null);
 		}
 		isStyled = false;
 		isRap = false;
@@ -348,22 +348,22 @@ public class NoteNodeDisplayer extends Pane {
 
 	private void addGoldenEffect() {
 		borderGlow.setColor(Color.YELLOW);
-		borderGlow.setInput(bar.getEffect());
-		bar.setEffect(borderGlow);
+		borderGlow.setInput(barBackground.getEffect());
+		barBackground.setEffect(borderGlow);
 		isStyled = true;
 	}
 
 	private void addFreestyleEffect() {
 		borderGlow.setColor(Color.GRAY.darker());
 		fontPosture = FontPosture.ITALIC;
-		borderGlow.setInput(bar.getEffect());
-		bar.setEffect(borderGlow);
+		borderGlow.setInput(barBackground.getEffect());
+		barBackground.setEffect(borderGlow);
 		isStyled = true;
 	}
 
 	private void addRapEffect() {
-		rapEffect.setInput(bar.getEffect());
-		bar.setEffect(rapEffect);
+		rapEffect.setInput(barBackground.getEffect());
+		barBackground.setEffect(rapEffect);
 		isRap = true;
 	}
 
