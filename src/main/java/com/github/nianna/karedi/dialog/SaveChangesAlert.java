@@ -5,8 +5,8 @@ import javafx.scene.control.ButtonType;
 import com.github.nianna.karedi.I18N;
 
 public class SaveChangesAlert extends Alert {
-	public final static ButtonType SAVE_BUTTON = new ButtonType(I18N.get("common.save"));
-	public final static ButtonType DISCARD_BUTTON = new ButtonType(I18N.get("common.not_save"));
+	public static final ButtonType SAVE_BUTTON = new ButtonType(I18N.get("common.save"));
+	public static final ButtonType DISCARD_BUTTON = new ButtonType(I18N.get("common.not_save"));
 
 	public SaveChangesAlert(String fileName) {
 		super(AlertType.CONFIRMATION);

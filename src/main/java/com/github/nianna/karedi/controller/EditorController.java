@@ -959,7 +959,7 @@ public class EditorController implements Controller {
 	}
 
 	private class NoteLengthChangeScheduler {
-		private final static int TIME_LIMIT = 300;
+		private static final int TIME_LIMIT = 300;
 		private Timer keyPressedTimer = new Timer();
 		private int newLength = 0;
 		private Note currentlyResizedNote = null;
