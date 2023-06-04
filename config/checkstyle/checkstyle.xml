@@ -73,7 +73,7 @@
 
         <!-- Checks for Naming Conventions.                  -->
         <!-- See https://checkstyle.org/config_naming.html -->
-<!--   TODO     <module name="ConstantName"/>-->
+        <module name="ConstantName"/>
         <module name="LocalFinalVariableName"/>
         <module name="LocalVariableName"/>
 <!--   TODO     <module name="MemberName"/>-->
