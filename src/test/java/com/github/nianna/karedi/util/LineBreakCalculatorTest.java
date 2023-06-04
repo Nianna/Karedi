@@ -1,10 +1,10 @@
-package test.java.com.github.nianna.karedi.util;
+package com.github.nianna.karedi.util;
 
 import org.junit.Assert;
 import org.junit.Test;
 
-import main.java.com.github.nianna.karedi.util.BeatMillisConverter;
-import main.java.com.github.nianna.karedi.util.LineBreakCalculator;
+import com.github.nianna.karedi.util.BeatMillisConverter;
+import com.github.nianna.karedi.util.LineBreakCalculator;
 
 public class LineBreakCalculatorTest {
 	private static final double BPM = 300;

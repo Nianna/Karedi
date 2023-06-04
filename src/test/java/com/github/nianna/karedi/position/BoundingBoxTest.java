@@ -1,4 +1,4 @@
-package test.java.com.github.nianna.karedi.position;
+package com.github.nianna.karedi.position;
 
 import static org.junit.Assert.assertEquals;
 
@@ -8,9 +8,9 @@ import org.junit.Before;
 import org.junit.Test;
 
 import javafx.beans.property.ReadOnlyObjectWrapper;
-import main.java.com.github.nianna.karedi.region.Bounded;
-import main.java.com.github.nianna.karedi.region.BoundingBox;
-import main.java.com.github.nianna.karedi.region.IntBounded;
+import com.github.nianna.karedi.region.Bounded;
+import com.github.nianna.karedi.region.BoundingBox;
+import com.github.nianna.karedi.region.IntBounded;
 
 public class BoundingBoxTest {
 	BoundingBox<IntBounded> testBox;

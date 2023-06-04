@@ -1,4 +1,4 @@
-package main.java.com.github.nianna.karedi.controller;
+package com.github.nianna.karedi.controller;
 
 import static org.fxmisc.wellbehaved.event.InputMap.consume;
 
@@ -37,25 +37,25 @@ import javafx.scene.input.Clipboard;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
-import main.java.com.github.nianna.karedi.action.KarediAction;
-import main.java.com.github.nianna.karedi.action.KarediActions;
-import main.java.com.github.nianna.karedi.command.AddNewSyllableCommand;
-import main.java.com.github.nianna.karedi.command.AddNewWordCommand;
-import main.java.com.github.nianna.karedi.command.ChangePostStateCommandDecorator;
-import main.java.com.github.nianna.karedi.command.Command;
-import main.java.com.github.nianna.karedi.command.CommandComposite;
-import main.java.com.github.nianna.karedi.command.DeleteTextCommand;
-import main.java.com.github.nianna.karedi.command.InsertTextCommand;
-import main.java.com.github.nianna.karedi.context.AppContext;
-import main.java.com.github.nianna.karedi.context.NoteSelection;
-import main.java.com.github.nianna.karedi.song.Note;
-import main.java.com.github.nianna.karedi.song.Note.Type;
-import main.java.com.github.nianna.karedi.song.SongLine;
-import main.java.com.github.nianna.karedi.song.SongTrack;
-import main.java.com.github.nianna.karedi.util.KeyCodeCombinations;
-import main.java.com.github.nianna.karedi.util.KeyEventUtils;
-import main.java.com.github.nianna.karedi.util.ListenersUtils;
-import main.java.com.github.nianna.karedi.util.LyricsHelper;
+import com.github.nianna.karedi.action.KarediAction;
+import com.github.nianna.karedi.action.KarediActions;
+import com.github.nianna.karedi.command.AddNewSyllableCommand;
+import com.github.nianna.karedi.command.AddNewWordCommand;
+import com.github.nianna.karedi.command.ChangePostStateCommandDecorator;
+import com.github.nianna.karedi.command.Command;
+import com.github.nianna.karedi.command.CommandComposite;
+import com.github.nianna.karedi.command.DeleteTextCommand;
+import com.github.nianna.karedi.command.InsertTextCommand;
+import com.github.nianna.karedi.context.AppContext;
+import com.github.nianna.karedi.context.NoteSelection;
+import com.github.nianna.karedi.song.Note;
+import com.github.nianna.karedi.song.Note.Type;
+import com.github.nianna.karedi.song.SongLine;
+import com.github.nianna.karedi.song.SongTrack;
+import com.github.nianna.karedi.util.KeyCodeCombinations;
+import com.github.nianna.karedi.util.KeyEventUtils;
+import com.github.nianna.karedi.util.ListenersUtils;
+import com.github.nianna.karedi.util.LyricsHelper;
 
 public class LyricsEditorController implements Controller {
 	private static final int TIME_LIMIT_MS = 30;

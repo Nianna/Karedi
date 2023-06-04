@@ -1,4 +1,4 @@
-package main.java.com.github.nianna.karedi.controller;
+package com.github.nianna.karedi.controller;
 
 import org.controlsfx.control.action.Action;
 import org.controlsfx.glyphfont.FontAwesome;
@@ -8,9 +8,9 @@ import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ToolBar;
-import main.java.com.github.nianna.karedi.KarediApp.ViewMode;
-import main.java.com.github.nianna.karedi.action.KarediActions;
-import main.java.com.github.nianna.karedi.context.AppContext;
+import com.github.nianna.karedi.KarediApp.ViewMode;
+import com.github.nianna.karedi.action.KarediActions;
+import com.github.nianna.karedi.context.AppContext;
 
 public class ToolbarController implements Controller {
 	@FXML

@@ -1,10 +1,10 @@
-package main.java.com.github.nianna.karedi.audio;
+package com.github.nianna.karedi.audio;
 
 import javafx.beans.property.ReadOnlyObjectProperty;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import main.java.com.github.nianna.karedi.util.MathUtils;
+import com.github.nianna.karedi.util.MathUtils;
 
 /**
  * A container for {@link CachedAudioFile}s. Only one of them can be currently

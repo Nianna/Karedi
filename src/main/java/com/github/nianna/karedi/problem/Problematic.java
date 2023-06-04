@@ -1,4 +1,4 @@
-package main.java.com.github.nianna.karedi.problem;
+package com.github.nianna.karedi.problem;
 
 import javafx.collections.ObservableList;
 

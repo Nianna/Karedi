@@ -1,4 +1,4 @@
-package main.java.com.github.nianna.karedi.context;
+package com.github.nianna.karedi.context;
 
 import java.util.Comparator;
 import java.util.LinkedList;
@@ -10,14 +10,14 @@ import javafx.beans.property.ReadOnlyLongProperty;
 import javafx.beans.property.ReadOnlyObjectProperty;
 import javafx.collections.ObservableList;
 import javafx.util.Pair;
-import main.java.com.github.nianna.karedi.audio.CachedAudioFile;
-import main.java.com.github.nianna.karedi.audio.Player;
-import main.java.com.github.nianna.karedi.audio.Player.Mode;
-import main.java.com.github.nianna.karedi.audio.Player.Status;
-import main.java.com.github.nianna.karedi.audio.Playlist;
-import main.java.com.github.nianna.karedi.song.Note;
-import main.java.com.github.nianna.karedi.song.Song;
-import main.java.com.github.nianna.karedi.util.BeatMillisConverter;
+import com.github.nianna.karedi.audio.CachedAudioFile;
+import com.github.nianna.karedi.audio.Player;
+import com.github.nianna.karedi.audio.Player.Mode;
+import com.github.nianna.karedi.audio.Player.Status;
+import com.github.nianna.karedi.audio.Playlist;
+import com.github.nianna.karedi.song.Note;
+import com.github.nianna.karedi.song.Song;
+import com.github.nianna.karedi.util.BeatMillisConverter;
 
 class SongPlayer {
 	private static final int TONE_OFFSET = 60;

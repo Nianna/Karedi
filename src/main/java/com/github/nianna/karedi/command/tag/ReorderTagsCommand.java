@@ -1,8 +1,8 @@
-package main.java.com.github.nianna.karedi.command.tag;
+package com.github.nianna.karedi.command.tag;
 
-import main.java.com.github.nianna.karedi.I18N;
-import main.java.com.github.nianna.karedi.command.Command;
-import main.java.com.github.nianna.karedi.song.Song;
+import com.github.nianna.karedi.I18N;
+import com.github.nianna.karedi.command.Command;
+import com.github.nianna.karedi.song.Song;
 
 public class ReorderTagsCommand extends Command {
 	private Song song;

@@ -1,11 +1,11 @@
-package test.java.com.github.nianna.karedi.parser;
+package com.github.nianna.karedi.parser;
 
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import main.java.com.github.nianna.karedi.parser.element.EndOfSongElement;
-import main.java.com.github.nianna.karedi.parser.elementunparser.EndOfSongElementUnparser;
+import com.github.nianna.karedi.parser.element.EndOfSongElement;
+import com.github.nianna.karedi.parser.elementunparser.EndOfSongElementUnparser;
 
 public class EndOfSongElementUnparserTest {
 	private static EndOfSongElementUnparser unparser;

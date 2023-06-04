@@ -1,4 +1,4 @@
-package main.java.com.github.nianna.karedi.controller;
+package com.github.nianna.karedi.controller;
 
 import org.controlsfx.control.action.Action;
 
@@ -11,8 +11,8 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.input.KeyCombination;
 import javafx.scene.input.KeyCombination.ModifierValue;
 import javafx.scene.input.KeyEvent;
-import main.java.com.github.nianna.karedi.action.KarediActions;
-import main.java.com.github.nianna.karedi.context.AppContext;
+import com.github.nianna.karedi.action.KarediActions;
+import com.github.nianna.karedi.context.AppContext;
 
 public class MenuBarController implements Controller {
 	@FXML

@@ -1,17 +1,17 @@
-package main.java.com.github.nianna.karedi.parser;
+package com.github.nianna.karedi.parser;
 
-import main.java.com.github.nianna.karedi.parser.element.EndOfSongElement;
-import main.java.com.github.nianna.karedi.parser.element.LineBreakElement;
-import main.java.com.github.nianna.karedi.parser.element.NoteElement;
-import main.java.com.github.nianna.karedi.parser.element.SongElementVisitor;
-import main.java.com.github.nianna.karedi.parser.element.TagElement;
-import main.java.com.github.nianna.karedi.parser.element.TrackElement;
-import main.java.com.github.nianna.karedi.parser.element.VisitableSongElement;
-import main.java.com.github.nianna.karedi.parser.elementunparser.EndOfSongElementUnparser;
-import main.java.com.github.nianna.karedi.parser.elementunparser.LineBreakElementUnparser;
-import main.java.com.github.nianna.karedi.parser.elementunparser.NoteElementUnparser;
-import main.java.com.github.nianna.karedi.parser.elementunparser.TagElementUnparser;
-import main.java.com.github.nianna.karedi.parser.elementunparser.TrackElementUnparser;
+import com.github.nianna.karedi.parser.element.EndOfSongElement;
+import com.github.nianna.karedi.parser.element.LineBreakElement;
+import com.github.nianna.karedi.parser.element.NoteElement;
+import com.github.nianna.karedi.parser.element.SongElementVisitor;
+import com.github.nianna.karedi.parser.element.TagElement;
+import com.github.nianna.karedi.parser.element.TrackElement;
+import com.github.nianna.karedi.parser.element.VisitableSongElement;
+import com.github.nianna.karedi.parser.elementunparser.EndOfSongElementUnparser;
+import com.github.nianna.karedi.parser.elementunparser.LineBreakElementUnparser;
+import com.github.nianna.karedi.parser.elementunparser.NoteElementUnparser;
+import com.github.nianna.karedi.parser.elementunparser.TagElementUnparser;
+import com.github.nianna.karedi.parser.elementunparser.TrackElementUnparser;
 
 /**
  * Generates String representations of {@link VisitableSongElement}s.

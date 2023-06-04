@@ -1,4 +1,4 @@
-package main.java.com.github.nianna.karedi.song;
+package com.github.nianna.karedi.song;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -6,9 +6,9 @@ import java.util.Map;
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
 import javafx.beans.value.ChangeListener;
-import main.java.com.github.nianna.karedi.song.Note.Type;
-import main.java.com.github.nianna.karedi.util.ListenersManager;
-import main.java.com.github.nianna.karedi.util.ListenersUtils;
+import com.github.nianna.karedi.song.Note.Type;
+import com.github.nianna.karedi.util.ListenersManager;
+import com.github.nianna.karedi.util.ListenersUtils;
 
 public class ScoreCounter implements Observable {
 	/*

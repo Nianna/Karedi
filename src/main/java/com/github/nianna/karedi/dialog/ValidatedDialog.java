@@ -1,4 +1,4 @@
-package main.java.com.github.nianna.karedi.dialog;
+package com.github.nianna.karedi.dialog;
 
 import org.controlsfx.validation.ValidationSupport;
 

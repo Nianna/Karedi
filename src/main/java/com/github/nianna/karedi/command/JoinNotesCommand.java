@@ -1,16 +1,16 @@
-package main.java.com.github.nianna.karedi.command;
+package com.github.nianna.karedi.command;
 
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import main.java.com.github.nianna.karedi.I18N;
-import main.java.com.github.nianna.karedi.region.Bounded;
-import main.java.com.github.nianna.karedi.region.BoundingBox;
-import main.java.com.github.nianna.karedi.region.Direction;
-import main.java.com.github.nianna.karedi.song.Note;
-import main.java.com.github.nianna.karedi.util.LyricsHelper;
+import com.github.nianna.karedi.I18N;
+import com.github.nianna.karedi.region.Bounded;
+import com.github.nianna.karedi.region.BoundingBox;
+import com.github.nianna.karedi.region.Direction;
+import com.github.nianna.karedi.song.Note;
+import com.github.nianna.karedi.util.LyricsHelper;
 
 public class JoinNotesCommand extends CommandComposite {
 	private List<Note> notes;

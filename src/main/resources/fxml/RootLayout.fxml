@@ -11,7 +11,7 @@
 
 <BorderPane fx:id="rootPane" prefHeight="768.0" prefWidth="1024.0"
 	xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1"
-	fx:controller="main.java.com.github.nianna.karedi.controller.RootController">
+	fx:controller="com.github.nianna.karedi.controller.RootController">
 	<top>
 		<VBox BorderPane.alignment="CENTER">
 			<children>

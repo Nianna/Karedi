@@ -8,7 +8,7 @@
 
 <AnchorPane fx:id="pane" xmlns="http://javafx.com/javafx/8.0.60"
 	xmlns:fx="http://javafx.com/fxml/1"
-	fx:controller="main.java.com.github.nianna.karedi.controller.TagsTableController">
+	fx:controller="com.github.nianna.karedi.controller.TagsTableController">
 	<children>
 		<TableView fx:id="table" disable="true" editable="true"
 			onMouseClicked="#onTableMouseClicked" AnchorPane.bottomAnchor="0.0"

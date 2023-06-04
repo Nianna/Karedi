@@ -1,17 +1,17 @@
-package main.java.com.github.nianna.karedi.context;
+package com.github.nianna.karedi.context;
 
 import java.util.List;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
-import main.java.com.github.nianna.karedi.I18N;
-import main.java.com.github.nianna.karedi.song.Song;
-import main.java.com.github.nianna.karedi.song.SongTrack;
-import main.java.com.github.nianna.karedi.song.tag.Tag;
-import main.java.com.github.nianna.karedi.song.tag.TagKey;
-import main.java.com.github.nianna.karedi.song.tag.TagValidators;
-import main.java.com.github.nianna.karedi.util.Converter;
-import main.java.com.github.nianna.karedi.util.MultiplayerTags;
+import com.github.nianna.karedi.I18N;
+import com.github.nianna.karedi.song.Song;
+import com.github.nianna.karedi.song.SongTrack;
+import com.github.nianna.karedi.song.tag.Tag;
+import com.github.nianna.karedi.song.tag.TagKey;
+import com.github.nianna.karedi.song.tag.TagValidators;
+import com.github.nianna.karedi.util.Converter;
+import com.github.nianna.karedi.util.MultiplayerTags;
 
 class SongNormalizer {
 	private static final Logger LOGGER = Logger.getLogger(SongNormalizer.class.getName());

@@ -1,7 +1,7 @@
-package test.java.com.github.nianna.karedi.util;
+package com.github.nianna.karedi.util;
 
 import javafx.scene.paint.Color;
-import main.java.com.github.nianna.karedi.util.ColorUtils;
+import com.github.nianna.karedi.util.ColorUtils;
 import org.junit.Assert;
 import org.junit.Test;
 

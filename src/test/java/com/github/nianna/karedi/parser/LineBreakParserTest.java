@@ -1,13 +1,13 @@
-package test.java.com.github.nianna.karedi.parser;
+package com.github.nianna.karedi.parser;
 
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import main.java.com.github.nianna.karedi.parser.element.InvalidSongElementException;
-import main.java.com.github.nianna.karedi.parser.element.LineBreakElement;
-import main.java.com.github.nianna.karedi.parser.element.VisitableSongElement;
-import main.java.com.github.nianna.karedi.parser.elementparser.LineBreakParser;
+import com.github.nianna.karedi.parser.element.InvalidSongElementException;
+import com.github.nianna.karedi.parser.element.LineBreakElement;
+import com.github.nianna.karedi.parser.element.VisitableSongElement;
+import com.github.nianna.karedi.parser.elementparser.LineBreakParser;
 
 public class LineBreakParserTest {
 	private static LineBreakParser parser;

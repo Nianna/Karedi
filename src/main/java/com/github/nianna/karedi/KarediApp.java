@@ -1,4 +1,4 @@
-package main.java.com.github.nianna.karedi;
+package com.github.nianna.karedi;
 
 import java.io.File;
 import java.io.IOException;
@@ -22,10 +22,10 @@ import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Stage;
-import main.java.com.github.nianna.karedi.action.KarediActions;
-import main.java.com.github.nianna.karedi.context.AppContext;
-import main.java.com.github.nianna.karedi.controller.RootController;
-import main.java.com.github.nianna.karedi.dialog.SaveChangesAlert;
+import com.github.nianna.karedi.action.KarediActions;
+import com.github.nianna.karedi.context.AppContext;
+import com.github.nianna.karedi.controller.RootController;
+import com.github.nianna.karedi.dialog.SaveChangesAlert;
 
 public class KarediApp extends Application {
 	private final static String APP_NAME = "Karedi";

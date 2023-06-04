@@ -1,4 +1,4 @@
-package main.java.com.github.nianna.karedi.util;
+package com.github.nianna.karedi.util;
 
 public final class ForbiddenCharacterRegex {
 	public static final String FOR_FILENAME = "[<>:\"/\\|?\\*]";

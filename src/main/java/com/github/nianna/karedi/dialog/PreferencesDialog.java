@@ -1,4 +1,4 @@
-package main.java.com.github.nianna.karedi.dialog;
+package com.github.nianna.karedi.dialog;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -8,8 +8,8 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Dialog;
 import javafx.util.StringConverter;
-import main.java.com.github.nianna.karedi.I18N;
-import main.java.com.github.nianna.karedi.Settings;
+import com.github.nianna.karedi.I18N;
+import com.github.nianna.karedi.Settings;
 
 import java.util.Locale;
 

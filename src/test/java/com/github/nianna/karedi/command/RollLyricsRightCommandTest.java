@@ -1,4 +1,4 @@
-package test.java.com.github.nianna.karedi.command;
+package com.github.nianna.karedi.command;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,10 +9,10 @@ import org.junit.Before;
 import org.junit.Test;
 
 import javafx.util.Pair;
-import main.java.com.github.nianna.karedi.command.RollLyricsRightCommand;
-import main.java.com.github.nianna.karedi.song.Note;
-import main.java.com.github.nianna.karedi.util.LyricsHelper;
-import test.java.com.github.nianna.karedi.MockSongCreator;
+import com.github.nianna.karedi.command.RollLyricsRightCommand;
+import com.github.nianna.karedi.song.Note;
+import com.github.nianna.karedi.util.LyricsHelper;
+import com.github.nianna.karedi.MockSongCreator;
 
 public class RollLyricsRightCommandTest {
 	private List<Note> notes = new ArrayList<>();

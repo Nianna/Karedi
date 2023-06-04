@@ -1,11 +1,11 @@
-package test.java.com.github.nianna.karedi.parser;
+package com.github.nianna.karedi.parser;
 
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import main.java.com.github.nianna.karedi.parser.element.LineBreakElement;
-import main.java.com.github.nianna.karedi.parser.elementunparser.LineBreakElementUnparser;
+import com.github.nianna.karedi.parser.element.LineBreakElement;
+import com.github.nianna.karedi.parser.elementunparser.LineBreakElementUnparser;
 
 public class LineBreakElementUnparserTest {
 	private static LineBreakElementUnparser unparser;

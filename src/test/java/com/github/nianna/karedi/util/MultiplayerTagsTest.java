@@ -1,13 +1,13 @@
-package test.java.com.github.nianna.karedi.util;
+package com.github.nianna.karedi.util;
 
 import java.util.Optional;
 
 import org.junit.Assert;
 import org.junit.Test;
 
-import main.java.com.github.nianna.karedi.song.SongTrack;
-import main.java.com.github.nianna.karedi.song.tag.Tag;
-import main.java.com.github.nianna.karedi.util.MultiplayerTags;
+import com.github.nianna.karedi.song.SongTrack;
+import com.github.nianna.karedi.song.tag.Tag;
+import com.github.nianna.karedi.util.MultiplayerTags;
 
 public class MultiplayerTagsTest {
 

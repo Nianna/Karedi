@@ -10,7 +10,7 @@
 
 <ToolBar fx:id="toolBar" xmlns="http://javafx.com/javafx/8.0.60"
 	xmlns:fx="http://javafx.com/fxml/1"
-	fx:controller="main.java.com.github.nianna.karedi.controller.ToolbarController">
+	fx:controller="com.github.nianna.karedi.controller.ToolbarController">
 	<items>
 		<Button fx:id="newButton" focusTraversable="false"
 			mnemonicParsing="false" alignment="center">

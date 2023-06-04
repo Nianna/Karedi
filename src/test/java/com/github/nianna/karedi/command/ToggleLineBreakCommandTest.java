@@ -1,4 +1,4 @@
-package test.java.com.github.nianna.karedi.command;
+package com.github.nianna.karedi.command;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -7,13 +7,13 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import main.java.com.github.nianna.karedi.command.Command;
-import main.java.com.github.nianna.karedi.command.ToggleLineBreakCommand;
-import main.java.com.github.nianna.karedi.song.Note;
-import main.java.com.github.nianna.karedi.song.Song;
-import main.java.com.github.nianna.karedi.song.SongLine;
-import main.java.com.github.nianna.karedi.song.SongTrack;
-import test.java.com.github.nianna.karedi.MockSongCreator;
+import com.github.nianna.karedi.command.Command;
+import com.github.nianna.karedi.command.ToggleLineBreakCommand;
+import com.github.nianna.karedi.song.Note;
+import com.github.nianna.karedi.song.Song;
+import com.github.nianna.karedi.song.SongLine;
+import com.github.nianna.karedi.song.SongTrack;
+import com.github.nianna.karedi.MockSongCreator;
 
 public class ToggleLineBreakCommandTest {
 	private int noteCount = 6;

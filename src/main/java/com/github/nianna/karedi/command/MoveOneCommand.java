@@ -1,9 +1,9 @@
-package main.java.com.github.nianna.karedi.command;
+package com.github.nianna.karedi.command;
 
-import main.java.com.github.nianna.karedi.I18N;
-import main.java.com.github.nianna.karedi.region.Direction;
-import main.java.com.github.nianna.karedi.region.Movable;
-import main.java.com.github.nianna.karedi.util.Utils;
+import com.github.nianna.karedi.I18N;
+import com.github.nianna.karedi.region.Direction;
+import com.github.nianna.karedi.region.Movable;
+import com.github.nianna.karedi.util.Utils;
 
 public class MoveOneCommand<T, U extends Movable<T>> extends Command {
 	private U item;

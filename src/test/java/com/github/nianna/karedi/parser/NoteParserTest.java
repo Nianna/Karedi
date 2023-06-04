@@ -1,14 +1,14 @@
-package test.java.com.github.nianna.karedi.parser;
+package com.github.nianna.karedi.parser;
 
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import main.java.com.github.nianna.karedi.parser.element.InvalidSongElementException;
-import main.java.com.github.nianna.karedi.parser.element.NoteElement;
-import main.java.com.github.nianna.karedi.parser.element.NoteElement.Type;
-import main.java.com.github.nianna.karedi.parser.element.VisitableSongElement;
-import main.java.com.github.nianna.karedi.parser.elementparser.NoteParser;
+import com.github.nianna.karedi.parser.element.InvalidSongElementException;
+import com.github.nianna.karedi.parser.element.NoteElement;
+import com.github.nianna.karedi.parser.element.NoteElement.Type;
+import com.github.nianna.karedi.parser.element.VisitableSongElement;
+import com.github.nianna.karedi.parser.elementparser.NoteParser;
 
 public class NoteParserTest {
 	private static NoteParser parser;

@@ -1,9 +1,9 @@
-package main.java.com.github.nianna.karedi.dialog;
+package com.github.nianna.karedi.dialog;
 
 import java.io.File;
 
 import javafx.scene.control.Alert;
-import main.java.com.github.nianna.karedi.I18N;
+import com.github.nianna.karedi.I18N;
 
 public class OverwriteAlert extends Alert {
 

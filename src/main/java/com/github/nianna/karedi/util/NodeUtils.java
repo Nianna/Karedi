@@ -1,4 +1,4 @@
-package main.java.com.github.nianna.karedi.util;
+package com.github.nianna.karedi.util;
 
 import javafx.beans.property.ReadOnlyBooleanProperty;
 import javafx.beans.property.ReadOnlyBooleanWrapper;
@@ -13,7 +13,7 @@ import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.shape.Rectangle;
-import main.java.com.github.nianna.karedi.region.Direction;
+import com.github.nianna.karedi.region.Direction;
 
 public final class NodeUtils {
 	private NodeUtils() {

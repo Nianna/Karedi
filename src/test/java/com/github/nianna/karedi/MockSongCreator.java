@@ -1,12 +1,12 @@
-package test.java.com.github.nianna.karedi;
+package com.github.nianna.karedi;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import main.java.com.github.nianna.karedi.song.Note;
-import main.java.com.github.nianna.karedi.song.Song;
-import main.java.com.github.nianna.karedi.song.SongLine;
-import main.java.com.github.nianna.karedi.song.SongTrack;
+import com.github.nianna.karedi.song.Note;
+import com.github.nianna.karedi.song.Song;
+import com.github.nianna.karedi.song.SongLine;
+import com.github.nianna.karedi.song.SongTrack;
 
 public class MockSongCreator {
 	private static final int NOTE_LENGTH = 2;

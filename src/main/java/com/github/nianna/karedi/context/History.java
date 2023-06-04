@@ -1,4 +1,4 @@
-package main.java.com.github.nianna.karedi.context;
+package com.github.nianna.karedi.context;
 
 import javafx.beans.property.ReadOnlyIntegerProperty;
 import javafx.beans.property.ReadOnlyIntegerWrapper;
@@ -6,7 +6,7 @@ import javafx.beans.property.ReadOnlyObjectProperty;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import main.java.com.github.nianna.karedi.command.Command;
+import com.github.nianna.karedi.command.Command;
 
 public class History {
 	private int maxSize;

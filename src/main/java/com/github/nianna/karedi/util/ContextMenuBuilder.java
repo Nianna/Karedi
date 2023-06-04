@@ -1,4 +1,4 @@
-package main.java.com.github.nianna.karedi.util;
+package com.github.nianna.karedi.util;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;

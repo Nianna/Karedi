@@ -1,4 +1,4 @@
-package main.java.com.github.nianna.karedi;
+package com.github.nianna.karedi;
 
 import java.text.MessageFormat;
 import java.util.ArrayList;

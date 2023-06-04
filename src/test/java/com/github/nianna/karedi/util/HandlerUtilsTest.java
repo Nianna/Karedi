@@ -1,4 +1,4 @@
-package test.java.com.github.nianna.karedi.util;
+package com.github.nianna.karedi.util;
 
 import org.junit.Assert;
 import org.junit.Before;
@@ -8,7 +8,7 @@ import org.junit.Test;
 import javafx.event.EventHandler;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
-import main.java.com.github.nianna.karedi.util.HandlerUtils;
+import com.github.nianna.karedi.util.HandlerUtils;
 
 public class HandlerUtilsTest {
 	private static EventHandler<MouseEvent> handler1;

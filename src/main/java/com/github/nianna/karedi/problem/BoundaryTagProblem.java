@@ -1,12 +1,12 @@
-package main.java.com.github.nianna.karedi.problem;
+package com.github.nianna.karedi.problem;
 
 import java.util.Optional;
 
-import main.java.com.github.nianna.karedi.region.BoundingBox;
-import main.java.com.github.nianna.karedi.region.IntBounded;
-import main.java.com.github.nianna.karedi.song.Song;
-import main.java.com.github.nianna.karedi.song.SongTrack;
-import main.java.com.github.nianna.karedi.song.tag.TagKey;
+import com.github.nianna.karedi.region.BoundingBox;
+import com.github.nianna.karedi.region.IntBounded;
+import com.github.nianna.karedi.song.Song;
+import com.github.nianna.karedi.song.SongTrack;
+import com.github.nianna.karedi.song.tag.TagKey;
 
 public abstract class BoundaryTagProblem extends TagProblem {
 	private IntBounded affectedBounds;

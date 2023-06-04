@@ -1,4 +1,4 @@
-package test.java.com.github.nianna.karedi.command;
+package com.github.nianna.karedi.command;
 
 import java.util.Arrays;
 
@@ -6,12 +6,12 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import main.java.com.github.nianna.karedi.command.Command;
-import main.java.com.github.nianna.karedi.command.SplitNoteCommand;
-import main.java.com.github.nianna.karedi.song.Note;
-import main.java.com.github.nianna.karedi.song.Note.Type;
-import main.java.com.github.nianna.karedi.song.SongLine;
-import main.java.com.github.nianna.karedi.util.LyricsHelper;
+import com.github.nianna.karedi.command.Command;
+import com.github.nianna.karedi.command.SplitNoteCommand;
+import com.github.nianna.karedi.song.Note;
+import com.github.nianna.karedi.song.Note.Type;
+import com.github.nianna.karedi.song.SongLine;
+import com.github.nianna.karedi.util.LyricsHelper;
 
 public class SplitNoteCommandTest {
 	private static int LENGTH = 10;

@@ -1,4 +1,4 @@
-package main.java.com.github.nianna.karedi.controller;
+package com.github.nianna.karedi.controller;
 
 import javafx.beans.Observable;
 import javafx.collections.ListChangeListener;
@@ -6,10 +6,10 @@ import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
-import main.java.com.github.nianna.karedi.context.AppContext;
-import main.java.com.github.nianna.karedi.song.SongLine;
-import main.java.com.github.nianna.karedi.song.SongTrack;
-import main.java.com.github.nianna.karedi.util.ListenersUtils;
+import com.github.nianna.karedi.context.AppContext;
+import com.github.nianna.karedi.song.SongLine;
+import com.github.nianna.karedi.song.SongTrack;
+import com.github.nianna.karedi.util.ListenersUtils;
 
 public class LineNumberController implements Controller {
 	@FXML

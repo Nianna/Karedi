@@ -1,10 +1,10 @@
-package test.java.com.github.nianna.karedi.util;
+package com.github.nianna.karedi.util;
 
 import org.junit.Assert;
 import org.junit.Test;
 
 import javafx.util.Pair;
-import main.java.com.github.nianna.karedi.util.LyricsHelper;
+import com.github.nianna.karedi.util.LyricsHelper;
 
 public class LyricsHelperTest {
 

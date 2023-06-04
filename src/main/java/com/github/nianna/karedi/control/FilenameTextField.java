@@ -1,6 +1,6 @@
-package main.java.com.github.nianna.karedi.control;
+package com.github.nianna.karedi.control;
 
-import main.java.com.github.nianna.karedi.util.ForbiddenCharacterRegex;
+import com.github.nianna.karedi.util.ForbiddenCharacterRegex;
 
 public class FilenameTextField extends RestrictedTextField {
 	public FilenameTextField() {

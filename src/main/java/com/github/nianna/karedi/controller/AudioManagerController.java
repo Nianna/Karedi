@@ -1,4 +1,4 @@
-package main.java.com.github.nianna.karedi.controller;
+package com.github.nianna.karedi.controller;
 
 import java.util.Optional;
 
@@ -20,12 +20,12 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.util.Callback;
-import main.java.com.github.nianna.karedi.I18N;
-import main.java.com.github.nianna.karedi.action.KarediActions;
-import main.java.com.github.nianna.karedi.audio.CachedAudioFile;
-import main.java.com.github.nianna.karedi.context.AppContext;
-import main.java.com.github.nianna.karedi.control.SliderTableCell;
-import main.java.com.github.nianna.karedi.util.ContextMenuBuilder;
+import com.github.nianna.karedi.I18N;
+import com.github.nianna.karedi.action.KarediActions;
+import com.github.nianna.karedi.audio.CachedAudioFile;
+import com.github.nianna.karedi.context.AppContext;
+import com.github.nianna.karedi.control.SliderTableCell;
+import com.github.nianna.karedi.util.ContextMenuBuilder;
 
 public class AudioManagerController implements Controller {
 	@FXML

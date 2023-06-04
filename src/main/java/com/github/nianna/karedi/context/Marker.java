@@ -1,4 +1,4 @@
-package main.java.com.github.nianna.karedi.context;
+package com.github.nianna.karedi.context;
 
 import javafx.beans.Observable;
 import javafx.beans.binding.Bindings;
@@ -7,9 +7,9 @@ import javafx.beans.property.ReadOnlyIntegerWrapper;
 import javafx.beans.property.ReadOnlyLongProperty;
 import javafx.beans.property.ReadOnlyLongWrapper;
 import javafx.beans.value.ChangeListener;
-import main.java.com.github.nianna.karedi.audio.Player;
-import main.java.com.github.nianna.karedi.audio.Player.Status;
-import main.java.com.github.nianna.karedi.util.BeatMillisConverter;
+import com.github.nianna.karedi.audio.Player;
+import com.github.nianna.karedi.audio.Player.Status;
+import com.github.nianna.karedi.util.BeatMillisConverter;
 
 public class Marker {
 	private final ReadOnlyLongWrapper markerTime = new ReadOnlyLongWrapper();

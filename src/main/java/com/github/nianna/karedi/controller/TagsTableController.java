@@ -1,4 +1,4 @@
-package main.java.com.github.nianna.karedi.controller;
+package com.github.nianna.karedi.controller;
 
 import java.util.Collections;
 import java.util.List;
@@ -29,23 +29,23 @@ import javafx.scene.input.ScrollEvent;
 import javafx.scene.input.TransferMode;
 import javafx.scene.layout.AnchorPane;
 import javafx.util.Callback;
-import main.java.com.github.nianna.karedi.I18N;
-import main.java.com.github.nianna.karedi.action.KarediActions;
-import main.java.com.github.nianna.karedi.command.tag.ChangeTagValueCommand;
-import main.java.com.github.nianna.karedi.command.tag.DeleteTagCommand;
-import main.java.com.github.nianna.karedi.command.tag.ReorderTagsCommand;
-import main.java.com.github.nianna.karedi.context.AppContext;
-import main.java.com.github.nianna.karedi.control.RestrictedTextField;
-import main.java.com.github.nianna.karedi.song.Song;
-import main.java.com.github.nianna.karedi.song.tag.Tag;
-import main.java.com.github.nianna.karedi.song.tag.TagKey;
-import main.java.com.github.nianna.karedi.song.tag.TagValidators;
-import main.java.com.github.nianna.karedi.util.ContextMenuBuilder;
-import main.java.com.github.nianna.karedi.util.Converter;
-import main.java.com.github.nianna.karedi.util.MathUtils;
-import main.java.com.github.nianna.karedi.util.NumericNodeUtils;
-import main.java.com.github.nianna.karedi.util.TableViewUtils;
-import main.java.com.github.nianna.karedi.util.ValidationUtils;
+import com.github.nianna.karedi.I18N;
+import com.github.nianna.karedi.action.KarediActions;
+import com.github.nianna.karedi.command.tag.ChangeTagValueCommand;
+import com.github.nianna.karedi.command.tag.DeleteTagCommand;
+import com.github.nianna.karedi.command.tag.ReorderTagsCommand;
+import com.github.nianna.karedi.context.AppContext;
+import com.github.nianna.karedi.control.RestrictedTextField;
+import com.github.nianna.karedi.song.Song;
+import com.github.nianna.karedi.song.tag.Tag;
+import com.github.nianna.karedi.song.tag.TagKey;
+import com.github.nianna.karedi.song.tag.TagValidators;
+import com.github.nianna.karedi.util.ContextMenuBuilder;
+import com.github.nianna.karedi.util.Converter;
+import com.github.nianna.karedi.util.MathUtils;
+import com.github.nianna.karedi.util.NumericNodeUtils;
+import com.github.nianna.karedi.util.TableViewUtils;
+import com.github.nianna.karedi.util.ValidationUtils;
 
 public class TagsTableController implements Controller {
 	@FXML

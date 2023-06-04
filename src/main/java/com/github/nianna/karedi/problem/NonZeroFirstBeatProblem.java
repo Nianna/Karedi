@@ -1,19 +1,19 @@
-package main.java.com.github.nianna.karedi.problem;
+package com.github.nianna.karedi.problem;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-import main.java.com.github.nianna.karedi.I18N;
-import main.java.com.github.nianna.karedi.command.Command;
-import main.java.com.github.nianna.karedi.command.CommandComposite;
-import main.java.com.github.nianna.karedi.command.MoveOneCommand;
-import main.java.com.github.nianna.karedi.command.tag.ChangeTagValueCommand;
-import main.java.com.github.nianna.karedi.region.Direction;
-import main.java.com.github.nianna.karedi.song.Song;
-import main.java.com.github.nianna.karedi.song.SongTrack;
-import main.java.com.github.nianna.karedi.song.tag.TagKey;
-import main.java.com.github.nianna.karedi.util.Converter;
+import com.github.nianna.karedi.I18N;
+import com.github.nianna.karedi.command.Command;
+import com.github.nianna.karedi.command.CommandComposite;
+import com.github.nianna.karedi.command.MoveOneCommand;
+import com.github.nianna.karedi.command.tag.ChangeTagValueCommand;
+import com.github.nianna.karedi.region.Direction;
+import com.github.nianna.karedi.song.Song;
+import com.github.nianna.karedi.song.SongTrack;
+import com.github.nianna.karedi.song.tag.TagKey;
+import com.github.nianna.karedi.util.Converter;
 
 public class NonZeroFirstBeatProblem extends IntBoundedProblem {
 	public static final String TITLE = I18N.get("problem.non_zero_first_beat.title");

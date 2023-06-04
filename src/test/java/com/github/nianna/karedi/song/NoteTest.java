@@ -1,4 +1,4 @@
-package test.java.com.github.nianna.karedi.song;
+package com.github.nianna.karedi.song;
 
 import static org.junit.Assert.assertEquals;
 
@@ -6,8 +6,8 @@ import java.util.Random;
 
 import org.junit.Test;
 
-import main.java.com.github.nianna.karedi.region.Direction;
-import main.java.com.github.nianna.karedi.song.Note;
+import com.github.nianna.karedi.region.Direction;
+import com.github.nianna.karedi.song.Note;
 
 public class NoteTest {
 

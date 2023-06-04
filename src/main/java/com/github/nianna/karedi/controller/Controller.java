@@ -1,8 +1,8 @@
-package main.java.com.github.nianna.karedi.controller;
+package com.github.nianna.karedi.controller;
 
 import javafx.beans.property.ReadOnlyBooleanProperty;
 import javafx.scene.Node;
-import main.java.com.github.nianna.karedi.context.AppContext;
+import com.github.nianna.karedi.context.AppContext;
 
 public interface Controller {
 	public void setAppContext(AppContext appContext);

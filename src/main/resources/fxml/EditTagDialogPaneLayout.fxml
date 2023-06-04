@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
-<?import main.java.com.github.nianna.karedi.control.NonNegativeIntegerTextField?>
+<?import com.github.nianna.karedi.control.RestrictedTextField?>
 
 <!-- <?import org.controlsfx.glyphfont.*?> -->
 
@@ -27,14 +27,12 @@
 					vgrow="SOMETIMES" />
 			</rowConstraints>
 			<children>
-				<Label text="%dialog.edit_medley.startbeat"
-					GridPane.columnIndex="0" />
-				<NonNegativeIntegerTextField fx:id="startBeatField"
-					GridPane.columnIndex="1" />
+				<Label text="%dialog.tag.key" GridPane.columnIndex="0" />
+				<TextField fx:id="keyField" GridPane.columnIndex="1" />
 
-				<Label text="%dialog.edit_medley.endbeat"
-					GridPane.columnIndex="0" GridPane.rowIndex="1" />
-				<NonNegativeIntegerTextField fx:id="endBeatField"
+				<Label text="%dialog.tag.value" GridPane.columnIndex="0"
+					GridPane.rowIndex="1" />
+				<RestrictedTextField fx:id="valueField"
 					GridPane.columnIndex="1" GridPane.rowIndex="1" />
 			</children>
 			<padding>

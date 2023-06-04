@@ -1,13 +1,13 @@
-package main.java.com.github.nianna.karedi.parser.elementunparser;
+package com.github.nianna.karedi.parser.elementunparser;
 
-import main.java.com.github.nianna.karedi.parser.Unparser;
-import main.java.com.github.nianna.karedi.parser.element.EndOfSongElement;
-import main.java.com.github.nianna.karedi.parser.element.LineBreakElement;
-import main.java.com.github.nianna.karedi.parser.element.NoteElement;
-import main.java.com.github.nianna.karedi.parser.element.SongElementVisitor;
-import main.java.com.github.nianna.karedi.parser.element.TagElement;
-import main.java.com.github.nianna.karedi.parser.element.TrackElement;
-import main.java.com.github.nianna.karedi.parser.element.VisitableSongElement;
+import com.github.nianna.karedi.parser.Unparser;
+import com.github.nianna.karedi.parser.element.EndOfSongElement;
+import com.github.nianna.karedi.parser.element.LineBreakElement;
+import com.github.nianna.karedi.parser.element.NoteElement;
+import com.github.nianna.karedi.parser.element.SongElementVisitor;
+import com.github.nianna.karedi.parser.element.TagElement;
+import com.github.nianna.karedi.parser.element.TrackElement;
+import com.github.nianna.karedi.parser.element.VisitableSongElement;
 
 public abstract class SongElementUnparser implements Unparser, SongElementVisitor {
 	protected String result;

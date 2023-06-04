@@ -1,12 +1,12 @@
-package test.java.com.github.nianna.karedi.parser;
+package com.github.nianna.karedi.parser;
 
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import main.java.com.github.nianna.karedi.parser.element.NoteElement;
-import main.java.com.github.nianna.karedi.parser.element.NoteElement.Type;
-import main.java.com.github.nianna.karedi.parser.elementunparser.NoteElementUnparser;
+import com.github.nianna.karedi.parser.element.NoteElement;
+import com.github.nianna.karedi.parser.element.NoteElement.Type;
+import com.github.nianna.karedi.parser.elementunparser.NoteElementUnparser;
 
 public class NoteElementUnparserTest {
 	private static NoteElementUnparser unparser;

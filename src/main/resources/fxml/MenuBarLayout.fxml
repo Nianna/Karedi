@@ -3,7 +3,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.input.KeyCodeCombination?>
 <MenuBar fx:id="menuBar" xmlns:fx="http://javafx.com/fxml/1"
-		 fx:controller="main.java.com.github.nianna.karedi.controller.MenuBarController">
+		 fx:controller="com.github.nianna.karedi.controller.MenuBarController">
 	<menus>
 		<Menu mnemonicParsing="true" text="%ui.menu.file">
 			<items>

@@ -1,4 +1,4 @@
-package main.java.com.github.nianna.karedi.display;
+package com.github.nianna.karedi.display;
 
 import javafx.beans.Observable;
 import javafx.beans.binding.Bindings;
@@ -8,22 +8,22 @@ import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.control.Tooltip;
 import javafx.scene.input.MouseEvent;
-import main.java.com.github.nianna.karedi.command.ChangePostStateCommandDecorator;
-import main.java.com.github.nianna.karedi.command.Command;
-import main.java.com.github.nianna.karedi.command.MoveCollectionCommand;
-import main.java.com.github.nianna.karedi.command.ResizeNotesCommand;
-import main.java.com.github.nianna.karedi.command.SplitNoteCommand;
-import main.java.com.github.nianna.karedi.context.AppContext;
-import main.java.com.github.nianna.karedi.context.NoteSelection;
-import main.java.com.github.nianna.karedi.controller.EditorController;
-import main.java.com.github.nianna.karedi.region.Direction;
-import main.java.com.github.nianna.karedi.song.Note;
-import main.java.com.github.nianna.karedi.song.Note.Type;
-import main.java.com.github.nianna.karedi.song.SongTrack;
-import main.java.com.github.nianna.karedi.util.NodeUtils;
-import main.java.com.github.nianna.karedi.util.NodeUtils.CutHelper;
-import main.java.com.github.nianna.karedi.util.NodeUtils.DragHelper;
-import main.java.com.github.nianna.karedi.util.NodeUtils.ResizeHelper;
+import com.github.nianna.karedi.command.ChangePostStateCommandDecorator;
+import com.github.nianna.karedi.command.Command;
+import com.github.nianna.karedi.command.MoveCollectionCommand;
+import com.github.nianna.karedi.command.ResizeNotesCommand;
+import com.github.nianna.karedi.command.SplitNoteCommand;
+import com.github.nianna.karedi.context.AppContext;
+import com.github.nianna.karedi.context.NoteSelection;
+import com.github.nianna.karedi.controller.EditorController;
+import com.github.nianna.karedi.region.Direction;
+import com.github.nianna.karedi.song.Note;
+import com.github.nianna.karedi.song.Note.Type;
+import com.github.nianna.karedi.song.SongTrack;
+import com.github.nianna.karedi.util.NodeUtils;
+import com.github.nianna.karedi.util.NodeUtils.CutHelper;
+import com.github.nianna.karedi.util.NodeUtils.DragHelper;
+import com.github.nianna.karedi.util.NodeUtils.ResizeHelper;
 
 public class NoteNode {
 	private static final int BASIC_RESIZE_MARGIN = 3;

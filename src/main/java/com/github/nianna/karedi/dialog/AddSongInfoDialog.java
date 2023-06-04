@@ -1,4 +1,4 @@
-package main.java.com.github.nianna.karedi.dialog;
+package com.github.nianna.karedi.dialog;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,13 +15,13 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.Control;
 import javafx.scene.control.Dialog;
 import javafx.scene.control.TextField;
-import main.java.com.github.nianna.karedi.I18N;
-import main.java.com.github.nianna.karedi.control.NonNegativeIntegerTextField;
-import main.java.com.github.nianna.karedi.song.tag.Tag;
-import main.java.com.github.nianna.karedi.song.tag.TagKey;
-import main.java.com.github.nianna.karedi.song.tag.TagValidators;
-import main.java.com.github.nianna.karedi.util.Language;
-import main.java.com.github.nianna.karedi.util.NumericNodeUtils;
+import com.github.nianna.karedi.I18N;
+import com.github.nianna.karedi.control.NonNegativeIntegerTextField;
+import com.github.nianna.karedi.song.tag.Tag;
+import com.github.nianna.karedi.song.tag.TagKey;
+import com.github.nianna.karedi.song.tag.TagValidators;
+import com.github.nianna.karedi.util.Language;
+import com.github.nianna.karedi.util.NumericNodeUtils;
 
 public class AddSongInfoDialog extends Dialog<List<Tag>> {
 

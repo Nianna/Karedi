@@ -1,4 +1,4 @@
-package main.java.com.github.nianna.karedi.control;
+package com.github.nianna.karedi.control;
 
 import java.util.List;
 import java.util.Optional;

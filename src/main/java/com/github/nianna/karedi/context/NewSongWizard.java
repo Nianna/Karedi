@@ -1,23 +1,23 @@
-package main.java.com.github.nianna.karedi.context;
+package com.github.nianna.karedi.context;
 
 import java.io.File;
 import java.util.List;
 import java.util.Optional;
 
-import main.java.com.github.nianna.karedi.I18N;
-import main.java.com.github.nianna.karedi.dialog.AddSongInfoDialog;
-import main.java.com.github.nianna.karedi.dialog.ChooseAudioFileDialog;
-import main.java.com.github.nianna.karedi.dialog.ChooseDirectoryDialog;
-import main.java.com.github.nianna.karedi.dialog.EditFilenamesDialog;
-import main.java.com.github.nianna.karedi.dialog.EditFilenamesDialog.FilenamesEditResult;
-import main.java.com.github.nianna.karedi.dialog.ModifyBpmDialog;
-import main.java.com.github.nianna.karedi.dialog.ModifyBpmDialog.BpmEditResult;
-import main.java.com.github.nianna.karedi.dialog.SetBpmDialog;
-import main.java.com.github.nianna.karedi.song.Song;
-import main.java.com.github.nianna.karedi.song.tag.Tag;
-import main.java.com.github.nianna.karedi.song.tag.TagKey;
-import main.java.com.github.nianna.karedi.util.Converter;
-import main.java.com.github.nianna.karedi.util.Utils;
+import com.github.nianna.karedi.I18N;
+import com.github.nianna.karedi.dialog.AddSongInfoDialog;
+import com.github.nianna.karedi.dialog.ChooseAudioFileDialog;
+import com.github.nianna.karedi.dialog.ChooseDirectoryDialog;
+import com.github.nianna.karedi.dialog.EditFilenamesDialog;
+import com.github.nianna.karedi.dialog.EditFilenamesDialog.FilenamesEditResult;
+import com.github.nianna.karedi.dialog.ModifyBpmDialog;
+import com.github.nianna.karedi.dialog.ModifyBpmDialog.BpmEditResult;
+import com.github.nianna.karedi.dialog.SetBpmDialog;
+import com.github.nianna.karedi.song.Song;
+import com.github.nianna.karedi.song.tag.Tag;
+import com.github.nianna.karedi.song.tag.TagKey;
+import com.github.nianna.karedi.util.Converter;
+import com.github.nianna.karedi.util.Utils;
 
 class NewSongWizard {
 	private Song song;

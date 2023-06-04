@@ -1,4 +1,4 @@
-package main.java.com.github.nianna.karedi.command;
+package com.github.nianna.karedi.command;
 
 /**
  * An operation that may be executed and undone. It usually modifies song's parts and

@@ -1,8 +1,8 @@
-package main.java.com.github.nianna.karedi.command.tag;
+package com.github.nianna.karedi.command.tag;
 
-import main.java.com.github.nianna.karedi.song.Song;
-import main.java.com.github.nianna.karedi.song.tag.TagKey;
-import main.java.com.github.nianna.karedi.util.Converter;
+import com.github.nianna.karedi.song.Song;
+import com.github.nianna.karedi.song.tag.TagKey;
+import com.github.nianna.karedi.util.Converter;
 
 public class ChangeBpmCommand extends ChangeTagValueCommand {
 	private double newBpm;

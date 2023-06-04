@@ -1,9 +1,9 @@
-package main.java.com.github.nianna.karedi.util;
+package com.github.nianna.karedi.util;
 
 import java.io.File;
 import java.util.function.Supplier;
 
-import main.java.com.github.nianna.karedi.region.Direction;
+import com.github.nianna.karedi.region.Direction;
 
 public final class Utils {
 	private Utils() {

@@ -1,4 +1,4 @@
-package main.java.com.github.nianna.karedi.region;
+package com.github.nianna.karedi.region;
 
 /**
  * A class implements the {@code Movable} interface to indicate that it can be

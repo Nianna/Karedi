@@ -1,15 +1,15 @@
-package main.java.com.github.nianna.karedi.command;
+package com.github.nianna.karedi.command;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import main.java.com.github.nianna.karedi.I18N;
-import main.java.com.github.nianna.karedi.command.track.AddTrackCommand;
-import main.java.com.github.nianna.karedi.region.Direction;
-import main.java.com.github.nianna.karedi.song.Song;
-import main.java.com.github.nianna.karedi.song.SongLine;
-import main.java.com.github.nianna.karedi.song.SongTrack;
+import com.github.nianna.karedi.I18N;
+import com.github.nianna.karedi.command.track.AddTrackCommand;
+import com.github.nianna.karedi.region.Direction;
+import com.github.nianna.karedi.song.Song;
+import com.github.nianna.karedi.song.SongLine;
+import com.github.nianna.karedi.song.SongTrack;
 
 public class PasteCommand extends CommandComposite {
 

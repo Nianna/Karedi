@@ -1,13 +1,13 @@
-package main.java.com.github.nianna.karedi.command;
+package com.github.nianna.karedi.command;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import main.java.com.github.nianna.karedi.context.AppContext;
-import main.java.com.github.nianna.karedi.context.NoteSelection;
-import main.java.com.github.nianna.karedi.song.Note;
-import main.java.com.github.nianna.karedi.song.SongLine;
-import main.java.com.github.nianna.karedi.song.SongTrack;
+import com.github.nianna.karedi.context.AppContext;
+import com.github.nianna.karedi.context.NoteSelection;
+import com.github.nianna.karedi.song.Note;
+import com.github.nianna.karedi.song.SongLine;
+import com.github.nianna.karedi.song.SongTrack;
 
 public class BackupStateCommandDecorator extends CommandDecorator {
 	private AppContext appContext;

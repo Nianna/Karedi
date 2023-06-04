@@ -1,8 +1,8 @@
-package main.java.com.github.nianna.karedi.command;
+package com.github.nianna.karedi.command;
 
-import main.java.com.github.nianna.karedi.I18N;
-import main.java.com.github.nianna.karedi.song.Note;
-import main.java.com.github.nianna.karedi.song.SongLine;
+import com.github.nianna.karedi.I18N;
+import com.github.nianna.karedi.song.Note;
+import com.github.nianna.karedi.song.SongLine;
 
 public class DeleteNoteCommand extends Command {
 	private Note note;

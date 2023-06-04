@@ -1,4 +1,4 @@
-package main.java.com.github.nianna.karedi.controller;
+package com.github.nianna.karedi.controller;
 
 import java.io.File;
 import java.util.Optional;
@@ -12,14 +12,14 @@ import javafx.scene.input.DragEvent;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.TransferMode;
 import javafx.scene.layout.BorderPane;
-import main.java.com.github.nianna.karedi.KarediApp;
-import main.java.com.github.nianna.karedi.action.KarediAction;
-import main.java.com.github.nianna.karedi.action.KarediActions;
-import main.java.com.github.nianna.karedi.context.AppContext;
-import main.java.com.github.nianna.karedi.event.ControllerEvent;
-import main.java.com.github.nianna.karedi.event.StateEvent;
-import main.java.com.github.nianna.karedi.event.StateEvent.State;
-import main.java.com.github.nianna.karedi.util.Utils;
+import com.github.nianna.karedi.KarediApp;
+import com.github.nianna.karedi.action.KarediAction;
+import com.github.nianna.karedi.action.KarediActions;
+import com.github.nianna.karedi.context.AppContext;
+import com.github.nianna.karedi.event.ControllerEvent;
+import com.github.nianna.karedi.event.StateEvent;
+import com.github.nianna.karedi.event.StateEvent.State;
+import com.github.nianna.karedi.util.Utils;
 
 public class RootController implements Controller {
 	private static final String ERROR_STYLE_CLASS = "state-error";

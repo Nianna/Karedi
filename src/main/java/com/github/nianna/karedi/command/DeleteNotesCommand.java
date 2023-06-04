@@ -1,4 +1,4 @@
-package main.java.com.github.nianna.karedi.command;
+package com.github.nianna.karedi.command;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -8,9 +8,9 @@ import java.util.TreeMap;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
-import main.java.com.github.nianna.karedi.I18N;
-import main.java.com.github.nianna.karedi.song.Note;
-import main.java.com.github.nianna.karedi.song.SongLine;
+import com.github.nianna.karedi.I18N;
+import com.github.nianna.karedi.song.Note;
+import com.github.nianna.karedi.song.SongLine;
 
 public class DeleteNotesCommand extends CommandComposite {
 	private List<Note> notes;

@@ -1,4 +1,4 @@
-package main.java.com.github.nianna.karedi.dialog;
+package com.github.nianna.karedi.dialog;
 
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -13,7 +13,7 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Dialog;
 import javafx.scene.control.Label;
-import main.java.com.github.nianna.karedi.control.ManageableGridPane;
+import com.github.nianna.karedi.control.ManageableGridPane;
 
 public class CheckListViewDialog<T> extends Dialog<List<T>> {
 	private ManageableGridPane grid = new ManageableGridPane();

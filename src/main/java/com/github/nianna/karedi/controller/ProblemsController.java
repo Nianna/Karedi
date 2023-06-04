@@ -1,4 +1,4 @@
-package main.java.com.github.nianna.karedi.controller;
+package com.github.nianna.karedi.controller;
 
 import java.util.List;
 import java.util.Optional;
@@ -20,17 +20,17 @@ import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
-import main.java.com.github.nianna.karedi.I18N;
-import main.java.com.github.nianna.karedi.command.Command;
-import main.java.com.github.nianna.karedi.context.AppContext;
-import main.java.com.github.nianna.karedi.event.StateEvent;
-import main.java.com.github.nianna.karedi.event.StateEvent.State;
-import main.java.com.github.nianna.karedi.problem.Problem;
-import main.java.com.github.nianna.karedi.song.Note;
-import main.java.com.github.nianna.karedi.song.Song;
-import main.java.com.github.nianna.karedi.song.SongLine;
-import main.java.com.github.nianna.karedi.util.BindingsUtils;
-import main.java.com.github.nianna.karedi.util.ListenersUtils;
+import com.github.nianna.karedi.I18N;
+import com.github.nianna.karedi.command.Command;
+import com.github.nianna.karedi.context.AppContext;
+import com.github.nianna.karedi.event.StateEvent;
+import com.github.nianna.karedi.event.StateEvent.State;
+import com.github.nianna.karedi.problem.Problem;
+import com.github.nianna.karedi.song.Note;
+import com.github.nianna.karedi.song.Song;
+import com.github.nianna.karedi.song.SongLine;
+import com.github.nianna.karedi.util.BindingsUtils;
+import com.github.nianna.karedi.util.ListenersUtils;
 
 public class ProblemsController implements Controller {
 	@FXML

@@ -1,4 +1,4 @@
-package main.java.com.github.nianna.karedi.util;
+package com.github.nianna.karedi.util;
 
 public enum Language {
 	// List of languages accepted by ultrastar-es.org

@@ -1,4 +1,4 @@
-package main.java.com.github.nianna.karedi.song.tag;
+package com.github.nianna.karedi.song.tag;
 
 import java.util.Locale;
 import java.util.Optional;

@@ -4,11 +4,11 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.TextFlow?>
-<?import main.java.com.github.nianna.karedi.control.HCenterPane?>
+<?import com.github.nianna.karedi.control.HCenterPane?>
 
 <AnchorPane fx:id="pane" xmlns="http://javafx.com/javafx/8.0.60"
 	xmlns:fx="http://javafx.com/fxml/1"
-	fx:controller="main.java.com.github.nianna.karedi.controller.LyricsLabelController">
+	fx:controller="com.github.nianna.karedi.controller.LyricsLabelController">
 	<children>
 		<HCenterPane fx:id="pane" AnchorPane.bottomAnchor="0.0"
 			AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"

@@ -1,4 +1,4 @@
-package main.java.com.github.nianna.karedi.display;
+package com.github.nianna.karedi.display;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -16,8 +16,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
-import main.java.com.github.nianna.karedi.region.Bounded;
-import main.java.com.github.nianna.karedi.util.ListenersUtils;
+import com.github.nianna.karedi.region.Bounded;
+import com.github.nianna.karedi.util.ListenersUtils;
 
 public class FillBar<T extends Number & Comparable<T>> extends Pane {
 	private Map<Bounded<T>, Rectangle> map = new HashMap<>();

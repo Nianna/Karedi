@@ -1,4 +1,4 @@
-package main.java.com.github.nianna.karedi.audio;
+package com.github.nianna.karedi.audio;
 
 import java.io.ByteArrayInputStream;
 import java.util.logging.Logger;
@@ -7,7 +7,7 @@ import javafx.concurrent.Task;
 import javazoom.jl.decoder.JavaLayerException;
 import javazoom.jl.player.advanced.AdvancedPlayer;
 import javazoom.jl.player.advanced.PlaybackListener;
-import main.java.com.github.nianna.karedi.I18N;
+import com.github.nianna.karedi.I18N;
 
 /**
  * A player operating on a preloaded mp3 file.

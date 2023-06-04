@@ -1,4 +1,4 @@
-package main.java.com.github.nianna.karedi.controller;
+package com.github.nianna.karedi.controller;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -16,18 +16,18 @@ import javafx.scene.Node;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Rectangle;
-import main.java.com.github.nianna.karedi.context.AppContext;
-import main.java.com.github.nianna.karedi.display.FillBar;
-import main.java.com.github.nianna.karedi.event.ControllerEvent;
-import main.java.com.github.nianna.karedi.region.Bounded;
-import main.java.com.github.nianna.karedi.region.Direction;
-import main.java.com.github.nianna.karedi.song.Song;
-import main.java.com.github.nianna.karedi.song.SongLine;
-import main.java.com.github.nianna.karedi.song.SongTrack;
-import main.java.com.github.nianna.karedi.util.ListenersUtils;
-import main.java.com.github.nianna.karedi.util.NodeUtils;
-import main.java.com.github.nianna.karedi.util.NodeUtils.DragHelper;
-import main.java.com.github.nianna.karedi.util.NodeUtils.ResizeHelper;
+import com.github.nianna.karedi.context.AppContext;
+import com.github.nianna.karedi.display.FillBar;
+import com.github.nianna.karedi.event.ControllerEvent;
+import com.github.nianna.karedi.region.Bounded;
+import com.github.nianna.karedi.region.Direction;
+import com.github.nianna.karedi.song.Song;
+import com.github.nianna.karedi.song.SongLine;
+import com.github.nianna.karedi.song.SongTrack;
+import com.github.nianna.karedi.util.ListenersUtils;
+import com.github.nianna.karedi.util.NodeUtils;
+import com.github.nianna.karedi.util.NodeUtils.DragHelper;
+import com.github.nianna.karedi.util.NodeUtils.ResizeHelper;
 
 public class TrackFillBarsController implements Controller {
 

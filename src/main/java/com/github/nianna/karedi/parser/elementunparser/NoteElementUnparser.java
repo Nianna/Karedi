@@ -1,7 +1,7 @@
-package main.java.com.github.nianna.karedi.parser.elementunparser;
+package com.github.nianna.karedi.parser.elementunparser;
 
-import main.java.com.github.nianna.karedi.parser.element.NoteElement;
-import main.java.com.github.nianna.karedi.parser.element.NoteElement.Type;
+import com.github.nianna.karedi.parser.element.NoteElement;
+import com.github.nianna.karedi.parser.element.NoteElement.Type;
 
 public class NoteElementUnparser extends SongElementUnparser {
 

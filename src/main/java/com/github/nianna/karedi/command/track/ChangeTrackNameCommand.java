@@ -1,8 +1,8 @@
-package main.java.com.github.nianna.karedi.command.track;
+package com.github.nianna.karedi.command.track;
 
-import main.java.com.github.nianna.karedi.I18N;
-import main.java.com.github.nianna.karedi.command.ChangePropertyCommand;
-import main.java.com.github.nianna.karedi.song.SongTrack;
+import com.github.nianna.karedi.I18N;
+import com.github.nianna.karedi.command.ChangePropertyCommand;
+import com.github.nianna.karedi.song.SongTrack;
 
 public class ChangeTrackNameCommand extends ChangePropertyCommand<String> {
 

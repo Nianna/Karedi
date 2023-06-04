@@ -1,4 +1,4 @@
-package main.java.com.github.nianna.karedi.problem;
+package com.github.nianna.karedi.problem;
 
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
@@ -6,7 +6,7 @@ import java.util.stream.Collectors;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
-import main.java.com.github.nianna.karedi.util.ListenersUtils;
+import com.github.nianna.karedi.util.ListenersUtils;
 
 public class ProblemsCombiner implements Problematic {
 	private ObservableList<Problem> parentProblems = FXCollections.observableArrayList();

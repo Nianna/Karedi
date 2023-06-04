@@ -1,12 +1,12 @@
-package main.java.com.github.nianna.karedi.problem;
+package com.github.nianna.karedi.problem;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-import main.java.com.github.nianna.karedi.I18N;
-import main.java.com.github.nianna.karedi.region.IntBounded;
-import main.java.com.github.nianna.karedi.song.SongTrack;
+import com.github.nianna.karedi.I18N;
+import com.github.nianna.karedi.region.IntBounded;
+import com.github.nianna.karedi.song.SongTrack;
 
 //TODO is it currently not used?
 public class EmptyTrackProblem extends Problem {

@@ -1,12 +1,12 @@
-package main.java.com.github.nianna.karedi.command.tag;
+package com.github.nianna.karedi.command.tag;
 
-import main.java.com.github.nianna.karedi.I18N;
-import main.java.com.github.nianna.karedi.command.CommandComposite;
-import main.java.com.github.nianna.karedi.song.Note;
-import main.java.com.github.nianna.karedi.song.Song;
-import main.java.com.github.nianna.karedi.song.SongTrack;
-import main.java.com.github.nianna.karedi.song.tag.TagKey;
-import main.java.com.github.nianna.karedi.util.Converter;
+import com.github.nianna.karedi.I18N;
+import com.github.nianna.karedi.command.CommandComposite;
+import com.github.nianna.karedi.song.Note;
+import com.github.nianna.karedi.song.Song;
+import com.github.nianna.karedi.song.SongTrack;
+import com.github.nianna.karedi.song.tag.TagKey;
+import com.github.nianna.karedi.util.Converter;
 
 public class RescaleSongToBpmCommand extends CommandComposite {
 	private double scale;

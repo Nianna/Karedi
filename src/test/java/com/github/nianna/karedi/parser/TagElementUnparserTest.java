@@ -1,11 +1,11 @@
-package test.java.com.github.nianna.karedi.parser;
+package com.github.nianna.karedi.parser;
 
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import main.java.com.github.nianna.karedi.parser.element.TagElement;
-import main.java.com.github.nianna.karedi.parser.elementunparser.TagElementUnparser;
+import com.github.nianna.karedi.parser.element.TagElement;
+import com.github.nianna.karedi.parser.elementunparser.TagElementUnparser;
 
 public class TagElementUnparserTest {
 	private static TagElementUnparser unparser;

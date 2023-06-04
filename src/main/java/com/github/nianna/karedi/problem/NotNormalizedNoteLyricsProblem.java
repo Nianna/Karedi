@@ -1,13 +1,13 @@
-package main.java.com.github.nianna.karedi.problem;
+package com.github.nianna.karedi.problem;
 
 import java.util.Optional;
 
-import main.java.com.github.nianna.karedi.I18N;
-import main.java.com.github.nianna.karedi.command.ChangeLyricsCommand;
-import main.java.com.github.nianna.karedi.command.Command;
-import main.java.com.github.nianna.karedi.command.CommandComposite;
-import main.java.com.github.nianna.karedi.song.Note;
-import main.java.com.github.nianna.karedi.util.LyricsHelper;
+import com.github.nianna.karedi.I18N;
+import com.github.nianna.karedi.command.ChangeLyricsCommand;
+import com.github.nianna.karedi.command.Command;
+import com.github.nianna.karedi.command.CommandComposite;
+import com.github.nianna.karedi.song.Note;
+import com.github.nianna.karedi.util.LyricsHelper;
 
 public class NotNormalizedNoteLyricsProblem extends IntBoundedProblem {
 	public static final String TITLE = I18N.get("problem.note.not_normalized_lyrics.title");

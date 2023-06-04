@@ -1,4 +1,4 @@
-package main.java.com.github.nianna.karedi.song;
+package com.github.nianna.karedi.song;
 
 import java.util.Optional;
 
@@ -9,17 +9,17 @@ import javafx.beans.property.ReadOnlyBooleanWrapper;
 import javafx.beans.property.ReadOnlyObjectProperty;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.collections.ObservableList;
-import main.java.com.github.nianna.karedi.problem.Problem;
-import main.java.com.github.nianna.karedi.problem.Problematic;
-import main.java.com.github.nianna.karedi.region.Bounded;
-import main.java.com.github.nianna.karedi.region.BoundingBox;
-import main.java.com.github.nianna.karedi.region.Direction;
-import main.java.com.github.nianna.karedi.region.IntBounded;
-import main.java.com.github.nianna.karedi.region.Movable;
-import main.java.com.github.nianna.karedi.region.Resizable;
-import main.java.com.github.nianna.karedi.util.LyricsHelper;
-import main.java.com.github.nianna.karedi.util.MathUtils;
-import main.java.com.github.nianna.karedi.util.MusicalScale;
+import com.github.nianna.karedi.problem.Problem;
+import com.github.nianna.karedi.problem.Problematic;
+import com.github.nianna.karedi.region.Bounded;
+import com.github.nianna.karedi.region.BoundingBox;
+import com.github.nianna.karedi.region.Direction;
+import com.github.nianna.karedi.region.IntBounded;
+import com.github.nianna.karedi.region.Movable;
+import com.github.nianna.karedi.region.Resizable;
+import com.github.nianna.karedi.util.LyricsHelper;
+import com.github.nianna.karedi.util.MathUtils;
+import com.github.nianna.karedi.util.MusicalScale;
 
 public class Note
 		implements Comparable<Note>, IntBounded, Movable<Integer>, Resizable<Integer>, Problematic {

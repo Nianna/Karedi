@@ -1,4 +1,4 @@
-package main.java.com.github.nianna.karedi.util;
+package com.github.nianna.karedi.util;
 
 import java.util.Optional;
 
@@ -6,7 +6,7 @@ import org.controlsfx.validation.ValidationResult;
 import org.controlsfx.validation.Validator;
 
 import javafx.scene.control.Control;
-import main.java.com.github.nianna.karedi.I18N;
+import com.github.nianna.karedi.I18N;
 
 public class StringValidators {
 	private StringValidators() {

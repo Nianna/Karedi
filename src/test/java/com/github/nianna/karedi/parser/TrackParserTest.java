@@ -1,13 +1,13 @@
-package test.java.com.github.nianna.karedi.parser;
+package com.github.nianna.karedi.parser;
 
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import main.java.com.github.nianna.karedi.parser.element.InvalidSongElementException;
-import main.java.com.github.nianna.karedi.parser.element.TrackElement;
-import main.java.com.github.nianna.karedi.parser.element.VisitableSongElement;
-import main.java.com.github.nianna.karedi.parser.elementparser.TrackParser;
+import com.github.nianna.karedi.parser.element.InvalidSongElementException;
+import com.github.nianna.karedi.parser.element.TrackElement;
+import com.github.nianna.karedi.parser.element.VisitableSongElement;
+import com.github.nianna.karedi.parser.elementparser.TrackParser;
 
 public class TrackParserTest {
 	private static TrackParser parser;

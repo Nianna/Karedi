@@ -1,13 +1,13 @@
-package test.java.com.github.nianna.karedi.parser;
+package com.github.nianna.karedi.parser;
 
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import main.java.com.github.nianna.karedi.parser.element.EndOfSongElement;
-import main.java.com.github.nianna.karedi.parser.element.InvalidSongElementException;
-import main.java.com.github.nianna.karedi.parser.element.VisitableSongElement;
-import main.java.com.github.nianna.karedi.parser.elementparser.EndOfSongParser;
+import com.github.nianna.karedi.parser.element.EndOfSongElement;
+import com.github.nianna.karedi.parser.element.InvalidSongElementException;
+import com.github.nianna.karedi.parser.element.VisitableSongElement;
+import com.github.nianna.karedi.parser.elementparser.EndOfSongParser;
 
 public class EndOfSongParserTest {
 	private static EndOfSongParser parser;

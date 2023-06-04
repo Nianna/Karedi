@@ -1,9 +1,9 @@
-package test.java.com.github.nianna.karedi.parser;
+package com.github.nianna.karedi.parser;
 
 import org.junit.Assert;
 import org.junit.Test;
 
-import main.java.com.github.nianna.karedi.parser.elementunparser.Utils;
+import com.github.nianna.karedi.parser.elementunparser.Utils;
 
 public class UtilsTest {
 
