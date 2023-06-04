@@ -266,7 +266,8 @@ public class MainChart extends Region {
         if (xAxis.getTickMarks().size() > MAX_MINOR_VERTICAL_LINES) {
             verticalMarksStream = verticalMarksStream.filter(tick -> tick.getValue().intValue() % 4 == 0);
         }
-        List<Pair<Integer, Double>> verticalMarks = verticalMarksStream.map(tick -> new Pair<>(tick.getValue().intValue(), xAxis.getDisplayPosition(tick.getValue())))
+        List<Pair<Integer, Double>> verticalMarks = verticalMarksStream
+                .map(tick -> new Pair<>(tick.getValue().intValue(), xAxis.getDisplayPosition(tick.getValue())))
                 .collect(Collectors.toList());
         grid.drawVerticalLines(verticalMarks, yAxis.getHeight());
     }
