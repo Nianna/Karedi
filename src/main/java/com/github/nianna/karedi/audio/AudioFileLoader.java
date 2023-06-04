@@ -8,6 +8,9 @@ import javafx.concurrent.Task;
 
 public class AudioFileLoader {
 
+	private AudioFileLoader() {
+	}
+
 	/**
 	 * Loads the specified mp3 file on a background thread and passes the
 	 * optional result to the given consumer.

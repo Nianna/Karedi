@@ -8,6 +8,10 @@ import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 
 public class ListenersUtils {
+
+	private ListenersUtils() {
+	}
+
 	public static <T extends Observable> void addListElementListener(ObservableList<T> list,
 			InvalidationListener listener) {
 		list.addListener((ListChangeListener<? super T>) c -> {

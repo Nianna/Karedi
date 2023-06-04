@@ -14,6 +14,9 @@ public class I18N {
 
 	private static ResourceBundle bundle;
 
+	private I18N() {
+	}
+
 	public static String get(final String key, final Object... args) {
 		if (bundle != null) {
 			try {

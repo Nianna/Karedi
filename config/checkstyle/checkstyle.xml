@@ -139,7 +139,7 @@
         <!-- Checks for class design                         -->
         <!-- See https://checkstyle.org/config_design.html -->
 <!--  TODO      <module name="FinalClass"/>-->
-<!--  TODO      <module name="HideUtilityClassConstructor"/>-->
+        <module name="HideUtilityClassConstructor"/>
         <module name="InterfaceIsType"/>
 <!--  TODO      <module name="VisibilityModifier"/>-->
 
