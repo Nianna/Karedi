@@ -1,4 +1,4 @@
-package test.java.com.github.nianna.karedi.util;
+package com.github.nianna.karedi.util;
 
 import org.junit.Assert;
 import org.junit.Before;

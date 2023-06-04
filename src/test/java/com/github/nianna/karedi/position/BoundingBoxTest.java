@@ -1,4 +1,4 @@
-package test.java.com.github.nianna.karedi.position;
+package com.github.nianna.karedi.position;
 
 import static org.junit.Assert.assertEquals;
 

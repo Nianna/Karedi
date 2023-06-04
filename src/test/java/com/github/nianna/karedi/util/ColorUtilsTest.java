@@ -1,4 +1,4 @@
-package test.java.com.github.nianna.karedi.util;
+package com.github.nianna.karedi.util;
 
 import javafx.scene.paint.Color;
 import com.github.nianna.karedi.util.ColorUtils;

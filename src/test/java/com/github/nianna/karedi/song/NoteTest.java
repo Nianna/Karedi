@@ -1,4 +1,4 @@
-package test.java.com.github.nianna.karedi.song;
+package com.github.nianna.karedi.song;
 
 import static org.junit.Assert.assertEquals;
 

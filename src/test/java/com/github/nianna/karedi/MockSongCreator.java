@@ -1,4 +1,4 @@
-package test.java.com.github.nianna.karedi;
+package com.github.nianna.karedi;
 
 import java.util.ArrayList;
 import java.util.List;

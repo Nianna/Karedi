@@ -1,4 +1,4 @@
-package test.java.com.github.nianna.karedi.parser;
+package com.github.nianna.karedi.parser;
 
 import org.junit.Assert;
 import org.junit.BeforeClass;
