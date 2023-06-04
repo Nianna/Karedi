@@ -526,8 +526,7 @@ public class EditorController implements Controller {
 				return;
 			}
 			if (lastNote != null) {
-				// ignore keyPressed events generated while the key is being
-				// held down
+				// ignore keyPressed events generated while the key is being held down
 			} else {
 				if (event.getCode() == KeyCode.ENTER) {
 					line = null;
