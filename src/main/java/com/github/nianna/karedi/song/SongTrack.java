@@ -254,15 +254,17 @@ public class SongTrack implements IntBounded, Problematic, MovableContainer<Song
 
 	public Optional<SongLine> getNext(SongLine songLine) {
 		int index = indexOf(songLine);
-		if (index < size() - 1)
+		if (index < size() - 1) {
 			return Optional.of(get((index + 1) % size()));
+		}
 		return Optional.empty();
 	}
 
 	public Optional<SongLine> getPrevious(SongLine songLine) {
 		int index = indexOf(songLine);
-		if (index > 0)
+		if (index > 0) {
 			return Optional.of(get((index - 1) % size()));
+		}
 		return Optional.empty();
 	}
 
