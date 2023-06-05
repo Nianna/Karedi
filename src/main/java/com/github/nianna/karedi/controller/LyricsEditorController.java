@@ -207,6 +207,7 @@ public class LyricsEditorController implements Controller {
 		if (isLegal(text)) {
 			replaceText(startPos, endPos, text);
 			textArea.replaceSelection(text);
+			textArea.requestFollowCaret();
 		}
 	}
 
@@ -584,6 +585,20 @@ public class LyricsEditorController implements Controller {
 				invalid.set(false);
 				return false;
 			}
+		}
+
+		@Override
+		public void moveTo(int caretPosition) {
+			super.moveTo(normalizeCaretPosition(caretPosition));
+		}
+
+		@Override
+		public void selectRange(int anchor, int caretPosition) {
+			super.selectRange(normalizeCaretPosition(anchor), normalizeCaretPosition(caretPosition));
+		}
+
+		private int normalizeCaretPosition(int caretPosition) {
+			return Math.max(0, Math.min(caretPosition, getLength()));
 		}
 
 		private boolean setTrack(SongTrack track) {
