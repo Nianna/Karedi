@@ -1,5 +1,5 @@
 [![Java CI](https://github.com/Nianna/Karedi/actions/workflows/maven.yml/badge.svg?branch=master)](https://github.com/Nianna/Karedi/actions/workflows/maven.yml)
-![Java](https://img.shields.io/badge/Java-8-b07219)
+![Java](https://img.shields.io/badge/Java-17-informational)
 
 # Karedi
 
@@ -40,8 +40,6 @@ For tutorials explaining how to use this software, please refer to the [project'
 
 ## Requirements
 
-Karedi requires <b>Java 8</b>, please update it to the newest version to ensure that everything runs smoothly.
-
 <b>Operating system:</b>
 <br>
   Karedi is primarily targeted for <b>Windows</b> users and compatibility issues with other systems have low priority for now.
@@ -49,7 +47,7 @@ If you want to run it on Linux, please make sure to use Java distributed by Orac
 
 ## Downloads
 
-The program is currently released as an executable jar file, you can found the newest version in the [Releases](https://github.com/Nianna/Karedi/releases/latest) section.
+You can found the newest version in the [Releases](https://github.com/Nianna/Karedi/releases/latest) section.
 
 ## Libraries
 
