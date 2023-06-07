@@ -7,6 +7,7 @@ import java.util.Locale;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
+import javafx.scene.image.Image;
 import org.controlsfx.glyphfont.FontAwesome;
 import org.controlsfx.glyphfont.GlyphFontRegistry;
 
@@ -65,6 +66,7 @@ public class KarediApp extends Application {
 	@Override
 	public void start(Stage primaryStage) {
 		this.primaryStage = primaryStage;
+		this.primaryStage.getIcons().add(new Image(KarediApp.class.getResourceAsStream("/icon/icon.png")));
 		this.primaryStage.setTitle(APP_NAME);
 
 		initRootLayout();

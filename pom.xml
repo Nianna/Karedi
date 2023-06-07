@@ -80,6 +80,26 @@
 					<mainClass>com.github.nianna.karedi.KarediAppLauncher</mainClass>
 				</configuration>
 			</plugin>
+
+			<plugin>
+				<groupId>org.panteleyev</groupId>
+				<artifactId>jpackage-maven-plugin</artifactId>
+				<version>1.4.0</version>
+				<configuration>
+					<name>Karedi</name>
+					<appVersion>${project.version}</appVersion>
+					<vendor>com.github.nianna</vendor>
+					<destination>target/dist</destination>
+					<input>target/output</input>
+					<mainJar>Karedi-${project.version}-jar-with-dependencies.jar</mainJar>
+					<winShortcut>true</winShortcut>
+					<winDirChooser>true</winDirChooser>
+					<winMenu>true</winMenu>
+					<winPerUserInstall>true</winPerUserInstall>
+					<icon>src/main/resources/icon/icon.ico</icon>
+					<winUpgradeUuid>643965f2-2ce8-4bd5-87de-e3074e25d589</winUpgradeUuid>
+				</configuration>
+			</plugin>
 		</plugins>
 	</build>
 
