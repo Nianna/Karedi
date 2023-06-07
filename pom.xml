@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>Karedi</groupId>
 	<artifactId>Karedi</artifactId>
-	<version>1.2.2</version>
+	<version>1.3.0-rc.1</version>
 
 	<properties>
 		<project.vendor>com.github.nianna</project.vendor>
