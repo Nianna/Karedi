@@ -1,47 +1,10 @@
 package com.github.nianna.karedi.parser.element;
 
-public class NoteElement implements VisitableSongElement {
-	public enum Type {
-		FREESTYLE,
-		GOLDEN,
-		NORMAL,
-		RAP,
-		GOLDEN_RAP
-	}
-
-	private final Type type;
-	private final Integer startsAt;
-	private final Integer tone;
-	private final Integer length;
-	private final String lyrics;
-
-	public NoteElement(Type type, Integer startsAt, Integer length, Integer tone, String lyrics) {
-		this.type = type;
-		this.startsAt = startsAt;
-		this.length = length;
-		this.tone = tone;
-		this.lyrics = lyrics;
-	}
-
-	public Type getType() {
-		return type;
-	}
-
-	public Integer getStartsAt() {
-		return startsAt;
-	}
-
-	public Integer getTone() {
-		return tone;
-	}
-
-	public Integer getLength() {
-		return length;
-	}
-
-	public String getLyrics() {
-		return lyrics;
-	}
+public record NoteElement(NoteElementType type,
+						  int startsAt,
+						  int length,
+						  int tone,
+						  String lyrics) implements VisitableSongElement {
 
 	@Override
 	public void accept(SongElementVisitor visitor) {

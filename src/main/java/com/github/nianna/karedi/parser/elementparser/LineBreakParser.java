@@ -14,6 +14,7 @@ import com.github.nianna.karedi.parser.element.VisitableSongElement;
  * one (in the game).
  */
 public class LineBreakParser extends SongElementParser {
+
 	private static final String LINE_BREAK_PATTERN = "- (-*[0-9]+)";
 
 	public LineBreakParser() {
@@ -21,8 +22,8 @@ public class LineBreakParser extends SongElementParser {
 	}
 
 	@Override
-	public VisitableSongElement createElement(Matcher m) {
-		int position = Integer.parseInt(m.group(1));
+	public VisitableSongElement createElement(Matcher matcher) {
+		int position = Integer.parseInt(matcher.group(1));
 		return new LineBreakElement(position);
 	}
 

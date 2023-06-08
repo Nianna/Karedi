@@ -42,7 +42,7 @@ public class LineBreakParserTest {
 			throws InvalidSongElementException {
 		LineBreakElement result = (LineBreakElement) parser.parse("- 2");
 		Assert.assertNotNull(result);
-		Assert.assertEquals((Integer) 2, result.getPosition());
+		Assert.assertEquals((Integer) 2, result.position());
 	}
 
 }

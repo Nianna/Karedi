@@ -1,13 +1,12 @@
 package com.github.nianna.karedi.parser;
 
-import org.junit.Assert;
-import org.junit.BeforeClass;
-import org.junit.Test;
-
 import com.github.nianna.karedi.parser.element.InvalidSongElementException;
 import com.github.nianna.karedi.parser.element.TrackElement;
 import com.github.nianna.karedi.parser.element.VisitableSongElement;
 import com.github.nianna.karedi.parser.elementparser.TrackParser;
+import org.junit.Assert;
+import org.junit.BeforeClass;
+import org.junit.Test;
 
 public class TrackParserTest {
 	private static TrackParser parser;
@@ -39,7 +38,7 @@ public class TrackParserTest {
 	public void returnsElementWithValidPlayerForCorrectInput() throws InvalidSongElementException {
 		TrackElement result = (TrackElement) parser.parse("P 2");
 		Assert.assertNotNull(result);
-		Assert.assertEquals((Integer) 2, result.getNumber());
+		Assert.assertEquals(2, result.number());
 	}
 
 }

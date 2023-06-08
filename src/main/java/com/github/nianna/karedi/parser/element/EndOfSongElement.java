@@ -1,6 +1,6 @@
 package com.github.nianna.karedi.parser.element;
 
-public class EndOfSongElement implements VisitableSongElement {
+public record EndOfSongElement() implements VisitableSongElement {
 
 	@Override
 	public void accept(SongElementVisitor visitor) {

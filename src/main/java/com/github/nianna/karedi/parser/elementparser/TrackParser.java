@@ -1,9 +1,9 @@
 package com.github.nianna.karedi.parser.elementparser;
 
-import java.util.regex.Matcher;
-
 import com.github.nianna.karedi.parser.element.TrackElement;
 import com.github.nianna.karedi.parser.element.VisitableSongElement;
+
+import java.util.regex.Matcher;
 
 /**
  * The default parser of the {@link TrackElement}.
@@ -12,6 +12,7 @@ import com.github.nianna.karedi.parser.element.VisitableSongElement;
  * {@code 'P'} followed by a number of the player, e.g. {@code "P 2"}.
  */
 public class TrackParser extends SongElementParser {
+
 	private static final String TRACK_PATTERN = "P ([0-9]+)";
 
 	public TrackParser() {
@@ -19,8 +20,8 @@ public class TrackParser extends SongElementParser {
 	}
 
 	@Override
-	public VisitableSongElement createElement(Matcher m) {
-		int number = Integer.parseInt(m.group(1));
+	public VisitableSongElement createElement(Matcher matcher) {
+		int number = Integer.parseInt(matcher.group(1));
 		return new TrackElement(number);
 	}
 

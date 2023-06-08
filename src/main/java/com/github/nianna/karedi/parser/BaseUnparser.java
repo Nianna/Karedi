@@ -18,53 +18,19 @@ import com.github.nianna.karedi.parser.elementunparser.TrackElementUnparser;
  * <p>
  * Uses default unparsers, but all of them can be substituted.
  */
-public class BaseUnparser implements Unparser, SongElementVisitor {
+class BaseUnparser implements Unparser, SongElementVisitor {
+
 	protected String result;
-	private Unparser tagElementUnparser = new TagElementUnparser();
-	private Unparser noteElementUnparser = new NoteElementUnparser();
-	private Unparser lineBreakElementUnparser = new LineBreakElementUnparser();
-	private Unparser endOfSongElementUnparser = new EndOfSongElementUnparser();
-	private Unparser trackElementUnparser = new TrackElementUnparser();
 
-	public Unparser getTagElementUnparser() {
-		return tagElementUnparser;
-	}
+	private final Unparser tagElementUnparser = new TagElementUnparser();
 
-	public void setTagElementUnparser(Unparser tagElementUnparser) {
-		this.tagElementUnparser = tagElementUnparser;
-	}
+	private final Unparser noteElementUnparser = new NoteElementUnparser();
 
-	public Unparser getNoteElementUnparser() {
-		return noteElementUnparser;
-	}
+	private final Unparser lineBreakElementUnparser = new LineBreakElementUnparser();
 
-	public void setNoteElementUnparser(Unparser noteElementUnparser) {
-		this.noteElementUnparser = noteElementUnparser;
-	}
+	private final Unparser endOfSongElementUnparser = new EndOfSongElementUnparser();
 
-	public Unparser getLineBreakElementUnparser() {
-		return lineBreakElementUnparser;
-	}
-
-	public void setLineBreakElementUnparser(Unparser lineBreakElementUnparser) {
-		this.lineBreakElementUnparser = lineBreakElementUnparser;
-	}
-
-	public Unparser getEndOfSongElementUnparser() {
-		return endOfSongElementUnparser;
-	}
-
-	public void setEndOfSongElementUnparser(Unparser endOfSongElementUnparser) {
-		this.endOfSongElementUnparser = endOfSongElementUnparser;
-	}
-
-	public Unparser getTrackElementUnparser() {
-		return trackElementUnparser;
-	}
-
-	public void setTrackElementUnparser(Unparser trackElementUnparser) {
-		this.trackElementUnparser = trackElementUnparser;
-	}
+	private final Unparser trackElementUnparser = new TrackElementUnparser();
 
 	@Override
 	public String unparse(VisitableSongElement element) {
