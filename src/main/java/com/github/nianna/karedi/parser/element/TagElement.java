@@ -1,21 +1,6 @@
 package com.github.nianna.karedi.parser.element;
 
-public class TagElement implements VisitableSongElement {
-	private final String key;
-	private final String value;
-
-	public TagElement(String key, String value) {
-		this.key = key;
-		this.value = value;
-	}
-
-	public String getValue() {
-		return value;
-	}
-
-	public String getKey() {
-		return key;
-	}
+public record TagElement(String key, String value) implements VisitableSongElement {
 
 	@Override
 	public void accept(SongElementVisitor visitor) {

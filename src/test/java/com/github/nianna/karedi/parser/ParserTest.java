@@ -1,9 +1,5 @@
 package com.github.nianna.karedi.parser;
 
-import org.junit.Assert;
-import org.junit.Test;
-
-import com.github.nianna.karedi.parser.BaseParser;
 import com.github.nianna.karedi.parser.element.EndOfSongElement;
 import com.github.nianna.karedi.parser.element.InvalidSongElementException;
 import com.github.nianna.karedi.parser.element.LineBreakElement;
@@ -11,9 +7,11 @@ import com.github.nianna.karedi.parser.element.NoteElement;
 import com.github.nianna.karedi.parser.element.TagElement;
 import com.github.nianna.karedi.parser.element.TrackElement;
 import com.github.nianna.karedi.parser.element.VisitableSongElement;
+import org.junit.Assert;
+import org.junit.Test;
 
-public class BaseParserTest {
-	private static BaseParser parser = new BaseParser();
+public class ParserTest {
+	private static Parser parser = ParsingFactory.createParser();
 
 	@Test
 	public void recognizesEndOfSongElements() throws InvalidSongElementException {

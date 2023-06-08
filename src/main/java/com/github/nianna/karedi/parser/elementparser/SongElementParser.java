@@ -1,11 +1,11 @@
 package com.github.nianna.karedi.parser.elementparser;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import com.github.nianna.karedi.parser.Parser;
 import com.github.nianna.karedi.parser.element.InvalidSongElementException;
 import com.github.nianna.karedi.parser.element.VisitableSongElement;
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * The base class for all parsers that are responsible for recognizing a
@@ -14,10 +14,12 @@ import com.github.nianna.karedi.parser.element.VisitableSongElement;
  * They can be linked to each other to form a chain.
  */
 public abstract class SongElementParser implements Parser {
-	private SongElementParser nextParser;
-	private String pattern;
 
-	public SongElementParser(String pattern) {
+	private SongElementParser nextParser;
+
+	private final String pattern;
+
+	protected SongElementParser(String pattern) {
 		this.pattern = pattern;
 	}
 
@@ -32,9 +34,9 @@ public abstract class SongElementParser implements Parser {
 	@Override
 	public final VisitableSongElement parse(String line) throws InvalidSongElementException {
 		Pattern tagPattern = Pattern.compile(pattern);
-		Matcher m = tagPattern.matcher(line);
-		if (m.matches()) {
-			return createElement(m);
+		Matcher matcher = tagPattern.matcher(line);
+		if (matcher.matches()) {
+			return createElement(matcher);
 		} else {
 			if (nextParser == null) {
 				throw new InvalidSongElementException(line);
@@ -44,6 +46,6 @@ public abstract class SongElementParser implements Parser {
 		}
 	}
 
-	public abstract VisitableSongElement createElement(Matcher m);
+	public abstract VisitableSongElement createElement(Matcher matcher);
 
 }

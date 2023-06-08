@@ -11,6 +11,7 @@ import com.github.nianna.karedi.parser.element.VisitableSongElement;
  * This element is represented by a single line with the letter {@code "E"}.
  */
 public class EndOfSongParser extends SongElementParser {
+
 	private static final String END_OF_SONG_PATTERN = "E";
 
 	public EndOfSongParser() {
@@ -18,7 +19,7 @@ public class EndOfSongParser extends SongElementParser {
 	}
 
 	@Override
-	public VisitableSongElement createElement(Matcher m) {
+	public VisitableSongElement createElement(Matcher matcher) {
 		return new EndOfSongElement();
 	}
 

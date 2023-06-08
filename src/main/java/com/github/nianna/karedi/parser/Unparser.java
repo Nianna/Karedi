@@ -8,5 +8,7 @@ import com.github.nianna.karedi.parser.element.VisitableSongElement;
  * Dual to {@link Parser}.
  */
 public interface Unparser {
+
 	String unparse(VisitableSongElement element);
+
 }

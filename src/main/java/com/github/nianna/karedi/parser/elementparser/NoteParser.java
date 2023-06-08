@@ -1,10 +1,11 @@
 package com.github.nianna.karedi.parser.elementparser;
 
-import java.util.regex.Matcher;
-
 import com.github.nianna.karedi.parser.element.NoteElement;
-import com.github.nianna.karedi.parser.element.NoteElement.Type;
+import com.github.nianna.karedi.parser.element.NoteElementType;
 import com.github.nianna.karedi.parser.element.VisitableSongElement;
+
+import java.util.regex.Matcher;
+import java.util.stream.Collectors;
 
 /**
  * The default parser of the {@link NoteElement}.
@@ -17,35 +18,29 @@ import com.github.nianna.karedi.parser.element.VisitableSongElement;
  * tone. Note's representation ends with its lyrics.
  */
 public class NoteParser extends SongElementParser {
-	private static final String NOTE_PATTERN = "([*:FGR]) (-*[0-9]+) ([0-9]+) (-*[0-9]+) (.+)";
+
+	private static final String NOTE_PATTERN = "([%s]) (-*[0-9]+) ([0-9]+) (-*[0-9]+) (.+)"
+			.formatted(allTypesRepresentationsPattern());
+
+	private static String allTypesRepresentationsPattern() {
+		return NoteElementType.allTypeRepresentations()
+				.stream()
+				.map(String::valueOf)
+				.collect(Collectors.joining());
+	}
 
 	public NoteParser() {
 		super(NOTE_PATTERN);
 	}
 
 	@Override
-	public VisitableSongElement createElement(Matcher m) {
-		Type type = stringToType(m.group(1));
-		int startsAt = Integer.parseInt(m.group(2));
-		int length = Integer.parseInt(m.group(3));
-		int tone = Integer.parseInt(m.group(4));
-		String lyrics = m.group(5);
+	public VisitableSongElement createElement(Matcher matcher) {
+		NoteElementType type = NoteElementType.fromRepresentation(matcher.group(1).charAt(0));
+		int startsAt = Integer.parseInt(matcher.group(2));
+		int length = Integer.parseInt(matcher.group(3));
+		int tone = Integer.parseInt(matcher.group(4));
+		String lyrics = matcher.group(5);
 
 		return new NoteElement(type, startsAt, length, tone, lyrics);
-	}
-
-	private Type stringToType(String string) {
-		switch (string) {
-		case "*":
-			return Type.GOLDEN;
-		case "F":
-			return Type.FREESTYLE;
-		case "R":
-			return Type.RAP;
-		case "G":
-			return Type.GOLDEN_RAP;
-		default:
-			return Type.NORMAL;
-		}
 	}
 }

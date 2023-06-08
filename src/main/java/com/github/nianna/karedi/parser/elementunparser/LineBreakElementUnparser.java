@@ -6,7 +6,7 @@ public class LineBreakElementUnparser extends SongElementUnparser {
 
 	@Override
 	public void visit(LineBreakElement element) {
-		result = Utils.join(" ", "-", Utils.integerToString(element.getPosition()));
+		result = "- %d".formatted(element.position());
 	}
 
 }

@@ -1,13 +1,9 @@
 package com.github.nianna.karedi.context;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
-
 import com.github.nianna.karedi.parser.element.EndOfSongElement;
 import com.github.nianna.karedi.parser.element.LineBreakElement;
 import com.github.nianna.karedi.parser.element.NoteElement;
-import com.github.nianna.karedi.parser.element.NoteElement.Type;
+import com.github.nianna.karedi.parser.element.NoteElementType;
 import com.github.nianna.karedi.parser.element.TagElement;
 import com.github.nianna.karedi.parser.element.TrackElement;
 import com.github.nianna.karedi.parser.element.VisitableSongElement;
@@ -16,6 +12,10 @@ import com.github.nianna.karedi.song.Song;
 import com.github.nianna.karedi.song.SongLine;
 import com.github.nianna.karedi.song.SongTrack;
 import com.github.nianna.karedi.song.tag.Tag;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class SongDisassembler {
 
@@ -77,18 +77,13 @@ public class SongDisassembler {
 		return new TagElement(tag.getKey(), tag.getValue());
 	}
 
-	private Type noteElementType(Note.Type type) {
-		switch (type) {
-		case GOLDEN:
-			return Type.GOLDEN;
-		case FREESTYLE:
-			return Type.FREESTYLE;
-		case RAP:
-			return Type.RAP;
-		case GOLDEN_RAP:
-			return Type.GOLDEN_RAP;
-		default:
-			return Type.NORMAL;
-		}
+	private NoteElementType noteElementType(Note.Type type) {
+		return switch (type) {
+			case GOLDEN -> NoteElementType.GOLDEN;
+			case FREESTYLE -> NoteElementType.FREESTYLE;
+			case RAP -> NoteElementType.RAP;
+			case GOLDEN_RAP -> NoteElementType.GOLDEN_RAP;
+			default -> NoteElementType.NORMAL;
+		};
 	}
 }

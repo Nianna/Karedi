@@ -13,6 +13,7 @@ import com.github.nianna.karedi.parser.element.VisitableSongElement;
  * tag's key and value respectively.
  */
 public class TagParser extends SongElementParser {
+
 	private static final String TAG_PATTERN = "#(.+?):(.+)";
 
 	public TagParser() {
@@ -20,9 +21,9 @@ public class TagParser extends SongElementParser {
 	}
 
 	@Override
-	public VisitableSongElement createElement(Matcher m) {
-		String tagKey = m.group(1).toUpperCase();
-		String tagValue = m.group(2);
+	public VisitableSongElement createElement(Matcher matcher) {
+		String tagKey = matcher.group(1).toUpperCase();
+		String tagValue = matcher.group(2);
 		return new TagElement(tagKey, tagValue);
 	}
 

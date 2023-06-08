@@ -1,14 +1,9 @@
 package com.github.nianna.karedi.context;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import com.github.nianna.karedi.parser.element.EndOfSongElement;
 import com.github.nianna.karedi.parser.element.LineBreakElement;
 import com.github.nianna.karedi.parser.element.NoteElement;
-import com.github.nianna.karedi.parser.element.NoteElement.Type;
+import com.github.nianna.karedi.parser.element.NoteElementType;
 import com.github.nianna.karedi.parser.element.SongElementVisitor;
 import com.github.nianna.karedi.parser.element.TagElement;
 import com.github.nianna.karedi.parser.element.TrackElement;
@@ -18,6 +13,11 @@ import com.github.nianna.karedi.song.Song;
 import com.github.nianna.karedi.song.SongLine;
 import com.github.nianna.karedi.song.SongTrack;
 import com.github.nianna.karedi.util.LyricsHelper;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class BasicSongBuilder implements SongBuilder, SongElementVisitor {
 	public static final Integer DEFAULT_TRACK = 1;
@@ -48,7 +48,7 @@ public class BasicSongBuilder implements SongBuilder, SongElementVisitor {
 	@Override
 	public void visit(LineBreakElement lineBreakElement) {
 		currentTrack.addLine(buildLine());
-		lineStartBeat = lineBreakElement.getPosition();
+		lineStartBeat = lineBreakElement.position();
 		firstNoteInLine = true;
 	}
 
@@ -68,13 +68,13 @@ public class BasicSongBuilder implements SongBuilder, SongElementVisitor {
 
 	@Override
 	public void visit(TagElement tagElement) {
-		song.setTagValue(tagElement.getKey(), tagElement.getValue());
+		song.setTagValue(tagElement.key(), tagElement.value());
 	}
 
 	@Override
 	public void visit(TrackElement trackElement) {
 		currentTrack.addLine(buildLine());
-		Integer trackNumber = trackElement.getNumber();
+		Integer trackNumber = trackElement.number();
 		currentTrack = tracks.getOrDefault(trackNumber, new SongTrack(trackNumber));
 		tracks.put(trackNumber, currentTrack);
 	}
@@ -111,31 +111,25 @@ public class BasicSongBuilder implements SongBuilder, SongElementVisitor {
 	}
 
 	private Note getNote(NoteElement noteElement) {
-		Type type = noteElement.getType();
-		Integer startsAt = noteElement.getStartsAt();
-		Integer tone = noteElement.getTone();
-		Integer length = noteElement.getLength();
-		String lyrics = noteElement.getLyrics();
-
-		Note note = new Note(startsAt, length, tone, lyrics);
-		note.setType(convertType(type));
+		Note note = new Note(
+				noteElement.startsAt(),
+				noteElement.length(),
+				noteElement.tone(),
+				noteElement.lyrics()
+		);
+		note.setType(convertType(noteElement.type()));
 
 		return note;
 	}
 	
-	private Note.Type convertType(Type type) {
-		switch (type) {
-			case GOLDEN:
-				return Note.Type.GOLDEN;
-			case FREESTYLE:
-				return Note.Type.FREESTYLE;
-			case RAP:
-				return Note.Type.RAP;
-			case GOLDEN_RAP:
-				return Note.Type.GOLDEN_RAP;
-			default:
-				return Note.Type.NORMAL;
-		}
+	private Note.Type convertType(NoteElementType type) {
+		return switch (type) {
+			case GOLDEN -> Note.Type.GOLDEN;
+			case FREESTYLE -> Note.Type.FREESTYLE;
+			case RAP -> Note.Type.RAP;
+			case GOLDEN_RAP -> Note.Type.GOLDEN_RAP;
+			default -> Note.Type.NORMAL;
+		};
 	}
 		
 }

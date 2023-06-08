@@ -9,5 +9,7 @@ import com.github.nianna.karedi.parser.element.VisitableSongElement;
  * Dual to {@link Unparser}.
  */
 public interface Parser {
+
 	VisitableSongElement parse(String fileLine) throws InvalidSongElementException;
+
 }

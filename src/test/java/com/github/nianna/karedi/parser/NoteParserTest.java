@@ -1,14 +1,13 @@
 package com.github.nianna.karedi.parser;
 
+import com.github.nianna.karedi.parser.element.InvalidSongElementException;
+import com.github.nianna.karedi.parser.element.NoteElement;
+import com.github.nianna.karedi.parser.element.NoteElementType;
+import com.github.nianna.karedi.parser.element.VisitableSongElement;
+import com.github.nianna.karedi.parser.elementparser.NoteParser;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
-
-import com.github.nianna.karedi.parser.element.InvalidSongElementException;
-import com.github.nianna.karedi.parser.element.NoteElement;
-import com.github.nianna.karedi.parser.element.NoteElement.Type;
-import com.github.nianna.karedi.parser.element.VisitableSongElement;
-import com.github.nianna.karedi.parser.elementparser.NoteParser;
 
 public class NoteParserTest {
 	private static NoteParser parser;
@@ -57,28 +56,28 @@ public class NoteParserTest {
 	@Test
 	public void recognizesNormalNotes() throws InvalidSongElementException {
 		NoteElement result = (NoteElement) parser.parse(": 0 1 2 Foo");
-		Assert.assertEquals(Type.NORMAL, result.getType());
+		Assert.assertEquals(NoteElementType.NORMAL, result.type());
 	}
 
 	@Test
 	public void recognizesFreestyleNotes() throws InvalidSongElementException {
 		NoteElement result = (NoteElement) parser.parse("F 0 1 2 Foo");
-		Assert.assertEquals(Type.FREESTYLE, result.getType());
+		Assert.assertEquals(NoteElementType.FREESTYLE, result.type());
 	}
 
 	@Test
 	public void recognizesGoldenNotes() throws InvalidSongElementException {
 		NoteElement result = (NoteElement) parser.parse("* 0 1 2 Foo");
-		Assert.assertEquals(Type.GOLDEN, result.getType());
+		Assert.assertEquals(NoteElementType.GOLDEN, result.type());
 	}
 
 	@Test
 	public void returnsValidResultForCorrectInput() throws InvalidSongElementException {
 		NoteElement result = (NoteElement) parser.parse(": 0 1 2 Foo bar");
-		Assert.assertEquals("Invalid start beat", (Integer) 0, result.getStartsAt());
-		Assert.assertEquals("Invalid length", (Integer) 1, result.getLength());
-		Assert.assertEquals("Invalid tone", (Integer) 2, result.getTone());
-		Assert.assertEquals("Invalid lyrics", "Foo bar", result.getLyrics());
+		Assert.assertEquals("Invalid start beat", 0, result.startsAt());
+		Assert.assertEquals("Invalid length", 1, result.length());
+		Assert.assertEquals("Invalid tone", 2, result.tone());
+		Assert.assertEquals("Invalid lyrics", "Foo bar", result.lyrics());
 	}
 
 }
