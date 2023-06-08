@@ -4,17 +4,14 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
-import java.util.Arrays;
+import java.util.stream.Stream;
 
-public class TxtFileSaver {
-	private String encoding = "UTF-8";
+class TxtFileSaver {
 
-	public void save(File file, String content) throws FileNotFoundException {
-		save(file, Arrays.asList(content));
-	}
+	private static final String DEFAULT_ENCODING = "UTF-8";
 
-	public void save(File file, Iterable<String> content) throws FileNotFoundException {
-		try (PrintWriter out = new PrintWriter(file, encoding)) {
+	void save(File file, Stream<String> content) throws FileNotFoundException {
+		try (PrintWriter out = new PrintWriter(file, DEFAULT_ENCODING)) {
 			content.forEach(out::println);
 		} catch (UnsupportedEncodingException e) {
 			// should never happen
