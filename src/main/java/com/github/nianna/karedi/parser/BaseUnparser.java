@@ -9,7 +9,7 @@ import com.github.nianna.karedi.parser.element.TrackElement;
 import com.github.nianna.karedi.parser.element.VisitableSongElement;
 import com.github.nianna.karedi.parser.elementunparser.EndOfSongElementUnparser;
 import com.github.nianna.karedi.parser.elementunparser.LineBreakElementUnparser;
-import com.github.nianna.karedi.parser.elementunparser.NoteElementUnParser;
+import com.github.nianna.karedi.parser.elementunparser.NoteElementUnparser;
 import com.github.nianna.karedi.parser.elementunparser.TagElementUnparser;
 import com.github.nianna.karedi.parser.elementunparser.TrackElementUnparser;
 
@@ -24,7 +24,7 @@ class BaseUnparser implements Unparser, SongElementVisitor {
 
 	private final Unparser tagElementUnparser = new TagElementUnparser();
 
-	private final Unparser noteElementUnparser = new NoteElementUnParser();
+	private final Unparser noteElementUnparser = new NoteElementUnparser();
 
 	private final Unparser lineBreakElementUnparser = new LineBreakElementUnparser();
 

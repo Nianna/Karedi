@@ -2,17 +2,17 @@ package com.github.nianna.karedi.parser;
 
 import com.github.nianna.karedi.parser.element.NoteElement;
 import com.github.nianna.karedi.parser.element.NoteElementType;
-import com.github.nianna.karedi.parser.elementunparser.NoteElementUnParser;
+import com.github.nianna.karedi.parser.elementunparser.NoteElementUnparser;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
 public class NoteElementUnparserTest {
-	private static NoteElementUnParser unparser;
+	private static NoteElementUnparser unparser;
 
 	@BeforeClass
 	public static void setUpClass() {
-		unparser = new NoteElementUnParser();
+		unparser = new NoteElementUnparser();
 	}
 
 	@Test

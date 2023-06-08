@@ -2,7 +2,7 @@ package com.github.nianna.karedi.parser.elementunparser;
 
 import com.github.nianna.karedi.parser.element.NoteElement;
 
-public class NoteElementUnParser extends SongElementUnparser {
+public class NoteElementUnparser extends SongElementUnparser {
 
 	@Override
 	public void visit(NoteElement element) {
