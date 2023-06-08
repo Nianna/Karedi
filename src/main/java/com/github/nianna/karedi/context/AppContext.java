@@ -129,6 +129,7 @@ public class AppContext {
 	private final Parser parser = ParsingFactory.createParser();
 	private final Unparser unparser = ParsingFactory.createUnparser();
 	private final SongLoader songLoader = new SongLoader(parser, new BasicSongBuilder());
+	private final SongNormalizer songNormalizer = new SongNormalizer();
 	private final SongDisassembler songDisassembler = new SongDisassembler();
 	private final SongSaver songSaver = new SongSaver(unparser, songDisassembler);
 	private final ActionHelper actionHelper = new ActionHelper();
@@ -472,7 +473,7 @@ public class AppContext {
 
 	public final void setSong(Song song) {
 		Song oldSong = getSong();
-		new SongNormalizer(song).normalize();
+		songNormalizer.normalize(song);
 		// The song has at least one track now
 		if (song != oldSong) {
 			activeSong.set(song);
