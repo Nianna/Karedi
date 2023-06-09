@@ -38,6 +38,7 @@ import com.github.nianna.karedi.command.tag.RescaleSongToBpmCommand;
 import com.github.nianna.karedi.command.track.AddTrackCommand;
 import com.github.nianna.karedi.command.track.DeleteTrackCommand;
 import com.github.nianna.karedi.command.track.ResetTrackColorsCommand;
+import com.github.nianna.karedi.loader.LoaderFacade;
 import com.github.nianna.karedi.dialog.ChooseTracksDialog;
 import com.github.nianna.karedi.dialog.EditBpmDialog;
 import com.github.nianna.karedi.dialog.EditFilenamesDialog;
@@ -52,7 +53,6 @@ import com.github.nianna.karedi.dialog.PreferencesDialog;
 import com.github.nianna.karedi.parser.Parser;
 import com.github.nianna.karedi.parser.ParsingFactory;
 import com.github.nianna.karedi.parser.Unparser;
-import com.github.nianna.karedi.parser.element.InvalidSongElementException;
 import com.github.nianna.karedi.parser.element.LineBreakElement;
 import com.github.nianna.karedi.parser.element.VisitableSongElement;
 import com.github.nianna.karedi.region.BoundingBox;
@@ -104,7 +104,6 @@ import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -128,7 +127,7 @@ public class AppContext {
 
 	private final Parser parser = ParsingFactory.createParser();
 	private final Unparser unparser = ParsingFactory.createUnparser();
-	private final SongLoader songLoader = new SongLoader(parser, new BasicSongBuilder());
+	private final LoaderFacade loaderFacade = new LoaderFacade(parser);
 	private final SongNormalizer songNormalizer = new SongNormalizer();
 	private final SongDisassembler songDisassembler = new SongDisassembler();
 	private final SongSaver songSaver = new SongSaver(unparser, songDisassembler);
@@ -443,7 +442,7 @@ public class AppContext {
 		if (file != null) {
 			reset(resetPlayer);
 			setActiveFile(file);
-			Song song = songLoader.load(file);
+			Song song = loaderFacade.loadSongFromFile(file);
 			song.getTagValue(TagKey.MP3).ifPresent(audioFileName -> {
 				loadAudioFile(new File(file.getParent(), audioFileName));
 			});
@@ -1809,25 +1808,10 @@ public class AppContext {
 
 	private abstract class ClipboardAction extends KarediAction {
 
-		protected Song buildSong(String[] lines) {
-			SongBuilder builder = new BasicSongBuilder();
-			Arrays.asList(lines).forEach(line -> {
-				try {
-					builder.buildPart(parser.parse(line));
-				} catch (InvalidSongElementException e) {
-					// ignore
-				}
-			});
-			return builder.getResult();
+		protected Song buildSongFromClipboard() {
+			return loaderFacade.loadSongFromClipboard();
 		}
 
-		protected String[] getLinesFromClipboard() {
-			final Clipboard clipboard = Clipboard.getSystemClipboard();
-			if (clipboard.getString() == null) {
-				return new String[0];
-			}
-			return clipboard.getString().split("\\R");
-		}
 	}
 
 	private class PasteAction extends ClipboardAction {
@@ -1837,7 +1821,7 @@ public class AppContext {
 
 		@Override
 		protected void onAction(ActionEvent event) {
-			Song pastedSong = buildSong(getLinesFromClipboard());
+			Song pastedSong = buildSongFromClipboard();
 			List<Note> notesToSelect = new ArrayList<>();
 			if (pastedSong.size() > 0) {
 				notesToSelect.addAll(pastedSong.get(0).getNotes());
@@ -1866,7 +1850,7 @@ public class AppContext {
 
 		@Override
 		protected void onAction(ActionEvent event) {
-			Song pastedSong = buildSong(getLinesFromClipboard());
+			Song pastedSong = buildSongFromClipboard();
 			if (pastedSong != null && pastedSong.size() > 0) {
 				execute(new MergeNotesCommand(getSelected(), pastedSong.get(0).getNotes(), mode));
 			}

@@ -1,4 +1,4 @@
-package com.github.nianna.karedi.context;
+package com.github.nianna.karedi.loader;
 
 import com.github.nianna.karedi.parser.element.EndOfSongElement;
 import com.github.nianna.karedi.parser.element.LineBreakElement;
@@ -19,21 +19,26 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class BasicSongBuilder implements SongBuilder, SongElementVisitor {
-	public static final Integer DEFAULT_TRACK = 1;
-	private Song song;
-	private Map<Integer, SongTrack> tracks = new HashMap<>();
-	private List<Note> lineNotes = new ArrayList<>();
+class BasicSongBuilder implements SongBuilder, SongElementVisitor {
 
-	private SongTrack currentTrack;
-	private Integer lineStartBeat;
+	public static final Integer DEFAULT_TRACK = 1;
+
+	private final Song song = new Song();
+
+	private final Map<Integer, SongTrack> tracks = new HashMap<>();
+
+	private final List<Note> lineNotes = new ArrayList<>();
+
+	private SongTrack currentTrack = new SongTrack(DEFAULT_TRACK);
+
+	private Integer lineStartBeat = 0;
 
 	private boolean buildFinished;
 
 	private boolean firstNoteInLine = true;
 
-	public BasicSongBuilder() {
-		reset();
+	BasicSongBuilder() {
+		tracks.put(DEFAULT_TRACK, currentTrack);
 	}
 
 	@Override
@@ -55,15 +60,13 @@ public class BasicSongBuilder implements SongBuilder, SongElementVisitor {
 	@Override
 	public void visit(NoteElement noteElement) {
 		Note note = getNote(noteElement);
-		if (note != null) {
-			if (firstNoteInLine) {
-				note.setLyrics(LyricsHelper.normalize(" " + note.getLyrics()));
-				firstNoteInLine = false;
-			} else {
-				note.setLyrics(LyricsHelper.normalize(note.getLyrics()));
-			}
-			lineNotes.add(note);
+		if (firstNoteInLine) {
+			note.setLyrics(LyricsHelper.normalize(" " + note.getLyrics()));
+			firstNoteInLine = false;
+		} else {
+			note.setLyrics(LyricsHelper.normalize(note.getLyrics()));
 		}
+		lineNotes.add(note);
 	}
 
 	@Override
@@ -92,17 +95,6 @@ public class BasicSongBuilder implements SongBuilder, SongElementVisitor {
 		}
 	}
 
-	@Override
-	public void reset() {
-		tracks.clear();
-		lineNotes.clear();
-		lineStartBeat = 0;
-		currentTrack = new SongTrack(DEFAULT_TRACK);
-		tracks.put(DEFAULT_TRACK, currentTrack);
-		buildFinished = false;
-		song = new Song();
-	}
-
 	private SongLine buildLine() {
 		SongLine line = new SongLine(lineStartBeat, lineNotes);
 		lineNotes.clear();
@@ -111,15 +103,13 @@ public class BasicSongBuilder implements SongBuilder, SongElementVisitor {
 	}
 
 	private Note getNote(NoteElement noteElement) {
-		Note note = new Note(
+		return new Note(
 				noteElement.startsAt(),
 				noteElement.length(),
 				noteElement.tone(),
-				noteElement.lyrics()
+				noteElement.lyrics(),
+				convertType(noteElement.type())
 		);
-		note.setType(convertType(noteElement.type()));
-
-		return note;
 	}
 	
 	private Note.Type convertType(NoteElementType type) {
@@ -128,7 +118,7 @@ public class BasicSongBuilder implements SongBuilder, SongElementVisitor {
 			case FREESTYLE -> Note.Type.FREESTYLE;
 			case RAP -> Note.Type.RAP;
 			case GOLDEN_RAP -> Note.Type.GOLDEN_RAP;
-			default -> Note.Type.NORMAL;
+			case NORMAL -> Note.Type.NORMAL;
 		};
 	}
 		
