@@ -159,7 +159,7 @@ public class KarediApp extends Application {
 					return false;
 				}
 				if (result.get() == SaveChangesAlert.SAVE_BUTTON) {
-					appContext.execute(KarediActions.SAVE);
+					appContext.actionContext.execute(KarediActions.SAVE);
 					if (appContext.needsSaving()) {
 						// Save failed or was cancelled by the user
 						return false;

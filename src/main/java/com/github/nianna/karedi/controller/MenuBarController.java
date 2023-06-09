@@ -409,7 +409,7 @@ public class MenuBarController implements Controller {
 	}
 
 	private void bind(MenuItem menuItem, KarediActions actionKey) {
-		Action action = appContext.getAction(actionKey);
+		Action action = appContext.actionContext.getAction(actionKey);
 		action.acceleratorProperty().bind(menuItem.acceleratorProperty());
 		menuItem.disableProperty().bind(action.disabledProperty());
 		menuItem.setOnAction(action::handle);
@@ -425,7 +425,7 @@ public class MenuBarController implements Controller {
 	}
 
 	private void bind(CheckMenuItem menuItem, KarediActions actionKey) {
-		Action action = appContext.getAction(actionKey);
+		Action action = appContext.actionContext.getAction(actionKey);
 		action.acceleratorProperty().bind(menuItem.acceleratorProperty());
 		menuItem.disableProperty().bind(action.disabledProperty());
 		menuItem.setOnAction(action::handle);

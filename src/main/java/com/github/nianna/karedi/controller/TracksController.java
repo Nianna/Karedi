@@ -121,7 +121,7 @@ public class TracksController implements Controller {
     }
 
     private void bind(MenuItem menuItem, KarediActions actionKey) {
-        Action action = appContext.getAction(actionKey);
+        Action action = appContext.actionContext.getAction(actionKey);
         menuItem.disableProperty().bind(action.disabledProperty());
         menuItem.setOnAction(action::handle);
     }
@@ -134,13 +134,13 @@ public class TracksController implements Controller {
 
     @FXML
     private void handleAdd() {
-        appContext.execute(KarediActions.ADD_TRACK);
+        appContext.actionContext.execute(KarediActions.ADD_TRACK);
     }
 
     @FXML
     private void onKeyPressed(KeyEvent event) {
         if (event.getCode() == KeyCode.DELETE) {
-            appContext.execute(KarediActions.DELETE_TRACK);
+            appContext.actionContext.execute(KarediActions.DELETE_TRACK);
             event.consume();
         }
     }
@@ -199,7 +199,7 @@ public class TracksController implements Controller {
         mutedColumn.setCellValueFactory(cell -> cell.getValue().mutedProperty());
         mutedColumn.setCellFactory(
                 column -> new TrackPropertyCheckboxTableCell(column, (track, isMuted) -> {
-                    appContext.execute(KarediActions.STOP_PLAYBACK);
+                    appContext.actionContext.execute(KarediActions.STOP_PLAYBACK);
                     track.setMuted(isMuted);
                 }));
     }

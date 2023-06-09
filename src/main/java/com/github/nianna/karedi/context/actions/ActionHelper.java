@@ -40,7 +40,7 @@ public class ActionHelper {
         return actionMap.get(key.toString());
     }
 
-    public void addActions() {
+    public void initActions() {
         addFileActions();
         addEditActions();
         addPlayActions();

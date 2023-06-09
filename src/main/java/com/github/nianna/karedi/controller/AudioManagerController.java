@@ -92,7 +92,7 @@ public class AudioManagerController implements Controller {
 
 	@FXML
 	private void handleAdd(ActionEvent event) {
-		appContext.execute(KarediActions.IMPORT_AUDIO);
+		appContext.actionContext.execute(KarediActions.IMPORT_AUDIO);
 	}
 
 	private void handleRemove(CachedAudioFile file) {

@@ -100,7 +100,7 @@ public class ToolbarController implements Controller {
 	}
 
 	private void bind(Button button, KarediActions actionKey) {
-		Action action = appContext.getAction(actionKey);
+		Action action = appContext.actionContext.getAction(actionKey);
 		button.disableProperty().bind(action.disabledProperty());
 		button.setOnAction(action::handle);
 	}

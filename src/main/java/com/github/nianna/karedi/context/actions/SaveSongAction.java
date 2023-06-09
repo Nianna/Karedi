@@ -16,7 +16,7 @@ class SaveSongAction extends ContextfulKarediAction {
         if (appContext.getActiveFile() != null) {
             appContext.saveSongToFile(appContext.getActiveFile());
         } else {
-            appContext.execute(KarediActions.SAVE_AS);
+            executeAction(KarediActions.SAVE_AS);
         }
     }
 

@@ -62,7 +62,7 @@ public class HistoryController implements Controller {
 			int difference = newIndex - oldIndex;
 			KarediActions historyCmd = difference > 0 ? KarediActions.REDO : KarediActions.UNDO;
 			for (int i = 0; i < Math.abs(difference); ++i) {
-				appContext.execute(historyCmd);
+				appContext.actionContext.execute(historyCmd);
 			}
 			changedByUser = false;
 		}

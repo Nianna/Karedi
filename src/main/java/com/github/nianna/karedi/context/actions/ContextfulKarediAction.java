@@ -1,6 +1,7 @@
 package com.github.nianna.karedi.context.actions;
 
 import com.github.nianna.karedi.action.KarediAction;
+import com.github.nianna.karedi.action.KarediActions;
 import com.github.nianna.karedi.command.Command;
 import com.github.nianna.karedi.context.AppContext;
 import com.github.nianna.karedi.context.BeatRangeContext;
@@ -97,5 +98,9 @@ public abstract class ContextfulKarediAction extends KarediAction {
 
     protected boolean executeCommand(Command command) {
         return commandContext.execute(command);
+    }
+
+    protected void executeAction(KarediActions action) {
+        appContext.actionContext.execute(action);
     }
 }

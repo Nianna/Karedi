@@ -130,8 +130,8 @@ public class LyricsEditorController implements Controller {
 		appContext.activeTrackProperty().addListener(this::onTrackChanged);
 		scrollPane.disableProperty().bind(appContext.activeTrackProperty().isNull());
 
-		appContext.addAction(KarediActions.INSERT_MINUS, new InsertTextAction(NoteTextArea.MINUS));
-		appContext.addAction(KarediActions.INSERT_SPACE, new InsertTextAction(NoteTextArea.SPACE));
+		appContext.actionContext.addAction(KarediActions.INSERT_MINUS, new InsertTextAction(NoteTextArea.MINUS));
+		appContext.actionContext.addAction(KarediActions.INSERT_SPACE, new InsertTextAction(NoteTextArea.SPACE));
 
 		lineListChangeListener = ListenersUtils.createListChangeListener(
 				e -> scheduleLyricsUpdate(), ListenersUtils::pass, e -> scheduleLyricsUpdate(),
@@ -325,7 +325,7 @@ public class LyricsEditorController implements Controller {
 	}
 
 	private boolean wasActionFired(KarediActions action, KeyEvent event) {
-		return appContext.getAction(action).wasFired(event);
+		return appContext.actionContext.getAction(action).wasFired(event);
 	}
 
 	private KarediActions getFiredAction(KeyEvent event) {
@@ -341,7 +341,7 @@ public class LyricsEditorController implements Controller {
 	}
 
 	private void executeAction(KarediActions action) {
-		appContext.execute(action);
+		appContext.actionContext.execute(action);
 	}
 
 	private void onKeyPressed(KeyEvent event) {
@@ -365,7 +365,7 @@ public class LyricsEditorController implements Controller {
 
 		if (wasActionFired(KarediActions.TOGGLE_LINEBREAK, event)) {
 			textArea.selectNone();
-			appContext.execute(KarediActions.TOGGLE_LINEBREAK);
+			executeAction(KarediActions.TOGGLE_LINEBREAK);
 			event.consume();
 			return;
 		}

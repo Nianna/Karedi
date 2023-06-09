@@ -188,7 +188,7 @@ public class TagsTableController implements Controller {
 
     @FXML
     private void handleAdd() {
-        appContext.execute(KarediActions.ADD_TAG);
+        appContext.actionContext.execute(KarediActions.ADD_TAG);
     }
 
     private void handleEdit(int index) {

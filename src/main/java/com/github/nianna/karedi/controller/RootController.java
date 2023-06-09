@@ -135,7 +135,7 @@ public class RootController implements Controller {
 	@Override
 	public void setAppContext(AppContext appContext) {
 		this.appContext = appContext;
-		appContext.addAction(KarediActions.EDIT_LYRICS, new EditLyricsAction());
+		appContext.actionContext.addAction(KarediActions.EDIT_LYRICS, new EditLyricsAction());
 
 		// Top tab bar
 		tagsTableController.setAppContext(appContext);

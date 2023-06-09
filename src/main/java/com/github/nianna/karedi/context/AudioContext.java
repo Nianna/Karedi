@@ -52,7 +52,7 @@ public class AudioContext {
 
     public void setActiveAudioFile(CachedAudioFile file) {
         if (file != getActiveAudioFile()) {
-            appContext.execute(KarediActions.STOP_PLAYBACK);
+            appContext.actionContext.execute(KarediActions.STOP_PLAYBACK);
             songPlayer.setActiveAudioFile(file);
             beatRangeContext.setMaxTime(file == null ? null : file.getDuration());
         }

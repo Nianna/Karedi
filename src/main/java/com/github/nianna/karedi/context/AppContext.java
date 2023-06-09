@@ -3,11 +3,8 @@ package com.github.nianna.karedi.context;
 import com.github.nianna.karedi.I18N;
 import com.github.nianna.karedi.KarediApp;
 import com.github.nianna.karedi.KarediApp.ViewMode;
-import com.github.nianna.karedi.action.KarediAction;
-import com.github.nianna.karedi.action.KarediActions;
 import com.github.nianna.karedi.audio.Player.Mode;
 import com.github.nianna.karedi.audio.Player.Status;
-import com.github.nianna.karedi.context.actions.ActionHelper;
 import com.github.nianna.karedi.song.Note;
 import com.github.nianna.karedi.song.Song;
 import com.github.nianna.karedi.song.SongLine;
@@ -42,7 +39,6 @@ public class AppContext {
 
 	public final TxtFacade txtFacade = new TxtFacade();
 	private final SongNormalizer songNormalizer = new SongNormalizer();
-	private final ActionHelper actionHelper = new ActionHelper(this);
 
 	public final BeatRangeContext beatRangeContext = new BeatRangeContext(this);
 
@@ -73,27 +69,11 @@ public class AppContext {
 
 	public final CommandContext commandContext = new CommandContext(this);
 
+	public final ActionContext actionContext = new ActionContext(this);
+
 	public AppContext() {
 		LOGGER.setUseParentHandlers(false);
-		actionHelper.addActions();
 		player.statusProperty().addListener(this::onPlayerStatusChanged);
-	}
-
-	// Actions
-	public void addAction(KarediActions key, KarediAction action) {
-		actionHelper.add(key, action);
-	}
-
-	public KarediAction getAction(KarediActions key) {
-		return actionHelper.get(key);
-	}
-
-	public void execute(KarediActions action) {
-		actionHelper.execute(action);
-	}
-
-	public boolean canExecute(KarediActions action) {
-		return actionHelper.canExecute(action);
 	}
 
 	// Player

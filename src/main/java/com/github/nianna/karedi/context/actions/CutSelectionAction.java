@@ -18,9 +18,9 @@ class CutSelectionAction extends ContextfulKarediAction {
     protected void onAction(ActionEvent event) {
         appContext.player.stop();
         Command cmd = new ChangePreStateCommandDecorator(
-                new DeleteSelectionAction(appContext, false).getCommand(), c -> {
-            appContext.execute(KarediActions.COPY);
-        });
+                new DeleteSelectionAction(appContext, false).getCommand(),
+                c -> executeAction(KarediActions.COPY)
+        );
         cmd.setTitle(I18N.get("common.cut"));
         executeCommand(cmd);
     }
