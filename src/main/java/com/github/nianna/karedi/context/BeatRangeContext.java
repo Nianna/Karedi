@@ -5,6 +5,7 @@ import com.github.nianna.karedi.util.BeatMillisConverter;
 import javafx.beans.InvalidationListener;
 import javafx.beans.property.ReadOnlyIntegerProperty;
 
+import static java.util.Objects.isNull;
 import static java.util.Objects.nonNull;
 
 public class BeatRangeContext {
@@ -15,13 +16,8 @@ public class BeatRangeContext {
 
     private final BeatRange beatRange = new BeatRange(beatMillisConverter);
 
-    private final AppContext appContext;
+    private Song song;
 
-    public BeatRangeContext(AppContext appContext) {
-        this.appContext = appContext;
-    }
-
-    // Beat range
     public Integer getMinBeat() {
         return beatRange.getMinBeat();
     }
@@ -42,14 +38,17 @@ public class BeatRangeContext {
         beatRange.setMaxTime(maxTime);
     }
 
-    public void onSongDeactivated(Song oldSong) {
-        oldSong.getBeatMillisConverter()
-                .removeListener(beatMillisConverterInvalidationListener);
+    public void onSongDeactivated() {
+        if (nonNull(song)) {
+            song.getBeatMillisConverter().removeListener(beatMillisConverterInvalidationListener);
+        }
+        song = null;
         onBeatMillisConverterInvalidated();
     }
 
     public void onSongActivated(Song song) {
         beatRange.setBounds(song);
+        this.song = song;
         if (nonNull(song)) {
             song.getBeatMillisConverter().addListener(beatMillisConverterInvalidationListener);
         }
@@ -65,12 +64,12 @@ public class BeatRangeContext {
     }
 
     private void onBeatMillisConverterInvalidated() {
-        if (appContext.getSong() == null) {
+        if (isNull(song)) {
             beatMillisConverter.setBpm(Song.DEFAULT_BPM);
             beatMillisConverter.setGap(Song.DEFAULT_GAP);
         } else {
-            beatMillisConverter.setBpm(appContext.getSong().getBpm());
-            beatMillisConverter.setGap(appContext.getSong().getGap());
+            beatMillisConverter.setBpm(song.getBpm());
+            beatMillisConverter.setGap(song.getGap());
         }
     }
 }

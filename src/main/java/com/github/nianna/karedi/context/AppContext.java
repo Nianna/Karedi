@@ -51,7 +51,7 @@ public class AppContext {
 
 	public final SelectionContext selectionContext = new SelectionContext();
 
-	public final BeatRangeContext beatRangeContext = new BeatRangeContext(this);
+	public final BeatRangeContext beatRangeContext = new BeatRangeContext();
 
 	public final AudioContext audioContext = new AudioContext(beatRangeContext);
 
@@ -129,7 +129,7 @@ public class AppContext {
 			activeSong.set(song);
 			audioContext.setSong(song);
 			if (oldSong != null) {
-				beatRangeContext.onSongDeactivated(oldSong);
+				beatRangeContext.onSongDeactivated();
 				activeSongTrackCount.unbind();
 			}
 			if (song == null) {
