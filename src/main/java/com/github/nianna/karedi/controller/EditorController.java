@@ -157,12 +157,12 @@ public class EditorController implements Controller {
 				.bind(appContext.activeSongProperty().isNotNull());
 
 		chart.getTAxis().lowerBoundProperty().bind(Bindings.createDoubleBinding(() -> {
-			return appContext.beatToMillis((int) chart.getXAxis().getLowerBound()) / 1000.0;
-		}, chart.getXAxis().lowerBoundProperty(), appContext.getBeatMillisConverter()));
+			return appContext.beatRangeContext.beatToMillis((int) chart.getXAxis().getLowerBound()) / 1000.0;
+		}, chart.getXAxis().lowerBoundProperty(), appContext.beatRangeContext.getBeatMillisConverter()));
 
 		chart.getTAxis().upperBoundProperty().bind(Bindings.createDoubleBinding(() -> {
-			return appContext.beatToMillis((int) chart.getXAxis().getUpperBound()) / 1000.0;
-		}, chart.getXAxis().upperBoundProperty(), appContext.getBeatMillisConverter()));
+			return appContext.beatRangeContext.beatToMillis((int) chart.getXAxis().getUpperBound()) / 1000.0;
+		}, chart.getXAxis().upperBoundProperty(), appContext.beatRangeContext.getBeatMillisConverter()));
 
 		markerLine.translateXProperty().bind(Bindings.createDoubleBinding(() -> {
 			return tUnitLengthProperty().get() * MathUtils.msToSeconds(appContext.getMarkerTime());
@@ -595,7 +595,7 @@ public class EditorController implements Controller {
 		}
 
 		private long getBeatDuration() {
-			Double duration = appContext.getBeatMillisConverter().getBeatDuration();
+			Double duration = appContext.beatRangeContext.getBeatMillisConverter().getBeatDuration();
 			return duration.longValue();
 		}
 

@@ -29,7 +29,7 @@ class NoteTooltip extends Tooltip {
 		displayer.lengthProperty().bind(note.lengthProperty().asString());
 		displayer.startBeatProperty().bind(note.startProperty().asString());
 		displayer.startTimeProperty().bind(Bindings.createStringBinding(() -> {
-			double startTime = MathUtils.msToSeconds(appContext.beatToMillis(note.getStart()));
+			double startTime = MathUtils.msToSeconds(appContext.beatRangeContext.beatToMillis(note.getStart()));
 			if (startTime >= 0) {
 				return startTime + " s";
 			}

@@ -82,16 +82,16 @@ public class TrackFillBarsController implements Controller {
 		resizer.activeProperty().addListener(obs -> onResizerActiveInvalidated());
 
 		unitWidth.bind(Bindings.createDoubleBinding(() -> {
-			int beatRange = appContext.getMaxBeat() - appContext.getMinBeat();
+			int beatRange = appContext.beatRangeContext.getMaxBeat() - appContext.beatRangeContext.getMinBeat();
 			if (beatRange == 0) {
 				return 0.0;
 			} else {
 				return pane.getWidth() / beatRange;
 			}
-		}, appContext.minBeatProperty(), appContext.maxBeatProperty(), pane.widthProperty()));
+		}, appContext.beatRangeContext.minBeatProperty(), appContext.beatRangeContext.maxBeatProperty(), pane.widthProperty()));
 
 		content.translateXProperty()
-				.bind(unitWidth.multiply(appContext.minBeatProperty()).negate());
+				.bind(unitWidth.multiply(appContext.beatRangeContext.minBeatProperty()).negate());
 	}
 
 	@Override

@@ -2,6 +2,7 @@ package com.github.nianna.karedi.context.actions;
 
 import com.github.nianna.karedi.action.KarediAction;
 import com.github.nianna.karedi.context.AppContext;
+import com.github.nianna.karedi.context.BeatRangeContext;
 import com.github.nianna.karedi.context.SelectionContext;
 import com.github.nianna.karedi.context.VisibleAreaContext;
 import com.github.nianna.karedi.song.Note;
@@ -17,10 +18,13 @@ public abstract class ContextfulKarediAction extends KarediAction {
 
     protected final VisibleAreaContext visibleAreaContext;
 
+    protected final BeatRangeContext beatRangeContext;
+
     ContextfulKarediAction(AppContext appContext) {
         this.appContext = appContext;
         this.selectionContext = appContext.selectionContext;
         this.visibleAreaContext = appContext.visibleAreaContext;
+        this.beatRangeContext = appContext.beatRangeContext;
     }
     
     protected void disableWhenSelectionEmpty() {

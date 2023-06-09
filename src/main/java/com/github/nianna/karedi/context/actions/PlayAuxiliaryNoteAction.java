@@ -33,8 +33,11 @@ abstract class PlayAuxiliaryNoteAction extends ContextfulKarediAction {
         int auxiliaryNoteEndBeat = auxiliaryNoteStartBeat + getAuxiliaryNoteLength();
         adjustVisibleArea(auxiliaryNoteStartBeat, auxiliaryNoteEndBeat);
         appContext.player.play(
-                appContext.beatMillisConverter.beatToMillis(auxiliaryNoteStartBeat),
-                appContext.beatMillisConverter.beatToMillis(auxiliaryNoteEndBeat), null, Player.Mode.AUDIO_ONLY);
+                beatRangeContext.getBeatMillisConverter().beatToMillis(auxiliaryNoteStartBeat),
+                beatRangeContext.getBeatMillisConverter().beatToMillis(auxiliaryNoteEndBeat),
+                null,
+                Player.Mode.AUDIO_ONLY
+        );
     }
 
     private void adjustVisibleArea(int auxiliaryNoteStartBeat, int auxiliaryNoteEndBeat) {
@@ -49,7 +52,7 @@ abstract class PlayAuxiliaryNoteAction extends ContextfulKarediAction {
     }
 
     protected int getAuxiliaryNoteLength() {
-        return (int) (appContext.beatMillisConverter.getBpm() / 100) + 1;
+        return (int) (beatRangeContext.getBeatMillisConverter().getBpm() / 100) + 1;
     }
 
     protected abstract int getAuxiliaryNoteStartBeat();

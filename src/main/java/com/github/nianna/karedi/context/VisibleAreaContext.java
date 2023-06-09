@@ -23,9 +23,12 @@ public class VisibleAreaContext {
 
     private final SelectionContext selectionContext;
 
-    public VisibleAreaContext(AppContext appContext, BeatRange beatRange) {
+    private final BeatRangeContext beatRangeContext;
+
+    public VisibleAreaContext(AppContext appContext, BeatRangeContext beatRangeContext) {
         this.appContext = appContext;
-        visibleArea = new VisibleArea(beatRange);
+        this.beatRangeContext = beatRangeContext;
+        visibleArea = new VisibleArea(beatRangeContext.minBeatProperty(), beatRangeContext.maxBeatProperty());
         selectionContext = appContext.selectionContext;
         selectionContext.getSelectionBounds().addListener(obs -> onSelectionBoundsInvalidated());
     }
@@ -185,8 +188,8 @@ public class VisibleAreaContext {
     public boolean isMarkerVisible() {
         return MathUtils.inRange(
                 appContext.getMarkerTime(),
-                appContext.beatToMillis(getLowerXBound()),
-                appContext.beatToMillis(getUpperXBound())
+                beatRangeContext.beatToMillis(getLowerXBound()),
+                beatRangeContext.beatToMillis(getUpperXBound())
         );
     }
 

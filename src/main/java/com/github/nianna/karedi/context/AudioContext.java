@@ -21,8 +21,11 @@ public class AudioContext {
 
     private final BooleanBinding activeAudioIsNull;
 
+    private final BeatRangeContext beatRangeContext;
+
     AudioContext(AppContext appContext, SongPlayer songPlayer) {
         this.appContext = appContext;
+        this.beatRangeContext = appContext.beatRangeContext;
         this.songPlayer = songPlayer;
         activeAudioIsNull = songPlayer.activeAudioFileProperty().isNull();
     }
@@ -51,7 +54,7 @@ public class AudioContext {
         if (file != getActiveAudioFile()) {
             appContext.execute(KarediActions.STOP_PLAYBACK);
             songPlayer.setActiveAudioFile(file);
-            appContext.setMaxTime(file == null ? null : file.getDuration());
+            beatRangeContext.setMaxTime(file == null ? null : file.getDuration());
         }
     }
 

@@ -16,7 +16,6 @@ import com.github.nianna.karedi.song.SongLine;
 import com.github.nianna.karedi.song.SongTrack;
 import com.github.nianna.karedi.song.tag.TagKey;
 import com.github.nianna.karedi.txt.TxtFacade;
-import com.github.nianna.karedi.util.BeatMillisConverter;
 import com.github.nianna.karedi.util.ListenersUtils;
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
@@ -54,10 +53,10 @@ public class AppContext {
 	private final ActionHelper actionHelper = new ActionHelper(this);
 
 	public final History history = new History();
-	public final BeatMillisConverter beatMillisConverter = new BeatMillisConverter(
-			Song.DEFAULT_GAP, Song.DEFAULT_BPM);
-	public final SongPlayer player = new SongPlayer(beatMillisConverter);
-	private final BeatRange beatRange = new BeatRange(beatMillisConverter);
+
+	public final BeatRangeContext beatRangeContext = new BeatRangeContext(this);
+
+	public final SongPlayer player = new SongPlayer(beatRangeContext.getBeatMillisConverter());
 
 	private File directory;
 
@@ -66,8 +65,6 @@ public class AppContext {
 	private final ListChangeListener<? super SongLine> lineListChangeListener = ListenersUtils
 			.createListContentChangeListener(ListenersUtils::pass, this::onLineRemoved);
 	private final InvalidationListener markerPositionChangeListener = this::onMarkerPositionWhilePlayingChanged;
-	private final InvalidationListener beatMillisConverterInvalidationListener = obs -> onBeatMillisConverterInvalidated();
-
 
 	// Convenience bindings for actions
 	public final BooleanBinding activeSongIsNull = activeSongProperty().isNull();
@@ -82,7 +79,7 @@ public class AppContext {
 
 	public final SelectionContext selectionContext = new SelectionContext();
 
-	public final VisibleAreaContext visibleAreaContext = new VisibleAreaContext(this, beatRange);
+	public final VisibleAreaContext visibleAreaContext = new VisibleAreaContext(this, beatRangeContext);
 
 	public AppContext() {
 		LOGGER.setUseParentHandlers(false);
@@ -106,23 +103,6 @@ public class AppContext {
 
 	public boolean canExecute(KarediActions action) {
 		return actionHelper.canExecute(action);
-	}
-
-	// Beat range
-	public Integer getMinBeat() {
-		return beatRange.getMinBeat();
-	}
-
-	public ReadOnlyIntegerProperty minBeatProperty() {
-		return beatRange.minBeatProperty();
-	}
-
-	public Integer getMaxBeat() {
-		return beatRange.getMaxBeat();
-	}
-
-	public ReadOnlyIntegerProperty maxBeatProperty() {
-		return beatRange.maxBeatProperty();
 	}
 
 	// History
@@ -152,11 +132,6 @@ public class AppContext {
 
 	public Command getActiveCommand() {
 		return history.getActiveCommand();
-	}
-
-	// Audio
-	void setMaxTime(Long maxTime) {
-		beatRange.setMaxTime(maxTime);
 	}
 
 	// Player
@@ -203,19 +178,6 @@ public class AppContext {
 
 	public void setMarkerTime(long time) {
 		player.setMarkerTime(time);
-	}
-
-	// Beat <-> millis convertion
-	public long beatToMillis(int beat) {
-		return beatMillisConverter.beatToMillis(beat);
-	}
-
-	public int millisToBeat(long millis) {
-		return beatMillisConverter.millisToBeat(millis);
-	}
-
-	public BeatMillisConverter getBeatMillisConverter() {
-		return beatMillisConverter;
 	}
 
 	// Files
@@ -280,21 +242,18 @@ public class AppContext {
 		if (song != oldSong) {
 			activeSong.set(song);
 			player.setSong(song);
-			onBeatMillisConverterInvalidated();
 			if (oldSong != null) {
-				oldSong.getBeatMillisConverter()
-						.removeListener(beatMillisConverterInvalidationListener);
+				beatRangeContext.onSongDeactivated(oldSong);
 				activeSongTrackCount.unbind();
 			}
 			if (song == null) {
 				setActiveTrack(null);
 				activeSongTrackCount.set(0);
 			} else {
-				song.getBeatMillisConverter().addListener(beatMillisConverterInvalidationListener);
+				beatRangeContext.onSongActivated(song);
 				activeSongTrackCount.bind(song.trackCount());
 				setActiveTrack(song.getDefaultTrack().orElse(null));
 			}
-			beatRange.setBounds(song);
 		}
 	}
 
@@ -367,17 +326,6 @@ public class AppContext {
 			markerTimeProperty().addListener(markerPositionChangeListener);
 		} else {
 			markerTimeProperty().removeListener(markerPositionChangeListener);
-		}
-	}
-
-	private void onBeatMillisConverterInvalidated() {
-		player.stop();
-		if (getSong() == null) {
-			beatMillisConverter.setBpm(Song.DEFAULT_BPM);
-			beatMillisConverter.setGap(Song.DEFAULT_GAP);
-		} else {
-			beatMillisConverter.setBpm(getSong().getBpm());
-			beatMillisConverter.setGap(getSong().getGap());
 		}
 	}
 
