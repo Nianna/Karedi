@@ -31,13 +31,16 @@ public class VisibleAreaContext {
 
     private final AudioContext audioContext;
 
-    public VisibleAreaContext(AppContext appContext, BeatRangeContext beatRangeContext) {
+    public VisibleAreaContext(AppContext appContext,
+                              BeatRangeContext beatRangeContext,
+                              SelectionContext selectionContext,
+                              AudioContext audioContext) {
         this.appContext = appContext;
         this.beatRangeContext = beatRangeContext;
+        this.selectionContext = selectionContext;
+        this.audioContext = audioContext;
         visibleArea = new VisibleArea(beatRangeContext.minBeatProperty(), beatRangeContext.maxBeatProperty());
-        selectionContext = appContext.selectionContext;
         selectionContext.getSelectionBounds().addListener(obs -> onSelectionBoundsInvalidated());
-        audioContext = appContext.audioContext;
         audioContext.playerStatusProperty().addListener(this::onPlayerStatusChanged);
     }
 

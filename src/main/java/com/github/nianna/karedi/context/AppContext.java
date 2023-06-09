@@ -55,7 +55,12 @@ public class AppContext {
 
 	public final AudioContext audioContext = new AudioContext(beatRangeContext);
 
-	public final VisibleAreaContext visibleAreaContext = new VisibleAreaContext(this, beatRangeContext);
+	public final VisibleAreaContext visibleAreaContext = new VisibleAreaContext(
+			this,
+			beatRangeContext,
+			selectionContext,
+			audioContext
+	);
 
 	public final CommandContext commandContext = new CommandContext(this);
 
