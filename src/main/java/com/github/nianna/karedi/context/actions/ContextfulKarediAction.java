@@ -47,7 +47,7 @@ public abstract class ContextfulKarediAction extends KarediAction {
     }
 
     protected void disableWhenSelectionEmptyOrContainsOnlyOneElement() {
-        setDisabledCondition(selectionContext.selection.sizeProperty().lessThanOrEqualTo(1));
+        setDisabledCondition(selectionContext.getSelection().sizeProperty().lessThanOrEqualTo(1));
     }
     
     protected List<Note> getSelectedNotes() {
@@ -71,31 +71,31 @@ public abstract class ContextfulKarediAction extends KarediAction {
     }
     
     protected int getSelectionSize() {
-        return selectionContext.selection.size();
+        return selectionContext.getSelection().size();
     }
     
     protected void selectOnly(Note note) {
-        selectionContext.selection.selectOnly(note);
+        selectionContext.getSelection().selectOnly(note);
     }
 
     protected void selectNote(Note note) {
-        selectionContext.selection.select(note);
+        selectionContext.getSelection().select(note);
     }
 
     protected void deselectNote(Note note) {
-        selectionContext.selection.deselect(note);
+        selectionContext.getSelection().deselect(note);
     }
 
     protected void clearSelection() {
-        selectionContext.selection.clear();
+        selectionContext.getSelection().clear();
     }
 
     protected void makeSelectionConsecutive() {
-        selectionContext.selection.makeSelectionConsecutive();
+        selectionContext.getSelection().makeSelectionConsecutive();
     }
 
     protected void setSelection(List<Note> notes) {
-        selectionContext.selection.set(notes);
+        selectionContext.getSelection().set(notes);
     }
 
     protected boolean executeCommand(Command command) {

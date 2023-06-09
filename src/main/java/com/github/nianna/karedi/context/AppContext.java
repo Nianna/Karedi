@@ -3,7 +3,6 @@ package com.github.nianna.karedi.context;
 import com.github.nianna.karedi.I18N;
 import com.github.nianna.karedi.KarediApp;
 import com.github.nianna.karedi.KarediApp.ViewMode;
-import com.github.nianna.karedi.song.Note;
 import com.github.nianna.karedi.song.Song;
 import com.github.nianna.karedi.song.SongLine;
 import com.github.nianna.karedi.song.SongTrack;
@@ -35,8 +34,6 @@ public class AppContext {
 
 	private File directory;
 
-	private final ListChangeListener<? super Note> noteListChangeListener = ListenersUtils
-			.createListContentChangeListener(ListenersUtils::pass, this::onNoteRemoved);
 	private final ListChangeListener<? super SongLine> lineListChangeListener = ListenersUtils
 			.createListContentChangeListener(ListenersUtils::pass, this::onLineRemoved);
 
@@ -49,7 +46,7 @@ public class AppContext {
 	public final BooleanBinding activeSongHasOneOrZeroTracks = activeSongTrackCount
 			.lessThanOrEqualTo(1);
 
-	public final SelectionContext selectionContext = new SelectionContext();
+	public final SelectionContext selectionContext = new SelectionContext(activeTrackProperty(), activeLineProperty());
 
 	public final BeatRangeContext beatRangeContext = new BeatRangeContext();
 
@@ -159,16 +156,13 @@ public class AppContext {
 	public final void setActiveTrack(SongTrack track) {
 		SongTrack oldTrack = getActiveTrack();
 		if (track != oldTrack) {
-			selectionContext.selection.clear();
 			activeTrack.set(track);
 			setActiveLine(null);
 			if (oldTrack != null) {
 				oldTrack.removeLineListListener(lineListChangeListener);
-				oldTrack.removeNoteListListener(noteListChangeListener);
 			}
 			if (track != null) {
 				track.addLineListListener(lineListChangeListener);
-				track.addNoteListListener(noteListChangeListener);
 				track.setVisible(true);
 				track.setMuted(false);
 				if (oldTrack == null) {
@@ -199,7 +193,6 @@ public class AppContext {
 			}
 			activeLine.set(line);
 			visibleAreaContext.onLineActivated(line);
-			selectionContext.onLineActivated(line);
 		}
 	}
 
@@ -215,10 +208,6 @@ public class AppContext {
 		if (line == getActiveLine()) {
 			setActiveLine(null);
 		}
-	}
-
-	private void onNoteRemoved(Note note) {
-		selectionContext.removeIfSelected(note);
 	}
 
 	// Other

@@ -165,7 +165,7 @@ public class VisibleAreaContext {
 
     private void onSelectionBoundsInvalidated() {
         IntBounded selectionBounds = selectionContext.getSelectionBounds();
-        if (selectionContext.selection.size() > 0 && selectionBounds.isValid()) {
+        if (selectionContext.getSelection().size() > 0 && selectionBounds.isValid()) {
             audioContext.setMarkerBeat(selectionBounds.getLowerXBound());
             if (visibleArea.assertBorderlessBoundsVisible(selectionBounds)) {
                 appContext.setActiveLine(null);
