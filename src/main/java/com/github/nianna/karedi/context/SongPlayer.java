@@ -19,7 +19,7 @@ import com.github.nianna.karedi.song.Note;
 import com.github.nianna.karedi.song.Song;
 import com.github.nianna.karedi.util.BeatMillisConverter;
 
-class SongPlayer {
+public class SongPlayer {
 	private static final int TONE_OFFSET = 60;
 
 	private final Player player = new Player();

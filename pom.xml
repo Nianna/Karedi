@@ -272,7 +272,7 @@
 				<version>1.6.0</version>
 				<configuration>
 					<name>${project.artifactId}</name>
-					<appVersion>${project.version}</appVersion>
+					<appVersion>1.3.0.1</appVersion>
 					<vendor>${project.vendor}</vendor>
 					<destination>${project.dist.outputDirectory}</destination>
 					<modulePaths>
