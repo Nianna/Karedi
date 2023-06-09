@@ -14,7 +14,6 @@ class FitToSelectionAction extends ContextfulKarediAction {
     @Override
     protected void onAction(ActionEvent event) {
         appContext.player.stop();
-        appContext.setActiveLine(null);
-        appContext.visibleArea.setBounds(appContext.addMargins(selectionContext.getSelectionBounds()));
+        visibleAreaContext.fitToSelectedNotes();
     }
 }

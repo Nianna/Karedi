@@ -38,20 +38,20 @@ class SelectPreviousAction extends ContextfulKarediAction {
             }
             return appContext.getActiveTrack()
                     .noteAtOrEarlier(markerBeat)
-                    .filter(appContext::isInVisibleBeatRange);
+                    .filter(visibleAreaContext::isInVisibleBeatRange);
         }
         return Optional.empty();
     }
 
     private Optional<Note> findLastVisibleNoteFromCurrentTrack() {
         return appContext.getActiveTrack()
-                .noteAtOrEarlier(appContext.visibleArea.getUpperXBound() - 1);
+                .noteAtOrEarlier(visibleAreaContext.getUpperXBound() - 1);
     }
 
     private Optional<Note> findVisibleNoteBeforeFirstSelectedNote() {
         return findFirstSelectedNote()
                 .flatMap(Note::getPrevious)
-                .filter(appContext::isInVisibleBeatRange);
+                .filter(visibleAreaContext::isInVisibleBeatRange);
     }
 
     private Optional<Note> findLastNoteFromActiveLine() {

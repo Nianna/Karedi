@@ -17,7 +17,7 @@ class MoveVisibleAreaAction extends ContextfulKarediAction {
 
     @Override
     protected void onAction(ActionEvent event) {
-        appContext.moveVisibleArea(direction, by);
+        visibleAreaContext.moveVisibleArea(direction, by);
     }
 
 }

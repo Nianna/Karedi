@@ -3,11 +3,14 @@ package com.github.nianna.karedi.context;
 import com.github.nianna.karedi.region.BoundingBox;
 import com.github.nianna.karedi.region.IntBounded;
 import com.github.nianna.karedi.song.Note;
+import com.github.nianna.karedi.song.SongLine;
 import javafx.beans.Observable;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.BooleanBinding;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+
+import static java.util.Objects.nonNull;
 
 public class SelectionContext {
 
@@ -48,5 +51,11 @@ public class SelectionContext {
 
     public IntBounded getSelectionBounds() {
         return selectionBounds;
+    }
+
+    public void onLineActivated(SongLine line) {
+        if (nonNull(line) && line.size() > 0) {
+            selection.selectOnly(line.getNotes().get(0));
+        }
     }
 }

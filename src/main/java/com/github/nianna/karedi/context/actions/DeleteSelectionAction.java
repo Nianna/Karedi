@@ -26,12 +26,12 @@ class DeleteSelectionAction extends ContextfulKarediAction {
 
         Command getCommand() {
             Command cmd = new DeleteNotesCommand(getSelectedNotes(), keepLyrics);
-            IntBounded bounds = BoundingBox.boundsFrom(appContext.getVisibleAreaBounds());
+            IntBounded bounds = BoundingBox.boundsFrom(visibleAreaContext.getVisibleAreaBounds());
             return new ChangePostStateCommandDecorator(cmd, (command) -> {
                 clearSelection();
                 if (appContext.getActiveLine() != null && !appContext.getActiveLine().isValid()) {
                     appContext.setActiveLine(null);
-                    appContext.visibleArea.setBounds(bounds);
+                    visibleAreaContext.setBounds(bounds);
                 }
             });
         }

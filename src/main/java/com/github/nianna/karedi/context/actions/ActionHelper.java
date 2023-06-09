@@ -114,11 +114,11 @@ public class ActionHelper {
         add(KarediActions.PLAY_SELECTION_MIDI, new PlaySelectionAction(appContext, Player.Mode.MIDI_ONLY));
         add(KarediActions.PLAY_SELECTION_AUDIO_MIDI, new PlaySelectionAction(appContext, Player.Mode.AUDIO_MIDI));
         add(KarediActions.PLAY_VISIBLE_AUDIO, new PlayRangeAction(appContext, Player.Mode.AUDIO_ONLY,
-                appContext.visibleArea.lowerXBoundProperty(), appContext.visibleArea.upperXBoundProperty()));
+                appContext.visibleAreaContext.lowerXBoundProperty(), appContext.visibleAreaContext.upperXBoundProperty()));
         add(KarediActions.PLAY_VISIBLE_MIDI, new PlayRangeAction(appContext, Player.Mode.MIDI_ONLY,
-                appContext.visibleArea.lowerXBoundProperty(), appContext.visibleArea.upperXBoundProperty()));
+                appContext.visibleAreaContext.lowerXBoundProperty(), appContext.visibleAreaContext.upperXBoundProperty()));
         add(KarediActions.PLAY_VISIBLE_AUDIO_MIDI, new PlayRangeAction(appContext, Player.Mode.AUDIO_MIDI,
-                appContext.visibleArea.lowerXBoundProperty(), appContext.visibleArea.upperXBoundProperty()));
+                appContext.visibleAreaContext.lowerXBoundProperty(), appContext.visibleAreaContext.upperXBoundProperty()));
         add(KarediActions.PLAY_ALL_AUDIO,
                 new PlayRangeAction(appContext, Player.Mode.AUDIO_ONLY, appContext.minBeatProperty(), appContext.maxBeatProperty()));
         add(KarediActions.PLAY_ALL_MIDI,
@@ -127,12 +127,12 @@ public class ActionHelper {
                 new PlayRangeAction(appContext, Player.Mode.AUDIO_MIDI, appContext.minBeatProperty(), appContext.maxBeatProperty()));
 
         IntegerBinding playToTheEndStartBeat = Bindings.createIntegerBinding(() -> {
-            if (appContext.isMarkerVisible()) {
+            if (appContext.visibleAreaContext.isMarkerVisible()) {
                 return appContext.getMarkerBeat();
             } else {
-                return appContext.visibleArea.getLowerXBound();
+                return appContext.visibleAreaContext.getLowerXBound();
             }
-        }, appContext.markerBeatProperty(), appContext.visibleArea);
+        }, appContext.markerBeatProperty(), appContext.visibleAreaContext.lowerXBoundProperty());
         add(KarediActions.PLAY_TO_THE_END_AUDIO,
                 new PlayRangeAction(appContext, Player.Mode.AUDIO_ONLY, playToTheEndStartBeat, appContext.maxBeatProperty()));
         add(KarediActions.PLAY_TO_THE_END_MIDI,

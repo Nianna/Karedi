@@ -19,7 +19,7 @@ abstract class PlayAuxiliaryNoteAction extends ContextfulKarediAction {
         disableWhenSelectionEmptyOrActiveAudioNull();
         statusListener = (obs, oldStatus, newStatus) -> {
             if (oldStatus == Player.Status.PLAYING && newStatus == Player.Status.READY) {
-                appContext.setVisibleAreaXBounds(oldLowerBound, oldUpperBound, false);
+                visibleAreaContext.setVisibleAreaXBounds(oldLowerBound, oldUpperBound, false);
                 obs.removeListener(statusListener);
             }
         };
@@ -38,12 +38,12 @@ abstract class PlayAuxiliaryNoteAction extends ContextfulKarediAction {
     }
 
     private void adjustVisibleArea(int auxiliaryNoteStartBeat, int auxiliaryNoteEndBeat) {
-        oldLowerBound = appContext.visibleArea.getLowerXBound();
-        oldUpperBound = appContext.visibleArea.getUpperXBound();
+        oldLowerBound = visibleAreaContext.getLowerXBound();
+        oldUpperBound = visibleAreaContext.getUpperXBound();
         int newLowerBound = Math.min(oldLowerBound, auxiliaryNoteStartBeat);
         int newUpperBound = Math.max(oldUpperBound, auxiliaryNoteEndBeat);
         if (newLowerBound != oldLowerBound || newUpperBound != oldUpperBound) {
-            appContext.setVisibleAreaXBounds(newLowerBound, newUpperBound, false);
+            visibleAreaContext.setVisibleAreaXBounds(newLowerBound, newUpperBound, false);
             appContext.player.statusProperty().addListener(statusListener);
         }
     }

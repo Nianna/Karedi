@@ -3,6 +3,7 @@ package com.github.nianna.karedi.context.actions;
 import com.github.nianna.karedi.action.KarediAction;
 import com.github.nianna.karedi.context.AppContext;
 import com.github.nianna.karedi.context.SelectionContext;
+import com.github.nianna.karedi.context.VisibleAreaContext;
 import com.github.nianna.karedi.song.Note;
 
 import java.util.List;
@@ -14,9 +15,12 @@ public abstract class ContextfulKarediAction extends KarediAction {
     
     protected final SelectionContext selectionContext;
 
+    protected final VisibleAreaContext visibleAreaContext;
+
     ContextfulKarediAction(AppContext appContext) {
         this.appContext = appContext;
         this.selectionContext = appContext.selectionContext;
+        this.visibleAreaContext = appContext.visibleAreaContext;
     }
     
     protected void disableWhenSelectionEmpty() {

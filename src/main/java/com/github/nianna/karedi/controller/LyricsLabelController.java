@@ -58,9 +58,9 @@ public class LyricsLabelController implements Controller {
 	@Override
 	public void setAppContext(AppContext appContext) {
 		this.appContext = appContext;
-		visibleArea = appContext.getVisibleAreaBounds();
+		visibleArea = appContext.visibleAreaContext.getVisibleAreaBounds();
 
-		appContext.getVisibleAreaBounds().addListener(this::onVisibleAreaInvalidated);
+		appContext.visibleAreaContext.getVisibleAreaBounds().addListener(this::onVisibleAreaInvalidated);
 		appContext.activeTrackProperty().addListener(this::onTrackChanged);
 		appContext.activeLineProperty().addListener(this::onLineChanged);
 		appContext.selectionContext.getSelected().addListener(

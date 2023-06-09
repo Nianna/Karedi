@@ -29,7 +29,7 @@ class SelectNextAction extends ContextfulKarediAction {
     private Optional<Note> findNextVisibleNoteAfterLastSelectedNote() {
         return findLastSelectedNote()
                 .flatMap(Note::getNext)
-                .filter(appContext::isInVisibleBeatRange);
+                .filter(visibleAreaContext::isInVisibleBeatRange);
     }
 
     private Optional<Note> findVisibleNoteAfterMarkerIfSelectionEmpty() {
@@ -37,14 +37,14 @@ class SelectNextAction extends ContextfulKarediAction {
             int markerBeat = appContext.getMarkerBeat();
             return appContext.getActiveTrack()
                     .noteAtOrLater(markerBeat)
-                    .filter(appContext::isInVisibleBeatRange);
+                    .filter(visibleAreaContext::isInVisibleBeatRange);
         }
         return Optional.empty();
     }
 
     private Optional<Note> findFirstVisibleNoteFromCurrentTrack() {
         return appContext.getActiveTrack()
-                .noteAtOrLater(appContext.visibleArea.getLowerXBound());
+                .noteAtOrLater(visibleAreaContext.getLowerXBound());
     }
 
     private boolean noteBelongsToActiveLineOrNoActiveLine(Note note) {

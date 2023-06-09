@@ -10,9 +10,6 @@ import com.github.nianna.karedi.audio.Player.Status;
 import com.github.nianna.karedi.command.BackupStateCommandDecorator;
 import com.github.nianna.karedi.command.Command;
 import com.github.nianna.karedi.context.actions.ActionHelper;
-import com.github.nianna.karedi.region.BoundingBox;
-import com.github.nianna.karedi.region.Direction;
-import com.github.nianna.karedi.region.IntBounded;
 import com.github.nianna.karedi.song.Note;
 import com.github.nianna.karedi.song.Song;
 import com.github.nianna.karedi.song.SongLine;
@@ -21,7 +18,6 @@ import com.github.nianna.karedi.song.tag.TagKey;
 import com.github.nianna.karedi.txt.TxtFacade;
 import com.github.nianna.karedi.util.BeatMillisConverter;
 import com.github.nianna.karedi.util.ListenersUtils;
-import com.github.nianna.karedi.util.MathUtils;
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
 import javafx.beans.binding.BooleanBinding;
@@ -62,7 +58,6 @@ public class AppContext {
 			Song.DEFAULT_GAP, Song.DEFAULT_BPM);
 	public final SongPlayer player = new SongPlayer(beatMillisConverter);
 	private final BeatRange beatRange = new BeatRange(beatMillisConverter);
-	public final VisibleArea visibleArea = new VisibleArea(beatRange);
 
 	private File directory;
 
@@ -72,7 +67,7 @@ public class AppContext {
 			.createListContentChangeListener(ListenersUtils::pass, this::onLineRemoved);
 	private final InvalidationListener markerPositionChangeListener = this::onMarkerPositionWhilePlayingChanged;
 	private final InvalidationListener beatMillisConverterInvalidationListener = obs -> onBeatMillisConverterInvalidated();
-	private final InvalidationListener boundsListener = obs -> onBoundsInvalidated();
+
 
 	// Convenience bindings for actions
 	public final BooleanBinding activeSongIsNull = activeSongProperty().isNull();
@@ -87,12 +82,13 @@ public class AppContext {
 
 	public final SelectionContext selectionContext = new SelectionContext();
 
+	public final VisibleAreaContext visibleAreaContext = new VisibleAreaContext(this, beatRange);
+
 	public AppContext() {
 		LOGGER.setUseParentHandlers(false);
 		history.setMaxSize(MAX_HISTORY_SIZE);
 		actionHelper.addActions();
 		player.statusProperty().addListener(this::onPlayerStatusChanged);
-		selectionContext.getSelectionBounds().addListener(obs -> onSelectionBoundsInvalidated());
 	}
 
 	// Actions
@@ -127,66 +123,6 @@ public class AppContext {
 
 	public ReadOnlyIntegerProperty maxBeatProperty() {
 		return beatRange.maxBeatProperty();
-	}
-
-	// Visible area
-	public void invalidateVisibleArea() {
-		visibleArea.invalidate();
-	}
-
-	public void assertAllNeededTonesVisible() {
-		assertAllNeededTonesVisible(visibleArea.getLowerXBound(), visibleArea.getUpperXBound());
-	}
-
-	public void assertAllNeededTonesVisible(int fromBeat, int toBeat) {
-		List<Note> notes = getSong().getVisibleNotes(fromBeat, toBeat);
-		visibleArea.assertBoundsYVisible(addMargins(new BoundingBox<>(notes)));
-	}
-
-	public void setVisibleAreaXBounds(int lowerXBound, int upperXBound) {
-		setVisibleAreaXBounds(lowerXBound, upperXBound, true);
-	}
-
-	public void setVisibleAreaXBounds(int lowerXBound, int upperXBound, boolean setLineToNull) {
-		if (visibleArea.setXBounds(lowerXBound, upperXBound) && setLineToNull) {
-			setActiveLine(null);
-		}
-	}
-
-	public void setVisibleAreaYBounds(int lowerBound, int upperBound) {
-		if (visibleArea.setYBounds(lowerBound, upperBound)) {
-			setActiveLine(null);
-		}
-	}
-
-	public void increaseVisibleAreaXBounds(int by) {
-		if (visibleArea.increaseXBounds(by)) {
-			setActiveLine(null);
-		}
-	}
-
-	public void increaseVisibleAreaYBounds(int by) {
-		if (visibleArea.increaseYBounds(by)) {
-			setActiveLine(null);
-		}
-	}
-
-	public IntBounded addMargins(IntBounded bounds) {
-		return visibleArea.addMargins(bounds);
-	}
-
-	public IntBounded getVisibleAreaBounds() {
-		return visibleArea;
-	}
-
-	public void moveVisibleArea(Direction direction, int by) {
-		visibleArea.move(direction, by);
-		setActiveLine(null);
-	}
-
-	public boolean isInVisibleBeatRange(Note note) {
-		return MathUtils.inRange(note.getStart(), visibleArea.getLowerXBound(),
-				visibleArea.getUpperXBound());
 	}
 
 	// History
@@ -233,13 +169,13 @@ public class AppContext {
 	}
 
 	public void playRange(int fromBeat, int toBeat, Mode mode) {
-		assertAllNeededTonesVisible(fromBeat, toBeat);
+		visibleAreaContext.assertAllNeededTonesVisible(fromBeat, toBeat);
 		player.play(fromBeat, toBeat, mode);
 	}
 
 	public void play(long startMillis, long endMillis, List<Note> notes, Mode mode) {
-		if (!isMarkerVisible()) {
-			setMarkerBeat(visibleArea.getLowerXBound());
+		if (!visibleAreaContext.isMarkerVisible()) {
+			setMarkerBeat(visibleAreaContext.getLowerXBound());
 		}
 		player.play(startMillis, endMillis, notes, mode);
 	}
@@ -267,11 +203,6 @@ public class AppContext {
 
 	public void setMarkerTime(long time) {
 		player.setMarkerTime(time);
-	}
-
-	public boolean isMarkerVisible() {
-		return MathUtils.inRange(getMarkerTime(), beatToMillis(visibleArea.getLowerXBound()),
-				beatToMillis(visibleArea.getUpperXBound()));
 	}
 
 	// Beat <-> millis convertion
@@ -393,7 +324,7 @@ public class AppContext {
 				if (oldTrack == null) {
 					setActiveLine(track.getDefaultLine());
 				} else {
-					assertAllNeededTonesVisible();
+					visibleAreaContext.assertAllNeededTonesVisible();
 				}
 			} else {
 				assert (getSong() == null);
@@ -412,20 +343,13 @@ public class AppContext {
 	public final void setActiveLine(SongLine line) {
 		SongLine oldLine = getActiveLine();
 		if (line != oldLine) {
-			if (oldLine != null) {
-				oldLine.removeListener(boundsListener);
-			}
+			visibleAreaContext.onLineDeactivated(oldLine);
 			if (line != null) {
 				player.stop();
 			}
 			activeLine.set(line);
-			if (line != null) {
-				line.addListener(boundsListener);
-				if (line.size() > 0) {
-					visibleArea.adjustToBounds(line);
-					selectionContext.selection.selectOnly(line.getNotes().get(0));
-				}
-			}
+			visibleAreaContext.onLineActivated(line);
+			selectionContext.onLineActivated(line);
 		}
 	}
 
@@ -457,30 +381,8 @@ public class AppContext {
 		}
 	}
 
-	private void onBoundsInvalidated() {
-		SongLine activeLine = getActiveLine();
-		if (activeLine != null && activeLine.isValid()) {
-			visibleArea.adjustToBounds(activeLine);
-		}
-	}
-
-	private void onSelectionBoundsInvalidated() {
-		IntBounded selectionBounds = selectionContext.getSelectionBounds();
-		if (selectionContext.selection.size() > 0 && selectionBounds.isValid()) {
-			setMarkerBeat(selectionBounds.getLowerXBound());
-			if (visibleArea.assertBorderlessBoundsVisible(selectionBounds)) {
-				setActiveLine(null);
-				assertAllNeededTonesVisible();
-			}
-		}
-	}
-
 	private void onMarkerPositionWhilePlayingChanged(Observable obs) {
-		int markerBeat = getMarkerBeat();
-		if (!visibleArea.inBoundsX(markerBeat)) {
-			int xRange = visibleArea.getUpperXBound() - visibleArea.getLowerXBound();
-			setVisibleAreaXBounds(markerBeat - 1, markerBeat - 1 + xRange);
-		}
+		visibleAreaContext.scrollVisibleAreaToMarkerBeat();
 	}
 
 	private void onLineRemoved(SongLine line) {
@@ -507,7 +409,7 @@ public class AppContext {
 		lastSavedCommand.set(null);
 		history.clear();
 		player.stop();
-		visibleArea.setDefault();
+		visibleAreaContext.reset();
 		if (resetPlayer) {
 			player.reset();
 		}

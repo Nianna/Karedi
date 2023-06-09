@@ -1,0 +1,215 @@
+package com.github.nianna.karedi.context;
+
+import com.github.nianna.karedi.region.BoundingBox;
+import com.github.nianna.karedi.region.Direction;
+import com.github.nianna.karedi.region.IntBounded;
+import com.github.nianna.karedi.song.Note;
+import com.github.nianna.karedi.song.SongLine;
+import com.github.nianna.karedi.util.MathUtils;
+import javafx.beans.InvalidationListener;
+import javafx.beans.property.ReadOnlyObjectProperty;
+
+import java.util.List;
+
+import static java.util.Objects.nonNull;
+
+public class VisibleAreaContext {
+
+    private final InvalidationListener lineBoundsListener = obs -> onLineBoundsInvalidated();
+
+    private final AppContext appContext;
+
+    private final VisibleArea visibleArea;
+
+    private final SelectionContext selectionContext;
+
+    public VisibleAreaContext(AppContext appContext, BeatRange beatRange) {
+        this.appContext = appContext;
+        visibleArea = new VisibleArea(beatRange);
+        selectionContext = appContext.selectionContext;
+        selectionContext.getSelectionBounds().addListener(obs -> onSelectionBoundsInvalidated());
+    }
+
+    public void invalidateVisibleArea() {
+        visibleArea.invalidate();
+    }
+
+    public void setVisibleAreaXBounds(int lowerXBound, int upperXBound) {
+        setVisibleAreaXBounds(lowerXBound, upperXBound, true);
+    }
+
+    public void setVisibleAreaXBounds(int lowerXBound, int upperXBound, boolean setLineToNull) {
+        if (visibleArea.setXBounds(lowerXBound, upperXBound) && setLineToNull) {
+            appContext.setActiveLine(null);
+        }
+    }
+
+    private void setVisibleAreaYBounds(int lowerBound, int upperBound) {
+        if (visibleArea.setYBounds(lowerBound, upperBound)) {
+            appContext.setActiveLine(null);
+        }
+    }
+
+    public void increaseVisibleAreaXBounds(int by) {
+        if (visibleArea.increaseXBounds(by)) {
+            appContext.setActiveLine(null);
+        }
+    }
+
+    public void increaseVisibleAreaYBounds(int by) {
+        if (visibleArea.increaseYBounds(by)) {
+            appContext.setActiveLine(null);
+        }
+    }
+
+    private IntBounded addMargins(IntBounded bounds) {
+        return visibleArea.addMargins(bounds);
+    }
+
+    public IntBounded getVisibleAreaBounds() {
+        return visibleArea;
+    }
+
+    public void moveVisibleArea(Direction direction, int by) {
+        visibleArea.move(direction, by);
+        appContext.setActiveLine(null);
+    }
+
+    public boolean isInVisibleBeatRange(Note note) {
+        return MathUtils.inRange(note.getStart(), visibleArea.getLowerXBound(), visibleArea.getUpperXBound());
+    }
+
+    public int getLowerXBound() {
+        return visibleArea.getLowerXBound();
+    }
+
+    public int getUpperXBound() {
+        return visibleArea.getUpperXBound();
+    }
+
+    public ReadOnlyObjectProperty<Integer> lowerXBoundProperty() {
+        return visibleArea.lowerXBoundProperty();
+    }
+
+    public ReadOnlyObjectProperty<Integer> upperXBoundProperty() {
+        return visibleArea.upperXBoundProperty();
+    }
+
+    public ReadOnlyObjectProperty<Integer> lowerYBoundProperty() {
+        return visibleArea.lowerYBoundProperty();
+    }
+
+    public ReadOnlyObjectProperty<Integer> upperYBoundProperty() {
+        return visibleArea.upperYBoundProperty();
+    }
+
+    public void setBounds(IntBounded bounds) {
+        visibleArea.setBounds(bounds);
+    }
+
+    private void adjustToBounds(SongLine line) {
+        visibleArea.adjustToBounds(line);
+    }
+
+    public void reset() {
+        visibleArea.setDefault();
+    }
+
+    public void assertAllNeededTonesVisible() {
+        assertAllNeededTonesVisible(getLowerXBound(), getUpperXBound());
+    }
+
+    public void assertAllNeededTonesVisible(int startBeat, int endBeat) {
+        List<? extends IntBounded> notes = getVisibleNotes(startBeat, endBeat);
+        visibleArea.assertBoundsYVisible(addMargins(new BoundingBox<>(notes)));
+    }
+
+    public void correctVisibleAreaAfterSelectingMoreNotes(Note lastSelectedNote, Note nextSelectedNote) {
+        int lowerXBound = getLowerXBound();
+        int upperXBound = getUpperXBound();
+        if (lastSelectedNote.getLine() != nextSelectedNote.getLine()) {
+            int nextLineUpperBound = nextSelectedNote.getLine().getLast().getStart() + 1;
+            if (!getVisibleAreaBounds().inBoundsX(nextLineUpperBound)) {
+                upperXBound = nextLineUpperBound;
+                setVisibleAreaXBounds(lowerXBound, upperXBound);
+                List<Note> visibleNotes = appContext.getActiveTrack().getNotes(lowerXBound, upperXBound);
+                if (visibleNotes.size() > 0) {
+                    visibleArea.assertBorderlessBoundsVisible(new BoundingBox<>(visibleNotes));
+                }
+            }
+            appContext.setActiveLine(null);
+        }
+    }
+
+    public void scrollVisibleAreaToMarkerBeat() {
+        int markerBeat = appContext.getMarkerBeat();
+        if (!getVisibleAreaBounds().inBoundsX(markerBeat)) {
+            int xRange = getUpperXBound() - getLowerXBound();
+            setVisibleAreaXBounds(markerBeat - 1, markerBeat - 1 + xRange);
+        }
+    }
+
+    private void onSelectionBoundsInvalidated() {
+        IntBounded selectionBounds = selectionContext.getSelectionBounds();
+        if (selectionContext.selection.size() > 0 && selectionBounds.isValid()) {
+            appContext.setMarkerBeat(selectionBounds.getLowerXBound());
+            if (visibleArea.assertBorderlessBoundsVisible(selectionBounds)) {
+                appContext.setActiveLine(null);
+                assertAllNeededTonesVisible();
+            }
+        }
+    }
+
+    public void fitToVisibleNotes(boolean vertically, boolean horizontally) {
+        List<Note> visibleNotes = getVisibleNotes(getLowerXBound(), getUpperXBound());
+        if (visibleNotes.size() > 0) {
+            IntBounded bounds = addMargins(new BoundingBox<>(visibleNotes));
+            if (horizontally) {
+                setVisibleAreaXBounds(bounds.getLowerXBound(), bounds.getUpperXBound());
+            }
+            if (vertically) {
+                setVisibleAreaYBounds(bounds.getLowerYBound(), bounds.getUpperYBound());
+            }
+        }
+    }
+
+    private List<Note> getVisibleNotes(int startBeat, int endBeat) {
+        return appContext.getSong().getVisibleNotes(startBeat, endBeat);
+    }
+
+    public void fitToSelectedNotes() {
+        setBounds(addMargins(selectionContext.getSelectionBounds()));
+        appContext.setActiveLine(null);
+    }
+
+    public boolean isMarkerVisible() {
+        return MathUtils.inRange(
+                appContext.getMarkerTime(),
+                appContext.beatToMillis(getLowerXBound()),
+                appContext.beatToMillis(getUpperXBound())
+        );
+    }
+
+
+    public void onLineDeactivated(SongLine line) {
+        if (nonNull(line)) {
+            line.removeListener(lineBoundsListener);
+        }
+    }
+
+    public void onLineActivated(SongLine line) {
+        if (nonNull(line)) {
+            line.addListener(lineBoundsListener);
+            if (line.size() > 0) {
+                adjustToBounds(line);
+            }
+        }
+    }
+
+    private void onLineBoundsInvalidated() {
+        SongLine activeLine = appContext.getActiveLine();
+        if (nonNull(activeLine) && activeLine.isValid()) {
+            adjustToBounds(activeLine);
+        }
+    }
+}

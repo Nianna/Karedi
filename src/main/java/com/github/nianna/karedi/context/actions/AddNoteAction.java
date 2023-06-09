@@ -80,6 +80,6 @@ class AddNoteAction extends ContextfulKarediAction {
     private Optional<SongLine> getLastVisibleLineBeforeMarker() {
         return appContext.getActiveTrack()
                 .lineAtOrEarlier(appContext.getMarkerBeat())
-                .filter(prevLine -> prevLine.getUpperXBound() > appContext.visibleArea.getLowerXBound());
+                .filter(prevLine -> prevLine.getUpperXBound() > visibleAreaContext.getLowerXBound());
     }
 }

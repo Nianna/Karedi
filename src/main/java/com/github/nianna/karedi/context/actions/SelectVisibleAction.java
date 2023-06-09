@@ -20,7 +20,7 @@ class SelectVisibleAction extends ContextfulKarediAction {
                 notes = appContext.getActiveLine().getNotes();
             } else {
                 notes = appContext.getActiveTrack()
-                        .getNotes(appContext.visibleArea.getLowerXBound(), appContext.visibleArea.getUpperXBound());
+                        .getNotes(visibleAreaContext.getLowerXBound(), visibleAreaContext.getUpperXBound());
             }
             setSelection(notes);
         }

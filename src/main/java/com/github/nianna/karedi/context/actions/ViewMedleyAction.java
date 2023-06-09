@@ -22,8 +22,8 @@ class ViewMedleyAction extends ContextfulKarediAction {
     @Override
     protected void onAction(ActionEvent event) {
         Song.Medley medley = appContext.getSong().getMedley();
-        appContext.setVisibleAreaXBounds(medley.getStartBeat(), medley.getEndBeat());
-        appContext.assertAllNeededTonesVisible();
+        visibleAreaContext.setVisibleAreaXBounds(medley.getStartBeat(), medley.getEndBeat());
+        visibleAreaContext.assertAllNeededTonesVisible();
     }
 
 }
