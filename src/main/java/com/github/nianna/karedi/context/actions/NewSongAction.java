@@ -45,7 +45,7 @@ class NewSongAction extends ContextfulKarediAction {
     private boolean finish() {
         appContext.reset(true);
         if (outputDir == null && audioFile != null) {
-            appContext.loadAudioFile(audioFile);
+            appContext.audioContext.loadAudioFile(audioFile);
         }
         appContext.setSong(song);
         if (outputDir != null) {
@@ -82,7 +82,7 @@ class NewSongAction extends ContextfulKarediAction {
                         LOGGER.warning(I18N.get("creator.copy_audio.fail"));
                         e.printStackTrace();
                     }
-                    appContext.loadAudioFile(newAudioFile);
+                    appContext.audioContext.loadAudioFile(newAudioFile);
                 }
             });
         }

@@ -6,7 +6,7 @@ import com.github.nianna.karedi.context.AppContext;
 import javafx.beans.value.ChangeListener;
 import javafx.event.ActionEvent;
 
- abstract class PlayAuxiliaryNoteAction extends ContextfulKarediAction {
+abstract class PlayAuxiliaryNoteAction extends ContextfulKarediAction {
 
     private int oldLowerBound;
 
@@ -14,9 +14,9 @@ import javafx.event.ActionEvent;
 
     private ChangeListener<? super Player.Status> statusListener;
 
-     PlayAuxiliaryNoteAction(AppContext appContext) {
-         super(appContext);
-        setDisabledCondition(appContext.selectionIsEmpty.or(appContext.activeAudioIsNull));
+    PlayAuxiliaryNoteAction(AppContext appContext) {
+        super(appContext);
+        setDisabledCondition(appContext.selectionIsEmpty.or(appContext.audioContext.getActiveAudioIsNull()));
         statusListener = (obs, oldStatus, newStatus) -> {
             if (oldStatus == Player.Status.PLAYING && newStatus == Player.Status.READY) {
                 appContext.setVisibleAreaXBounds(oldLowerBound, oldUpperBound, false);

@@ -1,7 +1,12 @@
 package com.github.nianna.karedi.controller;
 
-import java.util.Optional;
-
+import com.github.nianna.karedi.I18N;
+import com.github.nianna.karedi.action.KarediActions;
+import com.github.nianna.karedi.audio.CachedAudioFile;
+import com.github.nianna.karedi.context.AppContext;
+import com.github.nianna.karedi.context.AudioContext;
+import com.github.nianna.karedi.control.SliderTableCell;
+import com.github.nianna.karedi.util.ContextMenuBuilder;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleObjectProperty;
@@ -20,12 +25,8 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.util.Callback;
-import com.github.nianna.karedi.I18N;
-import com.github.nianna.karedi.action.KarediActions;
-import com.github.nianna.karedi.audio.CachedAudioFile;
-import com.github.nianna.karedi.context.AppContext;
-import com.github.nianna.karedi.control.SliderTableCell;
-import com.github.nianna.karedi.util.ContextMenuBuilder;
+
+import java.util.Optional;
 
 public class AudioManagerController implements Controller {
 	@FXML
@@ -40,6 +41,8 @@ public class AudioManagerController implements Controller {
 	private ContextMenu baseContextMenu;
 
 	private AppContext appContext;
+
+	private AudioContext audioContext;
 
 	@FXML
 	public void initialize() {
@@ -70,18 +73,19 @@ public class AudioManagerController implements Controller {
 	@Override
 	public void setAppContext(AppContext appContext) {
 		this.appContext = appContext;
+		this.audioContext = appContext.audioContext;
 
 		table.setRowFactory(getRowFactory());
 
-		appContext.activeAudioFileProperty().addListener(
+		audioContext.activeAudioFileProperty().addListener(
 				(obsValue, oldValue, newValue) -> table.getSelectionModel().select(newValue));
 
-		table.setItems(appContext.getAudioFiles());
+		table.setItems(audioContext.getAudioFiles());
 		table.disableProperty().bind(appContext.activeSongProperty().isNull());
 
 		table.getSelectionModel().selectedItemProperty().addListener((obsVal, oldVal, newVal) -> {
-			if (newVal != null && newVal != appContext.getActiveAudioFile()) {
-				appContext.setActiveAudioFile(newVal);
+			if (newVal != null && newVal != audioContext.getActiveAudioFile()) {
+				audioContext.setActiveAudioFile(newVal);
 			}
 		});
 	}
@@ -92,7 +96,7 @@ public class AudioManagerController implements Controller {
 	}
 
 	private void handleRemove(CachedAudioFile file) {
-		appContext.removeAudioFile(file);
+		audioContext.removeAudioFile(file);
 	}
 
 	@Override

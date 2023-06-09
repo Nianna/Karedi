@@ -5,8 +5,6 @@ import com.github.nianna.karedi.KarediApp;
 import com.github.nianna.karedi.KarediApp.ViewMode;
 import com.github.nianna.karedi.action.KarediAction;
 import com.github.nianna.karedi.action.KarediActions;
-import com.github.nianna.karedi.audio.AudioFileLoader;
-import com.github.nianna.karedi.audio.CachedAudioFile;
 import com.github.nianna.karedi.audio.Player.Mode;
 import com.github.nianna.karedi.audio.Player.Status;
 import com.github.nianna.karedi.command.BackupStateCommandDecorator;
@@ -87,10 +85,12 @@ public class AppContext {
 	public final BooleanBinding activeSongIsNull = activeSongProperty().isNull();
 	public final BooleanBinding activeTrackIsNull = activeTrackProperty().isNull();
 	public final BooleanBinding activeFileIsNull = activeFileProperty().isNull();
-	public final BooleanBinding activeAudioIsNull = player.activeAudioFileProperty().isNull();
+
 	private final IntegerProperty activeSongTrackCount = new SimpleIntegerProperty();
 	public final BooleanBinding activeSongHasOneOrZeroTracks = activeSongTrackCount
 			.lessThanOrEqualTo(1);
+
+	public final AudioContext audioContext = new AudioContext(this, player);
 
 	public AppContext() {
 		LOGGER.setUseParentHandlers(false);
@@ -235,44 +235,8 @@ public class AppContext {
 	}
 
 	// Audio
-	public CachedAudioFile getActiveAudioFile() {
-		return player.getActiveAudioFile();
-	}
-
-	public void removeAudioFile(CachedAudioFile file) {
-		player.removeAudioFile(file);
-	}
-
-	public void loadAudioFile(File file) {
-		AudioFileLoader.loadMp3File(file, (newAudio -> {
-			if (newAudio.isPresent()) {
-				player.addAudioFile(newAudio.get());
-				setActiveAudioFile(newAudio.get());
-				LOGGER.info(I18N.get("import.audio.success"));
-			} else {
-				LOGGER.severe(I18N.get("import.audio.fail"));
-			}
-		}));
-	}
-
-	public void setActiveAudioFile(CachedAudioFile file) {
-		if (file != getActiveAudioFile()) {
-			execute(KarediActions.STOP_PLAYBACK);
-			player.setActiveAudioFile(file);
-			if (file != null) {
-				beatRange.setMaxTime(file.getDuration());
-			} else {
-				beatRange.setMaxTime(null);
-			}
-		}
-	}
-
-	public ReadOnlyObjectProperty<CachedAudioFile> activeAudioFileProperty() {
-		return player.activeAudioFileProperty();
-	}
-
-	public ObservableList<CachedAudioFile> getAudioFiles() {
-		return player.getAudioFiles();
+	void setMaxTime(Long maxTime) {
+		beatRange.setMaxTime(maxTime);
 	}
 
 	// Player
@@ -282,10 +246,6 @@ public class AppContext {
 
 	public Status getPlayerStatus() {
 		return player.getStatus();
-	}
-
-	public boolean isTickingEnabled() {
-		return player.isTickingEnabled();
 	}
 
 	public void playRange(int fromBeat, int toBeat, Mode mode) {
@@ -372,7 +332,7 @@ public class AppContext {
 			setActiveFile(file);
 			Song song = txtFacade.loadFromTxtFile(file);
 			song.getTagValue(TagKey.MP3).ifPresent(audioFileName -> {
-				loadAudioFile(new File(file.getParent(), audioFileName));
+				audioContext.loadAudioFile(new File(file.getParent(), audioFileName));
 			});
 			setSong(song);
 			LOGGER.info(I18N.get("load.success"));

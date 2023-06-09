@@ -8,14 +8,14 @@ import javafx.event.ActionEvent;
 
 class PlaySelectionAction extends ContextfulKarediAction {
 
-    private Player.Mode mode;
+    private final Player.Mode mode;
 
     PlaySelectionAction(AppContext appContext, Player.Mode mode) {
         super(appContext);
         this.mode = mode;
         BooleanBinding condition = appContext.selectionIsEmpty;
         if (mode != Player.Mode.MIDI_ONLY) {
-            condition = condition.or(appContext.activeAudioIsNull);
+            condition = condition.or(appContext.audioContext.getActiveAudioIsNull());
         }
         setDisabledCondition(condition);
     }

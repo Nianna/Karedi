@@ -8,8 +8,11 @@ import javafx.beans.binding.BooleanBinding;
 import javafx.event.ActionEvent;
 
 class PlayMedleyAction extends ContextfulKarediAction {
-    private Player.Mode mode;
+
+    private final Player.Mode mode;
+
     private BooleanBinding basicCondition;
+
     private Song.Medley medley;
 
     PlayMedleyAction(AppContext appContext, Player.Mode mode) {
@@ -18,7 +21,7 @@ class PlayMedleyAction extends ContextfulKarediAction {
 
         basicCondition = appContext.activeSongIsNull;
         if (mode != Player.Mode.MIDI_ONLY) {
-            basicCondition = basicCondition.or(appContext.activeAudioIsNull);
+            basicCondition = basicCondition.or(appContext.audioContext.getActiveAudioIsNull());
         }
         setDisabledCondition(basicCondition);
         appContext.activeSongProperty().addListener((obsVal, oldVal, newVal) -> {

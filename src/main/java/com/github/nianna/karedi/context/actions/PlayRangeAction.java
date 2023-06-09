@@ -8,9 +8,12 @@ import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 
 class PlayRangeAction extends ContextfulKarediAction {
-    private Player.Mode mode;
-    private ObservableValue<? extends Number> from;
-    private ObservableValue<? extends Number> to;
+
+    private final Player.Mode mode;
+
+    private final ObservableValue<? extends Number> from;
+
+    private final ObservableValue<? extends Number> to;
 
     PlayRangeAction(AppContext appContext,
                     Player.Mode mode, ObservableValue<? extends Number> from,
@@ -22,7 +25,7 @@ class PlayRangeAction extends ContextfulKarediAction {
 
         BooleanBinding condition = appContext.activeSongIsNull;
         if (mode != Player.Mode.MIDI_ONLY) {
-            condition = condition.or(appContext.activeAudioIsNull);
+            condition = condition.or(appContext.audioContext.getActiveAudioIsNull());
         }
         setDisabledCondition(condition);
     }

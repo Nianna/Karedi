@@ -481,7 +481,7 @@ public class EditorController implements Controller {
 
 		private TapNotesAction() {
 			setDisabledCondition(appContext.activeTrackProperty().isNull()
-					.or(appContext.activeAudioFileProperty().isNull()));
+					.or(appContext.audioContext.activeAudioFileProperty().isNull()));
 			playerStatusListener = (obs -> {
 				if (appContext.getPlayerStatus() != Status.PLAYING) {
 					tapping = false;
