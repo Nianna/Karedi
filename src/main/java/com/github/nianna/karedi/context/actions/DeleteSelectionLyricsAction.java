@@ -14,7 +14,7 @@ class DeleteSelectionLyricsAction extends ContextfulKarediAction {
 
     @Override
     protected void onAction(ActionEvent event) {
-        appContext.execute(new DeleteTextCommand(getFirstSelectedNote(), getLastSelectedNote()));
+        executeCommand(new DeleteTextCommand(getFirstSelectedNote(), getLastSelectedNote()));
     }
 
 }

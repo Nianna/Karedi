@@ -46,7 +46,7 @@ class SplitSelectionAction extends ContextfulKarediAction {
     protected void onAction(ActionEvent event) {
         Note note = splitNote.get();
         Command cmd = new SplitNoteCommand(note, splitPoint(note));
-        appContext.execute(new ChangePostStateCommandDecorator(cmd, (command) -> selectOnly(note)));
+        executeCommand(new ChangePostStateCommandDecorator(cmd, (command) -> selectOnly(note)));
     }
 
     private int splitPoint(Note note) {

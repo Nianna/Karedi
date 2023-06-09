@@ -17,7 +17,7 @@ class MoveSelectionAction extends ContextfulKarediAction {
 
     @Override
     protected void onAction(ActionEvent event) {
-        appContext.execute(new MoveCollectionCommand<>(getSelectedNotes(), direction, 1));
+        executeCommand(new MoveCollectionCommand<>(getSelectedNotes(), direction, 1));
     }
 
 }

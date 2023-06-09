@@ -32,7 +32,7 @@ class ResizeAction extends ContextfulKarediAction {
 
     @Override
     protected void onAction(ActionEvent event) {
-        appContext.execute(new ResizeNotesCommand(getSelectedNotes(), direction, by));
+        executeCommand(new ResizeNotesCommand(getSelectedNotes(), direction, by));
     }
 
     private void refreshDisabled() {

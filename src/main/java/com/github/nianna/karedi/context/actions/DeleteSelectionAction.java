@@ -21,7 +21,7 @@ class DeleteSelectionAction extends ContextfulKarediAction {
         @Override
         protected void onAction(ActionEvent event) {
             appContext.player.stop();
-            appContext.execute(getCommand());
+            executeCommand(getCommand());
         }
 
         Command getCommand() {

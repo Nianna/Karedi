@@ -318,7 +318,7 @@ public class LyricsEditorController implements Controller {
 			if (title != null) {
 				finalCmd.setTitle(title);
 			}
-			appContext.execute(new ChangePostStateCommandDecorator(finalCmd, c -> {
+			appContext.commandContext.execute(new ChangePostStateCommandDecorator(finalCmd, c -> {
 				appContext.selectionContext.getSelection().selectOnly(first);
 			}));
 		}

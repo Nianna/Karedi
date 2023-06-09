@@ -162,7 +162,7 @@ public class NoteNode {
 			by = note.getStart() - beat;
 		}
 		Command cmd = new ResizeNotesCommand(appContext.selectionContext.getSelected(), resizer.getDirection(), by);
-		appContext.execute(cmd);
+		appContext.commandContext.execute(cmd);
 	}
 
 	private void onNoteDragged(MouseEvent event) {
@@ -171,18 +171,18 @@ public class NoteNode {
 		int startChange = newStart - note.getStart();
 
 		if (toneChange < 0) {
-			appContext.execute(new MoveCollectionCommand<Integer, Note>(
+			appContext.commandContext.execute(new MoveCollectionCommand<>(
 					appContext.selectionContext.getSelection().get(), Direction.DOWN, -toneChange));
 		} else if (toneChange > 0) {
-			appContext.execute(new MoveCollectionCommand<Integer, Note>(
+			appContext.commandContext.execute(new MoveCollectionCommand<>(
 					appContext.selectionContext.getSelection().get(), Direction.UP, toneChange));
 		}
 
 		if (startChange < 0) {
-			appContext.execute(new MoveCollectionCommand<Integer, Note>(
+			appContext.commandContext.execute(new MoveCollectionCommand<>(
 					appContext.selectionContext.getSelection().get(), Direction.LEFT, -startChange));
 		} else if (startChange > 0) {
-			appContext.execute(new MoveCollectionCommand<Integer, Note>(
+			appContext.commandContext.execute(new MoveCollectionCommand<>(
 					appContext.selectionContext.getSelection().get(), Direction.RIGHT, startChange));
 		}
 	}
@@ -190,7 +190,7 @@ public class NoteNode {
 	private void onNoteCut(Observable obs) {
 		int splitPoint = editorController.sceneXtoBeat(cutter.getCutSceneX()) - note.getStart();
 		Command cmd = new SplitNoteCommand(note, splitPoint);
-		appContext.execute(new ChangePostStateCommandDecorator(cmd, c -> {
+		appContext.commandContext.execute(new ChangePostStateCommandDecorator(cmd, c -> {
 			appContext.selectionContext.getSelection().selectOnly(note);
 		}));
 	}

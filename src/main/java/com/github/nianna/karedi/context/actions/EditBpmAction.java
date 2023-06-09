@@ -39,13 +39,13 @@ class EditBpmAction extends ContextfulKarediAction {
             optionalResult.ifPresent(result -> {
                 double newBpm = result.getBpm();
                 if (result.shouldRescale()) {
-                    appContext.execute(new RescaleSongToBpmCommand(appContext.getSong(), newBpm / oldBpm));
+                    executeCommand(new RescaleSongToBpmCommand(appContext.getSong(), newBpm / oldBpm));
                 } else {
-                    appContext.execute(new ChangeBpmCommand(appContext.getSong(), newBpm));
+                    executeCommand(new ChangeBpmCommand(appContext.getSong(), newBpm));
                 }
             });
         } else {
-            appContext.execute(new RescaleSongToBpmCommand(appContext.getSong(), scale));
+            executeCommand(new RescaleSongToBpmCommand(appContext.getSong(), scale));
         }
     }
 

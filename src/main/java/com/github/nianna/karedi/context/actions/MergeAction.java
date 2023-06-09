@@ -20,7 +20,7 @@ class MergeAction extends ClipboardAction {
     protected void onAction(ActionEvent event) {
         Song pastedSong = buildSongFromClipboard();
         if (pastedSong != null && pastedSong.size() > 0) {
-            appContext.execute(new MergeNotesCommand(getSelectedNotes(), pastedSong.get(0).getNotes(), mode));
+            executeCommand(new MergeNotesCommand(getSelectedNotes(), pastedSong.get(0).getNotes(), mode));
         }
     }
 }

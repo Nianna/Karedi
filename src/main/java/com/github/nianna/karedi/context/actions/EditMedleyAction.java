@@ -29,7 +29,7 @@ class EditMedleyAction extends ContextfulKarediAction {
         dialog.resultProperty().addListener(obs -> {
             Song.Medley medley = dialog.getResult();
             if (medley != null) {
-                appContext.execute(new ChangeMedleyCommand(appContext.getSong(), medley.getStartBeat(),
+                executeCommand(new ChangeMedleyCommand(appContext.getSong(), medley.getStartBeat(),
                         medley.getEndBeat()));
             }
         });

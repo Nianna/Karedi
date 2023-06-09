@@ -17,7 +17,7 @@ class ChangeSelectionTypeAction extends ContextfulKarediAction {
 
     @Override
     protected void onAction(ActionEvent event) {
-        appContext.execute(new MarkAsTypeCommand(getSelectedNotes(), type));
+        executeCommand(new MarkAsTypeCommand(getSelectedNotes(), type));
     }
 
 }

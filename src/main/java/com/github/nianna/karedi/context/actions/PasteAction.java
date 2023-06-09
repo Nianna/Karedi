@@ -36,7 +36,7 @@ class PasteAction extends ClipboardAction {
                 addSubCommand(new PasteCommand(appContext.getActiveTrack(), pastedSong, appContext.getMarkerBeat()));
             }
         };
-        appContext.execute(new ChangePostStateCommandDecorator(cmd, c -> setSelection(notesToSelect)));
+        executeCommand(new ChangePostStateCommandDecorator(cmd, c -> setSelection(notesToSelect)));
     }
 
 }

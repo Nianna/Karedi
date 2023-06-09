@@ -1,8 +1,10 @@
 package com.github.nianna.karedi.context.actions;
 
 import com.github.nianna.karedi.action.KarediAction;
+import com.github.nianna.karedi.command.Command;
 import com.github.nianna.karedi.context.AppContext;
 import com.github.nianna.karedi.context.BeatRangeContext;
+import com.github.nianna.karedi.context.CommandContext;
 import com.github.nianna.karedi.context.SelectionContext;
 import com.github.nianna.karedi.context.VisibleAreaContext;
 import com.github.nianna.karedi.song.Note;
@@ -20,11 +22,14 @@ public abstract class ContextfulKarediAction extends KarediAction {
 
     protected final BeatRangeContext beatRangeContext;
 
+    protected final CommandContext commandContext;
+
     ContextfulKarediAction(AppContext appContext) {
         this.appContext = appContext;
         this.selectionContext = appContext.selectionContext;
         this.visibleAreaContext = appContext.visibleAreaContext;
         this.beatRangeContext = appContext.beatRangeContext;
+        this.commandContext = appContext.commandContext;
     }
     
     protected void disableWhenSelectionEmpty() {
@@ -88,5 +93,9 @@ public abstract class ContextfulKarediAction extends KarediAction {
 
     protected void setSelection(List<Note> notes) {
         selectionContext.selection.set(notes);
+    }
+
+    protected boolean executeCommand(Command command) {
+        return commandContext.execute(command);
     }
 }

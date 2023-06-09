@@ -16,7 +16,7 @@ class AddTrackAction extends ContextfulKarediAction {
     @Override
     protected void onAction(ActionEvent event) {
         Command cmd = new AddTrackCommand(appContext.getSong());
-        appContext.execute(new ChangePostStateCommandDecorator(cmd, c -> {
+        executeCommand(new ChangePostStateCommandDecorator(cmd, c -> {
             appContext.getSong().getLastTrack().ifPresent(appContext::setActiveTrack);
         }));
     }

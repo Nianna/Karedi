@@ -7,8 +7,6 @@ import com.github.nianna.karedi.action.KarediAction;
 import com.github.nianna.karedi.action.KarediActions;
 import com.github.nianna.karedi.audio.Player.Mode;
 import com.github.nianna.karedi.audio.Player.Status;
-import com.github.nianna.karedi.command.BackupStateCommandDecorator;
-import com.github.nianna.karedi.command.Command;
 import com.github.nianna.karedi.context.actions.ActionHelper;
 import com.github.nianna.karedi.song.Note;
 import com.github.nianna.karedi.song.Song;
@@ -21,15 +19,12 @@ import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
 import javafx.beans.binding.BooleanBinding;
 import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.ReadOnlyIntegerProperty;
 import javafx.beans.property.ReadOnlyLongProperty;
 import javafx.beans.property.ReadOnlyObjectProperty;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.ListChangeListener;
-import javafx.collections.ObservableList;
 
 import java.io.File;
 import java.util.List;
@@ -38,21 +33,16 @@ import java.util.logging.Logger;
 public class AppContext {
 	public static final Logger LOGGER = Logger.getLogger(KarediApp.class.getPackage().getName());
 
-	private static final int MAX_HISTORY_SIZE = 1000;
-
 	public final ReadOnlyObjectWrapper<Song> activeSong = new ReadOnlyObjectWrapper<>();
 	public final ReadOnlyObjectWrapper<SongTrack> activeTrack = new ReadOnlyObjectWrapper<>();
 	public final ReadOnlyObjectWrapper<SongLine> activeLine = new ReadOnlyObjectWrapper<>();
 	private final ReadOnlyObjectWrapper<File> activeFile = new ReadOnlyObjectWrapper<>();
 	public final ReadOnlyObjectWrapper<ViewMode> activeViewMode = new ReadOnlyObjectWrapper<>(
 			KarediApp.getInstance().getViewMode());
-	public final ObjectProperty<Command> lastSavedCommand = new SimpleObjectProperty<>();
 
 	public final TxtFacade txtFacade = new TxtFacade();
 	private final SongNormalizer songNormalizer = new SongNormalizer();
 	private final ActionHelper actionHelper = new ActionHelper(this);
-
-	public final History history = new History();
 
 	public final BeatRangeContext beatRangeContext = new BeatRangeContext(this);
 
@@ -81,9 +71,10 @@ public class AppContext {
 
 	public final VisibleAreaContext visibleAreaContext = new VisibleAreaContext(this, beatRangeContext);
 
+	public final CommandContext commandContext = new CommandContext(this);
+
 	public AppContext() {
 		LOGGER.setUseParentHandlers(false);
-		history.setMaxSize(MAX_HISTORY_SIZE);
 		actionHelper.addActions();
 		player.statusProperty().addListener(this::onPlayerStatusChanged);
 	}
@@ -103,35 +94,6 @@ public class AppContext {
 
 	public boolean canExecute(KarediActions action) {
 		return actionHelper.canExecute(action);
-	}
-
-	// History
-	public boolean execute(Command command) {
-		return history.push(new BackupStateCommandDecorator(command, this));
-	}
-
-	public ObservableList<Command> getHistory() {
-		return history.getList();
-	}
-
-	public void clearHistory() {
-		history.clear();
-	}
-
-	public ReadOnlyObjectProperty<Command> activeCommandProperty() {
-		return history.activeCommandProperty();
-	}
-
-	public ReadOnlyIntegerProperty activeCommandIndexProperty() {
-		return history.activeIndexProperty();
-	}
-
-	public Integer getActiveCommandIndex() {
-		return history.getActiveIndex();
-	}
-
-	public Command getActiveCommand() {
-		return history.getActiveCommand();
 	}
 
 	// Player
@@ -219,7 +181,7 @@ public class AppContext {
 	public boolean saveSongToFile(File file) {
 		if (file != null) {
 			if (txtFacade.saveSongToFile(file, getSong())) {
-				lastSavedCommand.set(history.getLastCommandRequiringSave());
+				commandContext.updateLastSavedCommand();
 				return true;
 			}
 		}
@@ -345,7 +307,7 @@ public class AppContext {
 
 	// Other
 	public boolean needsSaving() {
-		return getSong() != null && lastSavedCommand.get() != history.getLastCommandRequiringSave();
+		return getSong() != null && commandContext.hasUnsavedCommands();
 	}
 
 	public Logger getMainLogger() {
@@ -354,8 +316,7 @@ public class AppContext {
 
 	public void reset(boolean resetPlayer) {
 		setSong(null);
-		lastSavedCommand.set(null);
-		history.clear();
+		commandContext.reset();
 		player.stop();
 		visibleAreaContext.reset();
 		if (resetPlayer) {

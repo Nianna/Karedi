@@ -22,6 +22,6 @@ class CutSelectionAction extends ContextfulKarediAction {
             appContext.execute(KarediActions.COPY);
         });
         cmd.setTitle(I18N.get("common.cut"));
-        appContext.execute(cmd);
+        executeCommand(cmd);
     }
 }

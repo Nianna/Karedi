@@ -1,6 +1,5 @@
 package com.github.nianna.karedi.context.actions;
 
-import com.github.nianna.karedi.command.Command;
 import com.github.nianna.karedi.command.RollLyricsLeftCommand;
 import com.github.nianna.karedi.context.AppContext;
 import com.github.nianna.karedi.song.Note;
@@ -19,7 +18,6 @@ class RollLyricsLeftAction extends ContextfulKarediAction {
     protected void onAction(ActionEvent event) {
         List<Note> notes = appContext.getActiveTrack()
                 .getNotes(getFirstSelectedNote(), null);
-        Command cmd = new RollLyricsLeftCommand(notes);
-        appContext.execute(cmd);
+        executeCommand(new RollLyricsLeftCommand(notes));
     }
 }

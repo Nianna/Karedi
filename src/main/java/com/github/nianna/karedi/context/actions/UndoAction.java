@@ -8,13 +8,16 @@ class UndoAction extends ContextfulKarediAction {
 
     UndoAction(AppContext appContext) {
         super(appContext);
-        setDisabledCondition(Bindings.createBooleanBinding(() -> {
-            return !appContext.history.canUndo();
-        }, appContext.history.activeIndexProperty()));
+        setDisabledCondition(
+                Bindings.createBooleanBinding(
+                        () -> !commandContext.canUndo(),
+                        commandContext.historyActiveIndexProperty()
+                )
+        );
     }
 
     @Override
     protected void onAction(ActionEvent event) {
-        appContext.history.undo();
+        commandContext.undo();
     }
 }

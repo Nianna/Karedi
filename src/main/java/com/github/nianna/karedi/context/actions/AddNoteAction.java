@@ -44,7 +44,7 @@ class AddNoteAction extends ContextfulKarediAction {
         Command addNoteCommand = newNoteLine
                 .map(songLine -> new AddNoteCommand(note, songLine))
                 .orElseGet(() -> new AddNoteCommand(note, appContext.getActiveTrack()));
-        appContext.execute(new ChangePostStateCommandDecorator(addNoteCommand, cmd -> selectOnly(note)));
+        executeCommand(new ChangePostStateCommandDecorator(addNoteCommand, cmd -> selectOnly(note)));
     }
 
     private int computeNewNoteStartBeat() {

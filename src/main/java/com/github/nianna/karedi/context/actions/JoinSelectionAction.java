@@ -20,7 +20,7 @@ class JoinSelectionAction extends ContextfulKarediAction {
                     .flatMap(Note::getNext)
                     .ifPresent(this::selectNote);
         }
-        appContext.execute(new JoinNotesCommand(getSelectedNotes()));
+        executeCommand(new JoinNotesCommand(getSelectedNotes()));
         selectOnly(joinedNote);
     }
 

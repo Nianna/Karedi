@@ -13,7 +13,7 @@ class DeleteTrackAction extends ContextfulKarediAction {
 
     @Override
     protected void onAction(ActionEvent event) {
-        appContext.execute(new DeleteTrackCommand(appContext.getSong(), appContext.getActiveTrack()));
+        executeCommand(new DeleteTrackCommand(appContext.getSong(), appContext.getActiveTrack()));
     }
 
 }

@@ -42,7 +42,7 @@ class RenameAction extends ContextfulKarediAction {
         }
 
         Optional<EditFilenamesDialog.FilenamesEditResult> optionalResult = dialog.showAndWait();
-        optionalResult.ifPresent(result -> appContext.execute(commandFromResults(result)));
+        optionalResult.ifPresent(result -> executeCommand(commandFromResults(result)));
     }
 
     private Command commandFromResults(EditFilenamesDialog.FilenamesEditResult result) {
@@ -52,12 +52,9 @@ class RenameAction extends ContextfulKarediAction {
             protected void buildSubCommands() {
                 addSubCommand(new ChangeTagValueCommand(appContext.getSong(), TagKey.ARTIST,
                         result.getArtist()));
-                addSubCommand(
-                        new ChangeTagValueCommand(appContext.getSong(), TagKey.TITLE, result.getTitle()));
-                addSubCommand(new ChangeTagValueCommand(appContext.getSong(), TagKey.MP3,
-                        result.getAudioFilename()));
-                addSubCommand(new ChangeTagValueCommand(appContext.getSong(), TagKey.COVER,
-                        result.getCoverFilename()));
+                addSubCommand(new ChangeTagValueCommand(appContext.getSong(), TagKey.TITLE, result.getTitle()));
+                addSubCommand(new ChangeTagValueCommand(appContext.getSong(), TagKey.MP3, result.getAudioFilename()));
+                addSubCommand(new ChangeTagValueCommand(appContext.getSong(), TagKey.COVER, result.getCoverFilename()));
                 result.getBackgroundFilename()
                         .ifPresent(filename -> addSubCommand(new ChangeTagValueCommand(appContext.getSong(), TagKey.BACKGROUND, filename)));
                 result.getVideoFilename()
