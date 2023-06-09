@@ -49,12 +49,6 @@ import com.github.nianna.karedi.dialog.ModifyBpmDialog;
 import com.github.nianna.karedi.dialog.ModifyBpmDialog.BpmEditResult;
 import com.github.nianna.karedi.dialog.OverwriteAlert;
 import com.github.nianna.karedi.dialog.PreferencesDialog;
-import com.github.nianna.karedi.parser.Parser;
-import com.github.nianna.karedi.parser.ParsingFactory;
-import com.github.nianna.karedi.parser.Unparser;
-import com.github.nianna.karedi.parser.element.InvalidSongElementException;
-import com.github.nianna.karedi.parser.element.LineBreakElement;
-import com.github.nianna.karedi.parser.element.VisitableSongElement;
 import com.github.nianna.karedi.region.BoundingBox;
 import com.github.nianna.karedi.region.Direction;
 import com.github.nianna.karedi.region.IntBounded;
@@ -66,6 +60,7 @@ import com.github.nianna.karedi.song.SongLine;
 import com.github.nianna.karedi.song.SongTrack;
 import com.github.nianna.karedi.song.tag.Tag;
 import com.github.nianna.karedi.song.tag.TagKey;
+import com.github.nianna.karedi.txt.TxtFacade;
 import com.github.nianna.karedi.util.BeatMillisConverter;
 import com.github.nianna.karedi.util.BindingsUtils;
 import com.github.nianna.karedi.util.Converter;
@@ -95,8 +90,6 @@ import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.scene.control.ButtonType;
-import javafx.scene.input.Clipboard;
-import javafx.scene.input.ClipboardContent;
 import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 
@@ -104,14 +97,9 @@ import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
-import java.util.TreeMap;
 import java.util.logging.Logger;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class AppContext {
 	private static final Logger LOGGER = Logger.getLogger(KarediApp.class.getPackage().getName());
@@ -126,11 +114,8 @@ public class AppContext {
 			KarediApp.getInstance().getViewMode());
 	private final ObjectProperty<Command> lastSavedCommand = new SimpleObjectProperty<>();
 
-	private final Parser parser = ParsingFactory.createParser();
-	private final Unparser unparser = ParsingFactory.createUnparser();
-	private final SongLoader songLoader = new SongLoader(parser, new BasicSongBuilder());
-	private final SongDisassembler songDisassembler = new SongDisassembler();
-	private final SongSaver songSaver = new SongSaver(unparser, songDisassembler);
+	private final TxtFacade txtFacade = new TxtFacade();
+	private final SongNormalizer songNormalizer = new SongNormalizer();
 	private final ActionHelper actionHelper = new ActionHelper();
 
 	private final History history = new History();
@@ -442,7 +427,7 @@ public class AppContext {
 		if (file != null) {
 			reset(resetPlayer);
 			setActiveFile(file);
-			Song song = songLoader.load(file);
+			Song song = txtFacade.loadFromTxtFile(file);
 			song.getTagValue(TagKey.MP3).ifPresent(audioFileName -> {
 				loadAudioFile(new File(file.getParent(), audioFileName));
 			});
@@ -453,7 +438,7 @@ public class AppContext {
 
 	private boolean saveSongToFile(File file) {
 		if (file != null) {
-			if (songSaver.saveSongToFile(file, getSong())) {
+			if (txtFacade.saveSongToFile(file, getSong())) {
 				lastSavedCommand.set(history.getLastCommandRequiringSave());
 				return true;
 			}
@@ -472,7 +457,7 @@ public class AppContext {
 
 	public final void setSong(Song song) {
 		Song oldSong = getSong();
-		new SongNormalizer(song).normalize();
+		songNormalizer.normalize(song);
 		// The song has at least one track now
 		if (song != oldSong) {
 			activeSong.set(song);
@@ -1779,54 +1764,16 @@ public class AppContext {
 
 		@Override
 		protected void onAction(ActionEvent event) {
-			final Clipboard clipboard = Clipboard.getSystemClipboard();
-			final ClipboardContent content = new ClipboardContent();
-
-			includeLineBreak = false;
-			String result = getSelected().stream()
-					.collect(
-							Collectors.groupingBy(Note::getLine, TreeMap::new, Collectors.toList()))
-					.entrySet().stream().flatMap(this::disassembleLinePart).map(unparser::unparse)
-					.collect(Collectors.joining(System.lineSeparator()));
-
-			content.putString(result);
-			clipboard.setContent(content);
-		}
-
-		private Stream<VisitableSongElement> disassembleLinePart(
-				Map.Entry<SongLine, List<Note>> entry) {
-			List<VisitableSongElement> list = entry.getValue().stream()
-					.map(songDisassembler::disassemble).collect(Collectors.toList());
-			if (includeLineBreak) {
-				list.add(0, new LineBreakElement(entry.getKey().getLineBreak()));
-			} else {
-				includeLineBreak = true;
-			}
-			return list.stream();
+			txtFacade.saveToClipboard(getSelected());
 		}
 	}
 
 	private abstract class ClipboardAction extends KarediAction {
 
-		protected Song buildSong(String[] lines) {
-			SongBuilder builder = new BasicSongBuilder();
-			Arrays.asList(lines).forEach(line -> {
-				try {
-					builder.buildPart(parser.parse(line));
-				} catch (InvalidSongElementException e) {
-					// ignore
-				}
-			});
-			return builder.getResult();
+		protected Song buildSongFromClipboard() {
+			return txtFacade.loadFromClipboard();
 		}
 
-		protected String[] getLinesFromClipboard() {
-			final Clipboard clipboard = Clipboard.getSystemClipboard();
-			if (clipboard.getString() == null) {
-				return new String[0];
-			}
-			return clipboard.getString().split("\\R");
-		}
 	}
 
 	private class PasteAction extends ClipboardAction {
@@ -1836,7 +1783,7 @@ public class AppContext {
 
 		@Override
 		protected void onAction(ActionEvent event) {
-			Song pastedSong = buildSong(getLinesFromClipboard());
+			Song pastedSong = buildSongFromClipboard();
 			List<Note> notesToSelect = new ArrayList<>();
 			if (pastedSong.size() > 0) {
 				notesToSelect.addAll(pastedSong.get(0).getNotes());
@@ -1865,7 +1812,7 @@ public class AppContext {
 
 		@Override
 		protected void onAction(ActionEvent event) {
-			Song pastedSong = buildSong(getLinesFromClipboard());
+			Song pastedSong = buildSongFromClipboard();
 			if (pastedSong != null && pastedSong.size() > 0) {
 				execute(new MergeNotesCommand(getSelected(), pastedSong.get(0).getNotes(), mode));
 			}
@@ -2068,7 +2015,7 @@ public class AppContext {
 			}
 
 			File file = KarediApp.getInstance().getTxtFileToSave(getInitialFileName());
-			songSaver.exportToFile(file, getSong().getTags(), tracks);
+			txtFacade.exportSongToFile(file, getSong().getTags(), tracks);
 		}
 
 		private String getInitialFileName() {

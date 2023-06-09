@@ -6,6 +6,7 @@
 	<version>1.3.0-rc.1</version>
 
 	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.vendor>com.github.nianna</project.vendor>
 		<project.mainClass>com.github.nianna.karedi.KarediAppLauncher</project.mainClass>
 		<project.jars.outputDirectory>${project.build.directory}/jars</project.jars.outputDirectory>

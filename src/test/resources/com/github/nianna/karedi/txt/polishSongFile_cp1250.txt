@@ -1,0 +1,22 @@
+#ARTIST:Test Artist
+#TITLE:Test title
+#MP3:Test Artist - Test title.mp3
+#COVER:Test Artist - Test title [CO].jpg
+#BACKGROUND:Test Artist - Test title [BG].jpg
+#VIDEO:Test Artist - Test title.mp4
+#BPM:392.08
+#GAP:5224
+#YEAR:2015
+#LANGUAGE:Polish
+#ENCODING:CP1250
+#MEDLEYSTARTBEAT:1537
+#MEDLEYENDBEAT:2076
+: 0 3 5 Za
+: 8 3 2  ¿ó³æ
+- 14
+R 16 7 5 gêœ
+* 24 3 5 l¹
+G 28 12 7 ~
+: 41 5 5  jaŸñ
+F 48 9 5 ~
+E
