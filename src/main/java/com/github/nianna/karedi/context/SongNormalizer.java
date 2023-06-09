@@ -3,11 +3,9 @@ package com.github.nianna.karedi.context;
 import com.github.nianna.karedi.I18N;
 import com.github.nianna.karedi.song.Song;
 import com.github.nianna.karedi.song.SongTrack;
-import com.github.nianna.karedi.song.tag.Tag;
 import com.github.nianna.karedi.song.tag.TagKey;
 import com.github.nianna.karedi.song.tag.TagValidators;
 import com.github.nianna.karedi.util.Converter;
-import com.github.nianna.karedi.util.MultiplayerTags;
 
 import java.util.logging.Logger;
 
@@ -43,7 +41,6 @@ class SongNormalizer {
 		if (song.getTrackCount() == 0) {
 			song.addTrack(new SongTrack(1));
 		}
-		extractTrackNamesFromTags(song);
 	}
 
 	private void setDefaultBpm(Song song) {
@@ -70,19 +67,6 @@ class SongNormalizer {
 			LOGGER.severe(I18N.get("normalizer.gap.invalid", value, Song.DEFAULT_GAP));
 			song.getBeatMillisConverter().setGap(Song.DEFAULT_GAP);
 		}
-	}
-
-	private static void extractTrackNamesFromTags(Song song) {
-		song.getTags().stream()
-				.filter(MultiplayerTags::isANameTag)
-				.forEach(tag -> renameTrack(song, tag));
-	}
-
-	private static void renameTrack(Song song, Tag tag) {
-		MultiplayerTags.getTrackNumber(tag).ifPresent(number -> {
-			song.removeTag(tag);
-			song.renameTrack(number, tag.getValue());
-		});
 	}
 
 }
