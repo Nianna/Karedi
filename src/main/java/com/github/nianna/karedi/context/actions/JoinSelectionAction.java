@@ -9,17 +9,19 @@ class JoinSelectionAction extends ContextfulKarediAction {
 
     JoinSelectionAction(AppContext appContext) {
         super(appContext);
-        setDisabledCondition(appContext.selectionIsEmpty);
+        disableWhenSelectionEmpty();
     }
 
     @Override
     protected void onAction(ActionEvent event) {
-        Note outcome = appContext.selection.getFirst().get();
-        if (appContext.selection.size() == 1) {
-            appContext.selection.getLast().flatMap(Note::getNext).ifPresent(appContext.selection::select);
+        Note joinedNote = getFirstSelectedNote();
+        if (getSelectionSize() == 1) {
+            findLastSelectedNote()
+                    .flatMap(Note::getNext)
+                    .ifPresent(this::selectNote);
         }
-        appContext.execute(new JoinNotesCommand(appContext.getSelected()));
-        appContext.selection.selectOnly(outcome);
+        appContext.execute(new JoinNotesCommand(getSelectedNotes()));
+        selectOnly(joinedNote);
     }
 
 

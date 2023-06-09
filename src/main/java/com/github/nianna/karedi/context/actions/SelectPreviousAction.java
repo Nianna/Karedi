@@ -2,9 +2,12 @@ package com.github.nianna.karedi.context.actions;
 
 import com.github.nianna.karedi.context.AppContext;
 import com.github.nianna.karedi.song.Note;
+import com.github.nianna.karedi.song.SongLine;
 import javafx.event.ActionEvent;
 
 import java.util.Optional;
+
+import static java.util.Objects.nonNull;
 
 class SelectPreviousAction extends ContextfulKarediAction {
 
@@ -15,27 +18,44 @@ class SelectPreviousAction extends ContextfulKarediAction {
 
     @Override
         protected void onAction(ActionEvent event) {
-            Optional<Note> prevNote = appContext.selection
-                    .getFirst()
-                    .flatMap(Note::getPrevious)
-                    .filter(appContext::isInVisibleBeatRange);
-
-            if (!prevNote.isPresent() && appContext.selection.size() == 0) {
-                int markerBeat = appContext.getMarkerBeat();
-                if (appContext.beatMillisConverter.beatToMillis(markerBeat) > appContext.getMarkerTime()) {
-                    markerBeat -= 1;
-                }
-                prevNote = appContext.getActiveTrack().noteAtOrEarlier(markerBeat)
-                        .filter(appContext::isInVisibleBeatRange);
-            }
-            if (!prevNote.isPresent()) {
-                prevNote = appContext.getActiveTrack().noteAtOrEarlier(appContext.visibleArea.getUpperXBound() - 1);
-            }
-            if (appContext.getActiveLine() != null) {
-                prevNote = Optional
-                        .ofNullable(prevNote.filter(note -> note.getLine().equals(appContext.getActiveLine()))
-                                .orElse(appContext.getActiveLine().getLast()));
-            }
-            prevNote.ifPresent(appContext.selection::selectOnly);
+        findVisibleNoteBeforeFirstSelectedNote()
+                .or(this::findVisibleNoteBeforeMarkerIfSelectionEmpty)
+                .or(this::findLastVisibleNoteFromCurrentTrack)
+                .filter(this::noteBelongsToActiveLineOrNoActiveLine)
+                .or(this::findLastNoteFromActiveLine)
+                .ifPresent(this::selectOnly);
         }
+
+    private boolean noteBelongsToActiveLineOrNoActiveLine(Note note) {
+        return nonNull(appContext.getActiveLine()) && note.getLine().equals(appContext.getActiveLine());
+    }
+
+    private Optional<Note> findVisibleNoteBeforeMarkerIfSelectionEmpty() {
+        if (getSelectionSize() == 0) {
+            int markerBeat = appContext.getMarkerBeat();
+            if (appContext.beatMillisConverter.beatToMillis(markerBeat) > appContext.getMarkerTime()) {
+                markerBeat -= 1;
+            }
+            return appContext.getActiveTrack()
+                    .noteAtOrEarlier(markerBeat)
+                    .filter(appContext::isInVisibleBeatRange);
+        }
+        return Optional.empty();
+    }
+
+    private Optional<Note> findLastVisibleNoteFromCurrentTrack() {
+        return appContext.getActiveTrack()
+                .noteAtOrEarlier(appContext.visibleArea.getUpperXBound() - 1);
+    }
+
+    private Optional<Note> findVisibleNoteBeforeFirstSelectedNote() {
+        return findFirstSelectedNote()
+                .flatMap(Note::getPrevious)
+                .filter(appContext::isInVisibleBeatRange);
+    }
+
+    private Optional<Note> findLastNoteFromActiveLine() {
+        return Optional.ofNullable(appContext.getActiveLine())
+                .map(SongLine::getLast);
+    }
 }

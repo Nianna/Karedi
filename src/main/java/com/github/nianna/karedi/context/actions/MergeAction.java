@@ -8,11 +8,11 @@ import javafx.event.ActionEvent;
 
 class MergeAction extends ClipboardAction {
 
-    private MergeNotesCommand.MergeMode mode;
+    private final MergeNotesCommand.MergeMode mode;
 
     MergeAction(AppContext appContext, MergeNotesCommand.MergeMode mode) {
         super(appContext);
-        setDisabledCondition(appContext.selectionIsEmpty);
+        disableWhenSelectionEmpty();
         this.mode = mode;
     }
 
@@ -20,7 +20,7 @@ class MergeAction extends ClipboardAction {
     protected void onAction(ActionEvent event) {
         Song pastedSong = buildSongFromClipboard();
         if (pastedSong != null && pastedSong.size() > 0) {
-            appContext.execute(new MergeNotesCommand(appContext.getSelected(), pastedSong.get(0).getNotes(), mode));
+            appContext.execute(new MergeNotesCommand(getSelectedNotes(), pastedSong.get(0).getNotes(), mode));
         }
     }
 }

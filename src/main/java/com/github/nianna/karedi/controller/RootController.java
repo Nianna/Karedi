@@ -192,7 +192,7 @@ public class RootController implements Controller {
 	private class EditLyricsAction extends KarediAction {
 
 		private EditLyricsAction() {
-			setDisabledCondition(appContext.getSelection().sizeProperty().isEqualTo(0));
+			setDisabledCondition(appContext.selectionContext.getSelection().sizeProperty().isEqualTo(0));
 		}
 
 		@Override

@@ -9,32 +9,30 @@ import javafx.event.ActionEvent;
 
 import java.util.Optional;
 
+import static java.util.Objects.nonNull;
+
 class PreviousLineAction extends ContextfulKarediAction {
 
     PreviousLineAction(AppContext appContext) {
         super(appContext);
-        setDisabledCondition(Bindings.createBooleanBinding(() -> {
-            if (appContext.getActiveTrack() == null || !computePreviousLine().isPresent()) {
-                return true;
-            }
-            return false;
-        }, appContext.activeTrack, appContext.activeLine, appContext.markerBeatProperty()));
-
+        setDisabledCondition(Bindings.createBooleanBinding(
+                () -> appContext.getActiveTrack() == null || computePreviousLine().isEmpty(),
+                appContext.activeTrack, appContext.activeLine, appContext.markerBeatProperty())
+        );
     }
 
     @Override
     protected void onAction(ActionEvent event) {
-        computePreviousLine().ifPresent(line -> appContext.setActiveLine(line));
+        computePreviousLine().ifPresent(appContext::setActiveLine);
     }
 
     private Optional<SongLine> computePreviousLine() {
-        if (appContext.getActiveLine() != null) {
+        if (nonNull(appContext.getActiveLine())) {
             return appContext.getActiveLine().getPrevious();
         } else {
-            SongLine previousLine = appContext.selection.getFirst().map(Note::getLine)
-                    .orElse(appContext.getActiveTrack().lineAtOrEarlier(appContext.getMarkerBeat()).orElse(null));
-            return Optional.ofNullable(previousLine);
+            return findFirstSelectedNote()
+                    .map(Note::getLine)
+                    .or(() -> appContext.getActiveTrack().lineAtOrEarlier(appContext.getMarkerBeat()));
         }
-
     }
 }

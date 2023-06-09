@@ -24,7 +24,6 @@ import com.github.nianna.karedi.util.ListenersUtils;
 import com.github.nianna.karedi.util.MathUtils;
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
-import javafx.beans.binding.Bindings;
 import javafx.beans.binding.BooleanBinding;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.ObjectProperty;
@@ -34,7 +33,6 @@ import javafx.beans.property.ReadOnlyObjectProperty;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleObjectProperty;
-import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 
@@ -60,16 +58,12 @@ public class AppContext {
 	private final ActionHelper actionHelper = new ActionHelper(this);
 
 	public final History history = new History();
-	public final NoteSelection selection = new NoteSelection();
 	public final BeatMillisConverter beatMillisConverter = new BeatMillisConverter(
 			Song.DEFAULT_GAP, Song.DEFAULT_BPM);
 	public final SongPlayer player = new SongPlayer(beatMillisConverter);
 	private final BeatRange beatRange = new BeatRange(beatMillisConverter);
 	public final VisibleArea visibleArea = new VisibleArea(beatRange);
 
-	public final ObservableList<Note> observableSelection = FXCollections
-			.observableArrayList(note -> new Observable[] { note });
-	public final IntBounded selectionBounds = new BoundingBox<>(observableSelection);
 	private File directory;
 
 	private final ListChangeListener<? super Note> noteListChangeListener = ListenersUtils
@@ -81,7 +75,6 @@ public class AppContext {
 	private final InvalidationListener boundsListener = obs -> onBoundsInvalidated();
 
 	// Convenience bindings for actions
-	public final BooleanBinding selectionIsEmpty = selection.sizeProperty().isEqualTo(0);
 	public final BooleanBinding activeSongIsNull = activeSongProperty().isNull();
 	public final BooleanBinding activeTrackIsNull = activeTrackProperty().isNull();
 	public final BooleanBinding activeFileIsNull = activeFileProperty().isNull();
@@ -92,14 +85,14 @@ public class AppContext {
 
 	public final AudioContext audioContext = new AudioContext(this, player);
 
+	public final SelectionContext selectionContext = new SelectionContext();
+
 	public AppContext() {
 		LOGGER.setUseParentHandlers(false);
 		history.setMaxSize(MAX_HISTORY_SIZE);
 		actionHelper.addActions();
-
-		Bindings.bindContent(observableSelection, getSelected());
 		player.statusProperty().addListener(this::onPlayerStatusChanged);
-		selectionBounds.addListener(obs -> onSelectionBoundsInvalidated());
+		selectionContext.getSelectionBounds().addListener(obs -> onSelectionBoundsInvalidated());
 	}
 
 	// Actions
@@ -223,15 +216,6 @@ public class AppContext {
 
 	public Command getActiveCommand() {
 		return history.getActiveCommand();
-	}
-
-	// Selection
-	public NoteSelection getSelection() {
-		return selection;
-	}
-
-	public ObservableList<Note> getSelected() {
-		return selection.get();
 	}
 
 	// Audio
@@ -394,7 +378,7 @@ public class AppContext {
 	public final void setActiveTrack(SongTrack track) {
 		SongTrack oldTrack = getActiveTrack();
 		if (track != oldTrack) {
-			selection.clear();
+			selectionContext.selection.clear();
 			activeTrack.set(track);
 			setActiveLine(null);
 			if (oldTrack != null) {
@@ -439,7 +423,7 @@ public class AppContext {
 				line.addListener(boundsListener);
 				if (line.size() > 0) {
 					visibleArea.adjustToBounds(line);
-					selection.selectOnly(line.getNotes().get(0));
+					selectionContext.selection.selectOnly(line.getNotes().get(0));
 				}
 			}
 		}
@@ -481,7 +465,8 @@ public class AppContext {
 	}
 
 	private void onSelectionBoundsInvalidated() {
-		if (selection.size() > 0 && selectionBounds.isValid()) {
+		IntBounded selectionBounds = selectionContext.getSelectionBounds();
+		if (selectionContext.selection.size() > 0 && selectionBounds.isValid()) {
 			setMarkerBeat(selectionBounds.getLowerXBound());
 			if (visibleArea.assertBorderlessBoundsVisible(selectionBounds)) {
 				setActiveLine(null);
@@ -505,9 +490,7 @@ public class AppContext {
 	}
 
 	private void onNoteRemoved(Note note) {
-		if (selection.isSelected(note)) {
-			selection.deselect(note);
-		}
+		selectionContext.removeIfSelected(note);
 	}
 
 	// Other

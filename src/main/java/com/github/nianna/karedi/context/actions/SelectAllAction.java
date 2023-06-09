@@ -12,7 +12,7 @@ class SelectAllAction extends ContextfulKarediAction {
 
     @Override
     protected void onAction(ActionEvent event) {
-        appContext.selection.set(appContext.getActiveTrack().getNotes());
+        setSelection(appContext.getActiveTrack().getNotes());
     }
 
 }

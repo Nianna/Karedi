@@ -19,10 +19,10 @@ class SelectVisibleAction extends ContextfulKarediAction {
             if (appContext.getActiveLine() != null) {
                 notes = appContext.getActiveLine().getNotes();
             } else {
-                notes = appContext.getActiveTrack().getNotes(appContext.visibleArea.getLowerXBound(),
-                        appContext.visibleArea.getUpperXBound());
+                notes = appContext.getActiveTrack()
+                        .getNotes(appContext.visibleArea.getLowerXBound(), appContext.visibleArea.getUpperXBound());
             }
-            appContext.selection.set(notes);
+            setSelection(notes);
         }
 
 }

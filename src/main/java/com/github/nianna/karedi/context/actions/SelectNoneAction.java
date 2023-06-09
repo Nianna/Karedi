@@ -7,11 +7,11 @@ class SelectNoneAction extends ContextfulKarediAction {
 
     SelectNoneAction(AppContext appContext) {
         super(appContext);
-        setDisabledCondition(appContext.selectionIsEmpty);
+        disableWhenSelectionEmpty();
     }
 
     @Override
     protected void onAction(ActionEvent event) {
-        appContext.selection.clear();
+        clearSelection();
     }
 }

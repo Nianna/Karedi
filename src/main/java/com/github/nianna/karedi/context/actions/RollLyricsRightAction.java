@@ -12,13 +12,13 @@ class RollLyricsRightAction extends ContextfulKarediAction {
 
     RollLyricsRightAction(AppContext appContext) {
         super(appContext);
-        setDisabledCondition(appContext.selectionIsEmpty);
+        disableWhenSelectionEmpty();
     }
 
     @Override
     protected void onAction(ActionEvent event) {
         List<Note> notes = appContext.getActiveTrack()
-                .getNotes(appContext.getSelection().getFirst().get(), null);
+                .getNotes(getFirstSelectedNote(), null);
         Command cmd = new RollLyricsRightCommand(notes);
         appContext.execute(cmd);
     }

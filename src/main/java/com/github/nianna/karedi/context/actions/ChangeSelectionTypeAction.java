@@ -5,20 +5,19 @@ import com.github.nianna.karedi.context.AppContext;
 import com.github.nianna.karedi.song.Note;
 import javafx.event.ActionEvent;
 
-import java.util.ArrayList;
-
 class ChangeSelectionTypeAction extends ContextfulKarediAction {
-    private Note.Type type;
+
+    private final Note.Type type;
 
     ChangeSelectionTypeAction(AppContext appContext, Note.Type type) {
         super(appContext);
         this.type = type;
-        setDisabledCondition(appContext.selectionIsEmpty);
+        disableWhenSelectionEmpty();
     }
 
     @Override
     protected void onAction(ActionEvent event) {
-        appContext.execute(new MarkAsTypeCommand(new ArrayList<>(appContext.getSelected()), type));
+        appContext.execute(new MarkAsTypeCommand(getSelectedNotes(), type));
     }
 
 }

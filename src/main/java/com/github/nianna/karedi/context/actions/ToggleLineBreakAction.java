@@ -12,16 +12,16 @@ class ToggleLineBreakAction extends ContextfulKarediAction {
 
     ToggleLineBreakAction(AppContext appContext) {
         super(appContext);
-        setDisabledCondition(appContext.selectionIsEmpty);
+        disableWhenSelectionEmpty();
     }
 
     @Override
     protected void onAction(ActionEvent event) {
-        Note splittingNote = appContext.selection.getFirst().get();
+        Note splittingNote = getFirstSelectedNote();
         Command cmd = new ToggleLineBreakCommand(splittingNote);
         appContext.execute(new ChangePostStateCommandDecorator(cmd, (command) -> {
             appContext.setActiveLine(splittingNote.getLine());
-            appContext.selection.selectOnly(splittingNote);
+            selectOnly(splittingNote);
         }));
     }
 }

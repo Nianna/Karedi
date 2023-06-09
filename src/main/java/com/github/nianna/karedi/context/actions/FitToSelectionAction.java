@@ -8,13 +8,13 @@ class FitToSelectionAction extends ContextfulKarediAction {
 
     FitToSelectionAction(AppContext appContext) {
         super(appContext);
-        setDisabledCondition(appContext.selectionIsEmpty);
+        disableWhenSelectionEmpty();
     }
 
     @Override
     protected void onAction(ActionEvent event) {
         appContext.player.stop();
         appContext.setActiveLine(null);
-        appContext.visibleArea.setBounds(appContext.addMargins(appContext.selectionBounds));
+        appContext.visibleArea.setBounds(appContext.addMargins(selectionContext.getSelectionBounds()));
     }
 }

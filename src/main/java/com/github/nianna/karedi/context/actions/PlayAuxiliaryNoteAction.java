@@ -16,7 +16,7 @@ abstract class PlayAuxiliaryNoteAction extends ContextfulKarediAction {
 
     PlayAuxiliaryNoteAction(AppContext appContext) {
         super(appContext);
-        setDisabledCondition(appContext.selectionIsEmpty.or(appContext.audioContext.getActiveAudioIsNull()));
+        disableWhenSelectionEmptyOrActiveAudioNull();
         statusListener = (obs, oldStatus, newStatus) -> {
             if (oldStatus == Player.Status.PLAYING && newStatus == Player.Status.READY) {
                 appContext.setVisibleAreaXBounds(oldLowerBound, oldUpperBound, false);

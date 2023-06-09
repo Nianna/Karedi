@@ -7,11 +7,11 @@ class CopySelectionAction extends ContextfulKarediAction {
 
     CopySelectionAction(AppContext appContext) {
         super(appContext);
-        setDisabledCondition(appContext.selectionIsEmpty);
+        disableWhenSelectionEmpty();
     }
 
     @Override
     protected void onAction(ActionEvent event) {
-        appContext.txtFacade.saveToClipboard(appContext.getSelected());
+        appContext.txtFacade.saveToClipboard(getSelectedNotes());
     }
 }

@@ -11,7 +11,7 @@ class PlayAuxiliaryNoteBeforeSelectionAction extends PlayAuxiliaryNoteAction {
 
     @Override
     protected int getAuxiliaryNoteStartBeat() {
-        return appContext.selection.getFirst().get().getStart() + 1 - getAuxiliaryNoteLength();
+        return getFirstSelectedNote().getStart() + 1 - getAuxiliaryNoteLength();
     }
 
 }

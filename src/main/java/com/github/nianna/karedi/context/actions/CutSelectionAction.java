@@ -11,7 +11,7 @@ class CutSelectionAction extends ContextfulKarediAction {
 
     CutSelectionAction(AppContext appContext) {
         super(appContext);
-        setDisabledCondition(appContext.selectionIsEmpty);
+        disableWhenSelectionEmpty();
     }
 
     @Override

@@ -1,13 +1,5 @@
 package com.github.nianna.karedi.display;
 
-import javafx.beans.Observable;
-import javafx.beans.binding.Bindings;
-import javafx.beans.property.ReadOnlyDoubleProperty;
-import javafx.geometry.Bounds;
-import javafx.geometry.Insets;
-import javafx.scene.Node;
-import javafx.scene.control.Tooltip;
-import javafx.scene.input.MouseEvent;
 import com.github.nianna.karedi.command.ChangePostStateCommandDecorator;
 import com.github.nianna.karedi.command.Command;
 import com.github.nianna.karedi.command.MoveCollectionCommand;
@@ -24,6 +16,14 @@ import com.github.nianna.karedi.util.NodeUtils;
 import com.github.nianna.karedi.util.NodeUtils.CutHelper;
 import com.github.nianna.karedi.util.NodeUtils.DragHelper;
 import com.github.nianna.karedi.util.NodeUtils.ResizeHelper;
+import javafx.beans.Observable;
+import javafx.beans.binding.Bindings;
+import javafx.beans.property.ReadOnlyDoubleProperty;
+import javafx.geometry.Bounds;
+import javafx.geometry.Insets;
+import javafx.scene.Node;
+import javafx.scene.control.Tooltip;
+import javafx.scene.input.MouseEvent;
 
 public class NoteNode {
 	private static final int BASIC_RESIZE_MARGIN = 3;
@@ -41,7 +41,7 @@ public class NoteNode {
 
 	public NoteNode(AppContext appContext, EditorController editorController, Note note) {
 		this.appContext = appContext;
-		this.selection = appContext.getSelection();
+		this.selection = appContext.selectionContext.getSelection();
 		this.editorController = editorController;
 		this.note = note;
 
@@ -141,7 +141,7 @@ public class NoteNode {
 	}
 
 	private void onMouseDragged(MouseEvent event) {
-		if (!appContext.getSelection().isSelected(note)) {
+		if (!appContext.selectionContext.getSelection().isSelected(note)) {
 			selection.selectOnly(note);
 		}
 		if (resizer.isActive()) {
@@ -161,7 +161,7 @@ public class NoteNode {
 		if (resizer.getDirection() == Direction.LEFT) {
 			by = note.getStart() - beat;
 		}
-		Command cmd = new ResizeNotesCommand(appContext.getSelected(), resizer.getDirection(), by);
+		Command cmd = new ResizeNotesCommand(appContext.selectionContext.getSelected(), resizer.getDirection(), by);
 		appContext.execute(cmd);
 	}
 
@@ -172,18 +172,18 @@ public class NoteNode {
 
 		if (toneChange < 0) {
 			appContext.execute(new MoveCollectionCommand<Integer, Note>(
-					appContext.getSelection().get(), Direction.DOWN, -toneChange));
+					appContext.selectionContext.getSelection().get(), Direction.DOWN, -toneChange));
 		} else if (toneChange > 0) {
 			appContext.execute(new MoveCollectionCommand<Integer, Note>(
-					appContext.getSelection().get(), Direction.UP, toneChange));
+					appContext.selectionContext.getSelection().get(), Direction.UP, toneChange));
 		}
 
 		if (startChange < 0) {
 			appContext.execute(new MoveCollectionCommand<Integer, Note>(
-					appContext.getSelection().get(), Direction.LEFT, -startChange));
+					appContext.selectionContext.getSelection().get(), Direction.LEFT, -startChange));
 		} else if (startChange > 0) {
 			appContext.execute(new MoveCollectionCommand<Integer, Note>(
-					appContext.getSelection().get(), Direction.RIGHT, startChange));
+					appContext.selectionContext.getSelection().get(), Direction.RIGHT, startChange));
 		}
 	}
 
@@ -191,7 +191,7 @@ public class NoteNode {
 		int splitPoint = editorController.sceneXtoBeat(cutter.getCutSceneX()) - note.getStart();
 		Command cmd = new SplitNoteCommand(note, splitPoint);
 		appContext.execute(new ChangePostStateCommandDecorator(cmd, c -> {
-			appContext.getSelection().selectOnly(note);
+			appContext.selectionContext.getSelection().selectOnly(note);
 		}));
 	}
 

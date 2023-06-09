@@ -126,7 +126,7 @@ public class LyricsEditorController implements Controller {
 	@Override
 	public void setAppContext(AppContext appContext) {
 		this.appContext = appContext;
-		this.selection = appContext.getSelection();
+		this.selection = appContext.selectionContext.getSelection();
 		appContext.activeTrackProperty().addListener(this::onTrackChanged);
 		scrollPane.disableProperty().bind(appContext.activeTrackProperty().isNull());
 
@@ -319,7 +319,7 @@ public class LyricsEditorController implements Controller {
 				finalCmd.setTitle(title);
 			}
 			appContext.execute(new ChangePostStateCommandDecorator(finalCmd, c -> {
-				appContext.getSelection().selectOnly(first);
+				appContext.selectionContext.getSelection().selectOnly(first);
 			}));
 		}
 	}

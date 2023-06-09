@@ -10,12 +10,12 @@ import javafx.event.ActionEvent;
 
 class DeleteSelectionAction extends ContextfulKarediAction {
 
-        private boolean keepLyrics;
+        private final boolean keepLyrics;
 
         DeleteSelectionAction(AppContext appContext, boolean keepLyrics) {
             super(appContext);
             this.keepLyrics = keepLyrics;
-            setDisabledCondition(appContext.selectionIsEmpty);
+            disableWhenSelectionEmpty();
         }
 
         @Override
@@ -25,10 +25,10 @@ class DeleteSelectionAction extends ContextfulKarediAction {
         }
 
         Command getCommand() {
-            Command cmd = new DeleteNotesCommand(appContext.getSelected(), keepLyrics);
+            Command cmd = new DeleteNotesCommand(getSelectedNotes(), keepLyrics);
             IntBounded bounds = BoundingBox.boundsFrom(appContext.getVisibleAreaBounds());
             return new ChangePostStateCommandDecorator(cmd, (command) -> {
-                appContext.selection.clear();
+                clearSelection();
                 if (appContext.getActiveLine() != null && !appContext.getActiveLine().isValid()) {
                     appContext.setActiveLine(null);
                     appContext.visibleArea.setBounds(bounds);

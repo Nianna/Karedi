@@ -117,7 +117,7 @@ public class ProblemsController implements Controller {
 						appContext.setActiveLine(line);
 					}
 				}
-				appContext.getSelection().set(affectedNotes);
+				appContext.selectionContext.getSelection().set(affectedNotes);
 			}
 		});
 	}

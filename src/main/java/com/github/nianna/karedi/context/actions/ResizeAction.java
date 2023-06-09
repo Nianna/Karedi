@@ -10,9 +10,9 @@ import javafx.event.ActionEvent;
 
 class ResizeAction extends ContextfulKarediAction {
 
-    private Direction direction;
+    private final Direction direction;
 
-    private int by;
+    private final int by;
 
     private BooleanProperty disabled;
 
@@ -23,20 +23,20 @@ class ResizeAction extends ContextfulKarediAction {
 
         if (by < 0) {
             disabled = new SimpleBooleanProperty(true);
-            appContext.observableSelection.addListener((InvalidationListener) inv -> refreshDisabled());
+            selectionContext.getObservableSelection().addListener((InvalidationListener) inv -> refreshDisabled());
             setDisabledCondition(disabled);
         } else {
-            setDisabledCondition(appContext.selectionIsEmpty);
+            disableWhenSelectionEmpty();
         }
     }
 
     @Override
     protected void onAction(ActionEvent event) {
-        appContext.execute(new ResizeNotesCommand(appContext.getSelection().get(), direction, by));
+        appContext.execute(new ResizeNotesCommand(getSelectedNotes(), direction, by));
     }
 
     private void refreshDisabled() {
-        disabled.set(!ResizeNotesCommand.canExecute(appContext.getSelection().get(), direction, by));
+        disabled.set(!ResizeNotesCommand.canExecute(getSelectedNotes(), direction, by));
     }
 
 }

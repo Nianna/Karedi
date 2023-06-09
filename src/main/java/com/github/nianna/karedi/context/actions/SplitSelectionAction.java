@@ -14,16 +14,14 @@ import javafx.event.ActionEvent;
 
 class SplitSelectionAction extends ContextfulKarediAction {
 
-    private ObjectBinding<Note> splitNote;
+    private final ObjectBinding<Note> splitNote;
 
-    private BooleanProperty disabled = new SimpleBooleanProperty();
+    private final BooleanProperty disabled = new SimpleBooleanProperty();
 
     SplitSelectionAction(AppContext appContext) {
         super(appContext);
-        splitNote = BindingsUtils.valueAt(appContext.getSelection().get(), 0);
-        InvalidationListener lengthListener = ((inv) -> {
-            refreshDisabled();
-        });
+        splitNote = BindingsUtils.valueAt(selectionContext.getSelection().get(), 0);
+        InvalidationListener lengthListener = ((inv) -> refreshDisabled());
 
         splitNote.addListener((obsVal, oldVal, newVal) -> {
             if (oldVal != null) {
@@ -48,9 +46,7 @@ class SplitSelectionAction extends ContextfulKarediAction {
     protected void onAction(ActionEvent event) {
         Note note = splitNote.get();
         Command cmd = new SplitNoteCommand(note, splitPoint(note));
-        appContext.execute(new ChangePostStateCommandDecorator(cmd, (command) -> {
-            appContext.selection.selectOnly(note);
-        }));
+        appContext.execute(new ChangePostStateCommandDecorator(cmd, (command) -> selectOnly(note)));
     }
 
     private int splitPoint(Note note) {

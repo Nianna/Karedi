@@ -1,13 +1,13 @@
 package com.github.nianna.karedi.command;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.github.nianna.karedi.context.AppContext;
 import com.github.nianna.karedi.context.NoteSelection;
 import com.github.nianna.karedi.song.Note;
 import com.github.nianna.karedi.song.SongLine;
 import com.github.nianna.karedi.song.SongTrack;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class BackupStateCommandDecorator extends CommandDecorator {
 	private AppContext appContext;
@@ -35,7 +35,7 @@ public class BackupStateCommandDecorator extends CommandDecorator {
 	private void restoreState() {
 		appContext.setActiveTrack(activeTrack);
 		appContext.setActiveLine(activeLine);
-		NoteSelection selection = appContext.getSelection();
+		NoteSelection selection = appContext.selectionContext.getSelection();
 		selection.set(selectedNotes);
 	}
 
@@ -43,7 +43,7 @@ public class BackupStateCommandDecorator extends CommandDecorator {
 		activeTrack = appContext.getActiveTrack();
 		activeLine = appContext.getActiveLine();
 		selectedNotes = new ArrayList<>();
-		selectedNotes.addAll(appContext.getSelection().get());
+		selectedNotes.addAll(appContext.selectionContext.getSelection().get());
 		backuped = true;
 	}
 

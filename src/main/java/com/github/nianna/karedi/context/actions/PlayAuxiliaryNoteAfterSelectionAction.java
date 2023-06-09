@@ -10,7 +10,7 @@ class PlayAuxiliaryNoteAfterSelectionAction extends PlayAuxiliaryNoteAction {
 
     @Override
     protected int getAuxiliaryNoteStartBeat() {
-        return appContext.selection.getLast().get().getEnd() - 1;
+        return getLastSelectedNote().getEnd() - 1;
     }
 
 }

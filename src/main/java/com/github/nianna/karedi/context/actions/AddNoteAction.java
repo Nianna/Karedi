@@ -11,6 +11,9 @@ import javafx.event.ActionEvent;
 
 import java.util.Optional;
 
+import static java.lang.Math.max;
+import static java.lang.Math.min;
+
 class AddNoteAction extends ContextfulKarediAction {
 
     private static final int NEW_NOTE_DEFAULT_LENGTH = 3;
@@ -21,68 +24,62 @@ class AddNoteAction extends ContextfulKarediAction {
             if (appContext.getActiveTrack() == null) {
                 return true;
             } else {
-                int newNotePosition = computePosition();
+                int newNotePosition = computeNewNoteStartBeat();
                 return appContext.getActiveTrack().noteAt(newNotePosition).isPresent();
             }
-        }, appContext.selectionBounds, appContext.markerTimeProperty(), appContext.activeTrackProperty()));
+        }, selectionContext.getSelectionBounds(), appContext.markerTimeProperty(), appContext.activeTrackProperty()));
     }
 
     @Override
     protected void onAction(ActionEvent event) {
-        int startBeat = computePosition();
-        int length = computeLength(startBeat);
-        Optional<SongLine> optLine = computeLine();
+        int startBeat = computeNewNoteStartBeat();
+        int length = computeNewNoteLength(startBeat);
+        Optional<SongLine> newNoteLine = findLineToAddNoteTo();
 
-        int tone = optLine.flatMap(line -> computeTone(line, startBeat)).orElse(0);
+        int tone = newNoteLine
+                .flatMap(line -> computeTone(line, startBeat))
+                .orElse(0);
+
         Note note = new Note(startBeat, length, tone);
-
-        Command cmd;
-        if (optLine.isPresent()) {
-            cmd = new AddNoteCommand(note, optLine.get());
-        } else {
-            cmd = new AddNoteCommand(note, appContext.getActiveTrack());
-        }
-        appContext.execute(new ChangePostStateCommandDecorator(cmd, (command) -> {
-            appContext.selection.selectOnly(note);
-        }));
+        Command addNoteCommand = newNoteLine
+                .map(songLine -> new AddNoteCommand(note, songLine))
+                .orElseGet(() -> new AddNoteCommand(note, appContext.getActiveTrack()));
+        appContext.execute(new ChangePostStateCommandDecorator(addNoteCommand, cmd -> selectOnly(note)));
     }
 
-    private int computePosition() {
-        if (appContext.selection.size() > 0 && appContext.selectionBounds.isValid()) {
-            return appContext.selectionBounds.getUpperXBound();
+    private int computeNewNoteStartBeat() {
+        if (getSelectionSize() > 0 && selectionContext.getSelectionBounds().isValid()) {
+            return selectionContext.getSelectionBounds().getUpperXBound();
         } else {
             return appContext.getMarkerBeat();
         }
     }
 
     private Optional<Integer> computeTone(SongLine line, int beat) {
-        return line.noteAtOrEarlier(beat).map(Note::getTone);
+        return line.noteAtOrEarlier(beat)
+                .map(Note::getTone);
     }
 
-    private int computeLength(int startBeat) {
-        Optional<Integer> nextNoteStartBeat = appContext.getActiveTrack().noteAtOrLater(startBeat)
-                .map(Note::getStart);
-        if (nextNoteStartBeat.isPresent()) {
-            return Math.min(NEW_NOTE_DEFAULT_LENGTH,
-                    Math.max(nextNoteStartBeat.get() - startBeat - 1, 1));
-        } else {
-            return NEW_NOTE_DEFAULT_LENGTH;
-        }
+    private int computeNewNoteLength(int startBeat) {
+        return appContext.getActiveTrack()
+                .noteAtOrLater(startBeat)
+                .map(Note::getStart)
+                .map(nextNoteStartBeat -> min(NEW_NOTE_DEFAULT_LENGTH, max(nextNoteStartBeat - startBeat - 1, 1)))
+                .orElse(NEW_NOTE_DEFAULT_LENGTH);
     }
 
-    private Optional<SongLine> computeLine() {
+    private Optional<SongLine> findLineToAddNoteTo() {
         if (appContext.getActiveLine() != null) {
             return Optional.of(appContext.getActiveLine());
         }
-        Optional<SongLine> line = appContext.selection.getLast().map(Note::getLine);
-        if (!line.isPresent()) {
-            line = getLastVisibleLineBeforeMarker();
-        }
-        return line;
+        return Optional.ofNullable(appContext.getActiveLine())
+                .or(() -> findLastSelectedNote().map(Note::getLine))
+                .or(this::getLastVisibleLineBeforeMarker);
     }
 
     private Optional<SongLine> getLastVisibleLineBeforeMarker() {
-        return appContext.getActiveTrack().lineAtOrEarlier(appContext.getMarkerBeat())
+        return appContext.getActiveTrack()
+                .lineAtOrEarlier(appContext.getMarkerBeat())
                 .filter(prevLine -> prevLine.getUpperXBound() > appContext.visibleArea.getLowerXBound());
     }
 }

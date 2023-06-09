@@ -7,13 +7,12 @@ class SelectLessAction extends ContextfulKarediAction {
 
     SelectLessAction(AppContext appContext) {
         super(appContext);
-        setDisabledCondition(appContext.selection.sizeProperty().lessThanOrEqualTo(1));
-
+        disableWhenSelectionEmptyOrContainsOnlyOneElement();
     }
 
     @Override
     protected void onAction(ActionEvent event) {
-        appContext.selection.makeSelectionConsecutive();
-        appContext.selection.getLast().ifPresent(note -> appContext.selection.deselect(note));
+        makeSelectionConsecutive();
+        findLastSelectedNote().ifPresent(this::deselectNote);
     }
 }

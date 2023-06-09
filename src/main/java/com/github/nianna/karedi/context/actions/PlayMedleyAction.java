@@ -29,15 +29,14 @@ class PlayMedleyAction extends ContextfulKarediAction {
                 setDisabledCondition(basicCondition);
             } else {
                 medley = newVal.getMedley();
-                setDisabledCondition(
-                        basicCondition.or(medley.sizeProperty().lessThanOrEqualTo(0)));
+                setDisabledCondition(basicCondition.or(medley.sizeProperty().lessThanOrEqualTo(0)));
             }
         });
     }
 
     @Override
     protected void onAction(ActionEvent event) {
-        appContext.selection.clear();
+        clearSelection();
         appContext.playRange(medley.getStartBeat(), medley.getEndBeat(), mode);
     }
 

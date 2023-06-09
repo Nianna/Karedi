@@ -63,7 +63,7 @@ public class LyricsLabelController implements Controller {
 		appContext.getVisibleAreaBounds().addListener(this::onVisibleAreaInvalidated);
 		appContext.activeTrackProperty().addListener(this::onTrackChanged);
 		appContext.activeLineProperty().addListener(this::onLineChanged);
-		appContext.getSelected().addListener(
+		appContext.selectionContext.getSelected().addListener(
 				ListenersUtils.createListContentChangeListener(this::select, this::deselect));
 		appContext.playerStatusProperty().addListener(this::onPlayerStatusChanged);
 	}
@@ -120,10 +120,10 @@ public class LyricsLabelController implements Controller {
 			if (lastColoredNote != null) {
 				deselect(lastColoredNote);
 			}
-			appContext.getSelected().forEach(this::select);
+			appContext.selectionContext.getSelected().forEach(this::select);
 		}
 		if (newStatus == Status.PLAYING) {
-			appContext.getSelected().forEach(this::deselect);
+			appContext.selectionContext.getSelected().forEach(this::deselect);
 			lastColoredNote = null;
 			appContext.markerBeatProperty().addListener(markerBeatChangeListener);
 		}
