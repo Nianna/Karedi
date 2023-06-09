@@ -4,6 +4,8 @@ import com.github.nianna.karedi.song.Song;
 import com.github.nianna.karedi.util.BeatMillisConverter;
 import javafx.beans.InvalidationListener;
 import javafx.beans.property.ReadOnlyIntegerProperty;
+import javafx.beans.property.ReadOnlyObjectProperty;
+import javafx.beans.value.ChangeListener;
 
 import static java.util.Objects.isNull;
 import static java.util.Objects.nonNull;
@@ -16,7 +18,13 @@ public class BeatRangeContext {
 
     private final BeatRange beatRange = new BeatRange(beatMillisConverter);
 
-    private Song song;
+    private ReadOnlyObjectProperty<Song> activeSongProperty;
+
+    public BeatRangeContext(ReadOnlyObjectProperty<Song> activeSongProperty) {
+        ChangeListener<Song> songListener = (property, oldSong, newSong) -> onSongChanged(oldSong, newSong);
+        activeSongProperty.addListener(songListener);
+        this.activeSongProperty = activeSongProperty;
+    }
 
     public Integer getMinBeat() {
         return beatRange.getMinBeat();
@@ -38,23 +46,6 @@ public class BeatRangeContext {
         beatRange.setMaxTime(maxTime);
     }
 
-    public void onSongDeactivated() {
-        if (nonNull(song)) {
-            song.getBeatMillisConverter().removeListener(beatMillisConverterInvalidationListener);
-        }
-        song = null;
-        onBeatMillisConverterInvalidated();
-    }
-
-    public void onSongActivated(Song song) {
-        beatRange.setBounds(song);
-        this.song = song;
-        if (nonNull(song)) {
-            song.getBeatMillisConverter().addListener(beatMillisConverterInvalidationListener);
-        }
-        onBeatMillisConverterInvalidated();
-    }
-
     public BeatMillisConverter getBeatMillisConverter() {
         return beatMillisConverter;
     }
@@ -64,12 +55,23 @@ public class BeatRangeContext {
     }
 
     private void onBeatMillisConverterInvalidated() {
-        if (isNull(song)) {
+        if (isNull(activeSongProperty.get())) {
             beatMillisConverter.setBpm(Song.DEFAULT_BPM);
             beatMillisConverter.setGap(Song.DEFAULT_GAP);
         } else {
-            beatMillisConverter.setBpm(song.getBpm());
-            beatMillisConverter.setGap(song.getGap());
+            beatMillisConverter.setBpm(activeSongProperty.get().getBpm());
+            beatMillisConverter.setGap(activeSongProperty.get().getGap());
         }
+    }
+
+    private void onSongChanged(Song oldSong, Song newSong) {
+        if (nonNull(oldSong)) {
+            oldSong.getBeatMillisConverter().removeListener(beatMillisConverterInvalidationListener);
+        }
+        if (nonNull(newSong)) {
+            newSong.getBeatMillisConverter().addListener(beatMillisConverterInvalidationListener);
+        }
+        beatRange.setBounds(newSong);
+        onBeatMillisConverterInvalidated();
     }
 }

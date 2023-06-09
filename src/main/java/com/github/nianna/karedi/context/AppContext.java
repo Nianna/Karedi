@@ -48,7 +48,7 @@ public class AppContext {
 
 	public final SelectionContext selectionContext = new SelectionContext(activeTrackProperty(), activeLineProperty());
 
-	public final BeatRangeContext beatRangeContext = new BeatRangeContext();
+	public final BeatRangeContext beatRangeContext = new BeatRangeContext(activeSongProperty());
 
 	public final AudioContext audioContext = new AudioContext(beatRangeContext);
 
@@ -131,14 +131,12 @@ public class AppContext {
 			activeSong.set(song);
 			audioContext.setSong(song);
 			if (oldSong != null) {
-				beatRangeContext.onSongDeactivated();
 				activeSongTrackCount.unbind();
 			}
 			if (song == null) {
 				setActiveTrack(null);
 				activeSongTrackCount.set(0);
 			} else {
-				beatRangeContext.onSongActivated(song);
 				activeSongTrackCount.bind(song.trackCount());
 				setActiveTrack(song.getDefaultTrack().orElse(null));
 			}
