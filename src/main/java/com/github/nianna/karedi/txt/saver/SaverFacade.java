@@ -4,21 +4,22 @@ import com.github.nianna.karedi.song.Note;
 import com.github.nianna.karedi.song.Song;
 import com.github.nianna.karedi.song.SongTrack;
 import com.github.nianna.karedi.song.tag.Tag;
+import com.github.nianna.karedi.txt.clipboard.ClipboardHelper;
 import com.github.nianna.karedi.txt.parser.Unparser;
-import javafx.scene.input.Clipboard;
-import javafx.scene.input.ClipboardContent;
 
 import java.io.File;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class SaverFacade {
+
+    private final ClipboardHelper clipboardHelper;
 
     private final SongSaver songSaver;
 
     private final NotesSaverHelper notesSaverHelper;
 
-    public SaverFacade(Unparser unparser) {
+    public SaverFacade(Unparser unparser, ClipboardHelper clipboardHelper) {
+        this.clipboardHelper = clipboardHelper;
         SongDisassembler songDisassembler = new SongDisassembler();
         songSaver = new SongSaver(unparser, songDisassembler);
         notesSaverHelper = new NotesSaverHelper(unparser, songDisassembler);
@@ -33,12 +34,7 @@ public class SaverFacade {
     }
 
     public void saveToClipboard(List<Note> notes) {
-        Clipboard clipboard = Clipboard.getSystemClipboard();
-        ClipboardContent content = new ClipboardContent();
-        String result = notesSaverHelper.toUnparsedRepresentation(notes)
-                .collect(Collectors.joining(System.lineSeparator()));
-        content.putString(result);
-        clipboard.setContent(content);
+        clipboardHelper.writeLines(notesSaverHelper.toUnparsedRepresentation(notes));
     }
 
 }

@@ -1,19 +1,20 @@
 package com.github.nianna.karedi.txt.loader;
 
-import com.github.nianna.karedi.txt.parser.Parser;
 import com.github.nianna.karedi.song.Song;
-import javafx.scene.input.Clipboard;
+import com.github.nianna.karedi.txt.clipboard.ClipboardHelper;
+import com.github.nianna.karedi.txt.parser.Parser;
 
 import java.io.File;
-import java.util.List;
-import java.util.stream.Stream;
 
 public class LoaderFacade {
 
     private final SongLoader songLoader;
 
-    public LoaderFacade(Parser parser) {
+    private final ClipboardHelper clipboardHelper;
+
+    public LoaderFacade(Parser parser, ClipboardHelper clipboardHelper) {
         this.songLoader = new SongLoader(parser);
+        this.clipboardHelper = clipboardHelper;
     }
 
     public Song loadSongFromFile(File file) {
@@ -21,15 +22,7 @@ public class LoaderFacade {
     }
 
     public Song loadSongFromClipboard() {
-        return songLoader.buildSong(getLinesFromClipboard());
-    }
-
-    private List<String> getLinesFromClipboard() {
-        return Stream.ofNullable(Clipboard.getSystemClipboard())
-                .map(Clipboard::getString)
-                .map(content -> content.split("\\R"))
-                .flatMap(Stream::of)
-                .toList();
+        return songLoader.buildSong(clipboardHelper.readLines().toList());
     }
 
 }

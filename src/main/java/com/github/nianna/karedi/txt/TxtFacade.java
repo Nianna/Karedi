@@ -4,6 +4,7 @@ import com.github.nianna.karedi.song.Note;
 import com.github.nianna.karedi.song.Song;
 import com.github.nianna.karedi.song.SongTrack;
 import com.github.nianna.karedi.song.tag.Tag;
+import com.github.nianna.karedi.txt.clipboard.ClipboardHelper;
 import com.github.nianna.karedi.txt.loader.LoaderFacade;
 import com.github.nianna.karedi.txt.parser.ParsingFactory;
 import com.github.nianna.karedi.txt.saver.SaverFacade;
@@ -13,9 +14,19 @@ import java.util.List;
 
 public class TxtFacade {
 
-    private final LoaderFacade loaderFacade = new LoaderFacade(ParsingFactory.createParser());
+    private final LoaderFacade loaderFacade;
 
-    private final SaverFacade saverFacade = new SaverFacade(ParsingFactory.createUnparser());
+    private final SaverFacade saverFacade;
+
+    // for testing purposes only
+    TxtFacade(ClipboardHelper clipboardHelper) {
+        loaderFacade = new LoaderFacade(ParsingFactory.createParser(), clipboardHelper);
+        saverFacade = new SaverFacade(ParsingFactory.createUnparser(), clipboardHelper);
+    }
+
+    public TxtFacade() {
+        this(new ClipboardHelper());
+    }
 
     public Song loadFromTxtFile(File file) {
         return loaderFacade.loadSongFromFile(file);
