@@ -37,7 +37,7 @@ class PlayMedleyAction extends ContextfulKarediAction {
     @Override
     protected void onAction(ActionEvent event) {
         clearSelection();
-        appContext.playRange(medley.getStartBeat(), medley.getEndBeat(), mode);
+        playRange(medley.getStartBeat(), medley.getEndBeat(), mode);
     }
 
 }

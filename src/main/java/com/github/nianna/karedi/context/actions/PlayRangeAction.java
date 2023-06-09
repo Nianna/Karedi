@@ -32,7 +32,7 @@ class PlayRangeAction extends ContextfulKarediAction {
 
     @Override
     protected void onAction(ActionEvent event) {
-        appContext.playRange(from.getValue().intValue(), to.getValue().intValue(), mode);
+        playRange(from.getValue().intValue(), to.getValue().intValue(), mode);
     }
 
 }

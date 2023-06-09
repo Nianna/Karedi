@@ -23,10 +23,10 @@ public class AudioContext {
 
     private final BeatRangeContext beatRangeContext;
 
-    AudioContext(AppContext appContext, SongPlayer songPlayer) {
+    AudioContext(AppContext appContext, PlayerContext playerContext) {
         this.appContext = appContext;
         this.beatRangeContext = appContext.beatRangeContext;
-        this.songPlayer = songPlayer;
+        this.songPlayer = playerContext.player;
         activeAudioIsNull = songPlayer.activeAudioFileProperty().isNull();
     }
 

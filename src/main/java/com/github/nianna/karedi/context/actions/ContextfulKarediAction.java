@@ -2,10 +2,12 @@ package com.github.nianna.karedi.context.actions;
 
 import com.github.nianna.karedi.action.KarediAction;
 import com.github.nianna.karedi.action.KarediActions;
+import com.github.nianna.karedi.audio.Player;
 import com.github.nianna.karedi.command.Command;
 import com.github.nianna.karedi.context.AppContext;
 import com.github.nianna.karedi.context.BeatRangeContext;
 import com.github.nianna.karedi.context.CommandContext;
+import com.github.nianna.karedi.context.PlayerContext;
 import com.github.nianna.karedi.context.SelectionContext;
 import com.github.nianna.karedi.context.VisibleAreaContext;
 import com.github.nianna.karedi.song.Note;
@@ -25,12 +27,15 @@ public abstract class ContextfulKarediAction extends KarediAction {
 
     protected final CommandContext commandContext;
 
+    protected final PlayerContext playerContext;
+
     ContextfulKarediAction(AppContext appContext) {
         this.appContext = appContext;
         this.selectionContext = appContext.selectionContext;
         this.visibleAreaContext = appContext.visibleAreaContext;
         this.beatRangeContext = appContext.beatRangeContext;
         this.commandContext = appContext.commandContext;
+        this.playerContext = appContext.playerContext;
     }
     
     protected void disableWhenSelectionEmpty() {
@@ -102,5 +107,10 @@ public abstract class ContextfulKarediAction extends KarediAction {
 
     protected void executeAction(KarediActions action) {
         appContext.actionContext.execute(action);
+    }
+
+    protected void playRange(int fromBeat, int toBeat, Player.Mode mode) {
+        visibleAreaContext.assertAllNeededTonesVisible(fromBeat, toBeat);
+        playerContext.playAllAudible(fromBeat, toBeat, mode);
     }
 }

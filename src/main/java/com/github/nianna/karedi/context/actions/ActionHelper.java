@@ -146,11 +146,11 @@ public class ActionHelper {
 
         IntegerBinding playToTheEndStartBeat = Bindings.createIntegerBinding(() -> {
             if (appContext.visibleAreaContext.isMarkerVisible()) {
-                return appContext.getMarkerBeat();
+                return appContext.playerContext.getMarkerBeat();
             } else {
                 return appContext.visibleAreaContext.getLowerXBound();
             }
-        }, appContext.markerBeatProperty(), appContext.visibleAreaContext.lowerXBoundProperty());
+        }, appContext.playerContext.markerBeatProperty(), appContext.visibleAreaContext.lowerXBoundProperty());
         add(KarediActions.PLAY_TO_THE_END_AUDIO,
                 new PlayRangeAction(
                         appContext,

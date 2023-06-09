@@ -14,7 +14,7 @@ class SelectMoreAction extends ContextfulKarediAction {
     @Override
     protected void onAction(ActionEvent event) {
         makeSelectionConsecutive();
-        findLastSelectedNote().ifPresentOrElse(this::selectNextNote, this::selectNoteAterMarker);
+        findLastSelectedNote().ifPresentOrElse(this::selectNextNote, this::selectNoteAfterMarker);
     }
 
     private void selectNextNote(Note note) {
@@ -24,9 +24,9 @@ class SelectMoreAction extends ContextfulKarediAction {
         });
     }
 
-    private void selectNoteAterMarker() {
+    private void selectNoteAfterMarker() {
         appContext.getActiveTrack()
-                .noteAtOrLater(appContext.getMarkerBeat())
+                .noteAtOrLater(playerContext.getMarkerBeat())
                 .ifPresent(this::selectNote);
     }
 

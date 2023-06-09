@@ -3,8 +3,6 @@ package com.github.nianna.karedi.context;
 import com.github.nianna.karedi.I18N;
 import com.github.nianna.karedi.KarediApp;
 import com.github.nianna.karedi.KarediApp.ViewMode;
-import com.github.nianna.karedi.audio.Player.Mode;
-import com.github.nianna.karedi.audio.Player.Status;
 import com.github.nianna.karedi.song.Note;
 import com.github.nianna.karedi.song.Song;
 import com.github.nianna.karedi.song.SongLine;
@@ -12,19 +10,14 @@ import com.github.nianna.karedi.song.SongTrack;
 import com.github.nianna.karedi.song.tag.TagKey;
 import com.github.nianna.karedi.txt.TxtFacade;
 import com.github.nianna.karedi.util.ListenersUtils;
-import javafx.beans.InvalidationListener;
-import javafx.beans.Observable;
 import javafx.beans.binding.BooleanBinding;
 import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.ReadOnlyIntegerProperty;
-import javafx.beans.property.ReadOnlyLongProperty;
 import javafx.beans.property.ReadOnlyObjectProperty;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.collections.ListChangeListener;
 
 import java.io.File;
-import java.util.List;
 import java.util.logging.Logger;
 
 public class AppContext {
@@ -40,17 +33,12 @@ public class AppContext {
 	public final TxtFacade txtFacade = new TxtFacade();
 	private final SongNormalizer songNormalizer = new SongNormalizer();
 
-	public final BeatRangeContext beatRangeContext = new BeatRangeContext(this);
-
-	public final SongPlayer player = new SongPlayer(beatRangeContext.getBeatMillisConverter());
-
 	private File directory;
 
 	private final ListChangeListener<? super Note> noteListChangeListener = ListenersUtils
 			.createListContentChangeListener(ListenersUtils::pass, this::onNoteRemoved);
 	private final ListChangeListener<? super SongLine> lineListChangeListener = ListenersUtils
 			.createListContentChangeListener(ListenersUtils::pass, this::onLineRemoved);
-	private final InvalidationListener markerPositionChangeListener = this::onMarkerPositionWhilePlayingChanged;
 
 	// Convenience bindings for actions
 	public final BooleanBinding activeSongIsNull = activeSongProperty().isNull();
@@ -61,11 +49,15 @@ public class AppContext {
 	public final BooleanBinding activeSongHasOneOrZeroTracks = activeSongTrackCount
 			.lessThanOrEqualTo(1);
 
-	public final AudioContext audioContext = new AudioContext(this, player);
-
 	public final SelectionContext selectionContext = new SelectionContext();
 
+	public final BeatRangeContext beatRangeContext = new BeatRangeContext(this);
+
+	public final PlayerContext playerContext = new PlayerContext(beatRangeContext);
+
 	public final VisibleAreaContext visibleAreaContext = new VisibleAreaContext(this, beatRangeContext);
+
+	public final AudioContext audioContext = new AudioContext(this, playerContext);
 
 	public final CommandContext commandContext = new CommandContext(this);
 
@@ -73,53 +65,7 @@ public class AppContext {
 
 	public AppContext() {
 		LOGGER.setUseParentHandlers(false);
-		player.statusProperty().addListener(this::onPlayerStatusChanged);
-	}
-
-	// Player
-	public ReadOnlyObjectProperty<Status> playerStatusProperty() {
-		return player.statusProperty();
-	}
-
-	public Status getPlayerStatus() {
-		return player.getStatus();
-	}
-
-	public void playRange(int fromBeat, int toBeat, Mode mode) {
-		visibleAreaContext.assertAllNeededTonesVisible(fromBeat, toBeat);
-		player.play(fromBeat, toBeat, mode);
-	}
-
-	public void play(long startMillis, long endMillis, List<Note> notes, Mode mode) {
-		if (!visibleAreaContext.isMarkerVisible()) {
-			setMarkerBeat(visibleAreaContext.getLowerXBound());
-		}
-		player.play(startMillis, endMillis, notes, mode);
-	}
-
-	// Marker
-	public ReadOnlyIntegerProperty markerBeatProperty() {
-		return player.markerBeatProperty();
-	}
-
-	public int getMarkerBeat() {
-		return player.getMarkerBeat();
-	}
-
-	public void setMarkerBeat(int beat) {
-		player.setMarkerBeat(beat);
-	}
-
-	public ReadOnlyLongProperty markerTimeProperty() {
-		return player.markerTimeProperty();
-	}
-
-	public Long getMarkerTime() {
-		return player.getMarkerTime();
-	}
-
-	public void setMarkerTime(long time) {
-		player.setMarkerTime(time);
+		actionContext.initActions();
 	}
 
 	// Files
@@ -183,7 +129,7 @@ public class AppContext {
 		// The song has at least one track now
 		if (song != oldSong) {
 			activeSong.set(song);
-			player.setSong(song);
+			playerContext.setSong(song);
 			if (oldSong != null) {
 				beatRangeContext.onSongDeactivated(oldSong);
 				activeSongTrackCount.unbind();
@@ -246,7 +192,7 @@ public class AppContext {
 		if (line != oldLine) {
 			visibleAreaContext.onLineDeactivated(oldLine);
 			if (line != null) {
-				player.stop();
+				playerContext.stop();
 			}
 			activeLine.set(line);
 			visibleAreaContext.onLineActivated(line);
@@ -260,19 +206,6 @@ public class AppContext {
 
 	public final ViewMode getActiveViewMode() {
 		return activeViewModeProperty().get();
-	}
-
-	// Listeners that are necessary to assure consistency
-	private void onPlayerStatusChanged(Observable obs, Status oldStatus, Status newStatus) {
-		if (newStatus == Status.PLAYING) {
-			markerTimeProperty().addListener(markerPositionChangeListener);
-		} else {
-			markerTimeProperty().removeListener(markerPositionChangeListener);
-		}
-	}
-
-	private void onMarkerPositionWhilePlayingChanged(Observable obs) {
-		visibleAreaContext.scrollVisibleAreaToMarkerBeat();
 	}
 
 	private void onLineRemoved(SongLine line) {
@@ -297,10 +230,10 @@ public class AppContext {
 	public void reset(boolean resetPlayer) {
 		setSong(null);
 		commandContext.reset();
-		player.stop();
+		playerContext.stop();
 		visibleAreaContext.reset();
 		if (resetPlayer) {
-			player.reset();
+			playerContext.reset();
 		}
 	}
 

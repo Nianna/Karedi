@@ -20,10 +20,10 @@ class SetTagValueFromMarkerPositionAction extends TagAction {
     protected void onAction(ActionEvent event) {
         String value = null;
         if (TagKey.expectsADouble(key)) {
-            value = Converter.toString(MathUtils.msToSeconds(appContext.getMarkerTime()));
+            value = Converter.toString(MathUtils.msToSeconds(playerContext.getMarkerTime()));
         } else {
             if (TagKey.expectsAnInteger(key)) {
-                value = Converter.toString(appContext.getMarkerTime());
+                value = Converter.toString(playerContext.getMarkerTime());
             }
         }
         if (value != null) {

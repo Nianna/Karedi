@@ -13,7 +13,7 @@ class FitToSelectionAction extends ContextfulKarediAction {
 
     @Override
     protected void onAction(ActionEvent event) {
-        appContext.player.stop();
+        playerContext.stop();
         visibleAreaContext.fitToSelectedNotes();
     }
 }

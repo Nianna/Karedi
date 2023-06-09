@@ -26,9 +26,10 @@ class PlaySelectionAction extends ContextfulKarediAction {
 
     private void playSelection(Player.Mode mode) {
         if (getSelectionSize() > 0 && selectionContext.getSelectionBounds().isValid()) {
-            long startMillis = beatRangeContext.beatToMillis(selectionContext.getSelectionBounds().getLowerXBound());
-            long endMillis = beatRangeContext.beatToMillis(selectionContext.getSelectionBounds().getUpperXBound());
-            appContext.play(startMillis, endMillis, getSelectedNotes(), mode);
+            int fromBeat = selectionContext.getSelectionBounds().getLowerXBound();
+            int toBeat = selectionContext.getSelectionBounds().getUpperXBound();
+            visibleAreaContext.assertAllNeededTonesVisible(fromBeat, toBeat);
+            playerContext.playGivenNotes(fromBeat, toBeat, getSelectedNotes(), mode);
         }
     }
 }

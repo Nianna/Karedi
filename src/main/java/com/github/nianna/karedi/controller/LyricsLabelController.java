@@ -65,7 +65,7 @@ public class LyricsLabelController implements Controller {
 		appContext.activeLineProperty().addListener(this::onLineChanged);
 		appContext.selectionContext.getSelected().addListener(
 				ListenersUtils.createListContentChangeListener(this::select, this::deselect));
-		appContext.playerStatusProperty().addListener(this::onPlayerStatusChanged);
+		appContext.playerContext.playerStatusProperty().addListener(this::onPlayerStatusChanged);
 	}
 
 	@Override
@@ -116,7 +116,7 @@ public class LyricsLabelController implements Controller {
 
 	private void onPlayerStatusChanged(Observable obs, Status oldStatus, Status newStatus) {
 		if (oldStatus == Status.PLAYING) {
-			appContext.markerBeatProperty().removeListener(markerBeatChangeListener);
+			appContext.playerContext.markerBeatProperty().removeListener(markerBeatChangeListener);
 			if (lastColoredNote != null) {
 				deselect(lastColoredNote);
 			}
@@ -125,7 +125,7 @@ public class LyricsLabelController implements Controller {
 		if (newStatus == Status.PLAYING) {
 			appContext.selectionContext.getSelected().forEach(this::deselect);
 			lastColoredNote = null;
-			appContext.markerBeatProperty().addListener(markerBeatChangeListener);
+			appContext.playerContext.markerBeatProperty().addListener(markerBeatChangeListener);
 		}
 	}
 

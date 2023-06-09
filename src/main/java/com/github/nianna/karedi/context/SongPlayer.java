@@ -46,13 +46,13 @@ public class SongPlayer {
 
 	public void play(int fromBeat, int toBeat, Mode mode) {
 		assert song != null;
-		long startMillis = beatToMillis(fromBeat);
-		long endMillis = beatToMillis(toBeat);
 		List<Note> notes = song.getAudibleNotes(fromBeat, toBeat);
-		play(startMillis, endMillis, notes, mode);
+		play(fromBeat, toBeat, notes, mode);
 	}
 
-	public void play(long startMillis, long endMillis, List<? extends Note> notes, Mode mode) {
+	public void play(int fromBeat, int toBeat, List<? extends Note> notes, Mode mode) {
+		long startMillis = beatToMillis(fromBeat);
+		long endMillis = beatToMillis(toBeat);
 		Queue<Pair<Long, Integer>> list = new LinkedList<>();
 		if (notes != null) {
 			notes.stream()
@@ -63,7 +63,7 @@ public class SongPlayer {
 	}
 
 	private Pair<Long, Integer> noteToTimeTonePair(Note note) {
-		return new Pair<Long, Integer>(beatToMillis(note.getStart()), normalize(note.getTone()));
+		return new Pair<>(beatToMillis(note.getStart()), normalize(note.getTone()));
 	}
 
 	public static int normalize(int tone) {

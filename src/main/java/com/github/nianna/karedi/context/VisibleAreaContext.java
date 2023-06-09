@@ -1,5 +1,6 @@
 package com.github.nianna.karedi.context;
 
+import com.github.nianna.karedi.audio.Player;
 import com.github.nianna.karedi.region.BoundingBox;
 import com.github.nianna.karedi.region.Direction;
 import com.github.nianna.karedi.region.IntBounded;
@@ -7,6 +8,7 @@ import com.github.nianna.karedi.song.Note;
 import com.github.nianna.karedi.song.SongLine;
 import com.github.nianna.karedi.util.MathUtils;
 import javafx.beans.InvalidationListener;
+import javafx.beans.Observable;
 import javafx.beans.property.ReadOnlyObjectProperty;
 
 import java.util.List;
@@ -17,6 +19,8 @@ public class VisibleAreaContext {
 
     private final InvalidationListener lineBoundsListener = obs -> onLineBoundsInvalidated();
 
+    private final InvalidationListener markerPositionChangeListener = obs -> scrollVisibleAreaToMarkerBeat();
+
     private final AppContext appContext;
 
     private final VisibleArea visibleArea;
@@ -25,12 +29,16 @@ public class VisibleAreaContext {
 
     private final BeatRangeContext beatRangeContext;
 
+    private final PlayerContext playerContext;
+
     public VisibleAreaContext(AppContext appContext, BeatRangeContext beatRangeContext) {
         this.appContext = appContext;
         this.beatRangeContext = beatRangeContext;
         visibleArea = new VisibleArea(beatRangeContext.minBeatProperty(), beatRangeContext.maxBeatProperty());
         selectionContext = appContext.selectionContext;
         selectionContext.getSelectionBounds().addListener(obs -> onSelectionBoundsInvalidated());
+        playerContext = appContext.playerContext;
+        playerContext.statusProperty().addListener(this::onPlayerStatusChanged);
     }
 
     public void invalidateVisibleArea() {
@@ -145,7 +153,7 @@ public class VisibleAreaContext {
     }
 
     public void scrollVisibleAreaToMarkerBeat() {
-        int markerBeat = appContext.getMarkerBeat();
+        int markerBeat = playerContext.getMarkerBeat();
         if (!getVisibleAreaBounds().inBoundsX(markerBeat)) {
             int xRange = getUpperXBound() - getLowerXBound();
             setVisibleAreaXBounds(markerBeat - 1, markerBeat - 1 + xRange);
@@ -155,7 +163,7 @@ public class VisibleAreaContext {
     private void onSelectionBoundsInvalidated() {
         IntBounded selectionBounds = selectionContext.getSelectionBounds();
         if (selectionContext.selection.size() > 0 && selectionBounds.isValid()) {
-            appContext.setMarkerBeat(selectionBounds.getLowerXBound());
+            playerContext.setMarkerBeat(selectionBounds.getLowerXBound());
             if (visibleArea.assertBorderlessBoundsVisible(selectionBounds)) {
                 appContext.setActiveLine(null);
                 assertAllNeededTonesVisible();
@@ -187,7 +195,7 @@ public class VisibleAreaContext {
 
     public boolean isMarkerVisible() {
         return MathUtils.inRange(
-                appContext.getMarkerTime(),
+                playerContext.getMarkerTime(),
                 beatRangeContext.beatToMillis(getLowerXBound()),
                 beatRangeContext.beatToMillis(getUpperXBound())
         );
@@ -215,4 +223,13 @@ public class VisibleAreaContext {
             adjustToBounds(activeLine);
         }
     }
+
+    private void onPlayerStatusChanged(Observable obs, Player.Status oldStatus, Player.Status newStatus) {
+        if (newStatus == Player.Status.PLAYING) {
+            playerContext.markerTimeProperty().addListener(markerPositionChangeListener);
+        } else {
+            playerContext.markerTimeProperty().removeListener(markerPositionChangeListener);
+        }
+    }
+
 }

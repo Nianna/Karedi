@@ -9,13 +9,12 @@ class StopPlaybackAction extends ContextfulKarediAction {
 
     StopPlaybackAction(AppContext appContext) {
         super(appContext);
-        setDisabledCondition(appContext.player.statusProperty().isNotEqualTo(Player.Status.PLAYING));
+        setDisabledCondition(playerContext.statusProperty().isNotEqualTo(Player.Status.PLAYING));
     }
 
     @Override
     protected void onAction(ActionEvent event) {
-        // player.stop();
-        appContext.setMarkerTime(appContext.getMarkerTime());
+        playerContext.setMarkerTime(playerContext.getMarkerTime());
     }
 
 }
