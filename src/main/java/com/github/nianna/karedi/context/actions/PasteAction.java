@@ -33,7 +33,7 @@ class PasteAction extends ClipboardAction {
             @Override
             protected void buildSubCommands() {
                 addSubCommand(new DeleteNotesCommand(getSelectedNotes(), false));
-                addSubCommand(new PasteCommand(appContext.getActiveTrack(), pastedSong, playerContext.getMarkerBeat()));
+                addSubCommand(new PasteCommand(appContext.getActiveTrack(), pastedSong, audioContext.getMarkerBeat()));
             }
         };
         executeCommand(new ChangePostStateCommandDecorator(cmd, c -> setSelection(notesToSelect)));

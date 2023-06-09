@@ -27,12 +27,12 @@ abstract class PlayAuxiliaryNoteAction extends ContextfulKarediAction {
 
     @Override
     protected void onAction(ActionEvent event) {
-        playerContext.player.stop();
+        audioContext.stop();
 
         int auxiliaryNoteStartBeat = getAuxiliaryNoteStartBeat();
         int auxiliaryNoteEndBeat = auxiliaryNoteStartBeat + getAuxiliaryNoteLength();
         adjustVisibleArea(auxiliaryNoteStartBeat, auxiliaryNoteEndBeat);
-        playerContext.playGivenNotes(auxiliaryNoteStartBeat, auxiliaryNoteEndBeat, null, Player.Mode.AUDIO_ONLY);
+        audioContext.playGivenNotes(auxiliaryNoteStartBeat, auxiliaryNoteEndBeat, null, Player.Mode.AUDIO_ONLY);
     }
 
     private void adjustVisibleArea(int auxiliaryNoteStartBeat, int auxiliaryNoteEndBeat) {
@@ -42,7 +42,7 @@ abstract class PlayAuxiliaryNoteAction extends ContextfulKarediAction {
         int newUpperBound = Math.max(oldUpperBound, auxiliaryNoteEndBeat);
         if (newLowerBound != oldLowerBound || newUpperBound != oldUpperBound) {
             visibleAreaContext.setVisibleAreaXBounds(newLowerBound, newUpperBound, false);
-            playerContext.statusProperty().addListener(statusListener);
+            audioContext.playerStatusProperty().addListener(statusListener);
         }
     }
 

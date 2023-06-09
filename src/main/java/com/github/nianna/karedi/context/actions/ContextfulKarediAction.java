@@ -7,7 +7,7 @@ import com.github.nianna.karedi.command.Command;
 import com.github.nianna.karedi.context.AppContext;
 import com.github.nianna.karedi.context.BeatRangeContext;
 import com.github.nianna.karedi.context.CommandContext;
-import com.github.nianna.karedi.context.PlayerContext;
+import com.github.nianna.karedi.context.AudioContext;
 import com.github.nianna.karedi.context.SelectionContext;
 import com.github.nianna.karedi.context.VisibleAreaContext;
 import com.github.nianna.karedi.song.Note;
@@ -27,7 +27,7 @@ public abstract class ContextfulKarediAction extends KarediAction {
 
     protected final CommandContext commandContext;
 
-    protected final PlayerContext playerContext;
+    protected final AudioContext audioContext;
 
     ContextfulKarediAction(AppContext appContext) {
         this.appContext = appContext;
@@ -35,7 +35,7 @@ public abstract class ContextfulKarediAction extends KarediAction {
         this.visibleAreaContext = appContext.visibleAreaContext;
         this.beatRangeContext = appContext.beatRangeContext;
         this.commandContext = appContext.commandContext;
-        this.playerContext = appContext.playerContext;
+        this.audioContext = appContext.audioContext;
     }
     
     protected void disableWhenSelectionEmpty() {
@@ -43,10 +43,7 @@ public abstract class ContextfulKarediAction extends KarediAction {
     }
 
     protected void disableWhenSelectionEmptyOrActiveAudioNull() {
-        setDisabledCondition(
-                selectionContext.getSelectionIsEmptyBinding()
-                        .or(appContext.audioContext.getActiveAudioIsNull())
-        );
+        setDisabledCondition(selectionContext.getSelectionIsEmptyBinding().or(audioContext.getActiveAudioIsNull()));
     }
 
     protected void disableWhenSelectionEmptyOrContainsOnlyOneElement() {
@@ -111,6 +108,6 @@ public abstract class ContextfulKarediAction extends KarediAction {
 
     protected void playRange(int fromBeat, int toBeat, Player.Mode mode) {
         visibleAreaContext.assertAllNeededTonesVisible(fromBeat, toBeat);
-        playerContext.playAllAudible(fromBeat, toBeat, mode);
+        audioContext.playAllAudible(fromBeat, toBeat, mode);
     }
 }

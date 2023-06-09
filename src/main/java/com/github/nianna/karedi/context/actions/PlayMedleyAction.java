@@ -21,7 +21,7 @@ class PlayMedleyAction extends ContextfulKarediAction {
 
         basicCondition = appContext.activeSongIsNull;
         if (mode != Player.Mode.MIDI_ONLY) {
-            basicCondition = basicCondition.or(appContext.audioContext.getActiveAudioIsNull());
+            basicCondition = basicCondition.or(audioContext.getActiveAudioIsNull());
         }
         setDisabledCondition(basicCondition);
         appContext.activeSongProperty().addListener((obsVal, oldVal, newVal) -> {

@@ -26,7 +26,7 @@ class SelectMoreAction extends ContextfulKarediAction {
 
     private void selectNoteAfterMarker() {
         appContext.getActiveTrack()
-                .noteAtOrLater(playerContext.getMarkerBeat())
+                .noteAtOrLater(audioContext.getMarkerBeat())
                 .ifPresent(this::selectNote);
     }
 

@@ -29,7 +29,7 @@ public class VisibleAreaContext {
 
     private final BeatRangeContext beatRangeContext;
 
-    private final PlayerContext playerContext;
+    private final AudioContext audioContext;
 
     public VisibleAreaContext(AppContext appContext, BeatRangeContext beatRangeContext) {
         this.appContext = appContext;
@@ -37,8 +37,8 @@ public class VisibleAreaContext {
         visibleArea = new VisibleArea(beatRangeContext.minBeatProperty(), beatRangeContext.maxBeatProperty());
         selectionContext = appContext.selectionContext;
         selectionContext.getSelectionBounds().addListener(obs -> onSelectionBoundsInvalidated());
-        playerContext = appContext.playerContext;
-        playerContext.statusProperty().addListener(this::onPlayerStatusChanged);
+        audioContext = appContext.audioContext;
+        audioContext.playerStatusProperty().addListener(this::onPlayerStatusChanged);
     }
 
     public void invalidateVisibleArea() {
@@ -153,7 +153,7 @@ public class VisibleAreaContext {
     }
 
     public void scrollVisibleAreaToMarkerBeat() {
-        int markerBeat = playerContext.getMarkerBeat();
+        int markerBeat = audioContext.getMarkerBeat();
         if (!getVisibleAreaBounds().inBoundsX(markerBeat)) {
             int xRange = getUpperXBound() - getLowerXBound();
             setVisibleAreaXBounds(markerBeat - 1, markerBeat - 1 + xRange);
@@ -163,7 +163,7 @@ public class VisibleAreaContext {
     private void onSelectionBoundsInvalidated() {
         IntBounded selectionBounds = selectionContext.getSelectionBounds();
         if (selectionContext.selection.size() > 0 && selectionBounds.isValid()) {
-            playerContext.setMarkerBeat(selectionBounds.getLowerXBound());
+            audioContext.setMarkerBeat(selectionBounds.getLowerXBound());
             if (visibleArea.assertBorderlessBoundsVisible(selectionBounds)) {
                 appContext.setActiveLine(null);
                 assertAllNeededTonesVisible();
@@ -195,7 +195,7 @@ public class VisibleAreaContext {
 
     public boolean isMarkerVisible() {
         return MathUtils.inRange(
-                playerContext.getMarkerTime(),
+                audioContext.getMarkerTime(),
                 beatRangeContext.beatToMillis(getLowerXBound()),
                 beatRangeContext.beatToMillis(getUpperXBound())
         );
@@ -226,9 +226,9 @@ public class VisibleAreaContext {
 
     private void onPlayerStatusChanged(Observable obs, Player.Status oldStatus, Player.Status newStatus) {
         if (newStatus == Player.Status.PLAYING) {
-            playerContext.markerTimeProperty().addListener(markerPositionChangeListener);
+            audioContext.markerTimeProperty().addListener(markerPositionChangeListener);
         } else {
-            playerContext.markerTimeProperty().removeListener(markerPositionChangeListener);
+            audioContext.markerTimeProperty().removeListener(markerPositionChangeListener);
         }
     }
 

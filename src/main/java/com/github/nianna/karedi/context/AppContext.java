@@ -53,11 +53,9 @@ public class AppContext {
 
 	public final BeatRangeContext beatRangeContext = new BeatRangeContext(this);
 
-	public final PlayerContext playerContext = new PlayerContext(beatRangeContext);
+	public final AudioContext audioContext = new AudioContext(beatRangeContext);
 
 	public final VisibleAreaContext visibleAreaContext = new VisibleAreaContext(this, beatRangeContext);
-
-	public final AudioContext audioContext = new AudioContext(this, playerContext);
 
 	public final CommandContext commandContext = new CommandContext(this);
 
@@ -129,7 +127,7 @@ public class AppContext {
 		// The song has at least one track now
 		if (song != oldSong) {
 			activeSong.set(song);
-			playerContext.setSong(song);
+			audioContext.setSong(song);
 			if (oldSong != null) {
 				beatRangeContext.onSongDeactivated(oldSong);
 				activeSongTrackCount.unbind();
@@ -192,7 +190,7 @@ public class AppContext {
 		if (line != oldLine) {
 			visibleAreaContext.onLineDeactivated(oldLine);
 			if (line != null) {
-				playerContext.stop();
+				audioContext.stop();
 			}
 			activeLine.set(line);
 			visibleAreaContext.onLineActivated(line);
@@ -230,10 +228,10 @@ public class AppContext {
 	public void reset(boolean resetPlayer) {
 		setSong(null);
 		commandContext.reset();
-		playerContext.stop();
+		audioContext.stop();
 		visibleAreaContext.reset();
 		if (resetPlayer) {
-			playerContext.reset();
+			audioContext.reset();
 		}
 	}
 

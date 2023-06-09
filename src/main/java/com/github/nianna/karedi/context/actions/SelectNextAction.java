@@ -34,7 +34,7 @@ class SelectNextAction extends ContextfulKarediAction {
 
     private Optional<Note> findVisibleNoteAfterMarkerIfSelectionEmpty() {
         if (getSelectionSize() == 0) {
-            int markerBeat = playerContext.getMarkerBeat();
+            int markerBeat = audioContext.getMarkerBeat();
             return appContext.getActiveTrack()
                     .noteAtOrLater(markerBeat)
                     .filter(visibleAreaContext::isInVisibleBeatRange);

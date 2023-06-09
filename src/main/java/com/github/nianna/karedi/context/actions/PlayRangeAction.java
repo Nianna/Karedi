@@ -25,7 +25,7 @@ class PlayRangeAction extends ContextfulKarediAction {
 
         BooleanBinding condition = appContext.activeSongIsNull;
         if (mode != Player.Mode.MIDI_ONLY) {
-            condition = condition.or(appContext.audioContext.getActiveAudioIsNull());
+            condition = condition.or(audioContext.getActiveAudioIsNull());
         }
         setDisabledCondition(condition);
     }

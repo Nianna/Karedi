@@ -16,7 +16,7 @@ class CutSelectionAction extends ContextfulKarediAction {
 
     @Override
     protected void onAction(ActionEvent event) {
-        playerContext.stop();
+        audioContext.stop();
         Command cmd = new ChangePreStateCommandDecorator(
                 new DeleteSelectionAction(appContext, false).getCommand(),
                 c -> executeAction(KarediActions.COPY)

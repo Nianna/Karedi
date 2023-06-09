@@ -32,8 +32,8 @@ class SelectPreviousAction extends ContextfulKarediAction {
 
     private Optional<Note> findVisibleNoteBeforeMarkerIfSelectionEmpty() {
         if (getSelectionSize() == 0) {
-            int markerBeat = playerContext.getMarkerBeat();
-            if (beatRangeContext.getBeatMillisConverter().beatToMillis(markerBeat) > playerContext.getMarkerTime()) {
+            int markerBeat = audioContext.getMarkerBeat();
+            if (beatRangeContext.getBeatMillisConverter().beatToMillis(markerBeat) > audioContext.getMarkerTime()) {
                 markerBeat -= 1;
             }
             return appContext.getActiveTrack()

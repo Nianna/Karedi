@@ -29,7 +29,7 @@ class PlaySelectionAction extends ContextfulKarediAction {
             int fromBeat = selectionContext.getSelectionBounds().getLowerXBound();
             int toBeat = selectionContext.getSelectionBounds().getUpperXBound();
             visibleAreaContext.assertAllNeededTonesVisible(fromBeat, toBeat);
-            playerContext.playGivenNotes(fromBeat, toBeat, getSelectedNotes(), mode);
+            audioContext.playGivenNotes(fromBeat, toBeat, getSelectedNotes(), mode);
         }
     }
 }

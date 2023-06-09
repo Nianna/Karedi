@@ -27,7 +27,7 @@ class AddNoteAction extends ContextfulKarediAction {
                 int newNotePosition = computeNewNoteStartBeat();
                 return appContext.getActiveTrack().noteAt(newNotePosition).isPresent();
             }
-        }, selectionContext.getSelectionBounds(), playerContext.markerTimeProperty(), appContext.activeTrackProperty()));
+        }, selectionContext.getSelectionBounds(), audioContext.markerTimeProperty(), appContext.activeTrackProperty()));
     }
 
     @Override
@@ -51,7 +51,7 @@ class AddNoteAction extends ContextfulKarediAction {
         if (getSelectionSize() > 0 && selectionContext.getSelectionBounds().isValid()) {
             return selectionContext.getSelectionBounds().getUpperXBound();
         } else {
-            return playerContext.getMarkerBeat();
+            return audioContext.getMarkerBeat();
         }
     }
 
@@ -79,7 +79,7 @@ class AddNoteAction extends ContextfulKarediAction {
 
     private Optional<SongLine> getLastVisibleLineBeforeMarker() {
         return appContext.getActiveTrack()
-                .lineAtOrEarlier(playerContext.getMarkerBeat())
+                .lineAtOrEarlier(audioContext.getMarkerBeat())
                 .filter(prevLine -> prevLine.getUpperXBound() > visibleAreaContext.getLowerXBound());
     }
 }

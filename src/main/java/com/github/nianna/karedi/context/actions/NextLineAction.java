@@ -18,7 +18,7 @@ class NextLineAction extends ContextfulKarediAction {
         setDisabledCondition(
                 Bindings.createBooleanBinding(
                         () -> appContext.getActiveTrack() == null || computeNextLine().isEmpty(),
-                        appContext.activeTrack, appContext.activeLine, playerContext.markerBeatProperty()
+                        appContext.activeTrack, appContext.activeLine, audioContext.markerBeatProperty()
                 )
         );
     }
@@ -34,7 +34,7 @@ class NextLineAction extends ContextfulKarediAction {
         } else {
             return findLastSelectedNote()
                     .map(Note::getLine)
-                    .or(() -> appContext.getActiveTrack().lineAtOrLater(playerContext.getMarkerBeat()));
+                    .or(() -> appContext.getActiveTrack().lineAtOrLater(audioContext.getMarkerBeat()));
         }
     }
 }

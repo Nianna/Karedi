@@ -8,12 +8,12 @@ class ToggleTicksAction extends ContextfulKarediAction {
 
     ToggleTicksAction(AppContext appContext) {
         super(appContext);
-        setSelected(playerContext.isTickingEnabled());
+        setSelected(audioContext.isTickingEnabled());
     }
 
     @Override
     protected void onAction(ActionEvent event) {
-        playerContext.setTickingEnabled(!playerContext.isTickingEnabled());
+        audioContext.setTickingEnabled(!audioContext.isTickingEnabled());
     }
 
 }
