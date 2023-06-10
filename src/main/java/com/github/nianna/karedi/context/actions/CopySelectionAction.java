@@ -12,6 +12,6 @@ class CopySelectionAction extends ContextfulKarediAction {
 
     @Override
     protected void onAction(ActionEvent event) {
-        ioContext.saveToClipboard(getSelectedNotes());
+        txtContext.saveToClipboard(getSelectedNotes());
     }
 }

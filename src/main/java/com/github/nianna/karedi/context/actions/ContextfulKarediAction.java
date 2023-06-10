@@ -9,7 +9,7 @@ import com.github.nianna.karedi.context.AppContext;
 import com.github.nianna.karedi.context.AudioContext;
 import com.github.nianna.karedi.context.BeatRangeContext;
 import com.github.nianna.karedi.context.CommandContext;
-import com.github.nianna.karedi.context.IOContext;
+import com.github.nianna.karedi.context.TxtContext;
 import com.github.nianna.karedi.context.SelectionContext;
 import com.github.nianna.karedi.context.VisibleAreaContext;
 import com.github.nianna.karedi.song.Note;
@@ -33,7 +33,7 @@ public abstract class ContextfulKarediAction extends KarediAction {
 
     protected final ActiveSongContext activeSongContext;
 
-    protected final IOContext ioContext;
+    protected final TxtContext txtContext;
 
     ContextfulKarediAction(AppContext appContext) {
         this.appContext = appContext;
@@ -43,7 +43,7 @@ public abstract class ContextfulKarediAction extends KarediAction {
         this.commandContext = appContext.getCommandContext();
         this.audioContext = appContext.getAudioContext();
         this.activeSongContext = appContext.getActiveSongContext();
-        this.ioContext = appContext.getIoContext();
+        this.txtContext = appContext.getTxtContext();
     }
 
     protected void disableWhenActiveSongIsNull() {

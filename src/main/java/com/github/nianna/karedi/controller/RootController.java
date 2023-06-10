@@ -4,7 +4,7 @@ import com.github.nianna.karedi.KarediApp;
 import com.github.nianna.karedi.action.KarediAction;
 import com.github.nianna.karedi.action.KarediActions;
 import com.github.nianna.karedi.context.AppContext;
-import com.github.nianna.karedi.context.IOContext;
+import com.github.nianna.karedi.context.TxtContext;
 import com.github.nianna.karedi.context.SelectionContext;
 import com.github.nianna.karedi.event.ControllerEvent;
 import com.github.nianna.karedi.event.StateEvent;
@@ -71,7 +71,7 @@ public class RootController implements Controller {
 	@FXML
 	private Node editor;
 
-	private IOContext ioContext;
+	private TxtContext txtContext;
 
 	private SelectionContext selectionContext;
 
@@ -118,7 +118,7 @@ public class RootController implements Controller {
 			optFile.ifPresent(file -> {
 				Platform.runLater(() ->  {
 					KarediApp.getInstance().saveChangesIfUserWantsTo();
-					ioContext.loadSongFile(file);
+					txtContext.loadSongFile(file);
 				});
 				event.setDropCompleted(true);
 			});
@@ -138,7 +138,7 @@ public class RootController implements Controller {
 
 	@Override
 	public void setAppContext(AppContext appContext) {
-		this.ioContext = appContext.getIoContext();
+		this.txtContext = appContext.getTxtContext();
 		this.selectionContext = appContext.getSelectionContext();
 
 		appContext.getActionContext().addAction(KarediActions.EDIT_LYRICS, new EditLyricsAction());

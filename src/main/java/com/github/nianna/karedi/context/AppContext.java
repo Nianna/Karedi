@@ -32,7 +32,7 @@ public class AppContext {
 
 	private final CommandContext commandContext = new CommandContext(this);
 
-	private final IOContext ioContext = new IOContext(activeSongContext, audioContext, commandContext);
+	private final TxtContext txtContext = new TxtContext(activeSongContext, audioContext, commandContext);
 
 	private final ActionContext actionContext = new ActionContext(this);
 
@@ -80,8 +80,8 @@ public class AppContext {
 		return commandContext;
 	}
 
-	public IOContext getIoContext() {
-		return ioContext;
+	public TxtContext getTxtContext() {
+		return txtContext;
 	}
 
 	public ActionContext getActionContext() {

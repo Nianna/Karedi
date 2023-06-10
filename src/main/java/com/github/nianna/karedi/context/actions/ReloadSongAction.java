@@ -11,14 +11,14 @@ class ReloadSongAction extends ContextfulKarediAction {
 
     ReloadSongAction(AppContext appContext) {
         super(appContext);
-        setDisabledCondition(ioContext.activeFileIsNullBinding().or(activeSongContext.activeSongIsNullBinding()));
+        setDisabledCondition(txtContext.activeFileIsNullBinding().or(activeSongContext.activeSongIsNullBinding()));
     }
 
     @Override
     protected void onAction(ActionEvent event) {
         if (KarediApp.getInstance().saveChangesIfUserWantsTo()) {
             backupTrackAndLine();
-            ioContext.loadSongFile(ioContext.getActiveFile(), false);
+            txtContext.loadSongFile(txtContext.getActiveFile(), false);
 
             if (activeSongContext.getSong() != null) {
                 restoreTrackAndLine();

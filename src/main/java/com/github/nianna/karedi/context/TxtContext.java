@@ -16,9 +16,9 @@ import java.io.File;
 import java.util.List;
 import java.util.logging.Logger;
 
-public class IOContext {
+public class TxtContext {
 
-    private static final Logger LOGGER = Logger.getLogger(IOContext.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(TxtContext.class.getName());
 
     private final ReadOnlyObjectWrapper<File> activeFile = new ReadOnlyObjectWrapper<>();
 
@@ -32,7 +32,7 @@ public class IOContext {
 
     private final CommandContext commandContext;
 
-    public IOContext(ActiveSongContext activeSongContext, AudioContext audioContext, CommandContext commandContext) {
+    public TxtContext(ActiveSongContext activeSongContext, AudioContext audioContext, CommandContext commandContext) {
         this.activeSongContext = activeSongContext;
         this.audioContext = audioContext;
         this.commandContext = commandContext;

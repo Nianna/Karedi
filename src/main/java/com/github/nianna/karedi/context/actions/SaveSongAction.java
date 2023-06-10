@@ -13,8 +13,8 @@ class SaveSongAction extends ContextfulKarediAction {
 
     @Override
     protected void onAction(ActionEvent event) {
-        if (ioContext.getActiveFile() != null) {
-            ioContext.saveSongToFile(ioContext.getActiveFile());
+        if (txtContext.getActiveFile() != null) {
+            txtContext.saveSongToFile(txtContext.getActiveFile());
         } else {
             executeAction(KarediActions.SAVE_AS);
         }

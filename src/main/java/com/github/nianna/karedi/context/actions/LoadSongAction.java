@@ -18,7 +18,7 @@ class LoadSongAction extends ContextfulKarediAction {
         if (KarediApp.getInstance().saveChangesIfUserWantsTo()) {
             File file = KarediApp.getInstance().getTxtFileToOpen();
             if (file != null) {
-                ioContext.loadSongFile(file, true);
+                txtContext.loadSongFile(file, true);
             }
         }
     }
