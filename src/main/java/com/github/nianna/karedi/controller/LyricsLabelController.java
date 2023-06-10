@@ -61,8 +61,8 @@ public class LyricsLabelController implements Controller {
 		visibleArea = appContext.visibleAreaContext.getVisibleAreaBounds();
 
 		appContext.visibleAreaContext.getVisibleAreaBounds().addListener(this::onVisibleAreaInvalidated);
-		appContext.activeTrackProperty().addListener(this::onTrackChanged);
-		appContext.activeLineProperty().addListener(this::onLineChanged);
+		appContext.activeSongContext.activeTrackProperty().addListener(this::onTrackChanged);
+		appContext.activeSongContext.activeLineProperty().addListener(this::onLineChanged);
 		appContext.selectionContext.getSelected().addListener(
 				ListenersUtils.createListContentChangeListener(this::select, this::deselect));
 		appContext.audioContext.playerStatusProperty().addListener(this::onPlayerStatusChanged);
@@ -100,7 +100,7 @@ public class LyricsLabelController implements Controller {
 	}
 
 	private void onMarkerBeatChanged(Observable obs, Number oldBeat, Number newBeat) {
-		Optional<Note> optionalNote = appContext.getActiveTrack().noteAt(newBeat.intValue());
+		Optional<Note> optionalNote = appContext.activeSongContext.getActiveTrack().noteAt(newBeat.intValue());
 		if (optionalNote.isPresent()) {
 			Note note = optionalNote.get();
 			if (note != lastColoredNote) {
@@ -130,11 +130,11 @@ public class LyricsLabelController implements Controller {
 	}
 
 	private void updateLyrics() {
-		if (appContext.getActiveLine() != null) {
+		if (appContext.activeSongContext.getActiveLine() != null) {
 			setActiveLineLyrics();
 		} else {
 			textFlow.getChildren().clear();
-			SongTrack activeTrack = appContext.getActiveTrack();
+			SongTrack activeTrack = appContext.activeSongContext.getActiveTrack();
 			if (activeTrack != null) {
 				setVisibleNotesLyrics();
 			}
@@ -162,12 +162,12 @@ public class LyricsLabelController implements Controller {
 	}
 
 	private List<Note> getVisibleNotes() {
-		return appContext.getActiveTrack().getNotes(visibleArea.getLowerXBound(),
+		return appContext.activeSongContext.getActiveTrack().getNotes(visibleArea.getLowerXBound(),
 				visibleArea.getUpperXBound());
 	}
 
 	private List<Note> getActiveLineNotes() {
-		return appContext.getActiveLine().getNotes();
+		return appContext.activeSongContext.getActiveLine().getNotes();
 	}
 
 	private void setActiveLineLyrics() {

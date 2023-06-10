@@ -18,7 +18,7 @@ class EditBpmAction extends ContextfulKarediAction {
 
     EditBpmAction(AppContext appContext) {
         super(appContext);
-        setDisabledCondition(appContext.activeSongIsNull);
+        disableWhenActiveSongIsNull();
         promptUser = true;
     }
 
@@ -31,21 +31,21 @@ class EditBpmAction extends ContextfulKarediAction {
     @Override
     protected void onAction(ActionEvent event) {
         if (promptUser) {
-            double oldBpm = appContext.getSong().getBpm();
+            double oldBpm = activeSongContext.getSong().getBpm();
 
             ModifyBpmDialog dialog = new EditBpmDialog();
-            appContext.getSong().getTagValue(TagKey.BPM).ifPresent(dialog::setBpmFieldText);
+            activeSongContext.getSong().getTagValue(TagKey.BPM).ifPresent(dialog::setBpmFieldText);
             Optional<ModifyBpmDialog.BpmEditResult> optionalResult = dialog.showAndWait();
             optionalResult.ifPresent(result -> {
                 double newBpm = result.getBpm();
                 if (result.shouldRescale()) {
-                    executeCommand(new RescaleSongToBpmCommand(appContext.getSong(), newBpm / oldBpm));
+                    executeCommand(new RescaleSongToBpmCommand(activeSongContext.getSong(), newBpm / oldBpm));
                 } else {
-                    executeCommand(new ChangeBpmCommand(appContext.getSong(), newBpm));
+                    executeCommand(new ChangeBpmCommand(activeSongContext.getSong(), newBpm));
                 }
             });
         } else {
-            executeCommand(new RescaleSongToBpmCommand(appContext.getSong(), scale));
+            executeCommand(new RescaleSongToBpmCommand(activeSongContext.getSong(), scale));
         }
     }
 

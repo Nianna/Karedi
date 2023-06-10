@@ -8,7 +8,7 @@ class SaveSongAction extends ContextfulKarediAction {
 
     SaveSongAction(AppContext appContext) {
         super(appContext);
-        setDisabledCondition(appContext.activeSongIsNull.or(commandContext.allCommandsSavedBinding()));
+        setDisabledCondition(activeSongContext.activeSongIsNullBinding().or(commandContext.allCommandsSavedBinding()));
     }
 
     @Override

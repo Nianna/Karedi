@@ -7,13 +7,13 @@ import javafx.event.ActionEvent;
 
 import java.util.Optional;
 
-import static java.util.Objects.nonNull;
+import static java.util.Objects.isNull;
 
 class SelectPreviousAction extends ContextfulKarediAction {
 
     SelectPreviousAction(AppContext appContext) {
         super(appContext);
-        setDisabledCondition(appContext.activeTrackIsNull);
+        disableWhenActiveTrackIsNull();
     }
 
     @Override
@@ -27,7 +27,7 @@ class SelectPreviousAction extends ContextfulKarediAction {
         }
 
     private boolean noteBelongsToActiveLineOrNoActiveLine(Note note) {
-        return nonNull(appContext.getActiveLine()) && note.getLine().equals(appContext.getActiveLine());
+        return isNull(activeSongContext.getActiveLine()) || note.getLine().equals(activeSongContext.getActiveLine());
     }
 
     private Optional<Note> findVisibleNoteBeforeMarkerIfSelectionEmpty() {
@@ -36,7 +36,7 @@ class SelectPreviousAction extends ContextfulKarediAction {
             if (beatRangeContext.getBeatMillisConverter().beatToMillis(markerBeat) > audioContext.getMarkerTime()) {
                 markerBeat -= 1;
             }
-            return appContext.getActiveTrack()
+            return activeSongContext.getActiveTrack()
                     .noteAtOrEarlier(markerBeat)
                     .filter(visibleAreaContext::isInVisibleBeatRange);
         }
@@ -44,7 +44,7 @@ class SelectPreviousAction extends ContextfulKarediAction {
     }
 
     private Optional<Note> findLastVisibleNoteFromCurrentTrack() {
-        return appContext.getActiveTrack()
+        return activeSongContext.getActiveTrack()
                 .noteAtOrEarlier(visibleAreaContext.getUpperXBound() - 1);
     }
 
@@ -55,7 +55,7 @@ class SelectPreviousAction extends ContextfulKarediAction {
     }
 
     private Optional<Note> findLastNoteFromActiveLine() {
-        return Optional.ofNullable(appContext.getActiveLine())
+        return Optional.ofNullable(activeSongContext.getActiveLine())
                 .map(SongLine::getLast);
     }
 }

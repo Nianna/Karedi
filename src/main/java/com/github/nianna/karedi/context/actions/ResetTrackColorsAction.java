@@ -8,11 +8,11 @@ class ResetTrackColorsAction extends ContextfulKarediAction {
 
     ResetTrackColorsAction(AppContext appContext) {
         super(appContext);
-        setDisabledCondition(appContext.activeTrackIsNull);
+        disableWhenActiveTrackIsNull();
     }
 
     @Override
     protected void onAction(ActionEvent event) {
-        executeCommand(new ResetTrackColorsCommand(appContext.getActiveTrack()));
+        executeCommand(new ResetTrackColorsCommand(activeSongContext.getActiveTrack()));
     }
 }

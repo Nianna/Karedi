@@ -8,7 +8,7 @@ class SelectMoreAction extends ContextfulKarediAction {
 
     SelectMoreAction(AppContext appContext) {
         super(appContext);
-        setDisabledCondition(appContext.activeTrackIsNull);
+        disableWhenActiveTrackIsNull();
     }
 
     @Override
@@ -25,7 +25,7 @@ class SelectMoreAction extends ContextfulKarediAction {
     }
 
     private void selectNoteAfterMarker() {
-        appContext.getActiveTrack()
+        activeSongContext.getActiveTrack()
                 .noteAtOrLater(audioContext.getMarkerBeat())
                 .ifPresent(this::selectNote);
     }

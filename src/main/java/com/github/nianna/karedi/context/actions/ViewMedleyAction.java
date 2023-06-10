@@ -10,7 +10,7 @@ class ViewMedleyAction extends ContextfulKarediAction {
     ViewMedleyAction(AppContext appContext) {
         super(appContext);
         setDisabledCondition(true);
-        appContext.activeSongProperty().addListener((obsVal, oldVal, newVal) -> {
+        activeSongContext.activeSongProperty().addListener((obsVal, oldVal, newVal) -> {
             if (newVal == null) {
                 setDisabledCondition(true);
             } else {
@@ -21,7 +21,7 @@ class ViewMedleyAction extends ContextfulKarediAction {
 
     @Override
     protected void onAction(ActionEvent event) {
-        Song.Medley medley = appContext.getSong().getMedley();
+        Song.Medley medley = activeSongContext.getSong().getMedley();
         visibleAreaContext.setVisibleAreaXBounds(medley.getStartBeat(), medley.getEndBeat());
         visibleAreaContext.assertAllNeededTonesVisible();
     }

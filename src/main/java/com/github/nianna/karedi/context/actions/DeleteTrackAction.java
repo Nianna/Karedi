@@ -8,12 +8,12 @@ class DeleteTrackAction extends ContextfulKarediAction {
 
     DeleteTrackAction(AppContext appContext) {
         super(appContext);
-        setDisabledCondition(appContext.activeSongHasOneOrZeroTracks);
+        disableWhenActiveTrackHasOneOrZeroTracks();
     }
 
     @Override
     protected void onAction(ActionEvent event) {
-        executeCommand(new DeleteTrackCommand(appContext.getSong(), appContext.getActiveTrack()));
+        executeCommand(new DeleteTrackCommand(activeSongContext.getSong(), activeSongContext.getActiveTrack()));
     }
 
 }

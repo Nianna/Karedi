@@ -11,7 +11,7 @@ class ReloadSongAction extends ContextfulKarediAction {
 
     ReloadSongAction(AppContext appContext) {
         super(appContext);
-        setDisabledCondition(appContext.activeFileIsNull.or(appContext.activeSongIsNull));
+        setDisabledCondition(appContext.activeFileIsNull.or(activeSongContext.activeSongIsNullBinding()));
     }
 
     @Override
@@ -20,7 +20,7 @@ class ReloadSongAction extends ContextfulKarediAction {
             backupTrackAndLine();
             appContext.loadSongFile(appContext.getActiveFile(), false);
 
-            if (appContext.getSong() != null) {
+            if (activeSongContext.getSong() != null) {
                 restoreTrackAndLine();
             }
         }
@@ -29,19 +29,19 @@ class ReloadSongAction extends ContextfulKarediAction {
     private void backupTrackAndLine() {
         trackNumber = null;
         lineNumber = null;
-        if (appContext.getActiveTrack() != null) {
-            trackNumber = appContext.getSong().indexOf(appContext.getActiveTrack());
-            if (appContext.getActiveLine() != null) {
-                lineNumber = appContext.getActiveTrack().indexOf(appContext.getActiveLine());
+        if (activeSongContext.getActiveTrack() != null) {
+            trackNumber = activeSongContext.getSong().indexOf(activeSongContext.getActiveTrack());
+            if (activeSongContext.getActiveLine() != null) {
+                lineNumber = activeSongContext.getActiveTrack().indexOf(activeSongContext.getActiveLine());
             }
         }
     }
 
     private void restoreTrackAndLine() {
-        if (trackNumber != null && appContext.getSong().size() > trackNumber) {
-            appContext.setActiveTrack(appContext.getSong().get(trackNumber));
-            if (lineNumber != null && appContext.getActiveTrack().size() > lineNumber) {
-                appContext.setActiveLine(appContext.getActiveTrack().get(lineNumber));
+        if (trackNumber != null && activeSongContext.getSong().size() > trackNumber) {
+            activeSongContext.setActiveTrack(activeSongContext.getSong().get(trackNumber));
+            if (lineNumber != null && activeSongContext.getActiveTrack().size() > lineNumber) {
+                activeSongContext.setActiveLine(activeSongContext.getActiveTrack().get(lineNumber));
             }
         }
     }

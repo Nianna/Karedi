@@ -9,7 +9,7 @@ class ResetSequencerAction extends ContextfulKarediAction {
     ResetSequencerAction(AppContext appContext) {
 
         super(appContext);
-        setDisabledCondition(appContext.activeSongProperty().isNull());
+        disableWhenActiveSongIsNull();
     }
 
     @Override

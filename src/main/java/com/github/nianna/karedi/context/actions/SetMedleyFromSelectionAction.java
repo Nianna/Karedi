@@ -21,7 +21,7 @@ class SetMedleyFromSelectionAction extends ContextfulKarediAction {
     protected void onAction(ActionEvent event) {
         Integer startBeat = setStartBeat ? selectionContext.getSelectionBounds().getLowerXBound() : null;
         Integer endBeat = setEndBeat ? selectionContext.getSelectionBounds().getUpperXBound() : null;
-        executeCommand(new ChangeMedleyCommand(appContext.getSong(), startBeat, endBeat));
+        executeCommand(new ChangeMedleyCommand(activeSongContext.getSong(), startBeat, endBeat));
     }
 
 }

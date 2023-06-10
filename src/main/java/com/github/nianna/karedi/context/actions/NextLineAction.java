@@ -17,24 +17,24 @@ class NextLineAction extends ContextfulKarediAction {
         super(appContext);
         setDisabledCondition(
                 Bindings.createBooleanBinding(
-                        () -> appContext.getActiveTrack() == null || computeNextLine().isEmpty(),
-                        appContext.activeTrack, appContext.activeLine, audioContext.markerBeatProperty()
+                        () -> activeSongContext.getActiveTrack() == null || computeNextLine().isEmpty(),
+                        activeSongContext.activeTrackProperty(), activeSongContext.activeLineProperty(), audioContext.markerBeatProperty()
                 )
         );
     }
 
     @Override
     protected void onAction(ActionEvent event) {
-        computeNextLine().ifPresent(appContext::setActiveLine);
+        computeNextLine().ifPresent(activeSongContext::setActiveLine);
     }
 
     private Optional<SongLine> computeNextLine() {
-        if (nonNull(appContext.getActiveLine())) {
-            return appContext.getActiveLine().getNext();
+        if (nonNull(activeSongContext.getActiveLine())) {
+            return activeSongContext.getActiveLine().getNext();
         } else {
             return findLastSelectedNote()
                     .map(Note::getLine)
-                    .or(() -> appContext.getActiveTrack().lineAtOrLater(audioContext.getMarkerBeat()));
+                    .or(() -> activeSongContext.getActiveTrack().lineAtOrLater(audioContext.getMarkerBeat()));
         }
     }
 }

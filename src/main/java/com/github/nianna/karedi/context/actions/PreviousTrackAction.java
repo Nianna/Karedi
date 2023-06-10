@@ -9,13 +9,13 @@ class PreviousTrackAction extends ContextfulKarediAction {
 
     PreviousTrackAction(AppContext appContext) {
         super(appContext);
-        setDisabledCondition(appContext.activeSongHasOneOrZeroTracks);
+        disableWhenActiveTrackHasOneOrZeroTracks();
     }
 
     @Override
     protected void onAction(ActionEvent event) {
-        Song song = appContext.getSong();
-        int prevIndex = (song.indexOf(appContext.getActiveTrack()) + song.size() - 1) % song.size();
-        appContext.setActiveTrack(song.get(prevIndex));
+        Song song = activeSongContext.getSong();
+        int prevIndex = (song.indexOf(activeSongContext.getActiveTrack()) + song.size() - 1) % song.size();
+        activeSongContext.setActiveTrack(song.get(prevIndex));
     }
 }

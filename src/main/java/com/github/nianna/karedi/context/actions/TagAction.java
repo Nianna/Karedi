@@ -6,7 +6,7 @@ abstract class TagAction extends ContextfulKarediAction {
 
     TagAction(AppContext appContext) {
         super(appContext);
-        setDisabledCondition(appContext.activeSongIsNull);
+        disableWhenActiveSongIsNull();
     }
 
 }

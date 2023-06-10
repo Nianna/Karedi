@@ -14,7 +14,7 @@ class FitToVisibleAction extends ContextfulKarediAction {
         super(appContext);
         this.vertically = vertically;
         this.horizontally = horizontally;
-        setDisabledCondition(appContext.activeSongIsNull);
+        disableWhenActiveSongIsNull();
     }
 
     @Override

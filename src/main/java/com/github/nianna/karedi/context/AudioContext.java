@@ -5,8 +5,6 @@ import com.github.nianna.karedi.audio.AudioFileLoader;
 import com.github.nianna.karedi.audio.CachedAudioFile;
 import com.github.nianna.karedi.audio.Player;
 import com.github.nianna.karedi.song.Note;
-import com.github.nianna.karedi.song.Song;
-import com.github.nianna.karedi.song.SongLine;
 import javafx.beans.binding.BooleanBinding;
 import javafx.beans.property.ReadOnlyIntegerProperty;
 import javafx.beans.property.ReadOnlyLongProperty;
@@ -29,14 +27,12 @@ public class AudioContext {
 
     private final BooleanBinding activeAudioIsNull;
 
-    public AudioContext(BeatRangeContext beatRangeContext,
-                        ReadOnlyObjectProperty<Song> activeSongProperty,
-                        ReadOnlyObjectProperty<SongLine> activeLineProperty) {
+    public AudioContext(BeatRangeContext beatRangeContext, ActiveSongContext activeSongContext) {
         this.player = new SongPlayer(beatRangeContext.getBeatMillisConverter());
         this.beatRangeContext = beatRangeContext;
         activeAudioIsNull = player.activeAudioFileProperty().isNull();
-        activeSongProperty.addListener((obs, oldVal, newVal) -> player.setSong(newVal));
-        activeLineProperty.addListener((obs, oldVal, newVal) -> {
+        activeSongContext.activeSongProperty().addListener((obs, oldVal, newVal) -> player.setSong(newVal));
+        activeSongContext.activeLineProperty().addListener((obs, oldVal, newVal) -> {
             if (nonNull(newVal) && oldVal != newVal) {
                 stop();
             }

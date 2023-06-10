@@ -29,8 +29,8 @@ class DeleteSelectionAction extends ContextfulKarediAction {
             IntBounded bounds = BoundingBox.boundsFrom(visibleAreaContext.getVisibleAreaBounds());
             return new ChangePostStateCommandDecorator(cmd, (command) -> {
                 clearSelection();
-                if (appContext.getActiveLine() != null && !appContext.getActiveLine().isValid()) {
-                    appContext.setActiveLine(null);
+                if (activeSongContext.getActiveLine() != null && !activeSongContext.getActiveLine().isValid()) {
+                    activeSongContext.setActiveLine(null);
                     visibleAreaContext.setBounds(bounds);
                 }
             });

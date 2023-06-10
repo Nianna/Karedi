@@ -27,7 +27,7 @@ class SetTagValueFromMarkerPositionAction extends TagAction {
             }
         }
         if (value != null) {
-            executeCommand(new ChangeTagValueCommand(appContext.getSong(), key, value));
+            executeCommand(new ChangeTagValueCommand(activeSongContext.getSong(), key, value));
         }
     }
 

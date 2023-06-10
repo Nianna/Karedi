@@ -10,16 +10,16 @@ class SelectVisibleAction extends ContextfulKarediAction {
 
         SelectVisibleAction(AppContext appContext) {
             super(appContext);
-            setDisabledCondition(appContext.activeTrackIsNull);
+            disableWhenActiveTrackIsNull();
         }
 
         @Override
         protected void onAction(ActionEvent event) {
             List<Note> notes;
-            if (appContext.getActiveLine() != null) {
-                notes = appContext.getActiveLine().getNotes();
+            if (activeSongContext.getActiveLine() != null) {
+                notes = activeSongContext.getActiveLine().getNotes();
             } else {
-                notes = appContext.getActiveTrack()
+                notes = activeSongContext.getActiveTrack()
                         .getNotes(visibleAreaContext.getLowerXBound(), visibleAreaContext.getUpperXBound());
             }
             setSelection(notes);

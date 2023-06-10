@@ -72,8 +72,8 @@ public class TrackFillBarsController implements Controller {
 	public void setAppContext(AppContext appContext) {
 		this.appContext = appContext;
 
-		appContext.activeSongProperty().addListener(this::onActiveSongChanged);
-		appContext.activeTrackProperty().addListener(this::onActiveTrackChanged);
+		appContext.activeSongContext.activeSongProperty().addListener(this::onActiveSongChanged);
+		appContext.activeSongContext.activeTrackProperty().addListener(this::onActiveTrackChanged);
 
 		area = appContext.visibleAreaContext.getVisibleAreaBounds();
 		area.addListener(obs -> onVisibleAreaInvalidated());
@@ -119,14 +119,14 @@ public class TrackFillBarsController implements Controller {
 				return;
 			}
 			appContext.visibleAreaContext.setVisibleAreaXBounds(beat, area.getUpperXBound().intValue());
-			appContext.setActiveLine(null);
+			appContext.activeSongContext.setActiveLine(null);
 			break;
 		case RIGHT:
 			if (nodeEventX >= pane.getWidth()) {
 				return;
 			}
 			appContext.visibleAreaContext.setVisibleAreaXBounds(area.getLowerXBound().intValue(), beat);
-			appContext.setActiveLine(null);
+			appContext.activeSongContext.setActiveLine(null);
 			break;
 		default:
 		}
@@ -158,7 +158,7 @@ public class TrackFillBarsController implements Controller {
 
 	private void increaseVisibleAreaToBeat(int beat) {
 		if (!area.inRangeX(beat)) {
-			Optional<SongLine> clickedLine = appContext.getActiveTrack().lineAt(beat);
+			Optional<SongLine> clickedLine = appContext.activeSongContext.getActiveTrack().lineAt(beat);
 			if (clickedLine.isPresent()) {
 				if (beat < area.getLowerXBound()) {
 					beat = clickedLine.get().getLowerXBound();
@@ -173,9 +173,9 @@ public class TrackFillBarsController implements Controller {
 	}
 
 	private void moveVisibleAreaToBeat(int beat) {
-		Optional<SongLine> clickedLine = appContext.getActiveTrack().lineAt(beat);
+		Optional<SongLine> clickedLine = appContext.activeSongContext.getActiveTrack().lineAt(beat);
 		if (clickedLine.isPresent()) {
-			appContext.setActiveLine(clickedLine.get());
+			appContext.activeSongContext.setActiveLine(clickedLine.get());
 		} else {
 			int halfRangeLength = (area.getUpperXBound() - area.getLowerXBound()) / 2;
 			appContext.visibleAreaContext.setVisibleAreaXBounds(beat - halfRangeLength, beat + halfRangeLength);
@@ -227,7 +227,7 @@ public class TrackFillBarsController implements Controller {
 			newSong.getTracks().forEach(track -> {
 				addFillBar(track);
 			});
-			moveToFront(appContext.getActiveTrack());
+			moveToFront(appContext.activeSongContext.getActiveTrack());
 			newSong.getTracks().addListener(trackListListener);
 			pane.setMaxHeight(20);
 		}

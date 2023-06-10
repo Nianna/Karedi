@@ -123,11 +123,11 @@ public class EditorController implements Controller {
     public void setAppContext(AppContext appContext) {
         this.appContext = appContext;
         this.selectionContext = appContext.selectionContext;
-        appContext.activeSongProperty().addListener(this::onSongChanged);
+        appContext.activeSongContext.activeSongProperty().addListener(this::onSongChanged);
         appContext.visibleAreaContext.getVisibleAreaBounds().addListener(this::onVisibleAreaChanged);
         selectionContext.getSelection().get().addListener(
                 ListenersUtils.createListContentChangeListener(this::select, this::deselect));
-        appContext.activeTrackProperty().addListener(this::onTrackChanged);
+        appContext.activeSongContext.activeTrackProperty().addListener(this::onTrackChanged);
         appContext.audioContext.playerStatusProperty().addListener(this::onPlayerStatusChanged);
 
         noteListChangeListener = ListenersUtils.createListContentChangeListener(this::addNote,
@@ -152,9 +152,9 @@ public class EditorController implements Controller {
     }
 
     private void configureChart() {
-        chart.disableProperty().bind(appContext.activeSongProperty().isNull());
+        chart.disableProperty().bind(appContext.activeSongContext.activeSongProperty().isNull());
         chart.getTAxis().tickLabelsVisibleProperty()
-                .bind(appContext.activeSongProperty().isNotNull());
+                .bind(appContext.activeSongContext.activeSongProperty().isNotNull());
 
         chart.getTAxis().lowerBoundProperty().bind(Bindings.createDoubleBinding(() -> {
             return appContext.beatRangeContext.beatToMillis((int) chart.getXAxis().getLowerBound()) / 1000.0;
@@ -293,7 +293,7 @@ public class EditorController implements Controller {
             int highestTone = Math.min(sceneYtoTone(upperLeft.getY()),
                     visibleArea.getUpperYBound());
 
-            List<Note> selectedNotes = appContext.getActiveTrack().getNotes(lowestBeat, highestBeat)
+            List<Note> selectedNotes = appContext.activeSongContext.getActiveTrack().getNotes(lowestBeat, highestBeat)
                     .stream()
                     .filter(note -> note.getTone() <= highestTone && note.getTone() >= lowestTone)
                     .collect(Collectors.toList());
@@ -459,7 +459,7 @@ public class EditorController implements Controller {
 
         TogglePianoVisibilityAction() {
             super();
-            setDisabledCondition(appContext.activeSongProperty().isNull());
+            setDisabledCondition(appContext.activeSongContext.activeSongProperty().isNull());
         }
 
         @Override
@@ -482,7 +482,7 @@ public class EditorController implements Controller {
         private long updateInterval;
 
         private TapNotesAction() {
-            setDisabledCondition(appContext.activeTrackProperty().isNull()
+            setDisabledCondition(appContext.activeSongContext.activeTrackIsNullBinding()
                     .or(appContext.audioContext.activeAudioFileProperty().isNull()));
             playerStatusListener = (obs -> {
                 if (appContext.audioContext.getPlayerStatus() != Status.PLAYING) {
@@ -491,7 +491,7 @@ public class EditorController implements Controller {
                     hBox.setOnKeyPressed(onKeyPressed);
                     hBox.setOnKeyReleased(onKeyReleased);
                     obs.removeListener(this.playerStatusListener);
-                    appContext.activeTrackProperty().removeListener(activeTrackListener);
+                    appContext.activeSongContext.activeTrackProperty().removeListener(activeTrackListener);
                 }
             });
             activeTrackListener = (obs -> {
@@ -509,7 +509,7 @@ public class EditorController implements Controller {
             tone = getToneForTappedNote();
             updateInterval = getBeatDuration() / 2;
             tapping = true;
-            appContext.activeTrackProperty().addListener(activeTrackListener);
+            appContext.activeSongContext.activeTrackProperty().addListener(activeTrackListener);
             appContext.actionContext.execute(KarediActions.PLAY_VISIBLE_AUDIO);
             appContext.audioContext.playerStatusProperty().addListener(playerStatusListener);
             hBox.setOnKeyPressed(this::onKeyPressedWhileTapping);
@@ -544,11 +544,11 @@ public class EditorController implements Controller {
                 lastNote = new Note(appContext.audioContext.getMarkerBeat() - 1, 1, tone);
 
                 // add new note to existing SongLine if possible
-                appContext.getActiveTrack().lineAt(appContext.audioContext.getMarkerBeat())
+                appContext.activeSongContext.getActiveTrack().lineAt(appContext.audioContext.getMarkerBeat())
                         .ifPresent(markerLine -> line = markerLine);
 
-                if (line == null || !appContext.getActiveTrack().contains(line)) {
-                    appContext.commandContext.execute(new AddNoteCommand(lastNote, appContext.getActiveTrack()));
+                if (line == null || !appContext.activeSongContext.getActiveTrack().contains(line)) {
+                    appContext.commandContext.execute(new AddNoteCommand(lastNote, appContext.activeSongContext.getActiveTrack()));
                     line = lastNote.getLine();
                 } else {
                     appContext.commandContext.execute(new AddNoteCommand(lastNote, line));
@@ -850,7 +850,7 @@ public class EditorController implements Controller {
         }
 
         private void onMousePressed(MouseEvent event) {
-            if (event.isShortcutDown() && appContext.getActiveTrack() != null) {
+            if (event.isShortcutDown() && appContext.activeSongContext.getActiveTrack() != null) {
                 if (MusicalScale.isToneValid(getTone(event))) {
                     note = new Note(getBeat(event), 1, getTone(event));
                     Optional<SongLine> line = getLineForBeat(getBeat(event));
@@ -858,7 +858,7 @@ public class EditorController implements Controller {
                     if (line.isPresent()) {
                         cmd = new AddNoteCommand(note, line.get());
                     } else {
-                        cmd = new AddNoteCommand(note, appContext.getActiveTrack());
+                        cmd = new AddNoteCommand(note, appContext.activeSongContext.getActiveTrack());
                     }
                     appContext.commandContext.execute(new ChangePostStateCommandDecorator(cmd, c -> {
                         selectionContext.getSelection().selectOnly(note);
@@ -870,12 +870,12 @@ public class EditorController implements Controller {
         }
 
         private Optional<SongLine> getLineForBeat(int beat) {
-            Optional<SongLine> prevLine = appContext.getActiveTrack().lineAtOrEarlier(beat)
+            Optional<SongLine> prevLine = appContext.activeSongContext.getActiveTrack().lineAtOrEarlier(beat)
                     .filter(this::isPreviousVisible);
             if (prevLine.isPresent()) {
                 return prevLine;
             } else {
-                Optional<SongLine> nextLine = appContext.getActiveTrack().lineAtOrLater(beat)
+                Optional<SongLine> nextLine = appContext.activeSongContext.getActiveTrack().lineAtOrLater(beat)
                         .filter(this::isNextVisible);
                 return nextLine;
             }
@@ -948,7 +948,7 @@ public class EditorController implements Controller {
         private void onDragActiveInvalidated(Observable obs) {
             if (helper.isActive()) {
                 int beat = appContext.audioContext.getMarkerBeat();
-                notesToDrag = appContext.getActiveTrack().getNotes(beat);
+                notesToDrag = appContext.activeSongContext.getActiveTrack().getNotes(beat);
                 if (notesToDrag.size() > 0) {
                     selectionContext.getSelection().selectOnly(notesToDrag.get(0));
                     initialDistance = appContext.audioContext.getMarkerBeat() - beat;

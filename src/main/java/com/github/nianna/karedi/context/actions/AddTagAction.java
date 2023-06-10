@@ -20,6 +20,6 @@ class AddTagAction extends TagAction {
         EditTagDialog dialog = new EditTagDialog(I18N.get("dialog.new_tag.title"));
         Optional<Tag> result = dialog.showAndWait();
         result.ifPresent(tag -> executeCommand(
-                new ChangeTagValueCommand(appContext.getSong(), tag.getKey(), tag.getValue())));
+                new ChangeTagValueCommand(activeSongContext.getSong(), tag.getKey(), tag.getValue())));
     }
 }

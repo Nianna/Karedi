@@ -47,7 +47,7 @@ class NewSongAction extends ContextfulKarediAction {
         if (outputDir == null && audioFile != null) {
             audioContext.loadAudioFile(audioFile);
         }
-        appContext.setSong(song);
+        activeSongContext.setSong(song);
         if (outputDir != null) {
             File songFolder = new File(outputDir, getSongFilename());
             if ((songFolder.exists() || songFolder.mkdirs()) && songFolder.canWrite()) {

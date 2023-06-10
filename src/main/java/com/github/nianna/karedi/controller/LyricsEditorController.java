@@ -127,8 +127,8 @@ public class LyricsEditorController implements Controller {
 	public void setAppContext(AppContext appContext) {
 		this.appContext = appContext;
 		this.selection = appContext.selectionContext.getSelection();
-		appContext.activeTrackProperty().addListener(this::onTrackChanged);
-		scrollPane.disableProperty().bind(appContext.activeTrackProperty().isNull());
+		appContext.activeSongContext.activeTrackProperty().addListener(this::onTrackChanged);
+		scrollPane.disableProperty().bind(appContext.activeSongContext.activeTrackIsNullBinding());
 
 		appContext.actionContext.addAction(KarediActions.INSERT_MINUS, new InsertTextAction(NoteTextArea.MINUS));
 		appContext.actionContext.addAction(KarediActions.INSERT_SPACE, new InsertTextAction(NoteTextArea.SPACE));
@@ -146,7 +146,7 @@ public class LyricsEditorController implements Controller {
 
 	private void preNoteSelectionChangeHandler(Note first, Note last) {
 		if (first.getLine().equals(last.getLine())) {
-			appContext.setActiveLine(first.getLine());
+			appContext.activeSongContext.setActiveLine(first.getLine());
 		}
 	}
 
@@ -455,7 +455,7 @@ public class LyricsEditorController implements Controller {
 			public void run() {
 				Platform.runLater(() -> {
 					synchronizer.freeze();
-					boolean changed = textArea.setTrack(appContext.getActiveTrack());
+					boolean changed = textArea.setTrack(appContext.activeSongContext.getActiveTrack());
 					if (changed) {
 						if (!textArea.isFocused()) {
 							synchronizer.updateTextSelection();

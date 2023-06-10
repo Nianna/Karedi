@@ -33,15 +33,15 @@ public class BackupStateCommandDecorator extends CommandDecorator {
 	}
 
 	private void restoreState() {
-		appContext.setActiveTrack(activeTrack);
-		appContext.setActiveLine(activeLine);
+		appContext.activeSongContext.setActiveTrack(activeTrack);
+		appContext.activeSongContext.setActiveLine(activeLine);
 		NoteSelection selection = appContext.selectionContext.getSelection();
 		selection.set(selectedNotes);
 	}
 
 	private void backupState() {
-		activeTrack = appContext.getActiveTrack();
-		activeLine = appContext.getActiveLine();
+		activeTrack = appContext.activeSongContext.getActiveTrack();
+		activeLine = appContext.activeSongContext.getActiveLine();
 		selectedNotes = new ArrayList<>();
 		selectedNotes.addAll(appContext.selectionContext.getSelection().get());
 		backuped = true;

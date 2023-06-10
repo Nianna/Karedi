@@ -11,7 +11,7 @@ class SaveSongAsAction extends ContextfulKarediAction {
 
     SaveSongAsAction(AppContext appContext) {
         super(appContext);
-        setDisabledCondition(appContext.activeSongIsNull);
+        disableWhenActiveSongIsNull();
     }
 
     @Override

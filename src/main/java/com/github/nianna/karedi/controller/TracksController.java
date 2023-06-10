@@ -75,11 +75,11 @@ public class TracksController implements Controller {
     @Override
     public void setAppContext(AppContext appContext) {
         this.appContext = appContext;
-        song = appContext.getSong();
+        song = appContext.activeSongContext.getSong();
 
-        appContext.activeSongProperty().addListener(obs -> display(appContext.getSong()));
-        appContext.activeTrackProperty().addListener(obs -> {
-            table.getSelectionModel().select(appContext.getActiveTrack());
+        appContext.activeSongContext.activeSongProperty().addListener(obs -> display(appContext.activeSongContext.getSong()));
+        appContext.activeSongContext.activeTrackProperty().addListener(obs -> {
+            table.getSelectionModel().select(appContext.activeSongContext.getActiveTrack());
         });
 
         table.setRowFactory(getRowFactory());
@@ -210,9 +210,9 @@ public class TracksController implements Controller {
     }
 
     private void onSelectedItemChanged(Observable obs, SongTrack oldTrack, SongTrack newTrack) {
-        SongTrack activeTrack = appContext.getActiveTrack();
+        SongTrack activeTrack = appContext.activeSongContext.getActiveTrack();
         if (newTrack != null && newTrack != activeTrack) {
-            appContext.setActiveTrack(newTrack);
+            appContext.activeSongContext.setActiveTrack(newTrack);
         } else {
             table.getSelectionModel().select(activeTrack);
         }
@@ -237,7 +237,7 @@ public class TracksController implements Controller {
                     new ReorderTracksCommand(song, index, dropIndex == -1 ? table.getItems().size() - 1 : dropIndex)
             )
         );
-        appContext.setActiveTrack(song.get(dropIndex));
+        appContext.activeSongContext.setActiveTrack(song.get(dropIndex));
     }
 
     private class TrackTooltip extends Tooltip {
@@ -274,7 +274,7 @@ public class TracksController implements Controller {
             super.updateItem(item, empty);
             SongTrack track = getTrack();
             if (track != null) {
-                disableProperty().bind(appContext.activeTrackProperty().isEqualTo(track));
+                disableProperty().bind(appContext.activeSongContext.activeTrackProperty().isEqualTo(track));
             }
         }
 

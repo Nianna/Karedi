@@ -9,7 +9,6 @@ import com.github.nianna.karedi.util.ListenersUtils;
 import javafx.beans.Observable;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.BooleanBinding;
-import javafx.beans.property.ReadOnlyObjectProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
@@ -31,23 +30,18 @@ public class SelectionContext {
     private final ListChangeListener<? super Note> noteListChangeListener = ListenersUtils
             .createListContentChangeListener(ListenersUtils::pass, this::onNoteRemoved);
 
-    private final ReadOnlyObjectProperty<SongLine> activeLineProperty;
+    private final ActiveSongContext activeSongContext;
 
-    private final AppContext appContext;
-
-    public SelectionContext(ReadOnlyObjectProperty<SongTrack> activeTrackProperty,
-                            ReadOnlyObjectProperty<SongLine> activeLineProperty,
-                            AppContext appContext) {
-        this.activeLineProperty = activeLineProperty;
+    public SelectionContext(ActiveSongContext activeSongContext) {
+        this.activeSongContext = activeSongContext;
         Bindings.bindContent(observableSelection, selection.get());
         ChangeListener<SongTrack> trackListener = (property, oldTrack, newTrack) -> onTrackChanged(oldTrack, newTrack);
-        activeTrackProperty.addListener(trackListener);
+        activeSongContext.activeTrackProperty().addListener(trackListener);
         ChangeListener<SongLine> lineListener = (property, oldLine, newLine) -> onLineActivated(newLine);
-        activeLineProperty.addListener(lineListener);
+        activeSongContext.activeLineProperty().addListener(lineListener);
         ListChangeListener<? super Note> selectionChangeListener = ListenersUtils
                 .createListContentChangeListener(this::onNoteSelected, ListenersUtils::pass);
         observableSelection.addListener(selectionChangeListener);
-        this.appContext = appContext;
     }
 
     public BooleanBinding getSelectionIsEmptyBinding() {
@@ -93,8 +87,8 @@ public class SelectionContext {
     }
 
     private void onNoteSelected(Note note) {
-        if (nonNull(activeLineProperty.get()) && activeLineProperty.get() != note.getLine()) {
-            appContext.setActiveLine(null);
+        if (nonNull(activeSongContext.getActiveLine()) && activeSongContext.getActiveLine() != note.getLine()) {
+            activeSongContext.setActiveLine(null);
         }
     }
 }

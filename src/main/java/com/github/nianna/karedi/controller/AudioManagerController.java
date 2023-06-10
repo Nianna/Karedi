@@ -81,7 +81,7 @@ public class AudioManagerController implements Controller {
 				(obsValue, oldValue, newValue) -> table.getSelectionModel().select(newValue));
 
 		table.setItems(audioContext.getAudioFiles());
-		table.disableProperty().bind(appContext.activeSongProperty().isNull());
+		table.disableProperty().bind(appContext.activeSongContext.activeSongProperty().isNull());
 
 		table.getSelectionModel().selectedItemProperty().addListener((obsVal, oldVal, newVal) -> {
 			if (newVal != null && newVal != audioContext.getActiveAudioFile()) {

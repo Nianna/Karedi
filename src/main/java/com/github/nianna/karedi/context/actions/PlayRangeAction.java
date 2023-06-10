@@ -23,7 +23,7 @@ class PlayRangeAction extends ContextfulKarediAction {
         this.from = from;
         this.to = to;
 
-        BooleanBinding condition = appContext.activeSongIsNull;
+        BooleanBinding condition = activeSongContext.activeSongIsNullBinding();
         if (mode != Player.Mode.MIDI_ONLY) {
             condition = condition.or(audioContext.getActiveAudioIsNull());
         }

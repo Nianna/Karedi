@@ -19,7 +19,7 @@ class PasteAction extends ClipboardAction {
 
     PasteAction(AppContext appContext) {
         super(appContext);
-        setDisabledCondition(appContext.activeTrackIsNull);
+        disableWhenActiveTrackIsNull();
     }
 
     @Override
@@ -33,7 +33,7 @@ class PasteAction extends ClipboardAction {
             @Override
             protected void buildSubCommands() {
                 addSubCommand(new DeleteNotesCommand(getSelectedNotes(), false));
-                addSubCommand(new PasteCommand(appContext.getActiveTrack(), pastedSong, audioContext.getMarkerBeat()));
+                addSubCommand(new PasteCommand(activeSongContext.getActiveTrack(), pastedSong, audioContext.getMarkerBeat()));
             }
         };
         executeCommand(new ChangePostStateCommandDecorator(cmd, c -> setSelection(notesToSelect)));

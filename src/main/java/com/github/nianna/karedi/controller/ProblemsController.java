@@ -86,7 +86,7 @@ public class ProblemsController implements Controller {
     @Override
     public void setAppContext(AppContext appContext) {
         this.appContext = appContext;
-        appContext.activeSongProperty().addListener(this::onSongChanged);
+        appContext.activeSongContext.activeSongProperty().addListener(this::onSongChanged);
 
         tree.getSelectionModel().selectedItemProperty().addListener(this::onSelectionInvalidated);
     }
@@ -99,21 +99,21 @@ public class ProblemsController implements Controller {
     private void onSelectionInvalidated(Observable obs) {
         if (tree.getSelectionModel().getSelectedItem() != null) {
             TreeViewChild child = tree.getSelectionModel().getSelectedItem().getValue();
-            child.getProblem().ifPresent(problem -> selectAffectedBounds(problem));
+            child.getProblem().ifPresent(this::selectAffectedBounds);
         }
     }
 
     private void selectAffectedBounds(Problem problem) {
-        problem.getTrack().ifPresent(appContext::setActiveTrack);
+        problem.getTrack().ifPresent(appContext.activeSongContext::setActiveTrack);
         problem.getAffectedBounds().ifPresent(bounds -> {
             if (bounds.isValid()) {
-                List<Note> affectedNotes = appContext.getActiveTrack()
+                List<Note> affectedNotes = appContext.activeSongContext.getActiveTrack()
                         .getNotes(bounds.getLowerXBound(), bounds.getUpperXBound());
                 if (affectedNotes.size() > 0) {
                     SongLine line = affectedNotes.get(0).getLine();
                     if (line != null
                             && line == affectedNotes.get(affectedNotes.size() - 1).getLine()) {
-                        appContext.setActiveLine(line);
+                        appContext.activeSongContext.setActiveLine(line);
                     }
                 }
                 appContext.selectionContext.getSelection().set(affectedNotes);

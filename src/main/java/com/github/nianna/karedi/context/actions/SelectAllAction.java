@@ -7,12 +7,12 @@ class SelectAllAction extends ContextfulKarediAction {
 
     SelectAllAction(AppContext appContext) {
         super(appContext);
-        setDisabledCondition(appContext.activeTrackIsNull);
+        disableWhenActiveTrackIsNull();
     }
 
     @Override
     protected void onAction(ActionEvent event) {
-        setSelection(appContext.getActiveTrack().getNotes());
+        setSelection(activeSongContext.getActiveTrack().getNotes());
     }
 
 }

@@ -15,26 +15,26 @@ class RenameAction extends ContextfulKarediAction {
 
     RenameAction(AppContext appContext) {
         super(appContext);
-        setDisabledCondition(appContext.activeSongIsNull);
+        disableWhenActiveSongIsNull();
     }
 
     @Override
     protected void onAction(ActionEvent event) {
         EditFilenamesDialog dialog = new EditFilenamesDialog();
 
-        appContext.getSong().getTagValue(TagKey.ARTIST).ifPresent(dialog::setSongArtist);
-        appContext.getSong().getTagValue(TagKey.TITLE).ifPresent(dialog::setSongTitle);
-        appContext.getSong().getTagValue(TagKey.MP3).ifPresent(dialog::setAudioFilename);
-        appContext.getSong().getTagValue(TagKey.COVER).ifPresent(dialog::setCoverFilename);
+        activeSongContext.getSong().getTagValue(TagKey.ARTIST).ifPresent(dialog::setSongArtist);
+        activeSongContext.getSong().getTagValue(TagKey.TITLE).ifPresent(dialog::setSongTitle);
+        activeSongContext.getSong().getTagValue(TagKey.MP3).ifPresent(dialog::setAudioFilename);
+        activeSongContext.getSong().getTagValue(TagKey.COVER).ifPresent(dialog::setCoverFilename);
 
-        Optional<String> optVideoFilename = appContext.getSong().getTagValue(TagKey.VIDEO);
+        Optional<String> optVideoFilename = activeSongContext.getSong().getTagValue(TagKey.VIDEO);
         if (optVideoFilename.isPresent()) {
             dialog.setVideoFilename(optVideoFilename.get());
         } else {
             dialog.hideVideo();
         }
 
-        Optional<String> optBackgroundFilename = appContext.getSong().getTagValue(TagKey.BACKGROUND);
+        Optional<String> optBackgroundFilename = activeSongContext.getSong().getTagValue(TagKey.BACKGROUND);
         if (optBackgroundFilename.isPresent()) {
             dialog.setBackgroundFilename(optBackgroundFilename.get());
         } else {
@@ -50,15 +50,19 @@ class RenameAction extends ContextfulKarediAction {
 
             @Override
             protected void buildSubCommands() {
-                addSubCommand(new ChangeTagValueCommand(appContext.getSong(), TagKey.ARTIST,
+                addSubCommand(new ChangeTagValueCommand(activeSongContext.getSong(), TagKey.ARTIST,
                         result.getArtist()));
-                addSubCommand(new ChangeTagValueCommand(appContext.getSong(), TagKey.TITLE, result.getTitle()));
-                addSubCommand(new ChangeTagValueCommand(appContext.getSong(), TagKey.MP3, result.getAudioFilename()));
-                addSubCommand(new ChangeTagValueCommand(appContext.getSong(), TagKey.COVER, result.getCoverFilename()));
+                addSubCommand(new ChangeTagValueCommand(activeSongContext.getSong(), TagKey.TITLE, result.getTitle()));
+                addSubCommand(new ChangeTagValueCommand(activeSongContext.getSong(), TagKey.MP3, result.getAudioFilename()));
+                addSubCommand(new ChangeTagValueCommand(activeSongContext.getSong(), TagKey.COVER, result.getCoverFilename()));
                 result.getBackgroundFilename()
-                        .ifPresent(filename -> addSubCommand(new ChangeTagValueCommand(appContext.getSong(), TagKey.BACKGROUND, filename)));
+                        .ifPresent(filename -> addSubCommand(
+                                new ChangeTagValueCommand(activeSongContext.getSong(), TagKey.BACKGROUND, filename))
+                        );
                 result.getVideoFilename()
-                        .ifPresent(filename -> addSubCommand(new ChangeTagValueCommand(appContext.getSong(), TagKey.VIDEO, filename)));
+                        .ifPresent(filename -> addSubCommand(
+                                new ChangeTagValueCommand(activeSongContext.getSong(), TagKey.VIDEO, filename))
+                        );
             }
         };
     }

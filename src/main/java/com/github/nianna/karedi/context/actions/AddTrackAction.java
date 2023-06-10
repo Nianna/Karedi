@@ -10,14 +10,14 @@ class AddTrackAction extends ContextfulKarediAction {
 
     AddTrackAction(AppContext appContext) {
         super(appContext);
-        setDisabledCondition(appContext.activeSongIsNull);
+        disableWhenActiveSongIsNull();
     }
 
     @Override
     protected void onAction(ActionEvent event) {
-        Command cmd = new AddTrackCommand(appContext.getSong());
+        Command cmd = new AddTrackCommand(activeSongContext.getSong());
         executeCommand(new ChangePostStateCommandDecorator(cmd, c -> {
-            appContext.getSong().getLastTrack().ifPresent(appContext::setActiveTrack);
+            activeSongContext.getSong().getLastTrack().ifPresent(activeSongContext::setActiveTrack);
         }));
     }
 

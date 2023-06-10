@@ -76,7 +76,7 @@ public class NoteNode {
 		noteDisplayer.fontColorProperty().bind(track.fontColorProperty());
 		noteDisplayer.visibleProperty().bind(track.visibleProperty());
 		noteDisplayer.disableProperty()
-				.bind(Bindings.notEqual(appContext.activeTrackProperty(), track));
+				.bind(Bindings.notEqual(appContext.activeSongContext.activeTrackProperty(), track));
 
 		noteDisplayer.lyricsProperty().bind(Bindings.createStringBinding(() -> {
 			return note.getLyrics().trim();
@@ -132,8 +132,8 @@ public class NoteNode {
 				return;
 			}
 			if (!event.isConsumed()) {
-				if (event.getClickCount() > 1 && appContext.getActiveLine() == null) {
-					appContext.setActiveLine(note.getLine());
+				if (event.getClickCount() > 1 && appContext.activeSongContext.getActiveLine() == null) {
+					appContext.activeSongContext.setActiveLine(note.getLine());
 				}
 				selection.selectOnly(note);
 			}

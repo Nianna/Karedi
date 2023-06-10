@@ -4,6 +4,7 @@ import com.github.nianna.karedi.action.KarediAction;
 import com.github.nianna.karedi.action.KarediActions;
 import com.github.nianna.karedi.audio.Player;
 import com.github.nianna.karedi.command.Command;
+import com.github.nianna.karedi.context.ActiveSongContext;
 import com.github.nianna.karedi.context.AppContext;
 import com.github.nianna.karedi.context.BeatRangeContext;
 import com.github.nianna.karedi.context.CommandContext;
@@ -29,6 +30,8 @@ public abstract class ContextfulKarediAction extends KarediAction {
 
     protected final AudioContext audioContext;
 
+    protected final ActiveSongContext activeSongContext;
+
     ContextfulKarediAction(AppContext appContext) {
         this.appContext = appContext;
         this.selectionContext = appContext.selectionContext;
@@ -36,8 +39,21 @@ public abstract class ContextfulKarediAction extends KarediAction {
         this.beatRangeContext = appContext.beatRangeContext;
         this.commandContext = appContext.commandContext;
         this.audioContext = appContext.audioContext;
+        this.activeSongContext = appContext.activeSongContext;
     }
-    
+
+    protected void disableWhenActiveSongIsNull() {
+        setDisabledCondition(activeSongContext.activeSongIsNullBinding());
+    }
+
+    protected void disableWhenActiveTrackIsNull() {
+        setDisabledCondition(activeSongContext.activeTrackIsNullBinding());
+    }
+
+    protected void disableWhenActiveTrackHasOneOrZeroTracks() {
+        setDisabledCondition(activeSongContext.activeSongHasOneOrZeroTracks());
+    }
+
     protected void disableWhenSelectionEmpty() {
         setDisabledCondition(selectionContext.getSelectionIsEmptyBinding());
     }

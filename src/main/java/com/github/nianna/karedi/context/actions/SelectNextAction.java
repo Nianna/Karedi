@@ -7,13 +7,13 @@ import javafx.event.ActionEvent;
 
 import java.util.Optional;
 
-import static java.util.Objects.nonNull;
+import static java.util.Objects.isNull;
 
 class SelectNextAction extends ContextfulKarediAction {
 
     SelectNextAction(AppContext appContext) {
         super(appContext);
-        setDisabledCondition(appContext.activeTrackIsNull);
+        disableWhenActiveTrackIsNull();
     }
 
     @Override
@@ -35,7 +35,7 @@ class SelectNextAction extends ContextfulKarediAction {
     private Optional<Note> findVisibleNoteAfterMarkerIfSelectionEmpty() {
         if (getSelectionSize() == 0) {
             int markerBeat = audioContext.getMarkerBeat();
-            return appContext.getActiveTrack()
+            return activeSongContext.getActiveTrack()
                     .noteAtOrLater(markerBeat)
                     .filter(visibleAreaContext::isInVisibleBeatRange);
         }
@@ -43,16 +43,16 @@ class SelectNextAction extends ContextfulKarediAction {
     }
 
     private Optional<Note> findFirstVisibleNoteFromCurrentTrack() {
-        return appContext.getActiveTrack()
+        return activeSongContext.getActiveTrack()
                 .noteAtOrLater(visibleAreaContext.getLowerXBound());
     }
 
     private boolean noteBelongsToActiveLineOrNoActiveLine(Note note) {
-        return nonNull(appContext.getActiveLine()) && note.getLine().equals(appContext.getActiveLine());
+        return isNull(activeSongContext.getActiveLine()) || note.getLine().equals(activeSongContext.getActiveLine());
     }
 
     private Optional<Note> findFirstNoteFromActiveLine() {
-        return Optional.ofNullable(appContext.getActiveLine())
+        return Optional.ofNullable(activeSongContext.getActiveLine())
                 .map(SongLine::getFirst);
     }
 

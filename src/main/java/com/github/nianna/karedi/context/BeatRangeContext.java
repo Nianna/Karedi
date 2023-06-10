@@ -20,10 +20,10 @@ public class BeatRangeContext {
 
     private ReadOnlyObjectProperty<Song> activeSongProperty;
 
-    public BeatRangeContext(ReadOnlyObjectProperty<Song> activeSongProperty) {
+    public BeatRangeContext(ActiveSongContext activeSongContext) {
+        this.activeSongProperty = activeSongContext.activeSongProperty();
         ChangeListener<Song> songListener = (property, oldSong, newSong) -> onSongChanged(oldSong, newSong);
         activeSongProperty.addListener(songListener);
-        this.activeSongProperty = activeSongProperty;
     }
 
     public Integer getMinBeat() {

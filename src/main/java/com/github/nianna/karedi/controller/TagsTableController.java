@@ -73,7 +73,7 @@ public class TagsTableController implements Controller {
     @Override
     public void setAppContext(AppContext appContext) {
         this.appContext = appContext;
-        appContext.activeSongProperty().addListener((obs, oldVal, newVal) -> display(newVal));
+        appContext.activeSongContext.activeSongProperty().addListener((obs, oldVal, newVal) -> display(newVal));
 
         table.setRowFactory(getRowFactory());
         TableViewUtils.makeRowsDraggable(table, TransferMode.MOVE, mode -> {
@@ -203,12 +203,12 @@ public class TagsTableController implements Controller {
 
     private void changeTagValueIfValid(TagKey key, String value) {
         if (!TagValidators.hasValidationErrors(key, value)) {
-            appContext.commandContext.execute(new ChangeTagValueCommand(appContext.getSong(), key, value));
+            appContext.commandContext.execute(new ChangeTagValueCommand(appContext.activeSongContext.getSong(), key, value));
         }
     }
 
     private void changeTagValue(String key, String value) {
-        appContext.commandContext.execute(new ChangeTagValueCommand(appContext.getSong(), key, value));
+        appContext.commandContext.execute(new ChangeTagValueCommand(appContext.activeSongContext.getSong(), key, value));
     }
 
     private void display(Song song) {

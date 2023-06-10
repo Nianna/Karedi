@@ -19,7 +19,7 @@ class ExportTracksAction extends ContextfulKarediAction {
      ExportTracksAction(AppContext appContext, int trackCount) {
         super(appContext);
         this.trackCount = trackCount;
-        appContext.activeSong.addListener((obsVal, oldVal, newVal) -> {
+        activeSongContext.activeSongProperty().addListener((obsVal, oldVal, newVal) -> {
             if (newVal != null) {
                 setDisabledCondition(newVal.trackCount().lessThan(trackCount));
             } else {
@@ -31,7 +31,7 @@ class ExportTracksAction extends ContextfulKarediAction {
 
     @Override
     protected void onAction(ActionEvent event) {
-        if (appContext.getSong().getProblems().size() > 0) {
+        if (activeSongContext.getSong().getProblems().size() > 0) {
             new ExportWithErrorsAlert().showAndWait().filter(result -> result == ButtonType.OK)
                     .ifPresent(ok -> export());
         } else {
@@ -40,10 +40,10 @@ class ExportTracksAction extends ContextfulKarediAction {
     }
 
     private void export() {
-        List<SongTrack> tracks = appContext.getSong().getTracks();
+        List<SongTrack> tracks = activeSongContext.getSong().getTracks();
         if (tracks.size() != trackCount) {
             ChooseTracksDialog dialog = new ChooseTracksDialog(tracks, trackCount);
-            dialog.select(appContext.getActiveTrack());
+            dialog.select(activeSongContext.getActiveTrack());
             Optional<List<SongTrack>> result = dialog.showAndWait();
             if (result.isPresent()) {
                 tracks = result.get();
@@ -53,7 +53,7 @@ class ExportTracksAction extends ContextfulKarediAction {
         }
 
         File file = KarediApp.getInstance().getTxtFileToSave(getInitialFileName());
-        appContext.txtFacade.exportSongToFile(file, appContext.getSong().getTags(), tracks);
+        appContext.txtFacade.exportSongToFile(file, activeSongContext.getSong().getTags(), tracks);
     }
 
     private String getInitialFileName() {

@@ -4,17 +4,11 @@ import com.github.nianna.karedi.I18N;
 import com.github.nianna.karedi.KarediApp;
 import com.github.nianna.karedi.KarediApp.ViewMode;
 import com.github.nianna.karedi.song.Song;
-import com.github.nianna.karedi.song.SongLine;
-import com.github.nianna.karedi.song.SongTrack;
 import com.github.nianna.karedi.song.tag.TagKey;
 import com.github.nianna.karedi.txt.TxtFacade;
-import com.github.nianna.karedi.util.ListenersUtils;
 import javafx.beans.binding.BooleanBinding;
-import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.ReadOnlyObjectProperty;
 import javafx.beans.property.ReadOnlyObjectWrapper;
-import javafx.beans.property.SimpleIntegerProperty;
-import javafx.collections.ListChangeListener;
 
 import java.io.File;
 import java.util.logging.Logger;
@@ -22,42 +16,30 @@ import java.util.logging.Logger;
 public class AppContext {
 	public static final Logger LOGGER = Logger.getLogger(KarediApp.class.getPackage().getName());
 
-	public final ReadOnlyObjectWrapper<Song> activeSong = new ReadOnlyObjectWrapper<>();
-	public final ReadOnlyObjectWrapper<SongTrack> activeTrack = new ReadOnlyObjectWrapper<>();
-	public final ReadOnlyObjectWrapper<SongLine> activeLine = new ReadOnlyObjectWrapper<>();
 	private final ReadOnlyObjectWrapper<File> activeFile = new ReadOnlyObjectWrapper<>();
 	public final ReadOnlyObjectWrapper<ViewMode> activeViewMode = new ReadOnlyObjectWrapper<>(
 			KarediApp.getInstance().getViewMode());
 
 	public final TxtFacade txtFacade = new TxtFacade();
-	private final SongNormalizer songNormalizer = new SongNormalizer();
 
 	private File directory;
 
-	private final ListChangeListener<? super SongLine> lineListChangeListener = ListenersUtils
-			.createListContentChangeListener(ListenersUtils::pass, this::onLineRemoved);
-
 	// Convenience bindings for actions
-	public final BooleanBinding activeSongIsNull = activeSongProperty().isNull();
-	public final BooleanBinding activeTrackIsNull = activeTrackProperty().isNull();
 	public final BooleanBinding activeFileIsNull = activeFileProperty().isNull();
 
-	private final IntegerProperty activeSongTrackCount = new SimpleIntegerProperty();
-	public final BooleanBinding activeSongHasOneOrZeroTracks = activeSongTrackCount
-			.lessThanOrEqualTo(1);
+	public final ActiveSongContext activeSongContext = new ActiveSongContext();
 
-	public final SelectionContext selectionContext = new SelectionContext(activeTrackProperty(), activeLineProperty(), this);
+	public final SelectionContext selectionContext = new SelectionContext(activeSongContext);
 
-	public final BeatRangeContext beatRangeContext = new BeatRangeContext(activeSongProperty());
+	public final BeatRangeContext beatRangeContext = new BeatRangeContext(activeSongContext);
 
-	public final AudioContext audioContext = new AudioContext(beatRangeContext, activeSongProperty(), activeLineProperty());
+	public final AudioContext audioContext = new AudioContext(beatRangeContext, activeSongContext);
 
 	public final VisibleAreaContext visibleAreaContext = new VisibleAreaContext(
-			this,
+			activeSongContext,
 			beatRangeContext,
 			selectionContext,
-			audioContext,
-			activeLineProperty()
+			audioContext
 	);
 
 	public final CommandContext commandContext = new CommandContext(this);
@@ -100,95 +82,19 @@ public class AppContext {
 			song.getTagValue(TagKey.MP3).ifPresent(audioFileName -> {
 				audioContext.loadAudioFile(new File(file.getParent(), audioFileName));
 			});
-			setSong(song);
+			activeSongContext.setSong(song);
 			LOGGER.info(I18N.get("load.success"));
 		}
 	}
 
 	public boolean saveSongToFile(File file) {
 		if (file != null) {
-			if (txtFacade.saveSongToFile(file, getSong())) {
+			if (txtFacade.saveSongToFile(file, activeSongContext.getSong())) {
 				commandContext.updateLastSavedCommand();
 				return true;
 			}
 		}
 		return false;
-	}
-
-	// Getters and setters for properties
-	public ReadOnlyObjectProperty<Song> activeSongProperty() {
-		return activeSong.getReadOnlyProperty();
-	}
-
-	public final Song getSong() {
-		return activeSongProperty().get();
-	}
-
-	public final void setSong(Song song) {
-		Song oldSong = getSong();
-		songNormalizer.normalize(song);
-		// The song has at least one track now
-		if (song != oldSong) {
-			activeSong.set(song);
-			if (oldSong != null) {
-				activeSongTrackCount.unbind();
-			}
-			if (song == null) {
-				setActiveTrack(null);
-				activeSongTrackCount.set(0);
-			} else {
-				activeSongTrackCount.bind(song.trackCount());
-				setActiveTrack(song.getDefaultTrack().orElse(null));
-			}
-		}
-	}
-
-	public ReadOnlyObjectProperty<SongTrack> activeTrackProperty() {
-		return activeTrack.getReadOnlyProperty();
-	}
-
-	public final SongTrack getActiveTrack() {
-		return activeTrack.get();
-	}
-
-	public final void setActiveTrack(SongTrack track) {
-		SongTrack oldTrack = getActiveTrack();
-		if (track != oldTrack) {
-			activeTrack.set(track);
-			setActiveLine(null);
-			if (oldTrack != null) {
-				oldTrack.removeLineListListener(lineListChangeListener);
-			}
-			if (track != null) {
-				track.addLineListListener(lineListChangeListener);
-				track.setVisible(true);
-				track.setMuted(false);
-				if (oldTrack == null) {
-					setActiveLine(track.getDefaultLine());
-				} else {
-					visibleAreaContext.assertAllNeededTonesVisible();
-				}
-			} else {
-				assert (getSong() == null);
-			}
-		}
-	}
-
-	public ReadOnlyObjectProperty<SongLine> activeLineProperty() {
-		return activeLine.getReadOnlyProperty();
-	}
-
-	public final SongLine getActiveLine() {
-		return activeLine.get();
-	}
-
-	public final void setActiveLine(SongLine line) {
-		SongLine oldLine = getActiveLine();
-		if (line != oldLine) {
-//			visibleAreaContext.onLineDeactivated(oldLine);
-			activeLine.set(line);
-//			visibleAreaContext.onLineActivated(line);
-		}
 	}
 
 	public ReadOnlyObjectProperty<ViewMode> activeViewModeProperty() {
@@ -199,15 +105,9 @@ public class AppContext {
 		return activeViewModeProperty().get();
 	}
 
-	private void onLineRemoved(SongLine line) {
-		if (line == getActiveLine()) {
-			setActiveLine(null);
-		}
-	}
-
 	// Other
 	public boolean needsSaving() {
-		return getSong() != null && commandContext.hasUnsavedCommands();
+		return activeSongContext.getSong() != null && commandContext.hasUnsavedCommands();
 	}
 
 	public Logger getMainLogger() {
@@ -215,7 +115,7 @@ public class AppContext {
 	}
 
 	public void reset(boolean resetPlayer) {
-		setSong(null);
+		activeSongContext.setSong(null);
 		commandContext.reset();
 		visibleAreaContext.reset();
 		if (resetPlayer) {

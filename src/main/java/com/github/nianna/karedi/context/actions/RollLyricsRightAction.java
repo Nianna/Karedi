@@ -16,7 +16,7 @@ class RollLyricsRightAction extends ContextfulKarediAction {
 
     @Override
     protected void onAction(ActionEvent event) {
-        List<Note> notes = appContext.getActiveTrack()
+        List<Note> notes = activeSongContext.getActiveTrack()
                 .getNotes(getFirstSelectedNote(), null);
         executeCommand(new RollLyricsRightCommand(notes));
     }

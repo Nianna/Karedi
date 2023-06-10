@@ -21,13 +21,13 @@ class AddNoteAction extends ContextfulKarediAction {
     AddNoteAction(AppContext appContext) {
         super(appContext);
         setDisabledCondition(Bindings.createBooleanBinding(() -> {
-            if (appContext.getActiveTrack() == null) {
+            if (activeSongContext.getActiveTrack() == null) {
                 return true;
             } else {
                 int newNotePosition = computeNewNoteStartBeat();
-                return appContext.getActiveTrack().noteAt(newNotePosition).isPresent();
+                return activeSongContext.getActiveTrack().noteAt(newNotePosition).isPresent();
             }
-        }, selectionContext.getSelectionBounds(), audioContext.markerTimeProperty(), appContext.activeTrackProperty()));
+        }, selectionContext.getSelectionBounds(), audioContext.markerTimeProperty(), activeSongContext.activeTrackProperty()));
     }
 
     @Override
@@ -43,7 +43,7 @@ class AddNoteAction extends ContextfulKarediAction {
         Note note = new Note(startBeat, length, tone);
         Command addNoteCommand = newNoteLine
                 .map(songLine -> new AddNoteCommand(note, songLine))
-                .orElseGet(() -> new AddNoteCommand(note, appContext.getActiveTrack()));
+                .orElseGet(() -> new AddNoteCommand(note, activeSongContext.getActiveTrack()));
         executeCommand(new ChangePostStateCommandDecorator(addNoteCommand, cmd -> selectOnly(note)));
     }
 
@@ -61,7 +61,7 @@ class AddNoteAction extends ContextfulKarediAction {
     }
 
     private int computeNewNoteLength(int startBeat) {
-        return appContext.getActiveTrack()
+        return activeSongContext.getActiveTrack()
                 .noteAtOrLater(startBeat)
                 .map(Note::getStart)
                 .map(nextNoteStartBeat -> min(NEW_NOTE_DEFAULT_LENGTH, max(nextNoteStartBeat - startBeat - 1, 1)))
@@ -69,16 +69,16 @@ class AddNoteAction extends ContextfulKarediAction {
     }
 
     private Optional<SongLine> findLineToAddNoteTo() {
-        if (appContext.getActiveLine() != null) {
-            return Optional.of(appContext.getActiveLine());
+        if (activeSongContext.getActiveLine() != null) {
+            return Optional.of(activeSongContext.getActiveLine());
         }
-        return Optional.ofNullable(appContext.getActiveLine())
+        return Optional.ofNullable(activeSongContext.getActiveLine())
                 .or(() -> findLastSelectedNote().map(Note::getLine))
                 .or(this::getLastVisibleLineBeforeMarker);
     }
 
     private Optional<SongLine> getLastVisibleLineBeforeMarker() {
-        return appContext.getActiveTrack()
+        return activeSongContext.getActiveTrack()
                 .lineAtOrEarlier(audioContext.getMarkerBeat())
                 .filter(prevLine -> prevLine.getUpperXBound() > visibleAreaContext.getLowerXBound());
     }

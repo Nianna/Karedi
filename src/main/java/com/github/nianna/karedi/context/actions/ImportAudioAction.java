@@ -11,7 +11,7 @@ class ImportAudioAction extends ContextfulKarediAction {
 
     ImportAudioAction(AppContext appContext) {
         super(appContext);
-        setDisabledCondition(appContext.activeSongIsNull);
+        disableWhenActiveSongIsNull();
     }
 
     @Override

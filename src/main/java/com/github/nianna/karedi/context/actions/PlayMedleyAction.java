@@ -19,12 +19,12 @@ class PlayMedleyAction extends ContextfulKarediAction {
         super(appContext);
         this.mode = mode;
 
-        basicCondition = appContext.activeSongIsNull;
+        basicCondition = activeSongContext.activeSongIsNullBinding();
         if (mode != Player.Mode.MIDI_ONLY) {
             basicCondition = basicCondition.or(audioContext.getActiveAudioIsNull());
         }
         setDisabledCondition(basicCondition);
-        appContext.activeSongProperty().addListener((obsVal, oldVal, newVal) -> {
+        activeSongContext.activeSongProperty().addListener((obsVal, oldVal, newVal) -> {
             if (newVal == null) {
                 setDisabledCondition(basicCondition);
             } else {
