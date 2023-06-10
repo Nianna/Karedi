@@ -31,12 +31,23 @@ public class SelectionContext {
     private final ListChangeListener<? super Note> noteListChangeListener = ListenersUtils
             .createListContentChangeListener(ListenersUtils::pass, this::onNoteRemoved);
 
-    public SelectionContext(ReadOnlyObjectProperty<SongTrack> activeTrackProperty, ReadOnlyObjectProperty<SongLine> activeLineProperty) {
+    private final ReadOnlyObjectProperty<SongLine> activeLineProperty;
+
+    private final AppContext appContext;
+
+    public SelectionContext(ReadOnlyObjectProperty<SongTrack> activeTrackProperty,
+                            ReadOnlyObjectProperty<SongLine> activeLineProperty,
+                            AppContext appContext) {
+        this.activeLineProperty = activeLineProperty;
         Bindings.bindContent(observableSelection, selection.get());
         ChangeListener<SongTrack> trackListener = (property, oldTrack, newTrack) -> onTrackChanged(oldTrack, newTrack);
         activeTrackProperty.addListener(trackListener);
         ChangeListener<SongLine> lineListener = (property, oldLine, newLine) -> onLineActivated(newLine);
         activeLineProperty.addListener(lineListener);
+        ListChangeListener<? super Note> selectionChangeListener = ListenersUtils
+                .createListContentChangeListener(this::onNoteSelected, ListenersUtils::pass);
+        observableSelection.addListener(selectionChangeListener);
+        this.appContext = appContext;
     }
 
     public BooleanBinding getSelectionIsEmptyBinding() {
@@ -78,6 +89,12 @@ public class SelectionContext {
     private void onNoteRemoved(Note note) {
         if (selection.isSelected(note)) {
             selection.deselect(note);
+        }
+    }
+
+    private void onNoteSelected(Note note) {
+        if (nonNull(activeLineProperty.get()) && activeLineProperty.get() != note.getLine()) {
+            appContext.setActiveLine(null);
         }
     }
 }

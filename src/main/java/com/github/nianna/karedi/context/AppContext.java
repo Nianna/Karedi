@@ -46,7 +46,7 @@ public class AppContext {
 	public final BooleanBinding activeSongHasOneOrZeroTracks = activeSongTrackCount
 			.lessThanOrEqualTo(1);
 
-	public final SelectionContext selectionContext = new SelectionContext(activeTrackProperty(), activeLineProperty());
+	public final SelectionContext selectionContext = new SelectionContext(activeTrackProperty(), activeLineProperty(), this);
 
 	public final BeatRangeContext beatRangeContext = new BeatRangeContext(activeSongProperty());
 
@@ -56,7 +56,8 @@ public class AppContext {
 			this,
 			beatRangeContext,
 			selectionContext,
-			audioContext
+			audioContext,
+			activeLineProperty()
 	);
 
 	public final CommandContext commandContext = new CommandContext(this);
@@ -184,9 +185,9 @@ public class AppContext {
 	public final void setActiveLine(SongLine line) {
 		SongLine oldLine = getActiveLine();
 		if (line != oldLine) {
-			visibleAreaContext.onLineDeactivated(oldLine);
+//			visibleAreaContext.onLineDeactivated(oldLine);
 			activeLine.set(line);
-			visibleAreaContext.onLineActivated(line);
+//			visibleAreaContext.onLineActivated(line);
 		}
 	}
 

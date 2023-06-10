@@ -34,7 +34,8 @@ public class VisibleAreaContext {
     public VisibleAreaContext(AppContext appContext,
                               BeatRangeContext beatRangeContext,
                               SelectionContext selectionContext,
-                              AudioContext audioContext) {
+                              AudioContext audioContext,
+                              ReadOnlyObjectProperty<SongLine> activeLineProperty) {
         this.appContext = appContext;
         this.beatRangeContext = beatRangeContext;
         this.selectionContext = selectionContext;
@@ -42,6 +43,12 @@ public class VisibleAreaContext {
         visibleArea = new VisibleArea(beatRangeContext.minBeatProperty(), beatRangeContext.maxBeatProperty());
         selectionContext.getSelectionBounds().addListener(obs -> onSelectionBoundsInvalidated());
         audioContext.playerStatusProperty().addListener(this::onPlayerStatusChanged);
+        activeLineProperty.addListener(this::onActiveLineChanged);
+    }
+
+    private void onActiveLineChanged(Observable observable, SongLine oldLine, SongLine newLine) {
+        onLineDeactivated(oldLine);
+        onLineActivated(newLine);
     }
 
     public void invalidateVisibleArea() {
@@ -168,7 +175,6 @@ public class VisibleAreaContext {
         if (selectionContext.getSelection().size() > 0 && selectionBounds.isValid()) {
             audioContext.setMarkerBeat(selectionBounds.getLowerXBound());
             if (visibleArea.assertBorderlessBoundsVisible(selectionBounds)) {
-                appContext.setActiveLine(null);
                 assertAllNeededTonesVisible();
             }
         }
