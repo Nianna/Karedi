@@ -5,6 +5,7 @@ import com.github.nianna.karedi.region.BoundingBox;
 import com.github.nianna.karedi.region.Direction;
 import com.github.nianna.karedi.region.IntBounded;
 import com.github.nianna.karedi.song.Note;
+import com.github.nianna.karedi.song.Song;
 import com.github.nianna.karedi.song.SongLine;
 import com.github.nianna.karedi.song.SongTrack;
 import com.github.nianna.karedi.util.MathUtils;
@@ -14,6 +15,7 @@ import javafx.beans.property.ReadOnlyObjectProperty;
 
 import java.util.List;
 
+import static java.util.Objects.isNull;
 import static java.util.Objects.nonNull;
 
 public class VisibleAreaContext {
@@ -45,6 +47,7 @@ public class VisibleAreaContext {
         audioContext.playerStatusProperty().addListener(this::onPlayerStatusChanged);
         activeSongContext.activeLineProperty().addListener(this::onActiveLineChanged);
         activeSongContext.activeTrackProperty().addListener(this::onActiveTrackChanged);
+        activeSongContext.activeSongProperty().addListener(this::onActiveSongChanged);
     }
 
     private void onActiveLineChanged(Observable observable, SongLine oldLine, SongLine newLine) {
@@ -55,6 +58,12 @@ public class VisibleAreaContext {
     private void onActiveTrackChanged(Observable observable, SongTrack oldTrack, SongTrack newTrack) {
         if (nonNull(oldTrack) && nonNull(newTrack)) {
             assertAllNeededTonesVisible();
+        }
+    }
+
+    private void onActiveSongChanged(Observable observable, Song oldSong, Song newSong) {
+        if (isNull(newSong)) {
+            visibleArea.setDefault();
         }
     }
 
@@ -137,10 +146,6 @@ public class VisibleAreaContext {
 
     private void adjustToBounds(SongLine line) {
         visibleArea.adjustToBounds(line);
-    }
-
-    public void reset() {
-        visibleArea.setDefault();
     }
 
     public void assertAllNeededTonesVisible() {

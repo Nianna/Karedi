@@ -2,12 +2,16 @@ package com.github.nianna.karedi.context;
 
 import com.github.nianna.karedi.command.BackupStateCommandDecorator;
 import com.github.nianna.karedi.command.Command;
+import com.github.nianna.karedi.song.Song;
+import javafx.beans.Observable;
 import javafx.beans.binding.BooleanBinding;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.ReadOnlyIntegerProperty;
 import javafx.beans.property.ReadOnlyObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.ObservableList;
+
+import static java.util.Objects.isNull;
 
 public class CommandContext {
 
@@ -24,6 +28,7 @@ public class CommandContext {
     public CommandContext(AppContext appContext) {
         this.appContext = appContext;
         history.setMaxSize(MAX_HISTORY_SIZE);
+        appContext.activeSongContext.activeSongProperty().addListener(this::onActiveSongChanged);
     }
 
     public boolean execute(Command command) {
@@ -48,11 +53,6 @@ public class CommandContext {
 
     public Command getActiveCommand() {
         return history.getActiveCommand();
-    }
-
-    public void reset() {
-        lastSavedCommand.set(null);
-        history.clear();
     }
 
     public void updateLastSavedCommand() {
@@ -89,5 +89,12 @@ public class CommandContext {
 
     public void undo() {
         history.undo();
+    }
+
+    private void onActiveSongChanged(Observable observable, Song oldSong, Song newSong) {
+        if (isNull(newSong)) {
+            lastSavedCommand.set(null);
+            history.clear();
+        }
     }
 }

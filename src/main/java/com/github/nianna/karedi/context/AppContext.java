@@ -3,26 +3,31 @@ package com.github.nianna.karedi.context;
 import com.github.nianna.karedi.I18N;
 import com.github.nianna.karedi.KarediApp;
 import com.github.nianna.karedi.KarediApp.ViewMode;
+import com.github.nianna.karedi.song.Note;
 import com.github.nianna.karedi.song.Song;
+import com.github.nianna.karedi.song.SongTrack;
+import com.github.nianna.karedi.song.tag.Tag;
 import com.github.nianna.karedi.song.tag.TagKey;
 import com.github.nianna.karedi.txt.TxtFacade;
 import javafx.beans.binding.BooleanBinding;
 import javafx.beans.property.ReadOnlyObjectProperty;
 import javafx.beans.property.ReadOnlyObjectWrapper;
+import javafx.collections.ObservableList;
 
 import java.io.File;
+import java.util.List;
 import java.util.logging.Logger;
 
 public class AppContext {
+
 	public static final Logger LOGGER = Logger.getLogger(KarediApp.class.getPackage().getName());
 
 	private final ReadOnlyObjectWrapper<File> activeFile = new ReadOnlyObjectWrapper<>();
-	public final ReadOnlyObjectWrapper<ViewMode> activeViewMode = new ReadOnlyObjectWrapper<>(
+
+	private final ReadOnlyObjectWrapper<ViewMode> activeViewMode = new ReadOnlyObjectWrapper<>(
 			KarediApp.getInstance().getViewMode());
 
-	public final TxtFacade txtFacade = new TxtFacade();
-
-	private File directory;
+	private final TxtFacade txtFacade = new TxtFacade();
 
 	// Convenience bindings for actions
 	public final BooleanBinding activeFileIsNull = activeFileProperty().isNull();
@@ -48,10 +53,8 @@ public class AppContext {
 
 	public AppContext() {
 		LOGGER.setUseParentHandlers(false);
-		actionContext.initActions();
 	}
 
-	// Files
 	public ReadOnlyObjectProperty<File> activeFileProperty() {
 		return activeFile.getReadOnlyProperty();
 	}
@@ -63,11 +66,6 @@ public class AppContext {
 	public void setActiveFile(File file) {
 		this.activeFile.set(file);
 		KarediApp.getInstance().updatePrimaryStageTitle(file);
-		directory = file == null ? null : file.getParentFile();
-	}
-
-	public File getDirectory() {
-		return directory;
 	}
 
 	public void loadSongFile(File file) {
@@ -79,9 +77,8 @@ public class AppContext {
 			reset(resetPlayer);
 			setActiveFile(file);
 			Song song = txtFacade.loadFromTxtFile(file);
-			song.getTagValue(TagKey.MP3).ifPresent(audioFileName -> {
-				audioContext.loadAudioFile(new File(file.getParent(), audioFileName));
-			});
+			song.getTagValue(TagKey.MP3)
+					.ifPresent(audioFileName -> audioContext.loadAudioFile(new File(file.getParent(), audioFileName)));
 			activeSongContext.setSong(song);
 			LOGGER.info(I18N.get("load.success"));
 		}
@@ -97,6 +94,18 @@ public class AppContext {
 		return false;
 	}
 
+	public void exportSongToFile(File file, ObservableList<Tag> tags, List<SongTrack> tracks) {
+		txtFacade.exportSongToFile(file, tags, tracks);
+	}
+
+	public Song loadFromClipboard() {
+		return txtFacade.loadFromClipboard();
+	}
+
+	public void saveToClipboard(List<Note> selectedNotes) {
+		txtFacade.saveToClipboard(selectedNotes);
+	}
+
 	public ReadOnlyObjectProperty<ViewMode> activeViewModeProperty() {
 		return activeViewMode.getReadOnlyProperty();
 	}
@@ -105,7 +114,10 @@ public class AppContext {
 		return activeViewModeProperty().get();
 	}
 
-	// Other
+	public void setActiveViewMode(ViewMode viewMode) {
+		activeViewMode.set(viewMode);
+	}
+
 	public boolean needsSaving() {
 		return activeSongContext.getSong() != null && commandContext.hasUnsavedCommands();
 	}
@@ -116,8 +128,6 @@ public class AppContext {
 
 	public void reset(boolean resetPlayer) {
 		activeSongContext.setSong(null);
-		commandContext.reset();
-		visibleAreaContext.reset();
 		if (resetPlayer) {
 			audioContext.reset();
 		}

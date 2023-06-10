@@ -10,6 +10,6 @@ abstract class ClipboardAction extends ContextfulKarediAction {
     }
 
     protected Song buildSongFromClipboard() {
-        return appContext.txtFacade.loadFromClipboard();
+        return appContext.loadFromClipboard();
     }
 }

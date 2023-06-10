@@ -10,9 +10,10 @@ public class ActionContext {
 
     public ActionContext(AppContext appContext) {
         this.actionHelper = new ActionHelper(appContext);
+        initActions();
     }
 
-    public void initActions() {
+    private void initActions() {
         actionHelper.initActions();
     }
 

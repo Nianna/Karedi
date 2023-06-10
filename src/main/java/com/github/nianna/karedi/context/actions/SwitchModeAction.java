@@ -17,7 +17,7 @@ class SwitchModeAction extends ContextfulKarediAction {
         } else {
             KarediApp.getInstance().setViewMode(KarediApp.ViewMode.DAY);
         }
-        appContext.activeViewMode.set(KarediApp.getInstance().getViewMode());
+        appContext.setActiveViewMode(KarediApp.getInstance().getViewMode());
     }
 
 }
