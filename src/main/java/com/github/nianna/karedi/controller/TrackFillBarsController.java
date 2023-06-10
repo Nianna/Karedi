@@ -1,9 +1,20 @@
 package com.github.nianna.karedi.controller;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
-
+import com.github.nianna.karedi.context.ActiveSongContext;
+import com.github.nianna.karedi.context.AppContext;
+import com.github.nianna.karedi.context.BeatRangeContext;
+import com.github.nianna.karedi.context.VisibleAreaContext;
+import com.github.nianna.karedi.display.FillBar;
+import com.github.nianna.karedi.event.ControllerEvent;
+import com.github.nianna.karedi.region.Bounded;
+import com.github.nianna.karedi.region.Direction;
+import com.github.nianna.karedi.song.Song;
+import com.github.nianna.karedi.song.SongLine;
+import com.github.nianna.karedi.song.SongTrack;
+import com.github.nianna.karedi.util.ListenersUtils;
+import com.github.nianna.karedi.util.NodeUtils;
+import com.github.nianna.karedi.util.NodeUtils.DragHelper;
+import com.github.nianna.karedi.util.NodeUtils.ResizeHelper;
 import javafx.beans.Observable;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.DoubleProperty;
@@ -16,38 +27,40 @@ import javafx.scene.Node;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Rectangle;
-import com.github.nianna.karedi.context.AppContext;
-import com.github.nianna.karedi.display.FillBar;
-import com.github.nianna.karedi.event.ControllerEvent;
-import com.github.nianna.karedi.region.Bounded;
-import com.github.nianna.karedi.region.Direction;
-import com.github.nianna.karedi.song.Song;
-import com.github.nianna.karedi.song.SongLine;
-import com.github.nianna.karedi.song.SongTrack;
-import com.github.nianna.karedi.util.ListenersUtils;
-import com.github.nianna.karedi.util.NodeUtils;
-import com.github.nianna.karedi.util.NodeUtils.DragHelper;
-import com.github.nianna.karedi.util.NodeUtils.ResizeHelper;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
 
 public class TrackFillBarsController implements Controller {
 
 	@FXML
 	private Pane pane;
+
 	@FXML
 	private Group content;
+
 	@FXML
 	private Rectangle rect;
 
-	private AppContext appContext;
+	private ActiveSongContext activeSongContext;
+
+	private VisibleAreaContext visibleAreaContext;
+
 	private Bounded<Integer> area;
 
-	private Map<SongTrack, FillBar<Integer>> fillBarMap = new HashMap<>();
-	private ListChangeListener<? super SongTrack> trackListListener;
-	private DoubleProperty unitWidth = new SimpleDoubleProperty();
+	private final Map<SongTrack, FillBar<Integer>> fillBarMap = new HashMap<>();
+
+	private final ListChangeListener<? super SongTrack> trackListListener;
+
+	private final DoubleProperty unitWidth = new SimpleDoubleProperty();
 
 	private ResizeHelper resizer;
+
 	private DragHelper dragger;
+
 	private double lastDragX;
+
 	private boolean ignoreNextClick = false;
 
 	public TrackFillBarsController() {
@@ -70,28 +83,30 @@ public class TrackFillBarsController implements Controller {
 
 	@Override
 	public void setAppContext(AppContext appContext) {
-		this.appContext = appContext;
+		this.activeSongContext = appContext.getActiveSongContext();
+		this.visibleAreaContext = appContext.getVisibleAreaContext();
+		BeatRangeContext beatRangeContext = appContext.getBeatRangeContext();
 
-		appContext.activeSongContext.activeSongProperty().addListener(this::onActiveSongChanged);
-		appContext.activeSongContext.activeTrackProperty().addListener(this::onActiveTrackChanged);
+		activeSongContext.activeSongProperty().addListener(this::onActiveSongChanged);
+		activeSongContext.activeTrackProperty().addListener(this::onActiveTrackChanged);
 
-		area = appContext.visibleAreaContext.getVisibleAreaBounds();
+		area = visibleAreaContext.getVisibleAreaBounds();
 		area.addListener(obs -> onVisibleAreaInvalidated());
 
 		dragger.activeProperty().addListener(obs -> onDraggerActiveInvalidated());
 		resizer.activeProperty().addListener(obs -> onResizerActiveInvalidated());
 
 		unitWidth.bind(Bindings.createDoubleBinding(() -> {
-			int beatRange = appContext.beatRangeContext.getMaxBeat() - appContext.beatRangeContext.getMinBeat();
+			int beatRange = beatRangeContext.getMaxBeat() - beatRangeContext.getMinBeat();
 			if (beatRange == 0) {
 				return 0.0;
 			} else {
 				return pane.getWidth() / beatRange;
 			}
-		}, appContext.beatRangeContext.minBeatProperty(), appContext.beatRangeContext.maxBeatProperty(), pane.widthProperty()));
+		}, beatRangeContext.minBeatProperty(), beatRangeContext.maxBeatProperty(), pane.widthProperty()));
 
 		content.translateXProperty()
-				.bind(unitWidth.multiply(appContext.beatRangeContext.minBeatProperty()).negate());
+				.bind(unitWidth.multiply(beatRangeContext.minBeatProperty()).negate());
 	}
 
 	@Override
@@ -118,15 +133,15 @@ public class TrackFillBarsController implements Controller {
 			if (nodeEventX <= 0) {
 				return;
 			}
-			appContext.visibleAreaContext.setVisibleAreaXBounds(beat, area.getUpperXBound().intValue());
-			appContext.activeSongContext.setActiveLine(null);
+			visibleAreaContext.setVisibleAreaXBounds(beat, area.getUpperXBound().intValue());
+			activeSongContext.setActiveLine(null);
 			break;
 		case RIGHT:
 			if (nodeEventX >= pane.getWidth()) {
 				return;
 			}
-			appContext.visibleAreaContext.setVisibleAreaXBounds(area.getLowerXBound().intValue(), beat);
-			appContext.activeSongContext.setActiveLine(null);
+			visibleAreaContext.setVisibleAreaXBounds(area.getLowerXBound().intValue(), beat);
+			activeSongContext.setActiveLine(null);
 			break;
 		default:
 		}
@@ -135,7 +150,7 @@ public class TrackFillBarsController implements Controller {
 	private void onDraggerDrag(MouseEvent event, double nodeEventX, int beat) {
 		if (event.getSceneX() != lastDragX && nodeEventX >= 0 && nodeEventX <= pane.getWidth()) {
 			int offset = beat - beatFromSceneX(lastDragX);
-			appContext.visibleAreaContext.moveVisibleArea(Direction.RIGHT, offset);
+			visibleAreaContext.moveVisibleArea(Direction.RIGHT, offset);
 			lastDragX = event.getSceneX();
 			ignoreNextClick = true;
 		}
@@ -150,7 +165,7 @@ public class TrackFillBarsController implements Controller {
 			} else {
 				moveVisibleAreaToBeat(beat);
 			}
-			appContext.visibleAreaContext.assertAllNeededTonesVisible();
+			visibleAreaContext.assertAllNeededTonesVisible();
 		}
 		ignoreNextClick = false;
 		pane.fireEvent(new ControllerEvent(ControllerEvent.FOCUS_EDITOR));
@@ -158,7 +173,7 @@ public class TrackFillBarsController implements Controller {
 
 	private void increaseVisibleAreaToBeat(int beat) {
 		if (!area.inRangeX(beat)) {
-			Optional<SongLine> clickedLine = appContext.activeSongContext.getActiveTrack().lineAt(beat);
+			Optional<SongLine> clickedLine = activeSongContext.getActiveTrack().lineAt(beat);
 			if (clickedLine.isPresent()) {
 				if (beat < area.getLowerXBound()) {
 					beat = clickedLine.get().getLowerXBound();
@@ -168,17 +183,17 @@ public class TrackFillBarsController implements Controller {
 			}
 			int lowerXBound = Math.min(area.getLowerXBound(), beat);
 			int upperXBound = Math.max(area.getUpperXBound(), beat);
-			appContext.visibleAreaContext.setVisibleAreaXBounds(lowerXBound, upperXBound);
+			visibleAreaContext.setVisibleAreaXBounds(lowerXBound, upperXBound);
 		}
 	}
 
 	private void moveVisibleAreaToBeat(int beat) {
-		Optional<SongLine> clickedLine = appContext.activeSongContext.getActiveTrack().lineAt(beat);
+		Optional<SongLine> clickedLine = activeSongContext.getActiveTrack().lineAt(beat);
 		if (clickedLine.isPresent()) {
-			appContext.activeSongContext.setActiveLine(clickedLine.get());
+			activeSongContext.setActiveLine(clickedLine.get());
 		} else {
 			int halfRangeLength = (area.getUpperXBound() - area.getLowerXBound()) / 2;
-			appContext.visibleAreaContext.setVisibleAreaXBounds(beat - halfRangeLength, beat + halfRangeLength);
+			visibleAreaContext.setVisibleAreaXBounds(beat - halfRangeLength, beat + halfRangeLength);
 		}
 	}
 
@@ -190,7 +205,7 @@ public class TrackFillBarsController implements Controller {
 
 	private void onResizerActiveInvalidated() {
 		if (!resizer.isActive()) {
-			appContext.visibleAreaContext.assertAllNeededTonesVisible();
+			visibleAreaContext.assertAllNeededTonesVisible();
 			ignoreNextClick = true;
 		}
 	}
@@ -227,7 +242,7 @@ public class TrackFillBarsController implements Controller {
 			newSong.getTracks().forEach(track -> {
 				addFillBar(track);
 			});
-			moveToFront(appContext.activeSongContext.getActiveTrack());
+			moveToFront(activeSongContext.getActiveTrack());
 			newSong.getTracks().addListener(trackListListener);
 			pane.setMaxHeight(20);
 		}

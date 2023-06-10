@@ -1,14 +1,25 @@
 package com.github.nianna.karedi.controller;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.function.Function;
-
-import org.controlsfx.validation.ValidationResult;
-import org.controlsfx.validation.Validator;
-import org.controlsfx.validation.decoration.GraphicValidationDecoration;
-import org.controlsfx.validation.decoration.ValidationDecoration;
-
+import com.github.nianna.karedi.I18N;
+import com.github.nianna.karedi.action.KarediActions;
+import com.github.nianna.karedi.command.tag.ChangeTagValueCommand;
+import com.github.nianna.karedi.command.tag.DeleteTagCommand;
+import com.github.nianna.karedi.command.tag.ReorderTagsCommand;
+import com.github.nianna.karedi.context.ActionContext;
+import com.github.nianna.karedi.context.ActiveSongContext;
+import com.github.nianna.karedi.context.AppContext;
+import com.github.nianna.karedi.context.CommandContext;
+import com.github.nianna.karedi.control.RestrictedTextField;
+import com.github.nianna.karedi.song.Song;
+import com.github.nianna.karedi.song.tag.Tag;
+import com.github.nianna.karedi.song.tag.TagKey;
+import com.github.nianna.karedi.song.tag.TagValidators;
+import com.github.nianna.karedi.util.ContextMenuBuilder;
+import com.github.nianna.karedi.util.Converter;
+import com.github.nianna.karedi.util.MathUtils;
+import com.github.nianna.karedi.util.NumericNodeUtils;
+import com.github.nianna.karedi.util.TableViewUtils;
+import com.github.nianna.karedi.util.ValidationUtils;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.ReadOnlyStringProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -29,37 +40,37 @@ import javafx.scene.input.ScrollEvent;
 import javafx.scene.input.TransferMode;
 import javafx.scene.layout.AnchorPane;
 import javafx.util.Callback;
-import com.github.nianna.karedi.I18N;
-import com.github.nianna.karedi.action.KarediActions;
-import com.github.nianna.karedi.command.tag.ChangeTagValueCommand;
-import com.github.nianna.karedi.command.tag.DeleteTagCommand;
-import com.github.nianna.karedi.command.tag.ReorderTagsCommand;
-import com.github.nianna.karedi.context.AppContext;
-import com.github.nianna.karedi.control.RestrictedTextField;
-import com.github.nianna.karedi.song.Song;
-import com.github.nianna.karedi.song.tag.Tag;
-import com.github.nianna.karedi.song.tag.TagKey;
-import com.github.nianna.karedi.song.tag.TagValidators;
-import com.github.nianna.karedi.util.ContextMenuBuilder;
-import com.github.nianna.karedi.util.Converter;
-import com.github.nianna.karedi.util.MathUtils;
-import com.github.nianna.karedi.util.NumericNodeUtils;
-import com.github.nianna.karedi.util.TableViewUtils;
-import com.github.nianna.karedi.util.ValidationUtils;
+import org.controlsfx.validation.ValidationResult;
+import org.controlsfx.validation.Validator;
+import org.controlsfx.validation.decoration.GraphicValidationDecoration;
+import org.controlsfx.validation.decoration.ValidationDecoration;
+
+import java.util.Collections;
+import java.util.List;
+import java.util.function.Function;
 
 public class TagsTableController implements Controller {
     @FXML
     private AnchorPane pane;
+
     @FXML
     private TableView<Tag> table;
+
     @FXML
     private TableColumn<Tag, String> keyColumn;
+
     @FXML
     private TableColumn<Tag, String> valueColumn;
+
     @FXML
     private ContextMenu baseContextMenu;
 
-    private AppContext appContext;
+    private ActiveSongContext activeSongContext;
+
+    private ActionContext actionContext;
+
+    private CommandContext commandContext;
+
     private Song song;
 
     @FXML
@@ -72,8 +83,11 @@ public class TagsTableController implements Controller {
 
     @Override
     public void setAppContext(AppContext appContext) {
-        this.appContext = appContext;
-        appContext.activeSongContext.activeSongProperty().addListener((obs, oldVal, newVal) -> display(newVal));
+        this.activeSongContext = appContext.getActiveSongContext();
+        this.actionContext = appContext.getActionContext();
+        this.commandContext = appContext.getCommandContext();
+
+        activeSongContext.activeSongProperty().addListener((obs, oldVal, newVal) -> display(newVal));
 
         table.setRowFactory(getRowFactory());
         TableViewUtils.makeRowsDraggable(table, TransferMode.MOVE, mode -> {
@@ -188,7 +202,7 @@ public class TagsTableController implements Controller {
 
     @FXML
     private void handleAdd() {
-        appContext.actionContext.execute(KarediActions.ADD_TAG);
+        actionContext.execute(KarediActions.ADD_TAG);
     }
 
     private void handleEdit(int index) {
@@ -198,17 +212,17 @@ public class TagsTableController implements Controller {
     }
 
     private void handleRemove(Tag tag) {
-        appContext.commandContext.execute(new DeleteTagCommand(song, tag));
+        commandContext.execute(new DeleteTagCommand(song, tag));
     }
 
     private void changeTagValueIfValid(TagKey key, String value) {
         if (!TagValidators.hasValidationErrors(key, value)) {
-            appContext.commandContext.execute(new ChangeTagValueCommand(appContext.activeSongContext.getSong(), key, value));
+            commandContext.execute(new ChangeTagValueCommand(activeSongContext.getSong(), key, value));
         }
     }
 
     private void changeTagValue(String key, String value) {
-        appContext.commandContext.execute(new ChangeTagValueCommand(appContext.activeSongContext.getSong(), key, value));
+        commandContext.execute(new ChangeTagValueCommand(activeSongContext.getSong(), key, value));
     }
 
     private void display(Song song) {
@@ -222,7 +236,7 @@ public class TagsTableController implements Controller {
     private void consumeDrag(List<Integer> draggedIndices, Integer dropIndex) {
         Collections.reverse(draggedIndices);
         draggedIndices.forEach(
-                index -> appContext.commandContext.execute(new ReorderTagsCommand(song, index, absoluteDropIndex(dropIndex)))
+                index -> commandContext.execute(new ReorderTagsCommand(song, index, absoluteDropIndex(dropIndex)))
         );
         table.getSelectionModel().select(absoluteDropIndex(dropIndex));
     }

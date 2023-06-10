@@ -9,31 +9,32 @@ import java.util.logging.Logger;
 
 public class AppContext {
 
-	public static final Logger LOGGER = Logger.getLogger(KarediApp.class.getPackage().getName());
+	private static final Logger LOGGER = Logger.getLogger(KarediApp.class.getPackage().getName());
 
 	private final ReadOnlyObjectWrapper<ViewMode> activeViewMode = new ReadOnlyObjectWrapper<>(
-			KarediApp.getInstance().getViewMode());
+			KarediApp.getInstance().getViewMode()
+	);
 
-	public final ActiveSongContext activeSongContext = new ActiveSongContext();
+	private final ActiveSongContext activeSongContext = new ActiveSongContext();
 
-	public final SelectionContext selectionContext = new SelectionContext(activeSongContext);
+	private final SelectionContext selectionContext = new SelectionContext(activeSongContext);
 
-	public final BeatRangeContext beatRangeContext = new BeatRangeContext(activeSongContext);
+	private final BeatRangeContext beatRangeContext = new BeatRangeContext(activeSongContext);
 
-	public final AudioContext audioContext = new AudioContext(beatRangeContext, activeSongContext);
+	private final AudioContext audioContext = new AudioContext(beatRangeContext, activeSongContext);
 
-	public final VisibleAreaContext visibleAreaContext = new VisibleAreaContext(
+	private final VisibleAreaContext visibleAreaContext = new VisibleAreaContext(
 			activeSongContext,
 			beatRangeContext,
 			selectionContext,
 			audioContext
 	);
 
-	public final CommandContext commandContext = new CommandContext(this);
+	private final CommandContext commandContext = new CommandContext(this);
 
-	public final IOContext ioContext = new IOContext(activeSongContext, audioContext, commandContext);
+	private final IOContext ioContext = new IOContext(activeSongContext, audioContext, commandContext);
 
-	public final ActionContext actionContext = new ActionContext(this);
+	private final ActionContext actionContext = new ActionContext(this);
 
 	public AppContext() {
 		LOGGER.setUseParentHandlers(false);
@@ -55,4 +56,35 @@ public class AppContext {
 		return LOGGER;
 	}
 
+	public ActiveSongContext getActiveSongContext() {
+		return activeSongContext;
+	}
+
+	public SelectionContext getSelectionContext() {
+		return selectionContext;
+	}
+
+	public BeatRangeContext getBeatRangeContext() {
+		return beatRangeContext;
+	}
+
+	public AudioContext getAudioContext() {
+		return audioContext;
+	}
+
+	public VisibleAreaContext getVisibleAreaContext() {
+		return visibleAreaContext;
+	}
+
+	public CommandContext getCommandContext() {
+		return commandContext;
+	}
+
+	public IOContext getIoContext() {
+		return ioContext;
+	}
+
+	public ActionContext getActionContext() {
+		return actionContext;
+	}
 }

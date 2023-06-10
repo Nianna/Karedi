@@ -1,5 +1,6 @@
 package com.github.nianna.karedi.controller;
 
+import com.github.nianna.karedi.context.ActiveSongContext;
 import com.github.nianna.karedi.context.AppContext;
 import com.github.nianna.karedi.song.SongLine;
 import com.github.nianna.karedi.song.SongTrack;
@@ -17,18 +18,19 @@ public class LineNumberController implements Controller {
 	@FXML
 	private Text label;
 
-	private AppContext appContext;
+	private ActiveSongContext activeSongContext;
+
 	private ListChangeListener<? super SongLine> lineListChangeListener;
 
 	@Override
 	public void setAppContext(AppContext appContext) {
-		this.appContext = appContext;
+		this.activeSongContext = appContext.getActiveSongContext();
 
 		lineListChangeListener = ListenersUtils.createListChangeListener(line -> updateLabel(),
 				ListenersUtils::pass, ListenersUtils::pass, ListenersUtils::pass);
 
-		appContext.activeSongContext.activeLineProperty().addListener(obs -> updateLabel());
-		appContext.activeSongContext.activeTrackProperty().addListener(this::onTrackChanged);
+		activeSongContext.activeLineProperty().addListener(obs -> updateLabel());
+		activeSongContext.activeTrackProperty().addListener(this::onTrackChanged);
 	}
 
 	@Override
@@ -37,10 +39,10 @@ public class LineNumberController implements Controller {
 	}
 
 	private String getActiveLineNumber() {
-		if (appContext.activeSongContext.getActiveTrack() != null && appContext.activeSongContext.getActiveLine() != null) {
-			return "" + (appContext.activeSongContext
+		if (activeSongContext.getActiveTrack() != null && activeSongContext.getActiveLine() != null) {
+			return "" + (activeSongContext
 					.getActiveTrack()
-					.indexOf(appContext.activeSongContext.getActiveLine()) + 1);
+					.indexOf(activeSongContext.getActiveLine()) + 1);
 		}
 		return "";
 	}

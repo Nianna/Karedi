@@ -1,16 +1,16 @@
 package com.github.nianna.karedi.controller;
 
-import org.controlsfx.control.action.Action;
-import org.controlsfx.glyphfont.FontAwesome;
-import org.controlsfx.glyphfont.Glyph;
-
+import com.github.nianna.karedi.KarediApp.ViewMode;
+import com.github.nianna.karedi.action.KarediActions;
+import com.github.nianna.karedi.context.ActionContext;
+import com.github.nianna.karedi.context.AppContext;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ToolBar;
-import com.github.nianna.karedi.KarediApp.ViewMode;
-import com.github.nianna.karedi.action.KarediActions;
-import com.github.nianna.karedi.context.AppContext;
+import org.controlsfx.control.action.Action;
+import org.controlsfx.glyphfont.FontAwesome;
+import org.controlsfx.glyphfont.Glyph;
 
 public class ToolbarController implements Controller {
 	@FXML
@@ -64,9 +64,12 @@ public class ToolbarController implements Controller {
 
 	private AppContext appContext;
 
+	private ActionContext actionContext;
+
 	@Override
 	public void setAppContext(AppContext appContext) {
 		this.appContext = appContext;
+		this.actionContext = appContext.getActionContext();
 
 		bind(newButton, KarediActions.NEW);
 		bind(openButton, KarediActions.LOAD);
@@ -100,7 +103,7 @@ public class ToolbarController implements Controller {
 	}
 
 	private void bind(Button button, KarediActions actionKey) {
-		Action action = appContext.actionContext.getAction(actionKey);
+		Action action = actionContext.getAction(actionKey);
 		button.disableProperty().bind(action.disabledProperty());
 		button.setOnAction(action::handle);
 	}

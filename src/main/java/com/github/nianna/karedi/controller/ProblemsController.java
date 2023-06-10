@@ -2,7 +2,10 @@ package com.github.nianna.karedi.controller;
 
 import com.github.nianna.karedi.I18N;
 import com.github.nianna.karedi.command.Command;
+import com.github.nianna.karedi.context.ActiveSongContext;
 import com.github.nianna.karedi.context.AppContext;
+import com.github.nianna.karedi.context.CommandContext;
+import com.github.nianna.karedi.context.SelectionContext;
 import com.github.nianna.karedi.event.StateEvent;
 import com.github.nianna.karedi.event.StateEvent.State;
 import com.github.nianna.karedi.problem.Problem;
@@ -32,24 +35,35 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 public class ProblemsController implements Controller {
+
     @FXML
     private AnchorPane pane;
+
     @FXML
     private TreeView<TreeViewChild> tree;
+
     @FXML
     private TreeItem<TreeViewChild> errorsRoot;
+
     @FXML
     private TreeItem<TreeViewChild> warningsRoot;
 
     @FXML
     private Glyph errorGlyph;
+
     @FXML
     private Glyph warningGlyph;
 
-    private AppContext appContext;
+    private ActiveSongContext activeSongContext;
+
+    private SelectionContext selectionContext;
+
+    private CommandContext commandContext;
+
     private ListChangeListener<? super Problem> problemListChangeListener;
 
     private IntegerBinding errorsCount;
+
     private IntegerBinding warningsCount;
 
     @FXML
@@ -85,8 +99,11 @@ public class ProblemsController implements Controller {
 
     @Override
     public void setAppContext(AppContext appContext) {
-        this.appContext = appContext;
-        appContext.activeSongContext.activeSongProperty().addListener(this::onSongChanged);
+        this.activeSongContext = appContext.getActiveSongContext();
+        this.commandContext = appContext.getCommandContext();
+        this.selectionContext = appContext.getSelectionContext();
+
+        activeSongContext.activeSongProperty().addListener(this::onSongChanged);
 
         tree.getSelectionModel().selectedItemProperty().addListener(this::onSelectionInvalidated);
     }
@@ -104,19 +121,19 @@ public class ProblemsController implements Controller {
     }
 
     private void selectAffectedBounds(Problem problem) {
-        problem.getTrack().ifPresent(appContext.activeSongContext::setActiveTrack);
+        problem.getTrack().ifPresent(activeSongContext::setActiveTrack);
         problem.getAffectedBounds().ifPresent(bounds -> {
             if (bounds.isValid()) {
-                List<Note> affectedNotes = appContext.activeSongContext.getActiveTrack()
+                List<Note> affectedNotes = activeSongContext.getActiveTrack()
                         .getNotes(bounds.getLowerXBound(), bounds.getUpperXBound());
                 if (affectedNotes.size() > 0) {
                     SongLine line = affectedNotes.get(0).getLine();
                     if (line != null
                             && line == affectedNotes.get(affectedNotes.size() - 1).getLine()) {
-                        appContext.activeSongContext.setActiveLine(line);
+                        activeSongContext.setActiveLine(line);
                     }
                 }
-                appContext.selectionContext.getSelection().set(affectedNotes);
+                selectionContext.getSelection().set(affectedNotes);
             }
         });
     }
@@ -260,7 +277,7 @@ public class ProblemsController implements Controller {
                 executeSolution(problem);
             });
             correctInvasiveMenuItem.setOnAction(
-                    event -> problem.getInvasiveSolution().ifPresent(appContext.commandContext::execute)
+                    event -> problem.getInvasiveSolution().ifPresent(commandContext::execute)
             );
             setContextMenu(contextMenu);
         }
@@ -309,7 +326,7 @@ public class ProblemsController implements Controller {
         private void solveProblemWithCommand(Problem problem, Command command) {
             tree.getSelectionModel().clearSelection();
             selectAffectedBounds(problem);
-            appContext.commandContext.execute(command);
+            commandContext.execute(command);
             assertChildIsSelected();
         }
 

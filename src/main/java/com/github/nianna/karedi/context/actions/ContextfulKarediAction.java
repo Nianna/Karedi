@@ -6,9 +6,9 @@ import com.github.nianna.karedi.audio.Player;
 import com.github.nianna.karedi.command.Command;
 import com.github.nianna.karedi.context.ActiveSongContext;
 import com.github.nianna.karedi.context.AppContext;
+import com.github.nianna.karedi.context.AudioContext;
 import com.github.nianna.karedi.context.BeatRangeContext;
 import com.github.nianna.karedi.context.CommandContext;
-import com.github.nianna.karedi.context.AudioContext;
 import com.github.nianna.karedi.context.IOContext;
 import com.github.nianna.karedi.context.SelectionContext;
 import com.github.nianna.karedi.context.VisibleAreaContext;
@@ -37,13 +37,13 @@ public abstract class ContextfulKarediAction extends KarediAction {
 
     ContextfulKarediAction(AppContext appContext) {
         this.appContext = appContext;
-        this.selectionContext = appContext.selectionContext;
-        this.visibleAreaContext = appContext.visibleAreaContext;
-        this.beatRangeContext = appContext.beatRangeContext;
-        this.commandContext = appContext.commandContext;
-        this.audioContext = appContext.audioContext;
-        this.activeSongContext = appContext.activeSongContext;
-        this.ioContext = appContext.ioContext;
+        this.selectionContext = appContext.getSelectionContext();
+        this.visibleAreaContext = appContext.getVisibleAreaContext();
+        this.beatRangeContext = appContext.getBeatRangeContext();
+        this.commandContext = appContext.getCommandContext();
+        this.audioContext = appContext.getAudioContext();
+        this.activeSongContext = appContext.getActiveSongContext();
+        this.ioContext = appContext.getIoContext();
     }
 
     protected void disableWhenActiveSongIsNull() {
@@ -123,7 +123,7 @@ public abstract class ContextfulKarediAction extends KarediAction {
     }
 
     protected void executeAction(KarediActions action) {
-        appContext.actionContext.execute(action);
+        appContext.getActionContext().execute(action);
     }
 
     protected void playRange(int fromBeat, int toBeat, Player.Mode mode) {

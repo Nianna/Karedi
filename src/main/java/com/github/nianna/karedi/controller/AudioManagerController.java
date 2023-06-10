@@ -3,6 +3,7 @@ package com.github.nianna.karedi.controller;
 import com.github.nianna.karedi.I18N;
 import com.github.nianna.karedi.action.KarediActions;
 import com.github.nianna.karedi.audio.CachedAudioFile;
+import com.github.nianna.karedi.context.ActionContext;
 import com.github.nianna.karedi.context.AppContext;
 import com.github.nianna.karedi.context.AudioContext;
 import com.github.nianna.karedi.control.SliderTableCell;
@@ -40,9 +41,9 @@ public class AudioManagerController implements Controller {
 	@FXML
 	private ContextMenu baseContextMenu;
 
-	private AppContext appContext;
-
 	private AudioContext audioContext;
+
+	private ActionContext actionContext;
 
 	@FXML
 	public void initialize() {
@@ -72,8 +73,8 @@ public class AudioManagerController implements Controller {
 
 	@Override
 	public void setAppContext(AppContext appContext) {
-		this.appContext = appContext;
-		this.audioContext = appContext.audioContext;
+		this.audioContext = appContext.getAudioContext();
+		this.actionContext = appContext.getActionContext();
 
 		table.setRowFactory(getRowFactory());
 
@@ -81,7 +82,7 @@ public class AudioManagerController implements Controller {
 				(obsValue, oldValue, newValue) -> table.getSelectionModel().select(newValue));
 
 		table.setItems(audioContext.getAudioFiles());
-		table.disableProperty().bind(appContext.activeSongContext.activeSongProperty().isNull());
+		table.disableProperty().bind(appContext.getActiveSongContext().activeSongProperty().isNull());
 
 		table.getSelectionModel().selectedItemProperty().addListener((obsVal, oldVal, newVal) -> {
 			if (newVal != null && newVal != audioContext.getActiveAudioFile()) {
@@ -92,7 +93,7 @@ public class AudioManagerController implements Controller {
 
 	@FXML
 	private void handleAdd(ActionEvent event) {
-		appContext.actionContext.execute(KarediActions.IMPORT_AUDIO);
+		actionContext.execute(KarediActions.IMPORT_AUDIO);
 	}
 
 	private void handleRemove(CachedAudioFile file) {

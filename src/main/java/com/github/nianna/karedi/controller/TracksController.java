@@ -6,7 +6,10 @@ import com.github.nianna.karedi.command.track.ChangeTrackColorCommand;
 import com.github.nianna.karedi.command.track.ChangeTrackFontColorCommand;
 import com.github.nianna.karedi.command.track.ChangeTrackNameCommand;
 import com.github.nianna.karedi.command.track.ReorderTracksCommand;
+import com.github.nianna.karedi.context.ActionContext;
+import com.github.nianna.karedi.context.ActiveSongContext;
 import com.github.nianna.karedi.context.AppContext;
+import com.github.nianna.karedi.context.CommandContext;
 import com.github.nianna.karedi.control.CheckBoxTableCell;
 import com.github.nianna.karedi.control.ColorPickerTableCell;
 import com.github.nianna.karedi.control.TitledKeyValueGrid;
@@ -39,24 +42,37 @@ import java.util.List;
 import java.util.function.BiConsumer;
 
 public class TracksController implements Controller {
+
     @FXML
     private AnchorPane pane;
+
     @FXML
     private TableView<SongTrack> table;
+
     @FXML
     private TableColumn<SongTrack, Color> colorColumn;
+
     @FXML
     private TableColumn<SongTrack, Color> fontColorColumn;
+
     @FXML
     private TableColumn<SongTrack, String> nameColumn;
+
     @FXML
     private TableColumn<SongTrack, Boolean> visibleColumn;
+
     @FXML
     private TableColumn<SongTrack, Boolean> mutedColumn;
+
     @FXML
     private ContextMenu baseContextMenu;
 
-    private AppContext appContext;
+    private ActiveSongContext activeSongContext;
+
+    private ActionContext actionContext;
+
+    private CommandContext commandContext;
+
     private Song song;
 
     @FXML
@@ -74,12 +90,15 @@ public class TracksController implements Controller {
 
     @Override
     public void setAppContext(AppContext appContext) {
-        this.appContext = appContext;
-        song = appContext.activeSongContext.getSong();
+        this.activeSongContext = appContext.getActiveSongContext();
+        this.actionContext = appContext.getActionContext();
+        this.commandContext = appContext.getCommandContext();
 
-        appContext.activeSongContext.activeSongProperty().addListener(obs -> display(appContext.activeSongContext.getSong()));
-        appContext.activeSongContext.activeTrackProperty().addListener(obs -> {
-            table.getSelectionModel().select(appContext.activeSongContext.getActiveTrack());
+        song = activeSongContext.getSong();
+
+        activeSongContext.activeSongProperty().addListener(obs -> display(activeSongContext.getSong()));
+        activeSongContext.activeTrackProperty().addListener(obs -> {
+            table.getSelectionModel().select(activeSongContext.getActiveTrack());
         });
 
         table.setRowFactory(getRowFactory());
@@ -121,7 +140,7 @@ public class TracksController implements Controller {
     }
 
     private void bind(MenuItem menuItem, KarediActions actionKey) {
-        Action action = appContext.actionContext.getAction(actionKey);
+        Action action = actionContext.getAction(actionKey);
         menuItem.disableProperty().bind(action.disabledProperty());
         menuItem.setOnAction(action::handle);
     }
@@ -134,13 +153,13 @@ public class TracksController implements Controller {
 
     @FXML
     private void handleAdd() {
-        appContext.actionContext.execute(KarediActions.ADD_TRACK);
+        actionContext.execute(KarediActions.ADD_TRACK);
     }
 
     @FXML
     private void onKeyPressed(KeyEvent event) {
         if (event.getCode() == KeyCode.DELETE) {
-            appContext.actionContext.execute(KarediActions.DELETE_TRACK);
+            actionContext.execute(KarediActions.DELETE_TRACK);
             event.consume();
         }
     }
@@ -157,13 +176,13 @@ public class TracksController implements Controller {
 
     @FXML
     private void onColorColumnEditCommit(CellEditEvent<SongTrack, Color> event) {
-        appContext.commandContext.execute(new ChangeTrackColorCommand(event.getRowValue(), event.getNewValue()));
+        commandContext.execute(new ChangeTrackColorCommand(event.getRowValue(), event.getNewValue()));
         table.requestFocus();
     }
 
     @FXML
     private void onFontColorColumnEditCommit(CellEditEvent<SongTrack, Color> event) {
-        appContext.commandContext.execute(new ChangeTrackFontColorCommand(event.getRowValue(), event.getNewValue()));
+        commandContext.execute(new ChangeTrackFontColorCommand(event.getRowValue(), event.getNewValue()));
         table.requestFocus();
     }
 
@@ -185,7 +204,7 @@ public class TracksController implements Controller {
     @FXML
     private void onNameColumnEditCommit(CellEditEvent<SongTrack, String> event) {
         table.setOnKeyPressed(this::onKeyPressed);
-        appContext.commandContext.execute(new ChangeTrackNameCommand(event.getRowValue(), event.getNewValue()));
+        commandContext.execute(new ChangeTrackNameCommand(event.getRowValue(), event.getNewValue()));
         table.requestFocus();
     }
 
@@ -199,7 +218,7 @@ public class TracksController implements Controller {
         mutedColumn.setCellValueFactory(cell -> cell.getValue().mutedProperty());
         mutedColumn.setCellFactory(
                 column -> new TrackPropertyCheckboxTableCell(column, (track, isMuted) -> {
-                    appContext.actionContext.execute(KarediActions.STOP_PLAYBACK);
+                    actionContext.execute(KarediActions.STOP_PLAYBACK);
                     track.setMuted(isMuted);
                 }));
     }
@@ -210,9 +229,9 @@ public class TracksController implements Controller {
     }
 
     private void onSelectedItemChanged(Observable obs, SongTrack oldTrack, SongTrack newTrack) {
-        SongTrack activeTrack = appContext.activeSongContext.getActiveTrack();
+        SongTrack activeTrack = activeSongContext.getActiveTrack();
         if (newTrack != null && newTrack != activeTrack) {
-            appContext.activeSongContext.setActiveTrack(newTrack);
+            activeSongContext.setActiveTrack(newTrack);
         } else {
             table.getSelectionModel().select(activeTrack);
         }
@@ -233,11 +252,11 @@ public class TracksController implements Controller {
     private void consumeDrag(List<Integer> draggedIndices, Integer dropIndex) {
         Collections.reverse(draggedIndices);
         draggedIndices.forEach(index ->
-            appContext.commandContext.execute(
-                    new ReorderTracksCommand(song, index, dropIndex == -1 ? table.getItems().size() - 1 : dropIndex)
-            )
+                commandContext.execute(
+                        new ReorderTracksCommand(song, index, dropIndex == -1 ? table.getItems().size() - 1 : dropIndex)
+                )
         );
-        appContext.activeSongContext.setActiveTrack(song.get(dropIndex));
+        activeSongContext.setActiveTrack(song.get(dropIndex));
     }
 
     private class TrackTooltip extends Tooltip {
@@ -274,7 +293,7 @@ public class TracksController implements Controller {
             super.updateItem(item, empty);
             SongTrack track = getTrack();
             if (track != null) {
-                disableProperty().bind(appContext.activeSongContext.activeTrackProperty().isEqualTo(track));
+                disableProperty().bind(activeSongContext.activeTrackProperty().isEqualTo(track));
             }
         }
 

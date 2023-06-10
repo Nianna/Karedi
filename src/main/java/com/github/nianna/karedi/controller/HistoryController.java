@@ -2,6 +2,7 @@ package com.github.nianna.karedi.controller;
 
 import com.github.nianna.karedi.action.KarediActions;
 import com.github.nianna.karedi.command.Command;
+import com.github.nianna.karedi.context.ActionContext;
 import com.github.nianna.karedi.context.AppContext;
 import com.github.nianna.karedi.context.CommandContext;
 import com.github.nianna.karedi.util.BindingsUtils;
@@ -22,7 +23,7 @@ public class HistoryController implements Controller {
 	@FXML
 	private MenuItem clearMenuItem;
 
-	private AppContext appContext;
+	private ActionContext actionContext;
 
 	private CommandContext commandContext;
 
@@ -40,8 +41,9 @@ public class HistoryController implements Controller {
 
 	@Override
 	public void setAppContext(AppContext appContext) {
-		this.appContext = appContext;
-		this.commandContext = appContext.commandContext;
+		this.actionContext = appContext.getActionContext();
+		this.commandContext = appContext.getCommandContext();
+
 		list.setDisable(false);
 		list.setItems(commandContext.getHistory());
 		clearMenuItem.disableProperty().bind(BindingsUtils.isEmpty(list.getItems()));
@@ -62,7 +64,7 @@ public class HistoryController implements Controller {
 			int difference = newIndex - oldIndex;
 			KarediActions historyCmd = difference > 0 ? KarediActions.REDO : KarediActions.UNDO;
 			for (int i = 0; i < Math.abs(difference); ++i) {
-				appContext.actionContext.execute(historyCmd);
+				actionContext.execute(historyCmd);
 			}
 			changedByUser = false;
 		}

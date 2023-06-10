@@ -113,7 +113,7 @@ public class KarediApp extends Application {
 	}
 
 	public void exit(Event event) {
-		if (appContext.ioContext.needsSaving()) {
+		if (appContext.getIoContext().needsSaving()) {
 			if (!saveChangesIfUserWantsTo()) {
 				event.consume();
 				return;
@@ -148,8 +148,8 @@ public class KarediApp extends Application {
 	}
 
 	public boolean saveChangesIfUserWantsTo() {
-		if (appContext.ioContext.needsSaving()) {
-			Alert alert = new SaveChangesAlert(getFileName(appContext.ioContext.getActiveFile()));
+		if (appContext.getIoContext().needsSaving()) {
+			Alert alert = new SaveChangesAlert(getFileName(appContext.getIoContext().getActiveFile()));
 
 			Optional<ButtonType> result = alert.showAndWait();
 			if (!result.isPresent()) {
@@ -159,8 +159,8 @@ public class KarediApp extends Application {
 					return false;
 				}
 				if (result.get() == SaveChangesAlert.SAVE_BUTTON) {
-					appContext.actionContext.execute(KarediActions.SAVE);
-					if (appContext.ioContext.needsSaving()) {
+					appContext.getActionContext().execute(KarediActions.SAVE);
+					if (appContext.getIoContext().needsSaving()) {
 						// Save failed or was cancelled by the user
 						return false;
 					}

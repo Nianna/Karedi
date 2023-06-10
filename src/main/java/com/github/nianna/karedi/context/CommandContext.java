@@ -28,7 +28,7 @@ public class CommandContext {
     public CommandContext(AppContext appContext) {
         this.appContext = appContext;
         history.setMaxSize(MAX_HISTORY_SIZE);
-        appContext.activeSongContext.activeSongProperty().addListener(this::onActiveSongChanged);
+        appContext.getActiveSongContext().activeSongProperty().addListener(this::onActiveSongChanged);
     }
 
     public boolean execute(Command command) {

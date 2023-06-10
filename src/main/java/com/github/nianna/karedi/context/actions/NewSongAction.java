@@ -13,13 +13,16 @@ import javafx.scene.control.ButtonType;
 import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
-
-import static com.github.nianna.karedi.context.AppContext.LOGGER;
+import java.util.logging.Logger;
 
 class NewSongAction extends ContextfulKarediAction {
 
+    private static final Logger LOGGER = Logger.getLogger(NewSongAction.class.getPackage().getName());
+
     private Song song;
+
     private File audioFile;
+
     private File outputDir;
 
     NewSongAction(AppContext appContext) {
