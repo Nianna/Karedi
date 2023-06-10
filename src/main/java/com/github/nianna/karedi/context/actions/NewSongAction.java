@@ -28,7 +28,7 @@ class NewSongAction extends ContextfulKarediAction {
 
     @Override
     protected void onAction(ActionEvent event) {
-        if (appContext.needsSaving()) {
+        if (ioContext.needsSaving()) {
             boolean proceed = KarediApp.getInstance().saveChangesIfUserWantsTo();
             if (!proceed) {
                 return;
@@ -43,7 +43,7 @@ class NewSongAction extends ContextfulKarediAction {
     }
 
     private boolean finish() {
-        appContext.reset(true);
+        ioContext.reset(true);
         if (outputDir == null && audioFile != null) {
             audioContext.loadAudioFile(audioFile);
         }
@@ -65,8 +65,8 @@ class NewSongAction extends ContextfulKarediAction {
     private void createTxtFile(File songFolder) {
         File txtFile = new File(songFolder, getSongFilename() + ".txt");
         if (canProceedToWriteFile(txtFile)) {
-            appContext.saveSongToFile(txtFile);
-            appContext.setActiveFile(txtFile);
+            ioContext.saveSongToFile(txtFile);
+            ioContext.setActiveFile(txtFile);
         }
     }
 

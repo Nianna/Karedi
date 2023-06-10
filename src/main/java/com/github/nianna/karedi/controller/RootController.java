@@ -114,7 +114,7 @@ public class RootController implements Controller {
 			optFile.ifPresent(file -> {
 				Platform.runLater(() ->  {
 					KarediApp.getInstance().saveChangesIfUserWantsTo();
-					appContext.loadSongFile(file);
+					appContext.ioContext.loadSongFile(file);
 				});
 				event.setDropCompleted(true);
 			});

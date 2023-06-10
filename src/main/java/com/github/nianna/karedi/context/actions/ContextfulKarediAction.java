@@ -9,6 +9,7 @@ import com.github.nianna.karedi.context.AppContext;
 import com.github.nianna.karedi.context.BeatRangeContext;
 import com.github.nianna.karedi.context.CommandContext;
 import com.github.nianna.karedi.context.AudioContext;
+import com.github.nianna.karedi.context.IOContext;
 import com.github.nianna.karedi.context.SelectionContext;
 import com.github.nianna.karedi.context.VisibleAreaContext;
 import com.github.nianna.karedi.song.Note;
@@ -32,6 +33,8 @@ public abstract class ContextfulKarediAction extends KarediAction {
 
     protected final ActiveSongContext activeSongContext;
 
+    protected final IOContext ioContext;
+
     ContextfulKarediAction(AppContext appContext) {
         this.appContext = appContext;
         this.selectionContext = appContext.selectionContext;
@@ -40,6 +43,7 @@ public abstract class ContextfulKarediAction extends KarediAction {
         this.commandContext = appContext.commandContext;
         this.audioContext = appContext.audioContext;
         this.activeSongContext = appContext.activeSongContext;
+        this.ioContext = appContext.ioContext;
     }
 
     protected void disableWhenActiveSongIsNull() {

@@ -17,8 +17,8 @@ class SaveSongAsAction extends ContextfulKarediAction {
     @Override
     protected void onAction(ActionEvent event) {
         File file = KarediApp.getInstance().getTxtFileToSave();
-        if (appContext.saveSongToFile(file)) {
-            appContext.setActiveFile(file);
+        if (ioContext.saveSongToFile(file)) {
+            ioContext.setActiveFile(file);
         }
     }
 }

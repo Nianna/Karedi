@@ -53,11 +53,11 @@ class ExportTracksAction extends ContextfulKarediAction {
         }
 
         File file = KarediApp.getInstance().getTxtFileToSave(getInitialFileName());
-        appContext.exportSongToFile(file, activeSongContext.getSong().getTags(), tracks);
+        ioContext.exportSongToFile(file, activeSongContext.getSong().getTags(), tracks);
     }
 
     private String getInitialFileName() {
-        File file = appContext.getActiveFile();
+        File file = ioContext.getActiveFile();
         return file == null ? "" : file.getName();
     }
 
