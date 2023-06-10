@@ -6,6 +6,7 @@ import com.github.nianna.karedi.audio.CachedAudioFile;
 import com.github.nianna.karedi.audio.Player;
 import com.github.nianna.karedi.song.Note;
 import com.github.nianna.karedi.song.Song;
+import com.github.nianna.karedi.song.SongLine;
 import javafx.beans.binding.BooleanBinding;
 import javafx.beans.property.ReadOnlyIntegerProperty;
 import javafx.beans.property.ReadOnlyLongProperty;
@@ -15,6 +16,8 @@ import javafx.collections.ObservableList;
 import java.io.File;
 import java.util.List;
 import java.util.logging.Logger;
+
+import static java.util.Objects.nonNull;
 
 public class AudioContext {
 
@@ -26,10 +29,18 @@ public class AudioContext {
 
     private final BooleanBinding activeAudioIsNull;
 
-    public AudioContext(BeatRangeContext beatRangeContext) {
+    public AudioContext(BeatRangeContext beatRangeContext,
+                        ReadOnlyObjectProperty<Song> activeSongProperty,
+                        ReadOnlyObjectProperty<SongLine> activeLineProperty) {
         this.player = new SongPlayer(beatRangeContext.getBeatMillisConverter());
         this.beatRangeContext = beatRangeContext;
         activeAudioIsNull = player.activeAudioFileProperty().isNull();
+        activeSongProperty.addListener((obs, oldVal, newVal) -> player.setSong(newVal));
+        activeLineProperty.addListener((obs, oldVal, newVal) -> {
+            if (nonNull(newVal) && oldVal != newVal) {
+                stop();
+            }
+        });
     }
 
     public ReadOnlyObjectProperty<Player.Status> playerStatusProperty() {
@@ -70,10 +81,6 @@ public class AudioContext {
 
     public void setMarkerTime(long time) {
         player.setMarkerTime(time);
-    }
-
-    public void setSong(Song song) {
-        player.setSong(song);
     }
 
     public void stop() {
