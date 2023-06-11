@@ -289,9 +289,14 @@
 					<winDirChooser>true</winDirChooser>
 					<winMenu>true</winMenu>
 					<winPerUserInstall>true</winPerUserInstall>
-					<icon>src/main/resources/icon/icon.ico</icon>
-					<verbose>true</verbose>
 					<winUpgradeUuid>643965f2-2ce8-4bd5-87de-e3074e25d589</winUpgradeUuid>
+<!--					use for Windows *.exe images -->
+					<icon>src/main/resources/icon/icon.ico</icon>
+<!--					use for Linux *.deb images -->
+<!--					<icon>src/main/resources/icon/icon.png</icon>-->
+					<linuxShortcut>true</linuxShortcut>
+					<linuxAppCategory>Audio;AudioVideo</linuxAppCategory>
+					<verbose>true</verbose>
 				</configuration>
 			</plugin>
 		</plugins>
