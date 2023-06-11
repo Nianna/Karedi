@@ -1,26 +1,28 @@
 package com.github.nianna.karedi.controller;
 
-import static org.fxmisc.wellbehaved.event.InputMap.consume;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
-import java.util.Timer;
-import java.util.TimerTask;
-import java.util.function.BiConsumer;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-import java.util.stream.Collectors;
-
-import org.fxmisc.flowless.VirtualizedScrollPane;
-import org.fxmisc.richtext.CodeArea;
-import org.fxmisc.richtext.LineNumberFactory;
-import org.fxmisc.richtext.model.StyleSpans;
-import org.fxmisc.richtext.model.StyleSpansBuilder;
-import org.fxmisc.wellbehaved.event.Nodes;
-
+import com.github.nianna.karedi.action.KarediAction;
+import com.github.nianna.karedi.action.KarediActions;
+import com.github.nianna.karedi.command.AddNewSyllableCommand;
+import com.github.nianna.karedi.command.AddNewWordCommand;
+import com.github.nianna.karedi.command.ChangePostStateCommandDecorator;
+import com.github.nianna.karedi.command.Command;
+import com.github.nianna.karedi.command.CommandComposite;
+import com.github.nianna.karedi.command.DeleteTextCommand;
+import com.github.nianna.karedi.command.InsertTextCommand;
+import com.github.nianna.karedi.context.ActionContext;
+import com.github.nianna.karedi.context.ActiveSongContext;
+import com.github.nianna.karedi.context.AppContext;
+import com.github.nianna.karedi.context.CommandContext;
+import com.github.nianna.karedi.context.NoteSelection;
+import com.github.nianna.karedi.context.SelectionContext;
+import com.github.nianna.karedi.song.Note;
+import com.github.nianna.karedi.song.Note.Type;
+import com.github.nianna.karedi.song.SongLine;
+import com.github.nianna.karedi.song.SongTrack;
+import com.github.nianna.karedi.util.KeyCodeCombinations;
+import com.github.nianna.karedi.util.KeyEventUtils;
+import com.github.nianna.karedi.util.ListenersUtils;
+import com.github.nianna.karedi.util.LyricsHelper;
 import javafx.application.Platform;
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
@@ -37,25 +39,26 @@ import javafx.scene.input.Clipboard;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
-import com.github.nianna.karedi.action.KarediAction;
-import com.github.nianna.karedi.action.KarediActions;
-import com.github.nianna.karedi.command.AddNewSyllableCommand;
-import com.github.nianna.karedi.command.AddNewWordCommand;
-import com.github.nianna.karedi.command.ChangePostStateCommandDecorator;
-import com.github.nianna.karedi.command.Command;
-import com.github.nianna.karedi.command.CommandComposite;
-import com.github.nianna.karedi.command.DeleteTextCommand;
-import com.github.nianna.karedi.command.InsertTextCommand;
-import com.github.nianna.karedi.context.AppContext;
-import com.github.nianna.karedi.context.NoteSelection;
-import com.github.nianna.karedi.song.Note;
-import com.github.nianna.karedi.song.Note.Type;
-import com.github.nianna.karedi.song.SongLine;
-import com.github.nianna.karedi.song.SongTrack;
-import com.github.nianna.karedi.util.KeyCodeCombinations;
-import com.github.nianna.karedi.util.KeyEventUtils;
-import com.github.nianna.karedi.util.ListenersUtils;
-import com.github.nianna.karedi.util.LyricsHelper;
+import org.fxmisc.flowless.VirtualizedScrollPane;
+import org.fxmisc.richtext.CodeArea;
+import org.fxmisc.richtext.LineNumberFactory;
+import org.fxmisc.richtext.model.StyleSpans;
+import org.fxmisc.richtext.model.StyleSpansBuilder;
+import org.fxmisc.wellbehaved.event.Nodes;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
+import java.util.Timer;
+import java.util.TimerTask;
+import java.util.function.BiConsumer;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import java.util.stream.Collectors;
+
+import static org.fxmisc.wellbehaved.event.InputMap.consume;
 
 public class LyricsEditorController implements Controller {
 	private static final int TIME_LIMIT_MS = 30;
@@ -64,17 +67,27 @@ public class LyricsEditorController implements Controller {
 	private AnchorPane pane;
 
 	private VirtualizedScrollPane<CodeArea> scrollPane;
+
 	private NoteTextArea textArea;
 
-	private AppContext appContext;
+	private ActiveSongContext activeSongContext;
+
+	private ActionContext actionContext;
+
+	private CommandContext commandContext;
+
+	private SelectionContext selectionContext;
+
 	private NoteSelection selection;
+
 	private TextAndNoteSelectionSynchronizer synchronizer;
 
-	private ChangeListener<? super String> lyricsChangeListener = (obs, oldVal,
-			newVal) -> scheduleLyricsUpdate();
-	private ChangeListener<? super Type> typeChangeListener = (obs, oldVal, newVal) -> textArea
-			.applyHighlightning();
+	private ChangeListener<? super String> lyricsChangeListener = (obs, oldVal, newVal) -> scheduleLyricsUpdate();
+
+	private ChangeListener<? super Type> typeChangeListener = (obs, oldVal, newVal) -> textArea.applyHighlightning();
+
 	private ListChangeListener<? super SongLine> lineListChangeListener;
+
 	private ListChangeListener<? super Note> noteListChangeListener;
 
 	private Timer lyricsUpdateTimer = new Timer(true);
@@ -125,13 +138,17 @@ public class LyricsEditorController implements Controller {
 
 	@Override
 	public void setAppContext(AppContext appContext) {
-		this.appContext = appContext;
-		this.selection = appContext.getSelection();
-		appContext.activeTrackProperty().addListener(this::onTrackChanged);
-		scrollPane.disableProperty().bind(appContext.activeTrackProperty().isNull());
+		this.activeSongContext = appContext.getActiveSongContext();
+		this.actionContext = appContext.getActionContext();
+		this.commandContext = appContext.getCommandContext();
+		this.selectionContext = appContext.getSelectionContext();
 
-		appContext.addAction(KarediActions.INSERT_MINUS, new InsertTextAction(NoteTextArea.MINUS));
-		appContext.addAction(KarediActions.INSERT_SPACE, new InsertTextAction(NoteTextArea.SPACE));
+		this.selection = selectionContext.getSelection();
+		activeSongContext.activeTrackProperty().addListener(this::onTrackChanged);
+		scrollPane.disableProperty().bind(activeSongContext.activeTrackIsNullBinding());
+
+		actionContext.addAction(KarediActions.INSERT_MINUS, new InsertTextAction(NoteTextArea.MINUS));
+		actionContext.addAction(KarediActions.INSERT_SPACE, new InsertTextAction(NoteTextArea.SPACE));
 
 		lineListChangeListener = ListenersUtils.createListChangeListener(
 				e -> scheduleLyricsUpdate(), ListenersUtils::pass, e -> scheduleLyricsUpdate(),
@@ -146,7 +163,7 @@ public class LyricsEditorController implements Controller {
 
 	private void preNoteSelectionChangeHandler(Note first, Note last) {
 		if (first.getLine().equals(last.getLine())) {
-			appContext.setActiveLine(first.getLine());
+			activeSongContext.setActiveLine(first.getLine());
 		}
 	}
 
@@ -318,14 +335,14 @@ public class LyricsEditorController implements Controller {
 			if (title != null) {
 				finalCmd.setTitle(title);
 			}
-			appContext.execute(new ChangePostStateCommandDecorator(finalCmd, c -> {
-				appContext.getSelection().selectOnly(first);
+			commandContext.execute(new ChangePostStateCommandDecorator(finalCmd, c -> {
+				selectionContext.getSelection().selectOnly(first);
 			}));
 		}
 	}
 
 	private boolean wasActionFired(KarediActions action, KeyEvent event) {
-		return appContext.getAction(action).wasFired(event);
+		return actionContext.getAction(action).wasFired(event);
 	}
 
 	private KarediActions getFiredAction(KeyEvent event) {
@@ -341,7 +358,7 @@ public class LyricsEditorController implements Controller {
 	}
 
 	private void executeAction(KarediActions action) {
-		appContext.execute(action);
+		actionContext.execute(action);
 	}
 
 	private void onKeyPressed(KeyEvent event) {
@@ -365,7 +382,7 @@ public class LyricsEditorController implements Controller {
 
 		if (wasActionFired(KarediActions.TOGGLE_LINEBREAK, event)) {
 			textArea.selectNone();
-			appContext.execute(KarediActions.TOGGLE_LINEBREAK);
+			executeAction(KarediActions.TOGGLE_LINEBREAK);
 			event.consume();
 			return;
 		}
@@ -455,7 +472,7 @@ public class LyricsEditorController implements Controller {
 			public void run() {
 				Platform.runLater(() -> {
 					synchronizer.freeze();
-					boolean changed = textArea.setTrack(appContext.getActiveTrack());
+					boolean changed = textArea.setTrack(activeSongContext.getActiveTrack());
 					if (changed) {
 						if (!textArea.isFocused()) {
 							synchronizer.updateTextSelection();

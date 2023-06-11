@@ -1,8 +1,15 @@
 package com.github.nianna.karedi.controller;
 
-import java.io.File;
-import java.util.Optional;
-
+import com.github.nianna.karedi.KarediApp;
+import com.github.nianna.karedi.action.KarediAction;
+import com.github.nianna.karedi.action.KarediActions;
+import com.github.nianna.karedi.context.AppContext;
+import com.github.nianna.karedi.context.TxtContext;
+import com.github.nianna.karedi.context.SelectionContext;
+import com.github.nianna.karedi.event.ControllerEvent;
+import com.github.nianna.karedi.event.StateEvent;
+import com.github.nianna.karedi.event.StateEvent.State;
+import com.github.nianna.karedi.util.Utils;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -12,14 +19,9 @@ import javafx.scene.input.DragEvent;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.TransferMode;
 import javafx.scene.layout.BorderPane;
-import com.github.nianna.karedi.KarediApp;
-import com.github.nianna.karedi.action.KarediAction;
-import com.github.nianna.karedi.action.KarediActions;
-import com.github.nianna.karedi.context.AppContext;
-import com.github.nianna.karedi.event.ControllerEvent;
-import com.github.nianna.karedi.event.StateEvent;
-import com.github.nianna.karedi.event.StateEvent.State;
-import com.github.nianna.karedi.util.Utils;
+
+import java.io.File;
+import java.util.Optional;
 
 public class RootController implements Controller {
 	private static final String ERROR_STYLE_CLASS = "state-error";
@@ -69,7 +71,9 @@ public class RootController implements Controller {
 	@FXML
 	private Node editor;
 
-	private AppContext appContext;
+	private TxtContext txtContext;
+
+	private SelectionContext selectionContext;
 
 	@FXML
 	private void initialize() {
@@ -114,7 +118,7 @@ public class RootController implements Controller {
 			optFile.ifPresent(file -> {
 				Platform.runLater(() ->  {
 					KarediApp.getInstance().saveChangesIfUserWantsTo();
-					appContext.loadSongFile(file);
+					txtContext.loadSongFile(file);
 				});
 				event.setDropCompleted(true);
 			});
@@ -134,8 +138,10 @@ public class RootController implements Controller {
 
 	@Override
 	public void setAppContext(AppContext appContext) {
-		this.appContext = appContext;
-		appContext.addAction(KarediActions.EDIT_LYRICS, new EditLyricsAction());
+		this.txtContext = appContext.getTxtContext();
+		this.selectionContext = appContext.getSelectionContext();
+
+		appContext.getActionContext().addAction(KarediActions.EDIT_LYRICS, new EditLyricsAction());
 
 		// Top tab bar
 		tagsTableController.setAppContext(appContext);
@@ -192,7 +198,7 @@ public class RootController implements Controller {
 	private class EditLyricsAction extends KarediAction {
 
 		private EditLyricsAction() {
-			setDisabledCondition(appContext.getSelection().sizeProperty().isEqualTo(0));
+			setDisabledCondition(selectionContext.getSelectionIsEmptyBinding());
 		}
 
 		@Override

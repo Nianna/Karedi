@@ -617,7 +617,7 @@
 					</accelerator>
 				</MenuItem>
 				<MenuItem fx:id="nextLineMenuItem" mnemonicParsing="false"
-					text="%ui.menu.view.line.previous">
+					text="%ui.menu.view.line.next">
 					<accelerator>
 						<KeyCodeCombination alt="UP" code="DOWN"
 							control="UP" meta="UP" shift="UP" shortcut="UP" />

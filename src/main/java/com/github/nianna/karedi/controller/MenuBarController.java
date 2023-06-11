@@ -1,7 +1,8 @@
 package com.github.nianna.karedi.controller;
 
-import org.controlsfx.control.action.Action;
-
+import com.github.nianna.karedi.action.KarediActions;
+import com.github.nianna.karedi.context.ActionContext;
+import com.github.nianna.karedi.context.AppContext;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.CheckMenuItem;
@@ -11,8 +12,7 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.input.KeyCombination;
 import javafx.scene.input.KeyCombination.ModifierValue;
 import javafx.scene.input.KeyEvent;
-import com.github.nianna.karedi.action.KarediActions;
-import com.github.nianna.karedi.context.AppContext;
+import org.controlsfx.control.action.Action;
 
 public class MenuBarController implements Controller {
 	@FXML
@@ -237,11 +237,11 @@ public class MenuBarController implements Controller {
 	@FXML
 	private MenuItem resetPianoMenuItem;
 
-	private AppContext appContext;
+	private ActionContext actionContext;
 
 	@Override
 	public void setAppContext(AppContext appContext) {
-		this.appContext = appContext;
+		this.actionContext = appContext.getActionContext();
 
 		bindFileMenu();
 		bindEditMenu();
@@ -409,7 +409,7 @@ public class MenuBarController implements Controller {
 	}
 
 	private void bind(MenuItem menuItem, KarediActions actionKey) {
-		Action action = appContext.getAction(actionKey);
+		Action action = actionContext.getAction(actionKey);
 		action.acceleratorProperty().bind(menuItem.acceleratorProperty());
 		menuItem.disableProperty().bind(action.disabledProperty());
 		menuItem.setOnAction(action::handle);
@@ -425,7 +425,7 @@ public class MenuBarController implements Controller {
 	}
 
 	private void bind(CheckMenuItem menuItem, KarediActions actionKey) {
-		Action action = appContext.getAction(actionKey);
+		Action action = actionContext.getAction(actionKey);
 		action.acceleratorProperty().bind(menuItem.acceleratorProperty());
 		menuItem.disableProperty().bind(action.disabledProperty());
 		menuItem.setOnAction(action::handle);

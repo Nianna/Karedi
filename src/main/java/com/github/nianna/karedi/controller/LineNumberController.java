@@ -1,15 +1,16 @@
 package com.github.nianna.karedi.controller;
 
+import com.github.nianna.karedi.context.ActiveSongContext;
+import com.github.nianna.karedi.context.AppContext;
+import com.github.nianna.karedi.song.SongLine;
+import com.github.nianna.karedi.song.SongTrack;
+import com.github.nianna.karedi.util.ListenersUtils;
 import javafx.beans.Observable;
 import javafx.collections.ListChangeListener;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
-import com.github.nianna.karedi.context.AppContext;
-import com.github.nianna.karedi.song.SongLine;
-import com.github.nianna.karedi.song.SongTrack;
-import com.github.nianna.karedi.util.ListenersUtils;
 
 public class LineNumberController implements Controller {
 	@FXML
@@ -17,18 +18,19 @@ public class LineNumberController implements Controller {
 	@FXML
 	private Text label;
 
-	private AppContext appContext;
+	private ActiveSongContext activeSongContext;
+
 	private ListChangeListener<? super SongLine> lineListChangeListener;
 
 	@Override
 	public void setAppContext(AppContext appContext) {
-		this.appContext = appContext;
+		this.activeSongContext = appContext.getActiveSongContext();
 
 		lineListChangeListener = ListenersUtils.createListChangeListener(line -> updateLabel(),
 				ListenersUtils::pass, ListenersUtils::pass, ListenersUtils::pass);
 
-		appContext.activeLineProperty().addListener(obs -> updateLabel());
-		appContext.activeTrackProperty().addListener(this::onTrackChanged);
+		activeSongContext.activeLineProperty().addListener(obs -> updateLabel());
+		activeSongContext.activeTrackProperty().addListener(this::onTrackChanged);
 	}
 
 	@Override
@@ -37,8 +39,10 @@ public class LineNumberController implements Controller {
 	}
 
 	private String getActiveLineNumber() {
-		if (appContext.getActiveTrack() != null && appContext.getActiveLine() != null) {
-			return (appContext.getActiveTrack().indexOf(appContext.getActiveLine()) + 1) + "";
+		if (activeSongContext.getActiveTrack() != null && activeSongContext.getActiveLine() != null) {
+			return "" + (activeSongContext
+					.getActiveTrack()
+					.indexOf(activeSongContext.getActiveLine()) + 1);
 		}
 		return "";
 	}
