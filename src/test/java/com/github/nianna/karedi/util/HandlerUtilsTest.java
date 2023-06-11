@@ -1,14 +1,16 @@
 package com.github.nianna.karedi.util;
 
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
+
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import javafx.event.EventHandler;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
-import com.github.nianna.karedi.util.HandlerUtils;
+
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class HandlerUtilsTest {
 	private static EventHandler<MouseEvent> handler1;
@@ -20,7 +22,7 @@ public class HandlerUtilsTest {
 	private static int lastExecuted;
 	private static MouseEvent dummyEvent;
 
-	@BeforeClass
+	@BeforeAll
 	public static void classSetUp() {
 		handler1 = (event) -> {
 			firstExecuted = true;
@@ -36,7 +38,7 @@ public class HandlerUtilsTest {
 		};
 	}
 
-	@Before
+	@BeforeEach
 	public void setUp() {
 		firstExecuted = false;
 		secondExecuted = false;
@@ -49,21 +51,21 @@ public class HandlerUtilsTest {
 	public void firstHandlerIsExecutedIfEventIsNotConsumed() {
 		EventHandler<MouseEvent> handler = HandlerUtils.combineHandlers(handler2, handler1);
 		handler.handle(dummyEvent);
-		Assert.assertTrue(firstExecuted);
+		assertTrue(firstExecuted);
 	}
 
 	@Test
 	public void secondHandlerIsExecutedIfEventIsNotConsumed() {
 		EventHandler<MouseEvent> handler = HandlerUtils.combineHandlers(handler2, handler1);
 		handler.handle(dummyEvent);
-		Assert.assertTrue(secondExecuted);
+		assertTrue(secondExecuted);
 	}
 
 	@Test
 	public void handlersAreExecutedInCorrectOrderIfEventIsNotConsumed() {
 		EventHandler<MouseEvent> handler = HandlerUtils.combineHandlers(handler2, handler1);
 		handler.handle(dummyEvent);
-		Assert.assertEquals(1, lastExecuted);
+		Assertions.assertEquals(1, lastExecuted);
 	}
 
 	@Test
@@ -71,7 +73,7 @@ public class HandlerUtilsTest {
 		EventHandler<MouseEvent> handler = HandlerUtils.combineHandlers(handler1consuming,
 				handler2);
 		handler.handle(dummyEvent);
-		Assert.assertFalse(secondExecuted);
+		Assertions.assertFalse(secondExecuted);
 	}
 
 }

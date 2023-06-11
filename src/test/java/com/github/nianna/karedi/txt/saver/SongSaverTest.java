@@ -4,20 +4,23 @@ import com.github.nianna.karedi.song.Song;
 import com.github.nianna.karedi.song.SongTrack;
 import com.github.nianna.karedi.song.tag.Tag;
 import com.github.nianna.karedi.txt.parser.ParsingFactory;
-import org.junit.Assert;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.TemporaryFolder;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.io.TempDir;
 
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class SongSaverTest {
 
-    @Rule
-    public TemporaryFolder tmpFolder = new TemporaryFolder();
+    @TempDir
+    public Path tmpFolder;
 
     private final SongDisassembler songDisassembler = new SongDisassembler();
 
@@ -25,47 +28,47 @@ public class SongSaverTest {
 
     @Test
     public void shouldSaveEmptySong() throws IOException {
-        File outputFile = tmpFolder.newFile("output.txt");
+        File outputFile = newTmpFile("output.txt");
 
         boolean saved = songSaver.saveSongToFile(outputFile, new Song());
 
-        Assert.assertTrue(saved);
-        Assert.assertEquals(List.of("E"), Files.readAllLines(outputFile.toPath()));
+        assertTrue(saved);
+        assertEquals(List.of("E"), Files.readAllLines(outputFile.toPath()));
     }
 
     @Test
     public void shouldFixMultiplayerTagsBeforeSaving() throws IOException {
-        File outputFile = tmpFolder.newFile("output.txt");
+        File outputFile = newTmpFile("output.txt");
 
         boolean saved = songSaver.saveSongToFile(outputFile, prepareSongWithTagsInconsistentWithTrackNames());
 
-        Assert.assertTrue(saved);
-        Assert.assertEquals(expectedMultiplayerFileLines(), Files.readAllLines(outputFile.toPath()));
+        assertTrue(saved);
+        assertEquals(expectedMultiplayerFileLines(), Files.readAllLines(outputFile.toPath()));
     }
 
     @Test
     public void shouldFixMultiplayerTagsBeforeExporting() throws IOException {
-        File outputFile = tmpFolder.newFile("output.txt");
+        File outputFile = newTmpFile("output.txt");
 
         Song song = prepareSongWithTagsInconsistentWithTrackNames();
         boolean exported = songSaver.exportToFile(outputFile, song.getTags(), song.getTracks());
 
-        Assert.assertTrue(exported);
-        Assert.assertEquals(expectedMultiplayerFileLines(), Files.readAllLines(outputFile.toPath()));
+        assertTrue(exported);
+        assertEquals(expectedMultiplayerFileLines(), Files.readAllLines(outputFile.toPath()));
     }
 
     @Test
     public void shouldReturnFalseIfFileIsNullWhileSaving() {
         boolean saved = songSaver.saveSongToFile(null, new Song());
 
-        Assert.assertFalse(saved);
+        Assertions.assertFalse(saved);
     }
 
     @Test
     public void shouldReturnFalseIfFileIsNullWhileExporting() {
         boolean exported = songSaver.exportToFile(null, List.of(), List.of());
 
-        Assert.assertFalse(exported);
+        Assertions.assertFalse(exported);
     }
 
     @Test
@@ -74,7 +77,7 @@ public class SongSaverTest {
 
         boolean saved = songSaver.saveSongToFile(fileThatCanNotBeCreated, new Song());
 
-        Assert.assertFalse(saved);
+        Assertions.assertFalse(saved);
     }
 
     @Test
@@ -83,7 +86,7 @@ public class SongSaverTest {
 
         boolean exported = songSaver.exportToFile(fileThatCanNotBeCreated, List.of(), List.of());
 
-        Assert.assertFalse(exported);
+        Assertions.assertFalse(exported);
     }
 
     private Song prepareSongWithTagsInconsistentWithTrackNames() {
@@ -106,5 +109,10 @@ public class SongSaverTest {
                 "P 2",
                 "E"
         );
+    }
+
+    private File newTmpFile(String fileName) throws IOException {
+        Path inputFile = Files.createFile(tmpFolder.resolve(fileName));
+        return inputFile.toFile();
     }
 }

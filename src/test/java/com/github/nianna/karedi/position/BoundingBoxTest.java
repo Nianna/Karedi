@@ -1,22 +1,21 @@
 package com.github.nianna.karedi.position;
 
-import static org.junit.Assert.assertEquals;
-
-import java.util.Random;
-
-import org.junit.Before;
-import org.junit.Test;
-
-import javafx.beans.property.ReadOnlyObjectWrapper;
 import com.github.nianna.karedi.region.Bounded;
 import com.github.nianna.karedi.region.BoundingBox;
 import com.github.nianna.karedi.region.IntBounded;
+import javafx.beans.property.ReadOnlyObjectWrapper;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import java.util.Random;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class BoundingBoxTest {
 	BoundingBox<IntBounded> testBox;
 	Bounded<Integer> testBounded;
 
-	@Before
+	@BeforeEach
 	public void setUp() {
 		// testBox = new BoundingBox();
 	}

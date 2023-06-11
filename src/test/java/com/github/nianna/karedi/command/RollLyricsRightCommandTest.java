@@ -1,23 +1,22 @@
 package com.github.nianna.karedi.command;
 
+import com.github.nianna.karedi.MockSongCreator;
+import com.github.nianna.karedi.song.Note;
+import com.github.nianna.karedi.util.LyricsHelper;
+import javafx.util.Pair;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
-
-import javafx.util.Pair;
-import com.github.nianna.karedi.command.RollLyricsRightCommand;
-import com.github.nianna.karedi.song.Note;
-import com.github.nianna.karedi.util.LyricsHelper;
-import com.github.nianna.karedi.MockSongCreator;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class RollLyricsRightCommandTest {
 	private List<Note> notes = new ArrayList<>();
 
-	@Before
+	@BeforeEach
 	public void setUp() {
 		notes.clear();
 		notes.addAll(MockSongCreator.createLine(0, 4).getNotes());
@@ -27,7 +26,7 @@ public class RollLyricsRightCommandTest {
 	public void resetsFirstNoteLyricsToDefaultIfTheyAreNotSplittable() {
 		notes.get(0).setLyrics("test");
 		execute(1);
-		Assert.assertEquals(LyricsHelper.defaultLyrics(), notes.get(0).getLyrics());
+		assertEquals(LyricsHelper.defaultLyrics(), notes.get(0).getLyrics());
 	}
 
 	@Test
@@ -36,9 +35,9 @@ public class RollLyricsRightCommandTest {
 		notes.get(0).setLyrics(lyrics);
 		execute(1);
 		Pair<String, String> splitted = LyricsHelper.split(lyrics);
-		Assert.assertEquals("Invalid first note's lyrics", splitted.getKey(),
+		assertEquals("Invalid first note's lyrics", splitted.getKey(),
 				notes.get(0).getLyrics());
-		Assert.assertEquals("Invalid second note's lyrics", splitted.getValue(),
+		assertEquals("Invalid second note's lyrics", splitted.getValue(),
 				notes.get(1).getLyrics());
 	}
 
@@ -47,7 +46,7 @@ public class RollLyricsRightCommandTest {
 		String lyrics = "Foo bar";
 		notes.get(1).setLyrics(lyrics);
 		execute(2);
-		Assert.assertEquals(lyrics, notes.get(3).getLyrics());
+		assertEquals(lyrics, notes.get(3).getLyrics());
 	}
 
 	@Test
@@ -57,7 +56,7 @@ public class RollLyricsRightCommandTest {
 		notes.get(notes.size() - 2).setLyrics(lyrics);
 		notes.get(notes.size() - 1).setLyrics(lastLyrics);
 		execute(1);
-		Assert.assertEquals(LyricsHelper.join(lyrics, lastLyrics),
+		assertEquals(LyricsHelper.join(lyrics, lastLyrics),
 				notes.get(notes.size() - 1).getLyrics());
 	}
 
@@ -67,14 +66,14 @@ public class RollLyricsRightCommandTest {
 		notes.clear();
 		notes.add(lastNote);
 		execute(1);
-		Assert.assertEquals(LyricsHelper.defaultLyrics(), lastNote.getLyrics());
+		assertEquals(LyricsHelper.defaultLyrics(), lastNote.getLyrics());
 	}
 
 	@Test
 	public void storesLyricsOnLastNoteIfByIsGreaterThanOrEqualToListSize() {
 		String jointLyrics = assignUniqueLyrics();
 		execute(notes.size());
-		Assert.assertEquals(jointLyrics, notes.get(notes.size() - 1).getLyrics());
+		assertEquals(jointLyrics, notes.get(notes.size() - 1).getLyrics());
 	}
 
 	@Test
@@ -87,7 +86,7 @@ public class RollLyricsRightCommandTest {
 		String lastNoteLyrics = notes.get(notes.size() - 1).getLyrics();
 		assignUniqueLyrics();
 		execute(by);
-		Assert.assertEquals(lastNoteLyrics, notes.get(notes.size() - 1).getLyrics());
+		assertEquals(lastNoteLyrics, notes.get(notes.size() - 1).getLyrics());
 	}
 
 	private String assignUniqueLyrics() {

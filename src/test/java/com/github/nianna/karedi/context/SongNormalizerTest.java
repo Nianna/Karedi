@@ -3,8 +3,11 @@ package com.github.nianna.karedi.context;
 import com.github.nianna.karedi.song.Song;
 import com.github.nianna.karedi.song.tag.Tag;
 import com.github.nianna.karedi.song.tag.TagKey;
-import org.junit.Assert;
-import org.junit.Test;
+
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class SongNormalizerTest {
 
@@ -16,7 +19,7 @@ public class SongNormalizerTest {
 
         songNormalizer.normalize(song);
 
-        Assert.assertEquals(240, song.getBpm(), 0.0);
+        assertEquals(240, song.getBpm(), 0.0);
     }
 
     @Test
@@ -25,7 +28,7 @@ public class SongNormalizerTest {
 
         songNormalizer.normalize(song);
 
-        Assert.assertEquals(0, song.getGap());
+        assertEquals(0, song.getGap());
     }
 
     @Test
@@ -35,7 +38,7 @@ public class SongNormalizerTest {
 
         songNormalizer.normalize(song);
 
-        Assert.assertEquals(240, song.getBpm(), 0.0);
+        assertEquals(240, song.getBpm(), 0.0);
     }
 
     @Test
@@ -45,7 +48,7 @@ public class SongNormalizerTest {
 
         songNormalizer.normalize(song);
 
-        Assert.assertEquals(0, song.getGap());
+        assertEquals(0, song.getGap());
     }
 
     @Test
@@ -54,8 +57,8 @@ public class SongNormalizerTest {
 
         songNormalizer.normalize(song);
 
-        Assert.assertEquals(song.getTrackCount(), 1);
-        Assert.assertEquals(1, song.getTrack(0).getPlayer().intValue());
+        assertEquals(song.getTrackCount(), 1);
+        assertEquals(1, song.getTrack(0).getPlayer().intValue());
     }
 
 }

@@ -1,19 +1,19 @@
 package com.github.nianna.karedi.command;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
-
-import com.github.nianna.karedi.command.Command;
-import com.github.nianna.karedi.command.ToggleLineBreakCommand;
+import com.github.nianna.karedi.MockSongCreator;
 import com.github.nianna.karedi.song.Note;
 import com.github.nianna.karedi.song.Song;
 import com.github.nianna.karedi.song.SongLine;
 import com.github.nianna.karedi.song.SongTrack;
-import com.github.nianna.karedi.MockSongCreator;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class ToggleLineBreakCommandTest {
 	private int noteCount = 6;
@@ -23,7 +23,7 @@ public class ToggleLineBreakCommandTest {
 	private SongLine firstLine;
 	private SongLine secondLine;
 
-	@Before
+	@BeforeEach
 	public void setUp() {
 		song = MockSongCreator.createSong(1, lineCount, noteCount);
 		track = song.getTrack(0);
@@ -41,13 +41,11 @@ public class ToggleLineBreakCommandTest {
 		List<Note> secondPart = new ArrayList<>(
 				firstLine.getNotes().subList(testNoteIndex, lineSize));
 		boolean result = new ToggleLineBreakCommand(testNote).execute();
-		Assert.assertEquals("Wrong value returned", result, true);
-		Assert.assertTrue("Tested note should now start a new line", testNote.isFirstInLine());
-		Assert.assertEquals("Track size should've increased by 1", lineCount + 1, track.size());
-		Assert.assertEquals("All notes that were before the tested note should now constitute the"
-				+ "first line", firstPart, track.getLine(0).getNotes());
-		Assert.assertEquals("All notes, starting from the tested note, should now constitute the"
-				+ "second line", secondPart, track.getLine(1).getNotes());
+		assertTrue(result);
+		assertTrue(testNote.isFirstInLine());
+		assertEquals(lineCount + 1, track.size());
+		assertEquals(firstPart, track.getLine(0).getNotes());
+		assertEquals(secondPart, track.getLine(1).getNotes());
 	}
 
 	@Test
@@ -56,19 +54,18 @@ public class ToggleLineBreakCommandTest {
 		List<Note> notes = new ArrayList<>(firstLine.getNotes());
 		notes.addAll(secondLine.getNotes());
 		boolean result = new ToggleLineBreakCommand(testNote).execute();
-		Assert.assertEquals("Wrong value returned", result, true);
-		Assert.assertFalse("Tested note shouldn't break the line now", testNote.isFirstInLine());
-		Assert.assertEquals("Track size should've decreased by 1", lineCount - 1, track.size());
-		Assert.assertEquals("All notes from these two lines should now constitute the first line",
-				notes, track.getLine(0).getNotes());
+		assertTrue(result);
+		assertFalse(testNote.isFirstInLine());
+		assertEquals(lineCount - 1, track.size());
+		assertEquals(notes, track.getLine(0).getNotes());
 	}
 
 	@Test
 	public void doesNothingForFirstNoteOfTheTrack() {
 		Note testNote = track.getNotes().get(0);
 		boolean result = new ToggleLineBreakCommand(testNote).execute();
-		Assert.assertEquals("Wrong value returned", false, result);
-		Assert.assertTrue("The note should still break line", testNote.isFirstInLine());
+		assertFalse(result);
+		assertTrue(testNote.isFirstInLine());
 	}
 
 	@Test
@@ -78,7 +75,7 @@ public class ToggleLineBreakCommandTest {
 		Command cmd = new ToggleLineBreakCommand(note);
 		cmd.execute();
 		cmd.undo();
-		Assert.assertEquals("Content has changed", firstLineNotes, track.getLine(0).getNotes());
+		assertEquals(firstLineNotes, track.getLine(0).getNotes());
 	}
 
 	@Test
@@ -89,9 +86,7 @@ public class ToggleLineBreakCommandTest {
 		Command cmd = new ToggleLineBreakCommand(note);
 		cmd.execute();
 		cmd.undo();
-		Assert.assertEquals("First line's content has changed", firstLineNotes,
-				track.getLine(0).getNotes());
-		Assert.assertEquals("Second line's content has changed", secondLineNotes,
-				track.getLine(1).getNotes());
+		assertEquals(firstLineNotes, track.getLine(0).getNotes());
+		assertEquals(secondLineNotes, track.getLine(1).getNotes());
 	}
 }

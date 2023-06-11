@@ -12,11 +12,13 @@ import com.github.nianna.karedi.txt.parser.element.TagElement;
 import com.github.nianna.karedi.txt.parser.element.TrackElement;
 import com.github.nianna.karedi.txt.parser.element.VisitableSongElement;
 import javafx.collections.ObservableList;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.util.List;
 import java.util.stream.IntStream;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class BasicSongBuilderTest {
 
@@ -26,8 +28,8 @@ public class BasicSongBuilderTest {
     public void shouldBuildEmptySongWithFirstPlayerTrack() {
         Song song = songBuilder.getResult();
 
-        Assert.assertEquals(1, song.getTrackCount());
-        Assert.assertEquals(1, song.getTrack(0).getPlayer().intValue());
+        assertEquals(1, song.getTrackCount());
+        assertEquals(1, song.getTrack(0).getPlayer().intValue());
     }
 
     @Test
@@ -42,9 +44,9 @@ public class BasicSongBuilderTest {
         noteElements.forEach(songBuilder::buildPart);
         Song song = songBuilder.getResult();
 
-        Assert.assertEquals(1, song.getTrackCount());
+        assertEquals(1, song.getTrackCount());
         SongTrack track = song.getTrack(0);
-        Assert.assertEquals(1, track.getLines().size());
+        assertEquals(1, track.getLines().size());
         assertLineNotesValidity(noteElements, track.getLine(0).getNotes());
     }
 
@@ -60,14 +62,14 @@ public class BasicSongBuilderTest {
         elements.forEach(songBuilder::buildPart);
         Song song = songBuilder.getResult();
 
-        Assert.assertEquals(1, song.getTrackCount());
+        assertEquals(1, song.getTrackCount());
         SongTrack track = song.getTrack(0);
 
-        Assert.assertEquals(2, track.getLines().size());
-        Assert.assertEquals(0, track.getLine(0).getLineBreak());
-        Assert.assertEquals(1, track.getLine(0).getNotes().size());
-        Assert.assertEquals(13, track.getLine(1).getLineBreak());
-        Assert.assertEquals(2, track.getLine(1).getNotes().size());
+        assertEquals(2, track.getLines().size());
+        assertEquals(0, track.getLine(0).getLineBreak());
+        assertEquals(1, track.getLine(0).getNotes().size());
+        assertEquals(13, track.getLine(1).getLineBreak());
+        assertEquals(2, track.getLine(1).getNotes().size());
     }
 
     @Test
@@ -82,17 +84,17 @@ public class BasicSongBuilderTest {
         elements.forEach(songBuilder::buildPart);
         Song song = songBuilder.getResult();
 
-        Assert.assertEquals(2, song.getTrackCount());
-        Assert.assertEquals(1, song.getTrack(0).getPlayer().intValue());
-        Assert.assertEquals(3, song.getTrack(1).getPlayer().intValue());
+        assertEquals(2, song.getTrackCount());
+        assertEquals(1, song.getTrack(0).getPlayer().intValue());
+        assertEquals(3, song.getTrack(1).getPlayer().intValue());
 
         List<SongLine> firstTrackLines = song.getTrack(0).getLines();
-        Assert.assertEquals(1, firstTrackLines.size());
-        Assert.assertEquals(1, firstTrackLines.get(0).getNotes().size());
+        assertEquals(1, firstTrackLines.size());
+        assertEquals(1, firstTrackLines.get(0).getNotes().size());
 
         List<SongLine> secondTrackLines = song.getTrack(1).getLines();
-        Assert.assertEquals(1, secondTrackLines.size());
-        Assert.assertEquals(2, secondTrackLines.get(0).getNotes().size());
+        assertEquals(1, secondTrackLines.size());
+        assertEquals(2, secondTrackLines.get(0).getNotes().size());
     }
 
 
@@ -104,11 +106,11 @@ public class BasicSongBuilderTest {
         List.of(fooTag, barTag).forEach(songBuilder::buildPart);
         Song song = songBuilder.getResult();
 
-        Assert.assertEquals(2, song.getTags().size());
-        Assert.assertTrue(song.hasTag(fooTag.key()));
-        Assert.assertTrue(song.hasTag(barTag.key()));
-        Assert.assertEquals(fooTag.value(), song.getTagValue(fooTag.key()).orElseThrow());
-        Assert.assertEquals(barTag.value(), song.getTagValue(barTag.key()).orElseThrow());
+        assertEquals(2, song.getTags().size());
+        assertTrue(song.hasTag(fooTag.key()));
+        assertTrue(song.hasTag(barTag.key()));
+        assertEquals(fooTag.value(), song.getTagValue(fooTag.key()).orElseThrow());
+        assertEquals(barTag.value(), song.getTagValue(barTag.key()).orElseThrow());
 
     }
 
@@ -124,9 +126,9 @@ public class BasicSongBuilderTest {
         elements.forEach(songBuilder::buildPart);
         Song song = songBuilder.getResult();
 
-        Assert.assertEquals(1, song.getTrackCount());
+        assertEquals(1, song.getTrackCount());
         ObservableList<SongLine> firstTrackLines = song.getTrack(0).getLines();
-        Assert.assertEquals(1, firstTrackLines.size());
+        assertEquals(1, firstTrackLines.size());
         assertLineNotesValidity(List.of(note), firstTrackLines.get(0).getNotes());
     }
 
@@ -141,11 +143,11 @@ public class BasicSongBuilderTest {
         elements.forEach(songBuilder::buildPart);
         Song song = songBuilder.getResult();
 
-        Assert.assertEquals(1, song.getTrackCount());
+        assertEquals(1, song.getTrackCount());
         ObservableList<SongLine> firstTrackLines = song.getTrack(0).getLines();
-        Assert.assertEquals(2, firstTrackLines.size());
-        Assert.assertEquals(" no_space", firstTrackLines.get(0).getNotes().get(0).getLyrics());
-        Assert.assertEquals(" same_here", firstTrackLines.get(1).getNotes().get(0).getLyrics());
+        assertEquals(2, firstTrackLines.size());
+        assertEquals(" no_space", firstTrackLines.get(0).getNotes().get(0).getLyrics());
+        assertEquals(" same_here", firstTrackLines.get(1).getNotes().get(0).getLyrics());
     }
 
     @Test
@@ -153,22 +155,22 @@ public class BasicSongBuilderTest {
         songBuilder.buildPart(new NoteElement(NoteElementType.RAP, 0, 10, -3, ""));
         Song song = songBuilder.getResult();
 
-        Assert.assertEquals(1, song.getTrackCount());
-        Assert.assertEquals(" ~", song.getTrack(0).getLine(0).getNotes().get(0).getLyrics());
+        assertEquals(1, song.getTrackCount());
+        assertEquals(" ~", song.getTrack(0).getLine(0).getNotes().get(0).getLyrics());
     }
 
     private void assertLineNotesValidity(List<NoteElement> noteElements, List<Note> notes) {
-        Assert.assertEquals(noteElements.size(), notes.size());
+        assertEquals(noteElements.size(), notes.size());
         IntStream.range(0, noteElements.size())
                 .forEach(i -> assertNoteParameters(noteElements.get(i), notes.get(i)));
     }
 
     private void assertNoteParameters(NoteElement noteElement, Note note) {
-        Assert.assertEquals(noteElement.type().name(), note.getType().name());
-        Assert.assertEquals(noteElement.startsAt(), note.getStart());
-        Assert.assertEquals(noteElement.length(), note.getLength());
-        Assert.assertEquals(noteElement.tone(), note.getTone());
-        Assert.assertEquals(noteElement.lyrics(), note.getLyrics());
+        assertEquals(noteElement.type().name(), note.getType().name());
+        assertEquals(noteElement.startsAt(), note.getStart());
+        assertEquals(noteElement.length(), note.getLength());
+        assertEquals(noteElement.tone(), note.getTone());
+        assertEquals(noteElement.lyrics(), note.getLyrics());
     }
 
 }

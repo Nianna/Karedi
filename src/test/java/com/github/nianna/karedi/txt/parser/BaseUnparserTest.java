@@ -7,13 +7,14 @@ import com.github.nianna.karedi.txt.parser.element.NoteElementType;
 import com.github.nianna.karedi.txt.parser.element.TagElement;
 import com.github.nianna.karedi.txt.parser.element.TrackElement;
 import com.github.nianna.karedi.txt.parser.element.VisitableSongElement;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class BaseUnparserTest {
 	private static BaseUnparser unparser = new BaseUnparser();
@@ -21,31 +22,31 @@ public class BaseUnparserTest {
 	@Test
 	public void unparsesEndOfSongElementsCorrectly() {
 		EndOfSongElement element = new EndOfSongElement();
-		Assert.assertEquals("E", unparser.unparse(element));
+		assertEquals("E", unparser.unparse(element));
 	}
 
 	@Test
 	public void unparsesLineBreakElementsCorrectly() {
 		LineBreakElement element = new LineBreakElement(20);
-		Assert.assertEquals("- 20", unparser.unparse(element));
+		assertEquals("- 20", unparser.unparse(element));
 	}
 
 	@Test
 	public void unparsesNoteElementCorrectly() {
 		NoteElement element = new NoteElement(NoteElementType.NORMAL, 0, 1, 2, "Foo");
-		Assert.assertEquals(": 0 1 2 Foo", unparser.unparse(element));
+		assertEquals(": 0 1 2 Foo", unparser.unparse(element));
 	}
 
 	@Test
 	public void unparsesTagElementsCorrectly() {
 		TagElement element = new TagElement("ARTIST", "The Dummies");
-		Assert.assertEquals("#ARTIST:The Dummies", unparser.unparse(element));
+		assertEquals("#ARTIST:The Dummies", unparser.unparse(element));
 	}
 
 	@Test
 	public void unparsesTrackElementsCorrectly() {
 		TrackElement element = new TrackElement(2);
-		Assert.assertEquals("P 2", unparser.unparse(element));
+		assertEquals("P 2", unparser.unparse(element));
 	}
 
 	@Test
@@ -58,7 +59,7 @@ public class BaseUnparserTest {
 		elts.add(new EndOfSongElement());
 		List<String> actual = elts.stream().map(unparser::unparse).collect(Collectors.toList());
 		List<String> expected = Arrays.asList("#TITLE:Foo", "P 2", ": 0 1 2 ~", "- 10", "E");
-		Assert.assertEquals(expected, actual);
+		assertEquals(expected, actual);
 	}
 
 }

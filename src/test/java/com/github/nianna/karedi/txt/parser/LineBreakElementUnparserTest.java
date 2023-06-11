@@ -2,14 +2,17 @@ package com.github.nianna.karedi.txt.parser;
 
 import com.github.nianna.karedi.txt.parser.element.LineBreakElement;
 import com.github.nianna.karedi.txt.parser.elementunparser.LineBreakElementUnparser;
-import org.junit.Assert;
-import org.junit.BeforeClass;
-import org.junit.Test;
+
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class LineBreakElementUnparserTest {
 	private static LineBreakElementUnparser unparser;
 
-	@BeforeClass
+	@BeforeAll
 	public static void setUpClass() {
 		unparser = new LineBreakElementUnparser();
 	}
@@ -17,7 +20,7 @@ public class LineBreakElementUnparserTest {
 	@Test
 	public void unparsesCorrectly() {
 		LineBreakElement element = new LineBreakElement(20);
-		Assert.assertEquals("- 20", unparser.unparse(element));
+		assertEquals("- 20", unparser.unparse(element));
 	}
 
 }

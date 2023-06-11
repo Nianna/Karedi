@@ -1,11 +1,14 @@
 package com.github.nianna.karedi.txt.loader;
 
-import org.junit.Assert;
-import org.junit.Test;
+
+import org.junit.jupiter.api.Test;
 
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.Optional;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class TxtFileEncodingExtractorTest {
 
@@ -17,8 +20,8 @@ public class TxtFileEncodingExtractorTest {
 
         Optional<Charset> charset = extractor.tryExtract(inputLine);
 
-        Assert.assertTrue(charset.isPresent());
-        Assert.assertEquals(Charset.forName("windows-1250"), charset.get());
+        assertTrue(charset.isPresent());
+        assertEquals(Charset.forName("windows-1250"), charset.get());
     }
 
     @Test
@@ -27,8 +30,8 @@ public class TxtFileEncodingExtractorTest {
 
         Optional<Charset> charset = extractor.tryExtract(inputLine);
 
-        Assert.assertTrue(charset.isPresent());
-        Assert.assertEquals(Charset.forName("windows-1252"), charset.get());
+        assertTrue(charset.isPresent());
+        assertEquals(Charset.forName("windows-1252"), charset.get());
     }
 
     @Test
@@ -37,8 +40,8 @@ public class TxtFileEncodingExtractorTest {
 
         Optional<Charset> charset = extractor.tryExtract(inputLine);
 
-        Assert.assertTrue(charset.isPresent());
-        Assert.assertEquals(StandardCharsets.UTF_8, charset.get());
+        assertTrue(charset.isPresent());
+        assertEquals(StandardCharsets.UTF_8, charset.get());
     }
 
     @Test
@@ -47,7 +50,7 @@ public class TxtFileEncodingExtractorTest {
 
         Optional<Charset> charset = extractor.tryExtract(inputLine);
 
-        Assert.assertTrue(charset.isEmpty());
+        assertTrue(charset.isEmpty());
     }
 
     @Test
@@ -56,14 +59,14 @@ public class TxtFileEncodingExtractorTest {
 
         Optional<Charset> charset = extractor.tryExtract(inputLine);
 
-        Assert.assertTrue(charset.isEmpty());
+        assertTrue(charset.isEmpty());
     }
 
     @Test
     public void shouldNotExtractIfLineIsNull() {
         Optional<Charset> charset = extractor.tryExtract(null);
 
-        Assert.assertTrue(charset.isEmpty());
+        assertTrue(charset.isEmpty());
     }
 
 }

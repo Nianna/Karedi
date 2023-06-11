@@ -11,10 +11,13 @@ import com.github.nianna.karedi.txt.parser.element.NoteElementType;
 import com.github.nianna.karedi.txt.parser.element.TagElement;
 import com.github.nianna.karedi.txt.parser.element.TrackElement;
 import com.github.nianna.karedi.txt.parser.element.VisitableSongElement;
-import org.junit.Assert;
-import org.junit.Test;
+
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class SongDisassemblerTest {
 
@@ -38,7 +41,7 @@ public class SongDisassemblerTest {
                 new NoteElement(NoteElementType.GOLDEN_RAP, 40, 5, 40, "try"),
                 new EndOfSongElement()
         );
-        Assert.assertEquals(expectedResult, result);
+        assertEquals(expectedResult, result);
     }
 
     @Test
@@ -67,7 +70,7 @@ public class SongDisassemblerTest {
                 new NoteElement(NoteElementType.GOLDEN_RAP, 40, 5, 40, "try"),
                 new EndOfSongElement()
         );
-        Assert.assertEquals(expectedResult, result);
+        assertEquals(expectedResult, result);
     }
 
     private static SongTrack createSongTrack(int playerNumber) {
