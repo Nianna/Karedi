@@ -1,13 +1,11 @@
 package com.github.nianna.karedi.song;
 
-import static org.junit.Assert.assertEquals;
+import com.github.nianna.karedi.region.Direction;
+import org.junit.jupiter.api.Test;
 
 import java.util.Random;
 
-import org.junit.Test;
-
-import com.github.nianna.karedi.region.Direction;
-import com.github.nianna.karedi.song.Note;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class NoteTest {
 

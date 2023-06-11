@@ -2,14 +2,17 @@ package com.github.nianna.karedi.txt.parser;
 
 import com.github.nianna.karedi.txt.parser.element.TagElement;
 import com.github.nianna.karedi.txt.parser.elementunparser.TagElementUnparser;
-import org.junit.Assert;
-import org.junit.BeforeClass;
-import org.junit.Test;
+
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class TagElementUnparserTest {
 	private static TagElementUnparser unparser;
 
-	@BeforeClass
+	@BeforeAll
 	public static void setUpClass() {
 		unparser = new TagElementUnparser();
 	}
@@ -17,7 +20,7 @@ public class TagElementUnparserTest {
 	@Test
 	public void unparsesCorrectly() {
 		TagElement element = new TagElement("ARTIST", "The Dummies");
-		Assert.assertEquals("#ARTIST:The Dummies", unparser.unparse(element));
+		assertEquals("#ARTIST:The Dummies", unparser.unparse(element));
 	}
 
 }

@@ -5,11 +5,14 @@ import com.github.nianna.karedi.song.SongLine;
 import com.github.nianna.karedi.song.SongTrack;
 import com.github.nianna.karedi.txt.parser.ParsingFactory;
 import com.github.nianna.karedi.txt.parser.Unparser;
-import org.junit.Assert;
-import org.junit.Test;
+
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 import java.util.List;
 import java.util.stream.Stream;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class NotesSaverHelperTest {
 
@@ -23,7 +26,7 @@ public class NotesSaverHelperTest {
     public void shouldPrepareEmptyResultForNoNotes() {
         Stream<String> result = helper.toUnparsedRepresentation(List.of());
 
-        Assert.assertEquals(0, result.count());
+        assertEquals(0, result.count());
     }
 
     @Test
@@ -43,7 +46,7 @@ public class NotesSaverHelperTest {
                 ": 10 5 0 ~",
                 ": 20 3 0 ~"
         );
-        Assert.assertEquals(expectedResult, result.toList());
+        assertEquals(expectedResult, result.toList());
     }
 
     @Test
@@ -67,7 +70,7 @@ public class NotesSaverHelperTest {
                 "- 17",
                 ": 20 3 0 ~"
         );
-        Assert.assertEquals(expectedResult, result.toList());
+        assertEquals(expectedResult, result.toList());
     }
 
 }

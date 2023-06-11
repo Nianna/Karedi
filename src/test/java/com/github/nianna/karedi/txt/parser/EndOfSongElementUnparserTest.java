@@ -2,14 +2,17 @@ package com.github.nianna.karedi.txt.parser;
 
 import com.github.nianna.karedi.txt.parser.element.EndOfSongElement;
 import com.github.nianna.karedi.txt.parser.elementunparser.EndOfSongElementUnparser;
-import org.junit.Assert;
-import org.junit.BeforeClass;
-import org.junit.Test;
+
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class EndOfSongElementUnparserTest {
 	private static EndOfSongElementUnparser unparser;
 
-	@BeforeClass
+	@BeforeAll
 	public static void setUpClass() {
 		unparser = new EndOfSongElementUnparser();
 	}
@@ -17,7 +20,7 @@ public class EndOfSongElementUnparserTest {
 	@Test
 	public void unparsesCorrectly() {
 		EndOfSongElement element = new EndOfSongElement();
-		Assert.assertEquals("E", unparser.unparse(element));
+		assertEquals("E", unparser.unparse(element));
 	}
 
 }

@@ -1,20 +1,23 @@
 package com.github.nianna.karedi.txt.loader;
 
-import org.junit.Assert;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.TemporaryFolder;
+
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.io.TempDir;
 
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.List;
 import java.util.Optional;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 public class TxtFileLoaderTest {
 
-    @Rule
-    public TemporaryFolder tmpFolder = new TemporaryFolder();
+    @TempDir
+    public Path tmpFolder;
 
     TxtFileEncodingExtractor fileEncodingExtractor = new TxtFileEncodingExtractor();
 
@@ -30,8 +33,8 @@ public class TxtFileLoaderTest {
 
         Optional<List<String>> loadedLines = txtFileLoader.loadFileLines(inputFile.toPath());
 
-        Assert.assertTrue(loadedLines.isPresent());
-        Assert.assertEquals(expectedLines, loadedLines.get());
+        assertTrue(loadedLines.isPresent());
+        assertEquals(expectedLines, loadedLines.get());
     }
 
     @Test
@@ -44,8 +47,8 @@ public class TxtFileLoaderTest {
 
         Optional<List<String>> loadedLines = txtFileLoader.loadFileLines(inputFile.toPath());
 
-        Assert.assertTrue(loadedLines.isPresent());
-        Assert.assertEquals(expectedLines, loadedLines.get());
+        assertTrue(loadedLines.isPresent());
+        assertEquals(expectedLines, loadedLines.get());
     }
 
     @Test
@@ -59,8 +62,8 @@ public class TxtFileLoaderTest {
 
         Optional<List<String>> loadedLines = txtFileLoader.loadFileLines(inputFile.toPath());
 
-        Assert.assertTrue(loadedLines.isPresent());
-        Assert.assertEquals(expectedLines, loadedLines.get());
+        assertTrue(loadedLines.isPresent());
+        assertEquals(expectedLines, loadedLines.get());
     }
 
     @Test
@@ -76,8 +79,8 @@ public class TxtFileLoaderTest {
 
         Optional<List<String>> loadedLines = txtFileLoader.loadFileLines(inputFile.toPath());
 
-        Assert.assertTrue(loadedLines.isPresent());
-        Assert.assertEquals(expectedLines, loadedLines.get());
+        assertTrue(loadedLines.isPresent());
+        assertEquals(expectedLines, loadedLines.get());
     }
 
     @Test
@@ -93,8 +96,8 @@ public class TxtFileLoaderTest {
 
         Optional<List<String>> loadedLines = txtFileLoader.loadFileLines(inputFile.toPath());
 
-        Assert.assertTrue(loadedLines.isPresent());
-        Assert.assertEquals(expectedLines, loadedLines.get());
+        assertTrue(loadedLines.isPresent());
+        assertEquals(expectedLines, loadedLines.get());
     }
 
     @Test
@@ -110,15 +113,15 @@ public class TxtFileLoaderTest {
 
         Optional<List<String>> loadedLines = txtFileLoader.loadFileLines(inputFile.toPath());
 
-        Assert.assertTrue(loadedLines.isPresent());
-        Assert.assertEquals(expectedLines, loadedLines.get());
+        assertTrue(loadedLines.isPresent());
+        assertEquals(expectedLines, loadedLines.get());
     }
 
     private File prepareFile(String resourceFileName) throws IOException {
-        File inputFile = tmpFolder.newFile("input.txt");
+        Path inputFile = Files.createFile(tmpFolder.resolve("input.txt"));
         byte[] bytes = getClass().getResourceAsStream(resourceFileName).readAllBytes();
-        Files.write(inputFile.toPath(), bytes);
-        return inputFile;
+        Files.write(inputFile, bytes);
+        return inputFile.toFile();
     }
 
 }
