@@ -296,6 +296,8 @@
 <!--					<icon>src/main/resources/icon/icon.png</icon>-->
 					<linuxShortcut>true</linuxShortcut>
 					<linuxAppCategory>Audio;AudioVideo</linuxAppCategory>
+<!--					use for macOS *.dmg images -->
+<!--					<icon>src/main/resources/icon/icon.icns</icon>-->
 					<verbose>true</verbose>
 				</configuration>
 			</plugin>
