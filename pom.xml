@@ -272,7 +272,7 @@
 				<version>1.6.0</version>
 				<configuration>
 					<name>${project.artifactId}</name>
-					<appVersion>1.3.0.1</appVersion>
+					<appVersion>${project.version}</appVersion>
 					<vendor>${project.vendor}</vendor>
 					<destination>${project.dist.outputDirectory}</destination>
 					<modulePaths>
@@ -284,6 +284,9 @@
 						<modulePath>${settings.localRepository}\org\controlsfx\controlsfx\${controlsfx.version}</modulePath>
 						<modulePath>${project.jars.outputDirectory}</modulePath>
 					</modulePaths>
+					<javaOptions>
+						<javaOption>--add-exports=javafx.base/com.sun.javafx.event=org.controlsfx.controls</javaOption>
+					</javaOptions>
 					<module>karedi/${project.mainClass}</module>
 					<winShortcut>true</winShortcut>
 					<winDirChooser>true</winDirChooser>
