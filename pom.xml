@@ -288,21 +288,34 @@
 						<javaOption>--add-exports=javafx.base/com.sun.javafx.event=org.controlsfx.controls</javaOption>
 					</javaOptions>
 					<module>karedi/${project.mainClass}</module>
-					<winShortcut>true</winShortcut>
-					<winDirChooser>true</winDirChooser>
-					<winMenu>true</winMenu>
-					<winPerUserInstall>true</winPerUserInstall>
-					<winUpgradeUuid>643965f2-2ce8-4bd5-87de-e3074e25d589</winUpgradeUuid>
-<!--					use for Windows *.exe images -->
-					<icon>src/main/resources/icon/icon.ico</icon>
-<!--					use for Linux *.deb images -->
-<!--					<icon>src/main/resources/icon/icon.png</icon>-->
-					<linuxShortcut>true</linuxShortcut>
-					<linuxAppCategory>Audio;AudioVideo</linuxAppCategory>
-<!--					use for macOS *.dmg images -->
-<!--					<icon>src/main/resources/icon/icon.icns</icon>-->
 					<verbose>true</verbose>
 				</configuration>
+				<executions>
+					<execution>
+						<id>win</id>
+						<configuration>
+							<icon>src/main/resources/icon/icon.ico</icon>
+							<winShortcut>true</winShortcut>
+							<winDirChooser>true</winDirChooser>
+							<winMenu>true</winMenu>
+							<winPerUserInstall>true</winPerUserInstall>
+							<winUpgradeUuid>643965f2-2ce8-4bd5-87de-e3074e25d589</winUpgradeUuid>
+						</configuration>
+					</execution>
+					<execution>
+						<id>mac</id>
+						<configuration>
+							<icon>icons/icons.icns</icon>
+						</configuration>
+					</execution>
+					<execution>
+						<id>linux</id>
+						<configuration>
+							<linuxShortcut>true</linuxShortcut>
+							<linuxAppCategory>Audio;AudioVideo</linuxAppCategory>
+						</configuration>
+					</execution>
+				</executions>
 			</plugin>
 		</plugins>
 	</build>
