@@ -552,7 +552,7 @@ public class EditorController implements Controller {
             updateInterval = getBeatDuration() / 2;
             tapping = true;
             activeSongContext.activeTrackProperty().addListener(activeTrackListener);
-            actionContext.execute(KarediActions.PLAY_VISIBLE_AUDIO);
+            actionContext.execute(KarediActions.PLAY_TO_THE_END_AUDIO);
             audioContext.playerStatusProperty().addListener(playerStatusListener);
             hBox.setOnKeyPressed(this::onKeyPressedWhileTapping);
             hBox.setOnKeyReleased(this::onKeyReleasedWhileTapping);
