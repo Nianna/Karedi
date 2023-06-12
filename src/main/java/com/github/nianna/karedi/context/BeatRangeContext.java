@@ -54,6 +54,10 @@ public class BeatRangeContext {
         return beatMillisConverter.beatToMillis(beat);
     }
 
+    public int millisToBeat(int millis) {
+        return beatMillisConverter.millisToBeat(millis);
+    }
+
     private void onBeatMillisConverterInvalidated() {
         if (isNull(activeSongProperty.get())) {
             beatMillisConverter.setBpm(Song.DEFAULT_BPM);
