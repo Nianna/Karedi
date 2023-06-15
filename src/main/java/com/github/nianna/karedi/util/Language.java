@@ -1,5 +1,8 @@
 package com.github.nianna.karedi.util;
 
+import java.util.Optional;
+import java.util.stream.Stream;
+
 public enum Language {
 	// List of languages accepted by ultrastar-es.org
 	BASQUE,
@@ -46,6 +49,15 @@ public enum Language {
 	public String toString() {
 		String str = super.toString();
 		return str.charAt(0) + str.substring(1).toLowerCase();
+	}
+
+	public static Optional<Language> parse(String language) {
+		if (language == null) {
+			return Optional.empty();
+		}
+		return Stream.of(values())
+				.filter(value -> value.name().equals(language.toUpperCase()))
+				.findFirst();
 	}
 
 }

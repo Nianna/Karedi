@@ -5,11 +5,23 @@ import javafx.scene.input.KeyCodeCombination;
 import javafx.scene.input.KeyCombination;
 
 public final class KeyCodeCombinations {
-	public static final KeyCodeCombination CTRL_X = new KeyCodeCombination(KeyCode.X,
-			KeyCombination.SHORTCUT_DOWN);
-	public static final KeyCodeCombination CTRL_V = new KeyCodeCombination(KeyCode.V,
-			KeyCombination.SHORTCUT_DOWN);
 
-	private KeyCodeCombinations() {
-	}
+    public static final KeyCodeCombination CTRL_X = new KeyCodeCombination(
+			KeyCode.X,
+            KeyCombination.SHORTCUT_DOWN
+	);
+
+    public static final KeyCodeCombination CTRL_V = new KeyCodeCombination(
+			KeyCode.V,
+            KeyCombination.SHORTCUT_DOWN
+	);
+
+    public static final KeyCodeCombination CTRL_SHIFT_V = new KeyCodeCombination(
+			KeyCode.V,
+            KeyCombination.SHORTCUT_DOWN,
+			KeyCombination.SHIFT_DOWN
+	);
+
+    private KeyCodeCombinations() {
+    }
 }
