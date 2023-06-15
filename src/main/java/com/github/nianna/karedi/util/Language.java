@@ -56,7 +56,7 @@ public enum Language {
 			return Optional.empty();
 		}
 		return Stream.of(values())
-				.filter(value -> value.name().equals(language.toUpperCase()))
+				.filter(value -> value.toString().equalsIgnoreCase(language))
 				.findFirst();
 	}
 
