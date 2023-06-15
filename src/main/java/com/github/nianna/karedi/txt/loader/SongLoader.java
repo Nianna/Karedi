@@ -11,6 +11,7 @@ import com.github.nianna.karedi.util.MultiplayerTags;
 import java.io.File;
 import java.nio.file.Path;
 import java.util.List;
+import java.util.Objects;
 import java.util.logging.Logger;
 
 class SongLoader {
@@ -39,6 +40,7 @@ class SongLoader {
 				.map(String::strip)
 				.filter(line -> !line.isBlank())
 				.map(this::parseLine)
+				.filter(Objects::nonNull)
 				.forEach(songBuilder::buildPart);
 		Song song = songBuilder.getResult();
 		extractTrackNamesFromTags(song);
