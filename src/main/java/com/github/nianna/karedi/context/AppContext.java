@@ -21,6 +21,8 @@ public class AppContext {
 
 	private final BeatRangeContext beatRangeContext = new BeatRangeContext(activeSongContext);
 
+	private final SyllabizerContext syllabizerContext = new SyllabizerContext(activeSongContext);
+
 	private final AudioContext audioContext = new AudioContext(beatRangeContext, activeSongContext);
 
 	private final VisibleAreaContext visibleAreaContext = new VisibleAreaContext(
@@ -66,6 +68,10 @@ public class AppContext {
 
 	public BeatRangeContext getBeatRangeContext() {
 		return beatRangeContext;
+	}
+
+	public SyllabizerContext getSyllabizerContext() {
+		return syllabizerContext;
 	}
 
 	public AudioContext getAudioContext() {

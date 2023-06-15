@@ -15,10 +15,12 @@ import com.github.nianna.karedi.context.AppContext;
 import com.github.nianna.karedi.context.CommandContext;
 import com.github.nianna.karedi.context.NoteSelection;
 import com.github.nianna.karedi.context.SelectionContext;
+import com.github.nianna.karedi.context.SyllabizerContext;
 import com.github.nianna.karedi.song.Note;
 import com.github.nianna.karedi.song.Note.Type;
 import com.github.nianna.karedi.song.SongLine;
 import com.github.nianna.karedi.song.SongTrack;
+import com.github.nianna.karedi.syllabizer.Syllabizer;
 import com.github.nianna.karedi.util.KeyCodeCombinations;
 import com.github.nianna.karedi.util.KeyEventUtils;
 import com.github.nianna.karedi.util.ListenersUtils;
@@ -77,6 +79,8 @@ public class LyricsEditorController implements Controller {
 	private CommandContext commandContext;
 
 	private SelectionContext selectionContext;
+
+	private SyllabizerContext syllabizerContext;
 
 	private NoteSelection selection;
 
@@ -142,6 +146,7 @@ public class LyricsEditorController implements Controller {
 		this.actionContext = appContext.getActionContext();
 		this.commandContext = appContext.getCommandContext();
 		this.selectionContext = appContext.getSelectionContext();
+		this.syllabizerContext = appContext.getSyllabizerContext();
 
 		this.selection = selectionContext.getSelection();
 		activeSongContext.activeTrackProperty().addListener(this::onTrackChanged);
@@ -375,7 +380,13 @@ public class LyricsEditorController implements Controller {
 		}
 
 		if (KeyCodeCombinations.CTRL_V.match(event)) {
-			paste();
+			paste(true);
+			event.consume();
+			return;
+		}
+
+		if (KeyCodeCombinations.CTRL_SHIFT_V.match(event)) {
+			paste(false);
 			event.consume();
 			return;
 		}
@@ -428,22 +439,41 @@ public class LyricsEditorController implements Controller {
 		}
 	}
 
-	private void paste() {
+	private void paste(boolean syllabize) {
 		String copiedText = Clipboard.getSystemClipboard().getString();
 		if (copiedText != null) {
-			String filteredText = filterOutIllegalChars(copiedText.replaceAll("\\R", " "));
 			int startPos = textArea.getSelection().getStart();
 			textArea.noteAt(startPos).ifPresent(note -> {
-				String[] parts = splitTextIntoParts(filteredText);
+				String text = filterOutIllegalChars(copiedText.replaceAll("\\R", " "));
+				if (syllabize) {
+					text = syllabize(text);
+				}
+				String[] parts = splitTextIntoParts(text);
 				for (int i = 0; i < parts.length; ++i) {
 					parts[i] = NoteTextArea.denormalize(parts[i]);
 				}
 				deleteSelectionAndExecute(new InsertTextCommand(note,
 						textArea.getOffsetWithinNote(note, startPos), parts));
-				textArea.selectRange(startPos + filteredText.length(),
-						startPos + filteredText.length());
+				textArea.selectRange(startPos + text.length(), startPos + text.length());
 			});
 		}
+	}
+
+	private String syllabize(String text) {
+		return syllabizerContext.findSyllabizer()
+				.map(syllabizer -> syllabize(text, syllabizer))
+				.orElse(text);
+	}
+
+	private String syllabize(String text, Syllabizer syllabizer) {
+		return syllabizer.syllabize(text).stream()
+				.collect(StringBuilder::new, (acc, str) -> {
+					if (!str.startsWith(" ")) {
+						acc.append("-");
+					}
+					acc.append(str);
+				}, StringBuilder::append)
+				.substring(1);
 	}
 
 	private String[] splitTextIntoParts(String text) {
