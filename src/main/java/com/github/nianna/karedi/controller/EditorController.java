@@ -514,7 +514,7 @@ public class EditorController implements Controller {
 
     private class TapNotesAction extends KarediAction {
 
-        private static final int VISIBLE_TIME_IN_MS_FOR_TAPPING = 5_000;
+        private static final int VISIBLE_TIME_IN_MS_FOR_TAPPING = 4_000;
 
         private InvalidationListener playerStatusListener;
         private InvalidationListener activeTrackListener;
@@ -563,7 +563,7 @@ public class EditorController implements Controller {
 
         private void adjustVisibleAreaForTapping() {
             audioContext.setMarkerBeat(visibleAreaContext.getLowerXBound());
-            int beats = beatRangeContext.millisToBeat(VISIBLE_TIME_IN_MS_FOR_TAPPING);
+            int beats = (int) (VISIBLE_TIME_IN_MS_FOR_TAPPING / getBeatDuration());
             visibleAreaContext.setVisibleAreaXBounds(
                     visibleAreaContext.getLowerXBound(),
                     visibleAreaContext.getLowerXBound() + beats
