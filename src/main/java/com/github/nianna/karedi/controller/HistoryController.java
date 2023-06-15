@@ -16,80 +16,92 @@ import javafx.scene.layout.AnchorPane;
 import javafx.util.Callback;
 
 public class HistoryController implements Controller {
-	@FXML
-	private AnchorPane pane;
-	@FXML
-	private ListView<Command> list;
-	@FXML
-	private MenuItem clearMenuItem;
+    @FXML
+    private AnchorPane pane;
 
-	private ActionContext actionContext;
+    @FXML
+    private ListView<Command> list;
 
-	private CommandContext commandContext;
+    @FXML
+    private MenuItem clearMenuItem;
 
-	private boolean changedByUser = false;
+    private ActionContext actionContext;
 
-	@FXML
-	public void initialize() {
-		list.setCellFactory(getCellFactory());
-	}
+    private CommandContext commandContext;
 
-	@FXML
-	private void handleClear() {
-		commandContext.clearHistory();
-	}
+    private boolean changedByUser = false;
 
-	@Override
-	public void setAppContext(AppContext appContext) {
-		this.actionContext = appContext.getActionContext();
-		this.commandContext = appContext.getCommandContext();
+    private HistoryListViewSkin historyListViewSkin;
 
-		list.setDisable(false);
-		list.setItems(commandContext.getHistory());
-		clearMenuItem.disableProperty().bind(BindingsUtils.isEmpty(list.getItems()));
-		list.getSelectionModel().selectedItemProperty().addListener(this::onSelectedItemChanged);
-		commandContext.activeCommandProperty().addListener(this::onActiveCommandChanged);
-	}
+    @FXML
+    public void initialize() {
+        list.setCellFactory(getCellFactory());
+    }
 
-	@Override
-	public Node getContent() {
-		return pane;
-	}
+    @FXML
+    private void handleClear() {
+        commandContext.clearHistory();
+    }
 
-	private void onSelectedItemChanged(Observable obs, Command oldCmd, Command newCmd) {
-		int oldIndex = commandContext.getActiveCommandIndex();
-		int newIndex = list.getItems().indexOf(newCmd);
-		if (newIndex != oldIndex) {
-			changedByUser = true;
-			int difference = newIndex - oldIndex;
-			KarediActions historyCmd = difference > 0 ? KarediActions.REDO : KarediActions.UNDO;
-			for (int i = 0; i < Math.abs(difference); ++i) {
-				actionContext.execute(historyCmd);
-			}
-			changedByUser = false;
-		}
-	}
+    @Override
+    public void setAppContext(AppContext appContext) {
+        this.actionContext = appContext.getActionContext();
+        this.commandContext = appContext.getCommandContext();
 
-	private void onActiveCommandChanged(Observable obs, Command oldCmd, Command newCmd) {
-		list.getSelectionModel().select(newCmd);
-		if (!changedByUser) {
-			list.scrollTo(newCmd);
-		}
-	}
+        list.setDisable(false);
+        list.setItems(commandContext.getHistory());
+        historyListViewSkin = new HistoryListViewSkin(list);
+        list.setSkin(historyListViewSkin);
+        clearMenuItem.disableProperty().bind(BindingsUtils.isEmpty(list.getItems()));
+        list.getSelectionModel().selectedItemProperty().addListener(this::onSelectedItemChanged);
+        commandContext.activeCommandProperty().addListener(this::onActiveCommandChanged);
+    }
 
-	private Callback<ListView<Command>, ListCell<Command>> getCellFactory() {
-		return (lv -> new ListCell<Command>() {
-			@Override
-			protected void updateItem(Command item, boolean empty) {
-				super.updateItem(item, empty);
+    @Override
+    public Node getContent() {
+        return pane;
+    }
 
-				if (empty || item == null || item.getTitle() == null) {
-					setText(null);
-				} else {
-					// use getTitle() instead of default toString()
-					setText(item.getTitle());
-				}
-			}
-		});
-	}
+    private void onSelectedItemChanged(Observable obs, Command oldCmd, Command newCmd) {
+        int oldIndex = commandContext.getActiveCommandIndex();
+        int newIndex = list.getItems().indexOf(newCmd);
+        if (newIndex != oldIndex) {
+            changedByUser = true;
+            int difference = newIndex - oldIndex;
+            KarediActions historyCmd = difference > 0 ? KarediActions.REDO : KarediActions.UNDO;
+            for (int i = 0; i < Math.abs(difference); ++i) {
+                actionContext.execute(historyCmd);
+            }
+            changedByUser = false;
+        }
+    }
+
+    private void onActiveCommandChanged(Observable obs, Command oldCmd, Command newCmd) {
+        list.getSelectionModel().select(newCmd);
+        if (!changedByUser) {
+            // Workaround for disappearing leading entries in the UI
+            int cellSizePreScroll = historyListViewSkin.getFlowCellSize();
+            list.scrollTo(newCmd);
+            int cellSizePostScroll = historyListViewSkin.getFlowCellSize();
+            if (cellSizePreScroll != cellSizePostScroll) {
+                historyListViewSkin.fixDisplay();
+            }
+        }
+    }
+
+    private Callback<ListView<Command>, ListCell<Command>> getCellFactory() {
+        return (lv -> new ListCell<Command>() {
+            @Override
+            protected void updateItem(Command item, boolean empty) {
+                super.updateItem(item, empty);
+
+                if (empty || item == null || item.getTitle() == null) {
+                    setText(null);
+                } else {
+                    // use getTitle() instead of default toString()
+                    setText(item.getTitle());
+                }
+            }
+        });
+    }
 }
