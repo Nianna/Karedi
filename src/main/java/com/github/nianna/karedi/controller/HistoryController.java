@@ -79,13 +79,9 @@ public class HistoryController implements Controller {
     private void onActiveCommandChanged(Observable obs, Command oldCmd, Command newCmd) {
         list.getSelectionModel().select(newCmd);
         if (!changedByUser) {
-            // Workaround for disappearing leading entries in the UI
-            int cellSizePreScroll = historyListViewSkin.getFlowCellSize();
             list.scrollTo(newCmd);
-            int cellSizePostScroll = historyListViewSkin.getFlowCellSize();
-            if (cellSizePreScroll != cellSizePostScroll) {
-                historyListViewSkin.fixDisplay();
-            }
+            // Workaround for disappearing leading entries in the UI
+            historyListViewSkin.fixDisplay();
         }
     }
 
