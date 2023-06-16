@@ -19,11 +19,9 @@ public class HistoryListViewSkin extends ListViewSkin<Command> {
     }
 
     public void fixDisplay() {
-        super.getVirtualFlow().scrollPixels(-FAKE_SCROLL_DELTA);
-        super.getVirtualFlow().scrollPixels(FAKE_SCROLL_DELTA);
-    }
-
-    public int getFlowCellSize() {
-        return super.getVirtualFlow().getCellCount();
+        if (super.getVirtualFlow().getCellCount() >= (int) getVirtualFlow().getHeight()) {
+            super.getVirtualFlow().scrollPixels(-FAKE_SCROLL_DELTA);
+            super.getVirtualFlow().scrollPixels(FAKE_SCROLL_DELTA);
+        }
     }
 }
