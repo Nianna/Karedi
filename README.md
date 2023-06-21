@@ -5,6 +5,7 @@
 ![Linux](https://img.shields.io/badge/Linux-FCC624?logo=linux&logoColor=black)
 ![MacOS](https://img.shields.io/badge/macOS-000000?logo=apple&logoColor=white)
 
+### 📖 [Documentation and tutorials](https://karedi.gitbook.io/karedi/)
 
 # Karedi
 
@@ -16,6 +17,8 @@ Its main objective is to simplify the process of creation for both beginners and
 
 ## Main features
 Karedi's main features include:
+  * support for multiple operating systems with no additional dependencies
+  * full documentation and tutorials for beginners available in the project's [website](https://karedi.gitbook.io/karedi/)
   * two display modes:
      * line by line - visible area's bounds are adjusted automatically
      * continuous - they are set manually by you
@@ -34,11 +37,11 @@ Karedi's main features include:
       * Tap Notes - add notes by pressing a key while listening to playback
       * Write Tones - set tones of selected notes by pressing an appropriate key, e.g. "E".
       
-Please refer to the [wiki](https://github.com/Nianna/Karedi/wiki) to learn more.
+Please refer to the [wiki](https://karedi.gitbook.io/karedi/) to learn more.
 
 ## Tutorial
 
-For tutorials explaining how to use this software, please refer to the [project's wiki](https://github.com/Nianna/Karedi/wiki). 
+For tutorials explaining how to use this software, please refer to the [project's wiki](https://karedi.gitbook.io/karedi/). 
 
 ## Downloads
 
