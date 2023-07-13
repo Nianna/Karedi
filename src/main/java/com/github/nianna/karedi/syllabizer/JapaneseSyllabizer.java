@@ -4,7 +4,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
-class JapaneseSyllabizer implements Syllabizer {
+class JapaneseSyllabizer extends Syllabizer {
 
     private static final Set<Character> CONSONANTS = Set.of(
             'b', 'c', 'd', 'f', 'g', 'h', 'j', 'k', 'l', 'm', 'n', 'p', 'q', 'r', 's', 't', 'v', 'w', 'x', 'y', 'z'
@@ -23,12 +23,7 @@ class JapaneseSyllabizer implements Syllabizer {
      * </p>
      */
     @Override
-    public List<String> syllabize(String input) {
-        String normalized = input.replaceAll("\\R", " ").stripTrailing();
-        return syllabizeNormalized(normalized);
-    }
-
-    private List<String> syllabizeNormalized(String input) {
+    protected List<String> syllabizeNormalized(String input) {
         List<String> results = new LinkedList<>();
         int nextSyllableStartIndex = 0;
         boolean canNextSyllableBeFinished = false;

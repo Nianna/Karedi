@@ -331,6 +331,12 @@
 	<dependencies>
 
 		<dependency>
+			<groupId>com.github.nianna</groupId>
+			<artifactId>hyphenator</artifactId>
+			<version>1.0.2</version>
+		</dependency>
+
+		<dependency>
 			<groupId>com.googlecode.soundlibs</groupId>
 			<artifactId>jlayer</artifactId>
 			<version>${jlayer.version}</version>
