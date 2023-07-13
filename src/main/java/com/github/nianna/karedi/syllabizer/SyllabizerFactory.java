@@ -13,6 +13,7 @@ public class SyllabizerFactory {
             case ENGLISH -> new EnglishSyllabizer();
             case JAPANESE -> new JapaneseSyllabizer();
             case POLISH -> new PolishSyllabizer();
+            case SPANISH, ESPANOL -> new SpanishSyllabizer();
             default -> null;
         };
     }
