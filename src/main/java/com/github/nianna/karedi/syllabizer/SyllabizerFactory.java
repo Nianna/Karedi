@@ -10,8 +10,9 @@ public class SyllabizerFactory {
 
     public static Syllabizer createFor(Language language) {
         return switch (language) {
-            case JAPANESE -> new JapaneseSyllabizer();
             case ENGLISH -> new EnglishSyllabizer();
+            case JAPANESE -> new JapaneseSyllabizer();
+            case POLISH -> new PolishSyllabizer();
             default -> null;
         };
     }
