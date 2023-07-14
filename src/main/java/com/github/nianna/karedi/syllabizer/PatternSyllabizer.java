@@ -1,8 +1,8 @@
 package com.github.nianna.karedi.syllabizer;
 
-import com.github.nianna.api.HyphenatedText;
-import com.github.nianna.api.Hyphenator;
-import com.github.nianna.api.HyphenatorProperties;
+import io.github.nianna.api.HyphenatedText;
+import io.github.nianna.api.Hyphenator;
+import io.github.nianna.api.HyphenatorProperties;
 
 import java.io.File;
 import java.net.URL;
