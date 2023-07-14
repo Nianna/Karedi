@@ -30,12 +30,12 @@ public class SyllabizerContext {
         return Optional.of(activeSongProperty.get())
                 .flatMap(song -> song.getTagValue(TagKey.LANGUAGE))
                 .flatMap(Language::parse)
-                .map(this::getSyllabizer);
+                .map(language -> SYLLABIZERS.computeIfAbsent(language, this::createSyllabizer));
     }
 
-    private Syllabizer getSyllabizer(Language language) {
+    private Syllabizer createSyllabizer(Language language) {
         try {
-            return SYLLABIZERS.computeIfAbsent(language, SyllabizerFactory::createFor);
+            return SyllabizerFactory.createFor(language);
         } catch (SyllabizerInitializationFailedException exception) {
             LOGGER.severe(I18N.get("syllabizer.init_failed"));
             return SyllabizerFactory.createNoopSyllabizer();
