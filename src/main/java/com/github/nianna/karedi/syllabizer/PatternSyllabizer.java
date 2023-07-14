@@ -1,12 +1,10 @@
 package com.github.nianna.karedi.syllabizer;
 
+import com.github.nianna.karedi.util.ResourceUtils;
 import io.github.nianna.api.HyphenatedText;
 import io.github.nianna.api.Hyphenator;
 import io.github.nianna.api.HyphenatorProperties;
 
-import java.io.File;
-import java.net.URL;
-import java.nio.file.Files;
 import java.util.List;
 
 abstract class PatternSyllabizer extends Syllabizer {
@@ -17,14 +15,13 @@ abstract class PatternSyllabizer extends Syllabizer {
 
     PatternSyllabizer(String dictionaryName, String syllablesPattern) {
         try {
-            URL resourcePath = getClass().getResource("/syllabizer/%s".formatted(dictionaryName));
-            File file = new File(resourcePath.toURI());
+            List<String> patterns = ResourceUtils.readLines("/syllabizer/%s".formatted(dictionaryName));
             HyphenatorProperties properties = new HyphenatorProperties(1, 1);
-            hyphenator = new Hyphenator(Files.readAllLines(file.toPath()), properties);
+            hyphenator = new Hyphenator(patterns, properties);
             sanitizer = new SyllablesSanitizer(syllablesPattern);
         } catch (Exception e) {
             e.printStackTrace();
-            throw new SyllabizerInitializationFailedException();
+            throw new SyllabizerInitializationFailedException(e);
         }
     }
 
