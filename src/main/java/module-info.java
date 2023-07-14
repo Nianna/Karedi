@@ -11,6 +11,7 @@ module karedi {
     requires org.fxmisc.richtext;
     requires org.fxmisc.flowless;
     requires wellbehavedfx;
+    requires nianna.hyphenator;
 
     opens com.github.nianna.karedi to javafx.graphics;
     opens com.github.nianna.karedi.controller to javafx.fxml;

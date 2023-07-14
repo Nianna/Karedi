@@ -18,6 +18,7 @@
 		<junit.version>5.9.2</junit.version>
 		<mp3agic.version>0.8.1</mp3agic.version>
 		<richtextfx.version>0.11.0</richtextfx.version>
+		<hyphenator.version>1.0.0</hyphenator.version>
 	</properties>
 
 	<build>
@@ -282,6 +283,7 @@
 						<modulePath>${settings.localRepository}\org\openjfx\javafx-base\${javafx.version}</modulePath>
 						<modulePath>${settings.localRepository}\org\openjfx\javafx-graphics\${javafx.version}</modulePath>
 						<modulePath>${settings.localRepository}\org\controlsfx\controlsfx\${controlsfx.version}</modulePath>
+						<modulePath>${settings.localRepository}\io\github\nianna\hyphenator\${hyphenator.version}</modulePath>
 						<modulePath>${project.jars.outputDirectory}</modulePath>
 					</modulePaths>
 					<javaOptions>
@@ -329,6 +331,12 @@
 	</repositories>
 
 	<dependencies>
+
+		<dependency>
+			<groupId>io.github.nianna</groupId>
+			<artifactId>hyphenator</artifactId>
+			<version>${hyphenator.version}</version>
+		</dependency>
 
 		<dependency>
 			<groupId>com.googlecode.soundlibs</groupId>
