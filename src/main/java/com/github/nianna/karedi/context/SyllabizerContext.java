@@ -38,7 +38,7 @@ public class SyllabizerContext {
             return SYLLABIZERS.computeIfAbsent(language, SyllabizerFactory::createFor);
         } catch (SyllabizerInitializationFailedException exception) {
             LOGGER.severe(I18N.get("syllabizer.init_failed"));
-            return null;
+            return SyllabizerFactory.createNoopSyllabizer();
         }
     }
 }

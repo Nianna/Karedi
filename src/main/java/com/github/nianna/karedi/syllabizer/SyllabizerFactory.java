@@ -18,4 +18,7 @@ public class SyllabizerFactory {
         };
     }
 
+    public static Syllabizer createNoopSyllabizer() {
+        return new NoopSyllabizer();
+    }
 }
