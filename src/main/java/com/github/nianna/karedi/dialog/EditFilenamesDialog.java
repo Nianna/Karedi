@@ -83,7 +83,7 @@ public class EditFilenamesDialog extends ValidatedDialog<FilenamesEditResult> {
 	private boolean hideBackground = false;
 
 	public EditFilenamesDialog() {
-		setTitle(I18N.get("dialog.edit_filenames.title"));
+		setTitle(I18N.get("dialog.edit_filenames.dialog-title"));
 		DialogUtils.loadPane(this,
 				getClass().getResource("/fxml/EditFilenamesDialogPaneLayout.fxml"));
 
