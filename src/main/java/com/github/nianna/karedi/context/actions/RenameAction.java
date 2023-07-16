@@ -46,7 +46,7 @@ class RenameAction extends ContextfulKarediAction {
     }
 
     private Command commandFromResults(EditFilenamesDialog.FilenamesEditResult result) {
-        return new CommandComposite(I18N.get("ui.common.rename")) {
+        return new CommandComposite(I18N.get("command.rename")) {
 
             @Override
             protected void buildSubCommands() {
