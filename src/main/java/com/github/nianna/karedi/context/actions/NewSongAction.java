@@ -2,6 +2,7 @@ package com.github.nianna.karedi.context.actions;
 
 import com.github.nianna.karedi.I18N;
 import com.github.nianna.karedi.KarediApp;
+import com.github.nianna.karedi.action.KarediActions;
 import com.github.nianna.karedi.context.AppContext;
 import com.github.nianna.karedi.dialog.OverwriteAlert;
 import com.github.nianna.karedi.song.Song;
@@ -51,6 +52,8 @@ class NewSongAction extends ContextfulKarediAction {
             audioContext.loadAudioFile(audioFile);
         }
         activeSongContext.setSong(song);
+        audioContext.setMarkerBeat(0);
+        executeAction(KarediActions.ADD_NOTE);
         if (outputDir != null) {
             File songFolder = new File(outputDir, getSongFilename());
             if ((songFolder.exists() || songFolder.mkdirs()) && songFolder.canWrite()) {
