@@ -27,6 +27,7 @@ Karedi's main features include:
   * intuitive new song wizard
   * tag features (e.g. rescaling to new BPM, setting medley from selection) & validation
   * copy & paste (in 2 modes: traditional and merge)
+  * auto-syllabification of lyrics in most popular languages
   * automatic search for problems (errors & warnings)
   * solver that offers both safe and potentially risky (useful if safe fix is not available) solutions to almost all the problems
   * support for multiple mp3 files with the possibility of adjusting the volume for each one of them
