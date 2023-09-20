@@ -102,6 +102,8 @@ public class KarediApp extends Application {
 			mp3Filter = new FileChooser.ExtensionFilter(I18N.get("filechooser.mp3_files"), "*.mp3");
 
 			primaryStage.show();
+
+			controller.onStageShown();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
