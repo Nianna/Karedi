@@ -52,7 +52,11 @@ public class TxtContext {
     }
 
     public void loadSongFile(File file, boolean resetPlayer) {
-        if (file != null) {
+        if (file == null) {
+            return;
+        }
+
+        if (file.exists()) {
             reset(resetPlayer);
             setActiveFile(file);
             Song song = txtFacade.loadFromTxtFile(file);
@@ -60,6 +64,8 @@ public class TxtContext {
                     .ifPresent(audioFileName -> audioContext.loadAudioFile(new File(file.getParent(), audioFileName)));
             activeSongContext.setSong(song);
             LOGGER.info(I18N.get("load.success"));
+        } else {
+            LOGGER.severe(I18N.get("load.fail"));
         }
     }
 
