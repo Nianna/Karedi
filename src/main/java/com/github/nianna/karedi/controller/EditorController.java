@@ -8,6 +8,7 @@ import com.github.nianna.karedi.command.AddNoteCommand;
 import com.github.nianna.karedi.command.ChangePostStateCommandDecorator;
 import com.github.nianna.karedi.command.ChangeToneCommand;
 import com.github.nianna.karedi.command.Command;
+import com.github.nianna.karedi.command.CutNoteIntoChunksWithSameLengthCommand;
 import com.github.nianna.karedi.command.MoveCollectionCommand;
 import com.github.nianna.karedi.command.ResizeNotesCommand;
 import com.github.nianna.karedi.context.ActionContext;
@@ -135,7 +136,7 @@ public class EditorController implements Controller {
 
     private final MarkerDragHelper markerLineDragHelper = new MarkerDragHelper();
 
-    private final NoteLengthChangeScheduler noteLengthChangeScheduler = new NoteLengthChangeScheduler();
+    private final DigitInputReadingScheduler digitInputReadingScheduler = new DigitInputReadingScheduler();
 
     private final NoteDrawer drawer = new NoteDrawer();
 
@@ -305,7 +306,7 @@ public class EditorController implements Controller {
             KeyEventUtils.getPressedDigit(event).ifPresent(digit -> {
                 selectionContext.getSelection().leaveOne();
                 Note selected = selectionContext.getSelection().getFirst().orElse(null);
-                noteLengthChangeScheduler.schedule(selected, digit);
+                digitInputReadingScheduler.schedule(selected, digit, event.isShortcutDown());
             });
             event.consume();
         }
@@ -1014,43 +1015,45 @@ public class EditorController implements Controller {
         }
     }
 
-    private class NoteLengthChangeScheduler {
+    private class DigitInputReadingScheduler {
         private static final int TIME_LIMIT = 300;
         private Timer keyPressedTimer = new Timer();
-        private int newLength = 0;
+        private int resultSoFar = 0;
         private Note currentlyResizedNote = null;
 
-        private void schedule(Note note, int newDigit) {
+        private void schedule(Note note, int newDigit, boolean isShortcutDown) {
             if (note != null) {
                 if (note == currentlyResizedNote) {
                     keyPressedTimer.cancel();
                     keyPressedTimer = new Timer(true);
                 } else {
-                    newLength = 0;
+                    resultSoFar = 0;
                     currentlyResizedNote = note;
                 }
-                newLength = 10 * newLength + newDigit;
-                keyPressedTimer.schedule(new ChangeNoteLengthTimerTask(this, note, newLength),
+                resultSoFar = 10 * resultSoFar + newDigit;
+                keyPressedTimer.schedule(new DigitInputReadingTask(this, note, resultSoFar, isShortcutDown),
                         TIME_LIMIT);
             }
         }
 
         private void reset() {
             currentlyResizedNote = null;
-            newLength = 0;
+            resultSoFar = 0;
         }
     }
 
-    private class ChangeNoteLengthTimerTask extends TimerTask {
+    private class DigitInputReadingTask extends TimerTask {
         private Note note;
         private int length;
-        private NoteLengthChangeScheduler scheduler;
+        private DigitInputReadingScheduler scheduler;
+        private boolean isShortcutDown;
 
-        private ChangeNoteLengthTimerTask(NoteLengthChangeScheduler scheduler, Note note,
-                                          int length) {
+        private DigitInputReadingTask(DigitInputReadingScheduler scheduler, Note note,
+                                      int length, boolean isShortcutDown) {
             this.note = note;
             this.length = length;
             this.scheduler = scheduler;
+            this.isShortcutDown = isShortcutDown;
         }
 
         @Override
@@ -1059,8 +1062,12 @@ public class EditorController implements Controller {
                 if (length > 0 && note != null) {
                     List<Note> selection = selectionContext.getSelected();
                     selectionContext.getSelection().selectOnly(note);
-                    commandContext.execute(
-                            new ResizeNotesCommand(Arrays.asList(note), Direction.RIGHT, length - note.getLength()));
+                    if (isShortcutDown) {
+                        commandContext.execute(new CutNoteIntoChunksWithSameLengthCommand(note, length));
+                    } else {
+                        commandContext.execute(
+                                new ResizeNotesCommand(Arrays.asList(note), Direction.RIGHT, length - note.getLength()));
+                    }
                     selectionContext.getSelection().set(selection);
                 }
                 scheduler.reset();

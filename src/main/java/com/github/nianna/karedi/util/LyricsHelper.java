@@ -1,5 +1,6 @@
 package com.github.nianna.karedi.util;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -13,13 +14,27 @@ public final class LyricsHelper {
 	}
 
 	public static Pair<String, String> split(String lyrics) {
+		List<String> result = split(lyrics, 2);
+		return new Pair<>(result.get(0), result.get(1));
+	}
+
+	public static List<String> split(String lyrics, int numberOfParts) {
+		List<String> result = new ArrayList<>();
 		lyrics = normalize(lyrics);
-		int splitPoint = lyrics.lastIndexOf(WORD_SEPARATOR);
-		if (splitPoint > 0) {
-			return new Pair<>(lyrics.substring(0, splitPoint), lyrics.substring(splitPoint));
+		for (int i = 1; i < numberOfParts; i++) {
+			int splitPoint = lyrics.lastIndexOf(WORD_SEPARATOR);
+			if (splitPoint > 0) {
+				result.add(0, lyrics.substring(splitPoint));
+				lyrics = lyrics.substring(0, splitPoint);
+			} else {
+				break;
+			}
 		}
-		// TODO punctuation marks etc.
-		return new Pair<>(lyrics, String.valueOf(EMPTY_LYRICS));
+		result.add(0, lyrics);
+		while (result.size() < numberOfParts) {
+			result.add(String.valueOf(EMPTY_LYRICS));
+		}
+		return result;
 	}
 
 	public static boolean isSplittable(String lyrics) {
