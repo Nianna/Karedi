@@ -32,9 +32,9 @@ public class MultiplayerTagsTest {
 	@Test
 	public void createsCorrectNameTagsForTracksWithCustomizedNames() {
 		String name = "Foo";
-		Tag result = MultiplayerTags.nameTagForTrack(0, name).get();
-		assertEquals("Wrong key", "DUETSINGERP1", result.getKey());
-		assertEquals("Wrong value", name, result.getValue());
+		Tag result = MultiplayerTags.nameTagForTrack(0, name).orElseThrow();
+		assertEquals("DUETSINGERP1", result.getKey(), "Wrong key");
+		assertEquals(name, result.getValue(), "Wrong value");
 	}
 
 	@Test

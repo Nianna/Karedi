@@ -35,10 +35,8 @@ public class RollLyricsRightCommandTest {
 		notes.get(0).setLyrics(lyrics);
 		execute(1);
 		Pair<String, String> splitted = LyricsHelper.split(lyrics);
-		assertEquals("Invalid first note's lyrics", splitted.getKey(),
-				notes.get(0).getLyrics());
-		assertEquals("Invalid second note's lyrics", splitted.getValue(),
-				notes.get(1).getLyrics());
+		assertEquals(splitted.getKey(), notes.get(0).getLyrics(), "Invalid first note's lyrics");
+		assertEquals(splitted.getValue(), notes.get(1).getLyrics(), "Invalid second note's lyrics");
 	}
 
 	@Test
