@@ -56,7 +56,7 @@ public class TagParserTest {
 	public void splitsAfterFirstColon() throws InvalidSongElementException {
 		TagElement result = (TagElement) parser.parse(TAG + ":continued");
 		assertNotNull(result);
-		assertEquals("Wrong value", VALUE + ":continued", result.value());
+		assertEquals(VALUE + ":continued", result.value(), "Wrong value");
 	}
 
 	@Test

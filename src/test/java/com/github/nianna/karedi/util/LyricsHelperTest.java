@@ -1,10 +1,8 @@
 package com.github.nianna.karedi.util;
 
 
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
-
 import javafx.util.Pair;
+import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -16,21 +14,21 @@ public class LyricsHelperTest {
 		String firstPart = "Foo1 foo2";
 		String secondPart = " foo3";
 		Pair<String, String> result = LyricsHelper.split(firstPart + secondPart);
-		assertEquals("Wrong first part of the lyrics", firstPart, result.getKey());
-		assertEquals("Wrong second part of the lyrics", secondPart, result.getValue());
+		assertEquals(firstPart, result.getKey(), "Wrong first part of the lyrics");
+		assertEquals(secondPart, result.getValue(), "Wrong second part of the lyrics");
 	}
 
 	@Test
 	public void splitReturnsGivenLyricsAsKeyIfThereAreNoSpaces() {
 		String lyrics = "foo";
 		Pair<String, String> result = LyricsHelper.split(lyrics);
-		assertEquals("Wrong lyrics", lyrics, result.getKey());
+		assertEquals(lyrics, result.getKey());
 	}
 
 	@Test
 	public void splitReturnsDefaultLyricsAsValueIfThereAreNoSpaces() {
 		Pair<String, String> result = LyricsHelper.split("foo");
-		assertEquals("Wrong lyrics", LyricsHelper.defaultLyrics(), result.getValue());
+		assertEquals(LyricsHelper.defaultLyrics(), result.getValue());
 	}
 
 	// join
@@ -40,7 +38,7 @@ public class LyricsHelperTest {
 		String secondPart = "foo2";
 		String thirdPart = " $% ";
 		String result = LyricsHelper.join(firstPart, secondPart, thirdPart);
-		assertEquals("Wrong lyrics", String.join("", firstPart, secondPart, thirdPart),
+		assertEquals(String.join("", firstPart, secondPart, thirdPart),
 				result);
 	}
 
@@ -50,7 +48,7 @@ public class LyricsHelperTest {
 		String secondPart = "~foo2~";
 		String thirdPart = " $% ";
 		String result = LyricsHelper.join(firstPart, "~" + secondPart, "~" + thirdPart);
-		assertEquals("Wrong lyrics", String.join("", firstPart, secondPart, thirdPart),
+		assertEquals(String.join("", firstPart, secondPart, thirdPart),
 				result);
 	}
 
@@ -59,7 +57,7 @@ public class LyricsHelperTest {
 		String firstPart = "  Foo";
 		String secondPart = "foo~";
 		String result = LyricsHelper.join(firstPart, " ~" + secondPart);
-		assertEquals("Wrong lyrics", String.join(" ", firstPart, secondPart), result);
+		assertEquals(String.join(" ", firstPart, secondPart), result);
 	}
 
 	@Test
@@ -68,7 +66,7 @@ public class LyricsHelperTest {
 		String secondPart = "foo";
 		String thirdPart = LyricsHelper.defaultLyrics();
 		String result = LyricsHelper.join(firstPart, secondPart, thirdPart);
-		assertEquals("Wrong lyrics", secondPart, result);
+		assertEquals(secondPart, result);
 	}
 
 	@Test
@@ -76,7 +74,7 @@ public class LyricsHelperTest {
 		String firstPart = LyricsHelper.defaultLyrics();
 		String secondPart = LyricsHelper.defaultLyrics();
 		String result = LyricsHelper.join(firstPart, secondPart);
-		assertEquals("Wrong lyrics", LyricsHelper.defaultLyrics(), result);
+		assertEquals(LyricsHelper.defaultLyrics(), result);
 	}
 
 	@Test
@@ -84,7 +82,7 @@ public class LyricsHelperTest {
 		String firstPart = "";
 		String secondPart = " ";
 		String result = LyricsHelper.join(firstPart, secondPart);
-		assertEquals("Wrong lyrics", "", result);
+		assertEquals("", result);
 	}
 
 	// normalize
@@ -92,14 +90,14 @@ public class LyricsHelperTest {
 	public void normalizeRemovesUnnecessarySpaces() {
 		String lyrics = " foo";
 		String result = LyricsHelper.normalize("   " + lyrics + "  ");
-		assertEquals("Wrong lyrics", lyrics, result);
+		assertEquals(lyrics, result);
 	}
 
 	@Test
 	public void normalizeRemovesIsoControlCharacters() {
 		String lyrics = "foo\tbar\n";
 		String result = LyricsHelper.normalize(lyrics);
-		assertEquals("Wrong lyrics", "foobar", result);
+		assertEquals("foobar", result);
 	}
 
 	@Test
@@ -107,6 +105,6 @@ public class LyricsHelperTest {
 		String lyrics = "   foo\nbar $$a ";
 		String result = LyricsHelper.normalize(lyrics);
 		String secondResult = LyricsHelper.normalize(result);
-		assertEquals("Wrong lyrics", result, secondResult);
+		assertEquals(result, secondResult);
 	}
 }
