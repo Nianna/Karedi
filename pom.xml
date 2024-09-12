@@ -18,7 +18,7 @@
 		<junit.version>5.9.2</junit.version>
 		<mp3agic.version>0.8.1</mp3agic.version>
 		<richtextfx.version>0.11.0</richtextfx.version>
-		<hyphenator.version>1.0.0</hyphenator.version>
+		<hyphenator.version>1.0.1</hyphenator.version>
 	</properties>
 
 	<build>
