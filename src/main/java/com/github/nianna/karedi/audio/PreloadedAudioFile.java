@@ -1,9 +1,9 @@
 package com.github.nianna.karedi.audio;
 
-import java.io.File;
-import java.io.IOException;
-
 import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleDoubleProperty;
+
+import java.io.File;
 
 /**
  * Represents an audio file whose data is loaded prior to playback so that it
@@ -13,57 +13,42 @@ import javafx.beans.property.DoubleProperty;
  * which can be later used for calculating the appropriate frame number for the
  * position in milliseconds.
  */
-public interface CachedAudioFile {
+public abstract class PreloadedAudioFile {
 
-	/**
-	 * Gets the audio data of this file.
-	 * 
-	 * @return the array of bytes with audio data
-	 */
-	byte[] getCache();
+	private final File file;
 
-	/**
-	 * Obtains the frames per second value of this file. It can be later used
-	 * for calculating frame number from positions expressed in milliseconds.
-	 * 
-	 * @return the frames per second value of this audio file
-	 */
-	Double getFPS();
+	private final DoubleProperty volumeProperty = new SimpleDoubleProperty(0.6);
+
+	public PreloadedAudioFile(File file) {
+		this.file = file;
+	}
 
 	/**
 	 * Obtains the media length in milliseconds.
 	 * 
 	 * @return the length in milliseconds
 	 */
-	long getDuration();
+	public abstract long getDuration();
 
 	/**
 	 * Gets the associated file.
 	 * 
 	 * @return file
 	 */
-	File getFile();
-
-	/**
-	 * Loads the content of the file and caches it. Updates all properties.
-	 * 
-	 * @throws IOException
-	 *             if an input error has occurred
-	 */
-	void reload() throws IOException;
+	public File getFile() {
+		return file;
+	}
 
 	/**
 	 * The volume of the file. It is expressed as a number between 0 and 1, 0.6
 	 * is assumed to be the original volume.
 	 */
-	DoubleProperty volumeProperty();
-
-	default Double getVolume() {
-		return volumeProperty().get();
+	public DoubleProperty volumeProperty() {
+		return volumeProperty;
 	}
 
-	default void setVolume(double value) {
-		volumeProperty().set(value);
+	public Double getVolume() {
+		return volumeProperty().get();
 	}
 
 	/**
@@ -72,7 +57,7 @@ public interface CachedAudioFile {
 	 * @return the name of the file (just the last name in the pathname's
 	 *         sequence)
 	 */
-	default String getName() {
+	public String getName() {
 		return getFile().getName();
 	}
 

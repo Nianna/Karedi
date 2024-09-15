@@ -7,25 +7,25 @@ import javafx.collections.ObservableList;
 import com.github.nianna.karedi.util.MathUtils;
 
 /**
- * A container for {@link CachedAudioFile}s. Only one of them can be currently
+ * A container for {@link PreloadedAudioFile}s. Only one of them can be currently
  * active.
  */
 public class Playlist {
-	private final ObservableList<CachedAudioFile> audioFiles = FXCollections.observableArrayList();
-	private final ObservableList<CachedAudioFile> roAudioFiles = FXCollections
+	private final ObservableList<PreloadedAudioFile> audioFiles = FXCollections.observableArrayList();
+	private final ObservableList<PreloadedAudioFile> roAudioFiles = FXCollections
 			.unmodifiableObservableList(audioFiles);
 
-	private ReadOnlyObjectWrapper<CachedAudioFile> activeAudioFile = new ReadOnlyObjectWrapper<>();
+	private ReadOnlyObjectWrapper<PreloadedAudioFile> activeAudioFile = new ReadOnlyObjectWrapper<>();
 
-	public ObservableList<CachedAudioFile> getAudioFiles() {
+	public ObservableList<PreloadedAudioFile> getAudioFiles() {
 		return roAudioFiles;
 	}
 
-	public void addAudioFile(CachedAudioFile file) {
+	public void addAudioFile(PreloadedAudioFile file) {
 		if (file != null) {
-			for (CachedAudioFile cachedAudio : audioFiles) {
-				if (cachedAudio.getFile().equals(file.getFile())) {
-					audioFiles.remove(cachedAudio);
+			for (PreloadedAudioFile audioFile : audioFiles) {
+				if (audioFile.getFile().equals(file.getFile())) {
+					audioFiles.remove(audioFile);
 					audioFiles.add(file);
 					return;
 				}
@@ -34,7 +34,7 @@ public class Playlist {
 		}
 	}
 
-	public void removeAudioFile(CachedAudioFile file) {
+	public void removeAudioFile(PreloadedAudioFile file) {
 		int index = audioFiles.indexOf(file);
 		audioFiles.remove(file);
 		if (getActiveAudioFile() == file) {
@@ -46,15 +46,15 @@ public class Playlist {
 		}
 	}
 
-	public ReadOnlyObjectProperty<CachedAudioFile> activeAudioFileProperty() {
+	public ReadOnlyObjectProperty<PreloadedAudioFile> activeAudioFileProperty() {
 		return activeAudioFile.getReadOnlyProperty();
 	}
 
-	public final CachedAudioFile getActiveAudioFile() {
+	public final PreloadedAudioFile getActiveAudioFile() {
 		return activeAudioFile.get();
 	}
 
-	public final void setActiveAudioFile(CachedAudioFile file) {
+	public final void setActiveAudioFile(PreloadedAudioFile file) {
 		activeAudioFile.set(file);
 	}
 

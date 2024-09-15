@@ -1,10 +1,10 @@
 package com.github.nianna.karedi.audio;
 
+import javafx.concurrent.Task;
+
 import java.io.File;
 import java.util.Optional;
 import java.util.function.Consumer;
-
-import javafx.concurrent.Task;
 
 public class AudioFileLoader {
 
@@ -20,8 +20,8 @@ public class AudioFileLoader {
 	 * @param fileConsumer
 	 *            the consumer to which the loaded file should be passed
 	 */
-	public static void loadMp3File(File file, Consumer<Optional<Mp3File>> fileConsumer) {
-		Task<Mp3File> task = new LoadMp3FileTask(file);
+	public static void loadAudioFile(File file, Consumer<Optional<PreloadedAudioFile>> fileConsumer) {
+		Task<PreloadedAudioFile> task = new LoadAudioFileTask(file);
 		Thread th = new Thread(task);
 		th.setDaemon(true);
 		th.start();
@@ -34,15 +34,15 @@ public class AudioFileLoader {
 		task.setOnCancelled(task.getOnFailed());
 	}
 
-	private static class LoadMp3FileTask extends Task<Mp3File> {
+	private static class LoadAudioFileTask extends Task<PreloadedAudioFile> {
 		private File file;
 
-		LoadMp3FileTask(File file) {
+		LoadAudioFileTask(File file) {
 			this.file = file;
 		}
 
 		@Override
-		protected Mp3File call() throws Exception {
+		protected PreloadedAudioFile call() throws Exception {
 			return new Mp3File(file);
 		}
 	}

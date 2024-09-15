@@ -46,7 +46,7 @@ public class Player {
 
 	private ChangeListener<Number> timeListener = this::onTimeChanged;
 	private ChangeListener<Number> volumeChangeListener = this::onVolumeChanged;
-	private ChangeListener<CachedAudioFile> activeAudioFileChangeListener =
+	private ChangeListener<PreloadedAudioFile> activeAudioFileChangeListener =
 			this::onActiveAudioFileChanged;
 	private PlaybackListener playbackListener = new TimeUpdaterManager();
 
@@ -210,8 +210,8 @@ public class Player {
 		return playlist;
 	}
 
-	private void onActiveAudioFileChanged(Observable obs, CachedAudioFile oldFile,
-			CachedAudioFile newFile) {
+	private void onActiveAudioFileChanged(Observable obs, PreloadedAudioFile oldFile,
+			PreloadedAudioFile newFile) {
 		stop();
 		setActiveAudioFile(newFile);
 	}
@@ -220,7 +220,7 @@ public class Player {
 		mp3Player.setFile(file);
 	}
 
-	private void setActiveAudioFile(CachedAudioFile file) {
+	private void setActiveAudioFile(PreloadedAudioFile file) {
 		// TODO expand this when new audio file types are supported
 		if (file instanceof Mp3File) {
 			setActiveAudioFile((Mp3File) file);
@@ -229,7 +229,7 @@ public class Player {
 		}
 	}
 
-	private CachedAudioFile getActiveMp3File() {
+	private PreloadedAudioFile getActiveMp3File() {
 		return mp3Player.getFile();
 	}
 

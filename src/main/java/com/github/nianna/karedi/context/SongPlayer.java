@@ -1,6 +1,6 @@
 package com.github.nianna.karedi.context;
 
-import com.github.nianna.karedi.audio.CachedAudioFile;
+import com.github.nianna.karedi.audio.PreloadedAudioFile;
 import com.github.nianna.karedi.audio.Player;
 import com.github.nianna.karedi.audio.Player.Mode;
 import com.github.nianna.karedi.audio.Player.Status;
@@ -100,27 +100,27 @@ public class SongPlayer {
 	}
 
 	// playlist
-	public void removeAudioFile(CachedAudioFile file) {
+	public void removeAudioFile(PreloadedAudioFile file) {
 		playlist.removeAudioFile(file);
 	}
 
-	public void addAudioFile(CachedAudioFile file) {
+	public void addAudioFile(PreloadedAudioFile file) {
 		playlist.addAudioFile(file);
 	}
 
-	public ReadOnlyObjectProperty<CachedAudioFile> activeAudioFileProperty() {
+	public ReadOnlyObjectProperty<PreloadedAudioFile> activeAudioFileProperty() {
 		return playlist.activeAudioFileProperty();
 	}
 
-	public CachedAudioFile getActiveAudioFile() {
+	public PreloadedAudioFile getActiveAudioFile() {
 		return playlist.getActiveAudioFile();
 	}
 
-	public void setActiveAudioFile(CachedAudioFile file) {
+	public void setActiveAudioFile(PreloadedAudioFile file) {
 		playlist.setActiveAudioFile(file);
 	}
 
-	public ObservableList<CachedAudioFile> getAudioFiles() {
+	public ObservableList<PreloadedAudioFile> getAudioFiles() {
 		return playlist.getAudioFiles();
 	}
 

@@ -2,7 +2,7 @@ package com.github.nianna.karedi.controller;
 
 import com.github.nianna.karedi.I18N;
 import com.github.nianna.karedi.action.KarediActions;
-import com.github.nianna.karedi.audio.CachedAudioFile;
+import com.github.nianna.karedi.audio.PreloadedAudioFile;
 import com.github.nianna.karedi.context.ActionContext;
 import com.github.nianna.karedi.context.AppContext;
 import com.github.nianna.karedi.context.AudioContext;
@@ -33,11 +33,11 @@ public class AudioManagerController implements Controller {
 	@FXML
 	private AnchorPane pane;
 	@FXML
-	private TableView<CachedAudioFile> table;
+	private TableView<PreloadedAudioFile> table;
 	@FXML
-	private TableColumn<CachedAudioFile, String> nameColumn;
+	private TableColumn<PreloadedAudioFile, String> nameColumn;
 	@FXML
-	private TableColumn<CachedAudioFile, DoubleProperty> volumeColumn;
+	private TableColumn<PreloadedAudioFile, DoubleProperty> volumeColumn;
 	@FXML
 	private ContextMenu baseContextMenu;
 
@@ -57,9 +57,9 @@ public class AudioManagerController implements Controller {
 		volumeColumn.setMaxWidth(Integer.MAX_VALUE * 25f); // 25% width
 	}
 
-	private Callback<TableView<CachedAudioFile>, TableRow<CachedAudioFile>> getRowFactory() {
+	private Callback<TableView<PreloadedAudioFile>, TableRow<PreloadedAudioFile>> getRowFactory() {
 		return (tv -> {
-			TableRow<CachedAudioFile> row = new TableRow<>();
+			TableRow<PreloadedAudioFile> row = new TableRow<>();
 
 			ContextMenuBuilder builder = new ContextMenuBuilder();
 			builder.addItem(I18N.get("common.add"), this::handleAdd);
@@ -96,7 +96,7 @@ public class AudioManagerController implements Controller {
 		actionContext.execute(KarediActions.IMPORT_AUDIO);
 	}
 
-	private void handleRemove(CachedAudioFile file) {
+	private void handleRemove(PreloadedAudioFile file) {
 		audioContext.removeAudioFile(file);
 	}
 
@@ -115,7 +115,7 @@ public class AudioManagerController implements Controller {
 
 	private void confirmAndRemoveSelected() {
 		if (!table.getSelectionModel().isEmpty()) {
-			CachedAudioFile file = table.getSelectionModel().getSelectedItem();
+			PreloadedAudioFile file = table.getSelectionModel().getSelectedItem();
 			Alert alert = new Alert(AlertType.CONFIRMATION);
 			alert.setTitle(I18N.get("dialog.delete_audio.title"));
 			alert.setHeaderText(I18N.get("dialog.delete_audio.header"));
