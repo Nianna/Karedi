@@ -46,8 +46,8 @@ public class KarediApp extends Application {
 		DAY
 	}
 
-	private ExtensionFilter txtFilter;
-	private ExtensionFilter mp3Filter;
+	private ExtensionFilter txtExtensionFilter;
+	private ExtensionFilter audioExtensionsFilter;
 
 	public KarediApp() {
 		super();
@@ -98,8 +98,8 @@ public class KarediApp extends Application {
 			RootController controller = loader.getController();
 			controller.setAppContext(appContext);
 
-			txtFilter = new FileChooser.ExtensionFilter(I18N.get("filechooser.txt_files"), "*.txt");
-			mp3Filter = new FileChooser.ExtensionFilter(I18N.get("filechooser.mp3_files"), "*.mp3");
+			txtExtensionFilter = new FileChooser.ExtensionFilter(I18N.get("filechooser.txt_files"), "*.txt");
+			audioExtensionsFilter = new FileChooser.ExtensionFilter(I18N.get("filechooser.audio_files"), "*.mp3");
 
 			primaryStage.show();
 
@@ -186,7 +186,7 @@ public class KarediApp extends Application {
 	}
 
 	public File getTxtFileToOpen() {
-		return chooserManager.showOpenDialog(txtFilter);
+		return chooserManager.showOpenDialog(txtExtensionFilter);
 	}
 
 	public File getTxtFileToSave() {
@@ -194,11 +194,11 @@ public class KarediApp extends Application {
 	}
 
 	public File getTxtFileToSave(String initialFileName) {
-		return chooserManager.showSaveDialog(txtFilter, initialFileName);
+		return chooserManager.showSaveDialog(txtExtensionFilter, initialFileName);
 	}
 
-	public File getMp3FileToOpen() {
-		return chooserManager.showOpenDialog(mp3Filter);
+	public File getAudioFileToOpen() {
+		return chooserManager.showOpenDialog(audioExtensionsFilter);
 	}
 
 	public File getDirectory() {
