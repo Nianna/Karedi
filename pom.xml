@@ -14,6 +14,7 @@
 		<controlsfx.version>11.1.2</controlsfx.version>
 		<javafx.version>19.0.2.1</javafx.version>
 		<jfugue.version>5.0.8</jfugue.version>
+		<javasound-aac.version>0.9.8</javasound-aac.version>
 		<jlayer.version>1.0.1</jlayer.version>
 		<junit.version>5.11.0</junit.version>
 		<mp3agic.version>0.8.1</mp3agic.version>
@@ -356,6 +357,12 @@
 			<groupId>jfugue</groupId>
 			<artifactId>jfugue</artifactId>
 			<version>${jfugue.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.tianscar.javasound</groupId>
+			<artifactId>javasound-aac</artifactId>
+			<version>${javasound-aac.version}</version>
 		</dependency>
 
 		<dependency>

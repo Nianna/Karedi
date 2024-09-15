@@ -2,8 +2,8 @@ package com.github.nianna.karedi.context;
 
 import com.github.nianna.karedi.I18N;
 import com.github.nianna.karedi.audio.AudioFileLoader;
-import com.github.nianna.karedi.audio.PreloadedAudioFile;
 import com.github.nianna.karedi.audio.Player;
+import com.github.nianna.karedi.audio.PreloadedAudioFile;
 import com.github.nianna.karedi.song.Note;
 import javafx.beans.binding.BooleanBinding;
 import javafx.beans.property.ReadOnlyIntegerProperty;
@@ -101,6 +101,7 @@ public class AudioContext {
 
     public void removeAudioFile(PreloadedAudioFile file) {
         player.removeAudioFile(file);
+        file.releaseResources();
     }
 
     public void loadAudioFile(File file) {

@@ -62,4 +62,8 @@ public class Mp3File extends PreloadedAudioFile {
 		return duration;
 	}
 
+	@Override
+	public void releaseResources() {
+		// no resources to be released
+	}
 }

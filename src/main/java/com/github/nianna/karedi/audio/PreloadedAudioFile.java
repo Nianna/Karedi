@@ -57,4 +57,6 @@ public abstract class PreloadedAudioFile {
 		return getFile().getName();
 	}
 
+	public abstract void releaseResources();
+
 }
