@@ -8,10 +8,6 @@ import java.io.File;
 /**
  * Represents an audio file whose data is loaded prior to playback so that it
  * can be accessed faster.
- * <p>
- * Each CachedAudioFile offers its duration and FPS (frames per second) value,
- * which can be later used for calculating the appropriate frame number for the
- * position in milliseconds.
  */
 public abstract class PreloadedAudioFile {
 

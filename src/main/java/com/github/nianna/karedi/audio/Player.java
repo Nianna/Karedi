@@ -1,9 +1,5 @@
 package com.github.nianna.karedi.audio;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Queue;
-
 import javafx.beans.Observable;
 import javafx.beans.property.LongProperty;
 import javafx.beans.property.ReadOnlyLongProperty;
@@ -15,8 +11,10 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.concurrent.Task;
 import javafx.util.Pair;
-import javazoom.jl.player.advanced.PlaybackEvent;
-import javazoom.jl.player.advanced.PlaybackListener;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Queue;
 
 public class Player {
 	private static final int TIME_UPDATE_INTERVAL_MS = 5;
@@ -33,7 +31,7 @@ public class Player {
 		UNKNOWN
 	}
 
-	private final Mp3Player mp3Player = new Mp3Player();
+	private final PreloadedAudioFilePlayer preloadedAudioFilePlayer = new PreloadedAudioFilePlayer();
 	private final ClipPlayer clipPlayer = new ClipPlayer();
 	private final Playlist playlist = new Playlist();
 	private LongProperty updateInterval = new SimpleLongProperty(TIME_UPDATE_INTERVAL_MS);
@@ -48,7 +46,7 @@ public class Player {
 	private ChangeListener<Number> volumeChangeListener = this::onVolumeChanged;
 	private ChangeListener<PreloadedAudioFile> activeAudioFileChangeListener =
 			this::onActiveAudioFileChanged;
-	private PlaybackListener playbackListener = new TimeUpdaterManager();
+	private ChangeListener<PreloadedAudioFilePlayer.PlaybackState> playbackStateChangeListener = new TimeUpdaterManager();
 
 	private Queue<Pair<Long, Integer>> notes;
 
@@ -59,7 +57,7 @@ public class Player {
 
 	public Player() {
 		clipPlayer.setClip(getClass().getResource("/player/Tick.wav"));
-		mp3Player.setPlaybackListener(playbackListener);
+		preloadedAudioFilePlayer.playbackState().addListener(playbackStateChangeListener);
 		playlist.activeAudioFileProperty().addListener(activeAudioFileChangeListener);
 		setStatus(Status.READY);
 	}
@@ -166,11 +164,11 @@ public class Player {
 
 	private void play() {
 		setStatus(Status.PLAYING);
-		if (getActiveMp3File() == null || mode.equals(Mode.MIDI_ONLY)) {
+		if (getActivePreloadedAudioFile() == null || mode.equals(Mode.MIDI_ONLY)) {
 			startTimeUpdater();
 		} else {
-			mp3Player.play(startMillis, endMillis);
-			getActiveMp3File().volumeProperty().addListener(volumeChangeListener);
+			preloadedAudioFilePlayer.play(startMillis, endMillis);
+			getActivePreloadedAudioFile().volumeProperty().addListener(volumeChangeListener);
 		}
 	}
 
@@ -190,11 +188,11 @@ public class Player {
 		if (timeUpdater != null) {
 			timeUpdater.cancel();
 		}
-		mp3Player.stop();
+		preloadedAudioFilePlayer.stop();
 		MidiPlayer.stop();
 		currentTime.removeListener(timeListener);
-		if (getActiveMp3File() != null) {
-			getActiveMp3File().volumeProperty().removeListener(volumeChangeListener);
+		if (getActivePreloadedAudioFile() != null) {
+			getActivePreloadedAudioFile().volumeProperty().removeListener(volumeChangeListener);
 		}
 	}
 
@@ -216,21 +214,12 @@ public class Player {
 		setActiveAudioFile(newFile);
 	}
 
-	private void setActiveAudioFile(Mp3File file) {
-		mp3Player.setFile(file);
-	}
-
 	private void setActiveAudioFile(PreloadedAudioFile file) {
-		// TODO expand this when new audio file types are supported
-		if (file instanceof Mp3File) {
-			setActiveAudioFile((Mp3File) file);
-		} else {
-			mp3Player.setFile(null);
-		}
+		preloadedAudioFilePlayer.setFile(file);
 	}
 
-	private PreloadedAudioFile getActiveMp3File() {
-		return mp3Player.getFile();
+	private PreloadedAudioFile getActivePreloadedAudioFile() {
+		return preloadedAudioFilePlayer.getFile();
 	}
 
 	public void reset() {
@@ -276,21 +265,24 @@ public class Player {
 		}
 	}
 
-	private class TimeUpdaterManager extends PlaybackListener {
-		@Override
-		public void playbackFinished(PlaybackEvent arg0) {
-			switch (timeUpdater.getState()) {
-			case SCHEDULED:
-			case RUNNING:
-				timeUpdater.cancel();
-				break;
-			default:
-			}
-		}
+	private class TimeUpdaterManager implements ChangeListener<PreloadedAudioFilePlayer.PlaybackState> {
 
 		@Override
-		public void playbackStarted(PlaybackEvent arg0) {
-			startTimeUpdater();
+		public void changed(ObservableValue<? extends PreloadedAudioFilePlayer.PlaybackState> observableValue,
+							PreloadedAudioFilePlayer.PlaybackState oldState,
+							PreloadedAudioFilePlayer.PlaybackState newState) {
+			switch (newState) {
+				case STARTED -> startTimeUpdater();
+				case STOPPED -> {
+					switch (timeUpdater.getState()) {
+						case SCHEDULED:
+						case RUNNING:
+							timeUpdater.cancel();
+							break;
+						default:
+					}
+				}
+			}
 		}
 	}
 
