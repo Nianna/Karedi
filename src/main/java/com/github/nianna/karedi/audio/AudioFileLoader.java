@@ -1,5 +1,6 @@
 package com.github.nianna.karedi.audio;
 
+import com.github.nianna.karedi.util.Utils;
 import javafx.concurrent.Task;
 
 import java.io.File;
@@ -25,17 +26,13 @@ public class AudioFileLoader {
 		Thread th = new Thread(task);
 		th.setDaemon(true);
 		th.start();
-		task.setOnSucceeded(event -> {
-			fileConsumer.accept(Optional.of(task.getValue()));
-		});
-		task.setOnFailed(event -> {
-			fileConsumer.accept(Optional.empty());
-		});
+		task.setOnSucceeded(event -> fileConsumer.accept(Optional.of(task.getValue())));
+		task.setOnFailed(event -> fileConsumer.accept(Optional.empty()));
 		task.setOnCancelled(task.getOnFailed());
 	}
 
 	private static class LoadAudioFileTask extends Task<PreloadedAudioFile> {
-		private File file;
+		private final File file;
 
 		LoadAudioFileTask(File file) {
 			this.file = file;
@@ -43,8 +40,11 @@ public class AudioFileLoader {
 
 		@Override
 		protected PreloadedAudioFile call() throws Exception {
-			return new Mp3File(file);
-		}
+            return switch (Utils.getFileExtension(file)) {
+                case "mp3" -> new Mp3File(file);
+                default -> throw new RuntimeException("Unsupported file format " + Utils.getFileExtension(file));
+            };
+        }
 	}
 
 }

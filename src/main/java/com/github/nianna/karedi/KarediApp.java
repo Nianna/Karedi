@@ -99,7 +99,7 @@ public class KarediApp extends Application {
 			controller.setAppContext(appContext);
 
 			txtExtensionFilter = new FileChooser.ExtensionFilter(I18N.get("filechooser.txt_files"), "*.txt");
-			audioExtensionsFilter = new FileChooser.ExtensionFilter(I18N.get("filechooser.audio_files"), "*.mp3");
+			audioExtensionsFilter = new FileChooser.ExtensionFilter(I18N.get("filechooser.audio_files"), "*.mp3", "*.m4a");
 
 			primaryStage.show();
 
