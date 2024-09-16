@@ -27,7 +27,10 @@ public class AudioFileLoader {
 		th.setDaemon(true);
 		th.start();
 		task.setOnSucceeded(event -> fileConsumer.accept(Optional.of(task.getValue())));
-		task.setOnFailed(event -> fileConsumer.accept(Optional.empty()));
+		task.setOnFailed(event -> {
+			fileConsumer.accept(Optional.empty());
+			task.getException().printStackTrace();
+		});
 		task.setOnCancelled(task.getOnFailed());
 	}
 

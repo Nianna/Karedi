@@ -60,7 +60,11 @@ public class KarediApp extends Application {
 	}
 
 	public static void main(String[] args) {
-		launch(args);
+		try {
+			launch(args);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Override
