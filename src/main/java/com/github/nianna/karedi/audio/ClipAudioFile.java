@@ -59,6 +59,15 @@ class ClipAudioFile extends PreloadedAudioFile {
         }
     }
 
+    public static PreloadedAudioFile wavFile(File file) {
+        try {
+            AudioInputStream in = AudioSystem.getAudioInputStream(file);
+            return loadAudio(file, in);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     private static ClipAudioFile convertAndLoadAudio(File file, AudioInputStream in) throws LineUnavailableException, IOException {
         AudioFormat convertedFormat = in.getFormat();
         AudioFormat targetFormat = new AudioFormat(
@@ -71,7 +80,11 @@ class ClipAudioFile extends PreloadedAudioFile {
                 false
         );
         in = AudioSystem.getAudioInputStream(targetFormat, in);
-        DataLine.Info info = new DataLine.Info(Clip.class, targetFormat);
+        return loadAudio(file, in);
+    }
+
+    private static ClipAudioFile loadAudio(File file, AudioInputStream in) throws LineUnavailableException, IOException {
+        DataLine.Info info = new DataLine.Info(Clip.class, in.getFormat());
         Clip clip = (Clip) AudioSystem.getLine(info);
         clip.open(in);
         in.close();
