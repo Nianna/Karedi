@@ -103,8 +103,10 @@ public class KarediApp extends Application {
 			controller.setAppContext(appContext);
 
 			txtExtensionFilter = new FileChooser.ExtensionFilter(I18N.get("filechooser.txt_files"), "*.txt");
-			audioExtensionsFilter = new FileChooser.ExtensionFilter(I18N.get("filechooser.audio_files"), "*.mp3", "*.m4a");
-
+			audioExtensionsFilter = new FileChooser.ExtensionFilter(
+					I18N.get("filechooser.audio_files"),
+					"*.mp3", "*.m4a", "*.mp4"
+			);
 			primaryStage.show();
 
 			controller.onStageShown();
@@ -217,7 +219,7 @@ public class KarediApp extends Application {
 		private FileChooser fileChooser = new FileChooser();
 		private DirectoryChooser directoryChooser = new DirectoryChooser();
 
-		private File showOpenDialog(ExtensionFilter extFilter) {
+		private File showOpenDialog(ExtensionFilter... extFilter) {
 			fileChooser.getExtensionFilters().setAll(extFilter);
 			File file = fileChooser.showOpenDialog(primaryStage);
 			updateLastDirectory(file);
