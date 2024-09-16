@@ -116,6 +116,10 @@ public class AudioContext {
         }));
     }
 
+    public List<String> supportedAudioExtensions() {
+        return AudioFileLoader.supportedExtensions();
+    }
+
     public void setActiveAudioFile(PreloadedAudioFile file) {
         if (file != getActiveAudioFile()) {
             stop();

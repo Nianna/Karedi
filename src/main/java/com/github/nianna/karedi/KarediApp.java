@@ -1,16 +1,9 @@
 package com.github.nianna.karedi;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Locale;
-import java.util.Optional;
-import java.util.ResourceBundle;
-
-import javafx.scene.image.Image;
-import org.controlsfx.glyphfont.FontAwesome;
-import org.controlsfx.glyphfont.GlyphFontRegistry;
-
+import com.github.nianna.karedi.action.KarediActions;
+import com.github.nianna.karedi.context.AppContext;
+import com.github.nianna.karedi.controller.RootController;
+import com.github.nianna.karedi.dialog.SaveChangesAlert;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.event.Event;
@@ -18,15 +11,22 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
+import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Stage;
-import com.github.nianna.karedi.action.KarediActions;
-import com.github.nianna.karedi.context.AppContext;
-import com.github.nianna.karedi.controller.RootController;
-import com.github.nianna.karedi.dialog.SaveChangesAlert;
+import org.controlsfx.glyphfont.FontAwesome;
+import org.controlsfx.glyphfont.GlyphFontRegistry;
+
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.List;
+import java.util.Locale;
+import java.util.Optional;
+import java.util.ResourceBundle;
 
 public class KarediApp extends Application {
 	private static final String APP_NAME = "Karedi";
@@ -103,9 +103,13 @@ public class KarediApp extends Application {
 			controller.setAppContext(appContext);
 
 			txtExtensionFilter = new FileChooser.ExtensionFilter(I18N.get("filechooser.txt_files"), "*.txt");
+			List<String> supportedAudioExtensionsPatterns = appContext.getAudioContext().supportedAudioExtensions()
+					.stream()
+					.map(ext -> "*." + ext)
+					.toList();
 			audioExtensionsFilter = new FileChooser.ExtensionFilter(
 					I18N.get("filechooser.audio_files"),
-					"*.mp3", "*.m4a", "*.mp4", "*.aac"
+					supportedAudioExtensionsPatterns
 			);
 			primaryStage.show();
 

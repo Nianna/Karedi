@@ -4,10 +4,19 @@ import com.github.nianna.karedi.util.Utils;
 import javafx.concurrent.Task;
 
 import java.io.File;
+import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 import java.util.function.Consumer;
+import java.util.stream.Stream;
 
 public class AudioFileLoader {
+
+	private static final List<String> MP3_EXTENSIONS = List.of("mp3");
+	private static final List<String> AAC_EXTENSIONS = List.of("m4a", "mp4", "aac");
+	private static final List<String> SUPPORTED_EXTENSIONS = Stream.of(MP3_EXTENSIONS, AAC_EXTENSIONS)
+			.flatMap(Collection::stream)
+			.toList();
 
 	private AudioFileLoader() {
 	}
@@ -34,6 +43,10 @@ public class AudioFileLoader {
 		task.setOnCancelled(task.getOnFailed());
 	}
 
+	public static List<String> supportedExtensions() {
+		return SUPPORTED_EXTENSIONS;
+	}
+
 	private static class LoadAudioFileTask extends Task<PreloadedAudioFile> {
 		private final File file;
 
@@ -43,11 +56,14 @@ public class AudioFileLoader {
 
 		@Override
 		protected PreloadedAudioFile call() throws Exception {
-            return switch (Utils.getFileExtension(file)) {
-                case "mp3" -> new Mp3File(file);
-				case "m4a", "mp4", "aac" -> ClipAudioFile.aacFile(file);
-                default -> throw new RuntimeException("Unsupported file format " + Utils.getFileExtension(file));
-            };
+			String extension = Utils.getFileExtension(file);
+			if (MP3_EXTENSIONS.contains(extension)) {
+				return new Mp3File(file);
+			}
+			if (SUPPORTED_EXTENSIONS.contains(extension)) {
+				return ClipAudioFile.aacFile(file);
+			}
+            throw new RuntimeException("Unsupported file format " + extension);
         }
 	}
 
