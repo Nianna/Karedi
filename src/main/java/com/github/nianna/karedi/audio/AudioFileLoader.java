@@ -45,7 +45,7 @@ public class AudioFileLoader {
 		protected PreloadedAudioFile call() throws Exception {
             return switch (Utils.getFileExtension(file)) {
                 case "mp3" -> new Mp3File(file);
-				case "m4a", "mp4" -> ClipAudioFile.aacFile(file);
+				case "m4a", "mp4", "aac" -> ClipAudioFile.aacFile(file);
                 default -> throw new RuntimeException("Unsupported file format " + Utils.getFileExtension(file));
             };
         }
