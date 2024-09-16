@@ -12,6 +12,7 @@ module karedi {
     requires javasound.aac;
     requires org.fxmisc.flowless;
     requires wellbehavedfx;
+    requires com.github.trilarion.sound;
     requires nianna.hyphenator;
 
     opens com.github.nianna.karedi to javafx.graphics;
