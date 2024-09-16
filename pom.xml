@@ -16,7 +16,8 @@
 		<jfugue.version>5.0.8</jfugue.version>
 		<javasound-aac.version>0.9.8</javasound-aac.version>
 		<javasound-resloader.version>0.1.3</javasound-resloader.version>
-		<jlayer.version>1.0.1</jlayer.version>
+        <java-vorbis-support.version>1.2.1</java-vorbis-support.version>
+        <jlayer.version>1.0.1</jlayer.version>
 		<junit.version>5.11.0</junit.version>
 		<mp3agic.version>0.8.1</mp3agic.version>
 		<richtextfx.version>0.11.0</richtextfx.version>
@@ -249,6 +250,26 @@
 										}
 									</moduleInfoSource>
 								</module>
+                                <module>
+                                    <artifact>
+                                        <groupId>com.github.trilarion</groupId>
+                                        <artifactId>java-vorbis-support</artifactId>
+                                        <version>${java-vorbis-support.version}</version>
+                                    </artifact>
+                                    <moduleInfoSource>
+                                        module com.github.trilarion.sound {
+                                        	requires java.desktop;
+                                        	requires java.logging;
+
+                                        	exports com.github.trilarion.sound.vorbis.sampled.spi;
+
+                                        	provides javax.sound.sampled.spi.AudioFileReader
+                                        		with com.github.trilarion.sound.vorbis.sampled.spi.VorbisAudioFileReader;
+                                        	provides javax.sound.sampled.spi.FormatConversionProvider
+                                        		with com.github.trilarion.sound.vorbis.sampled.spi.VorbisFormatConversionProvider;
+                                        }
+                                    </moduleInfoSource>
+                                </module>
 								<module>
 									<artifact>
 										<groupId>org.fxmisc.flowless</groupId>
@@ -405,7 +426,13 @@
 			<version>${javasound-resloader.version}</version>
 		</dependency>
 
-		<dependency>
+        <dependency>
+            <groupId>com.github.trilarion</groupId>
+            <artifactId>java-vorbis-support</artifactId>
+            <version>${java-vorbis-support.version}</version>
+        </dependency>
+
+        <dependency>
 			<groupId>org.controlsfx</groupId>
 			<artifactId>controlsfx</artifactId>
 			<version>${controlsfx.version}</version>

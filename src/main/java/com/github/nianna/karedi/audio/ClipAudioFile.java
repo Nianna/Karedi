@@ -5,7 +5,9 @@ import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.sound.sampled.DataLine;
+import javax.sound.sampled.LineUnavailableException;
 import java.io.File;
+import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
 class ClipAudioFile extends PreloadedAudioFile {
@@ -42,25 +44,37 @@ class ClipAudioFile extends PreloadedAudioFile {
                     inAudioFormat.isBigEndian());
             in = AudioSystem.getAudioInputStream(decodedAudioFormat, in);
 
-            AudioFormat convertedFormat = in.getFormat();
-            AudioFormat targetFormat = new AudioFormat(
-                    AudioFormat.Encoding.PCM_SIGNED,
-                    convertedFormat.getSampleRate(),
-                    16,
-                    convertedFormat.getChannels(),
-                    convertedFormat.getChannels() * 2,
-                    convertedFormat.getSampleRate(),
-                    false
-            );
-            in = AudioSystem.getAudioInputStream(targetFormat, in);
-
-            DataLine.Info info = new DataLine.Info(Clip.class, targetFormat);
-            Clip clip = (Clip) AudioSystem.getLine(info);
-            clip.open(in);
-            in.close();
-            return new ClipAudioFile(file, clip);
+            return convertAndLoadAudio(file, in);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public static PreloadedAudioFile vorbisFile(File file) {
+        try {
+            AudioInputStream in = AudioSystem.getAudioInputStream(file);
+            return convertAndLoadAudio(file, in);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private static ClipAudioFile convertAndLoadAudio(File file, AudioInputStream in) throws LineUnavailableException, IOException {
+        AudioFormat convertedFormat = in.getFormat();
+        AudioFormat targetFormat = new AudioFormat(
+                AudioFormat.Encoding.PCM_SIGNED,
+                convertedFormat.getSampleRate(),
+                16,
+                convertedFormat.getChannels(),
+                convertedFormat.getChannels() * 2,
+                convertedFormat.getSampleRate(),
+                false
+        );
+        in = AudioSystem.getAudioInputStream(targetFormat, in);
+        DataLine.Info info = new DataLine.Info(Clip.class, targetFormat);
+        Clip clip = (Clip) AudioSystem.getLine(info);
+        clip.open(in);
+        in.close();
+        return new ClipAudioFile(file, clip);
     }
 }
