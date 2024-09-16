@@ -13,9 +13,10 @@ import java.util.stream.Stream;
 public class AudioFileLoader {
 
 	private static final List<String> MP3_EXT = List.of("mp3");
+	private static final List<String> WAV_EXT = List.of("wav");
 	private static final List<String> AAC_EXT = List.of("m4a", "mp4", "aac");
 	private static final List<String> VORBIS_EXT = List.of("ogg");
-	private static final List<String> SUPPORTED_EXTENSIONS = Stream.of(MP3_EXT, AAC_EXT, VORBIS_EXT)
+	private static final List<String> SUPPORTED_EXTENSIONS = Stream.of(MP3_EXT, WAV_EXT, AAC_EXT, VORBIS_EXT)
 			.flatMap(Collection::stream)
 			.toList();
 
@@ -60,6 +61,9 @@ public class AudioFileLoader {
 			String extension = Utils.getFileExtension(file);
 			if (MP3_EXT.contains(extension)) {
 				return new Mp3File(file);
+			}
+			if (WAV_EXT.contains(extension)) {
+				return ClipAudioFile.wavFile(file);
 			}
 			if (VORBIS_EXT.contains(extension)) {
 				return ClipAudioFile.vorbisFile(file);
