@@ -9,6 +9,7 @@ module karedi {
     requires java.prefs;
     requires jfugue;
     requires org.fxmisc.richtext;
+    requires javasound.aac;
     requires org.fxmisc.flowless;
     requires wellbehavedfx;
     requires nianna.hyphenator;

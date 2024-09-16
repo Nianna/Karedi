@@ -1,16 +1,9 @@
 package com.github.nianna.karedi;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Locale;
-import java.util.Optional;
-import java.util.ResourceBundle;
-
-import javafx.scene.image.Image;
-import org.controlsfx.glyphfont.FontAwesome;
-import org.controlsfx.glyphfont.GlyphFontRegistry;
-
+import com.github.nianna.karedi.action.KarediActions;
+import com.github.nianna.karedi.context.AppContext;
+import com.github.nianna.karedi.controller.RootController;
+import com.github.nianna.karedi.dialog.SaveChangesAlert;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.event.Event;
@@ -18,15 +11,22 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
+import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Stage;
-import com.github.nianna.karedi.action.KarediActions;
-import com.github.nianna.karedi.context.AppContext;
-import com.github.nianna.karedi.controller.RootController;
-import com.github.nianna.karedi.dialog.SaveChangesAlert;
+import org.controlsfx.glyphfont.FontAwesome;
+import org.controlsfx.glyphfont.GlyphFontRegistry;
+
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.List;
+import java.util.Locale;
+import java.util.Optional;
+import java.util.ResourceBundle;
 
 public class KarediApp extends Application {
 	private static final String APP_NAME = "Karedi";
@@ -46,8 +46,8 @@ public class KarediApp extends Application {
 		DAY
 	}
 
-	private ExtensionFilter txtFilter;
-	private ExtensionFilter mp3Filter;
+	private ExtensionFilter txtExtensionFilter;
+	private ExtensionFilter audioExtensionsFilter;
 
 	public KarediApp() {
 		super();
@@ -60,7 +60,11 @@ public class KarediApp extends Application {
 	}
 
 	public static void main(String[] args) {
-		launch(args);
+		try {
+			launch(args);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Override
@@ -98,9 +102,15 @@ public class KarediApp extends Application {
 			RootController controller = loader.getController();
 			controller.setAppContext(appContext);
 
-			txtFilter = new FileChooser.ExtensionFilter(I18N.get("filechooser.txt_files"), "*.txt");
-			mp3Filter = new FileChooser.ExtensionFilter(I18N.get("filechooser.mp3_files"), "*.mp3");
-
+			txtExtensionFilter = new FileChooser.ExtensionFilter(I18N.get("filechooser.txt_files"), "*.txt");
+			List<String> supportedAudioExtensionsPatterns = appContext.getAudioContext().supportedAudioExtensions()
+					.stream()
+					.map(ext -> "*." + ext)
+					.toList();
+			audioExtensionsFilter = new FileChooser.ExtensionFilter(
+					I18N.get("filechooser.audio_files"),
+					supportedAudioExtensionsPatterns
+			);
 			primaryStage.show();
 
 			controller.onStageShown();
@@ -186,7 +196,7 @@ public class KarediApp extends Application {
 	}
 
 	public File getTxtFileToOpen() {
-		return chooserManager.showOpenDialog(txtFilter);
+		return chooserManager.showOpenDialog(txtExtensionFilter);
 	}
 
 	public File getTxtFileToSave() {
@@ -194,11 +204,11 @@ public class KarediApp extends Application {
 	}
 
 	public File getTxtFileToSave(String initialFileName) {
-		return chooserManager.showSaveDialog(txtFilter, initialFileName);
+		return chooserManager.showSaveDialog(txtExtensionFilter, initialFileName);
 	}
 
-	public File getMp3FileToOpen() {
-		return chooserManager.showOpenDialog(mp3Filter);
+	public File getAudioFileToOpen() {
+		return chooserManager.showOpenDialog(audioExtensionsFilter);
 	}
 
 	public File getDirectory() {
@@ -213,7 +223,7 @@ public class KarediApp extends Application {
 		private FileChooser fileChooser = new FileChooser();
 		private DirectoryChooser directoryChooser = new DirectoryChooser();
 
-		private File showOpenDialog(ExtensionFilter extFilter) {
+		private File showOpenDialog(ExtensionFilter... extFilter) {
 			fileChooser.getExtensionFilters().setAll(extFilter);
 			File file = fileChooser.showOpenDialog(primaryStage);
 			updateLastDirectory(file);

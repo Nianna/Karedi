@@ -2,8 +2,8 @@ package com.github.nianna.karedi.context;
 
 import com.github.nianna.karedi.I18N;
 import com.github.nianna.karedi.audio.AudioFileLoader;
-import com.github.nianna.karedi.audio.CachedAudioFile;
 import com.github.nianna.karedi.audio.Player;
+import com.github.nianna.karedi.audio.PreloadedAudioFile;
 import com.github.nianna.karedi.song.Note;
 import javafx.beans.binding.BooleanBinding;
 import javafx.beans.property.ReadOnlyIntegerProperty;
@@ -95,16 +95,17 @@ public class AudioContext {
         player.setTickingEnabled(enabled);
     }
 
-    public CachedAudioFile getActiveAudioFile() {
+    public PreloadedAudioFile getActiveAudioFile() {
         return player.getActiveAudioFile();
     }
 
-    public void removeAudioFile(CachedAudioFile file) {
+    public void removeAudioFile(PreloadedAudioFile file) {
         player.removeAudioFile(file);
+        file.releaseResources();
     }
 
     public void loadAudioFile(File file) {
-        AudioFileLoader.loadMp3File(file, (newAudio -> {
+        AudioFileLoader.loadAudioFile(file, (newAudio -> {
             if (newAudio.isPresent()) {
                 player.addAudioFile(newAudio.get());
                 setActiveAudioFile(newAudio.get());
@@ -115,7 +116,11 @@ public class AudioContext {
         }));
     }
 
-    public void setActiveAudioFile(CachedAudioFile file) {
+    public List<String> supportedAudioExtensions() {
+        return AudioFileLoader.supportedExtensions();
+    }
+
+    public void setActiveAudioFile(PreloadedAudioFile file) {
         if (file != getActiveAudioFile()) {
             stop();
             player.setActiveAudioFile(file);
@@ -123,11 +128,11 @@ public class AudioContext {
         }
     }
 
-    public ReadOnlyObjectProperty<CachedAudioFile> activeAudioFileProperty() {
+    public ReadOnlyObjectProperty<PreloadedAudioFile> activeAudioFileProperty() {
         return player.activeAudioFileProperty();
     }
 
-    public ObservableList<CachedAudioFile> getAudioFiles() {
+    public ObservableList<PreloadedAudioFile> getAudioFiles() {
         return player.getAudioFiles();
     }
 
