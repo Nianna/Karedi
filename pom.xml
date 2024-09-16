@@ -15,6 +15,7 @@
 		<javafx.version>19.0.2.1</javafx.version>
 		<jfugue.version>5.0.8</jfugue.version>
 		<javasound-aac.version>0.9.8</javasound-aac.version>
+		<javasound-resloader.version>0.1.3</javasound-resloader.version>
 		<jlayer.version>1.0.1</jlayer.version>
 		<junit.version>5.11.0</junit.version>
 		<mp3agic.version>0.8.1</mp3agic.version>
@@ -217,6 +218,39 @@
 								</module>
 								<module>
 									<artifact>
+										<groupId>com.tianscar.javasound</groupId>
+										<artifactId>javasound-aac</artifactId>
+										<version>${javasound-aac.version}</version>
+									</artifact>
+									<moduleInfoSource>
+										module javasound.aac {
+											requires java.desktop;
+											requires java.logging;
+											requires javasound.resloader;
+
+											exports net.sourceforge.jaad.spi.javasound;
+
+											provides javax.sound.sampled.spi.AudioFileReader
+												with net.sourceforge.jaad.spi.javasound.AACAudioFileReader;
+											provides javax.sound.sampled.spi.FormatConversionProvider
+												with net.sourceforge.jaad.spi.javasound.AACFormatConversionProvider;
+										}
+									</moduleInfoSource>
+								</module>
+								<module>
+									<artifact>
+										<groupId>com.tianscar.javasound</groupId>
+										<artifactId>javasound-resloader</artifactId>
+										<version>${javasound-resloader.version}</version>
+									</artifact>
+									<moduleInfoSource>
+										module javasound.resloader {
+											exports com.tianscar.javasound.sampled.spi;
+										}
+									</moduleInfoSource>
+								</module>
+								<module>
+									<artifact>
 										<groupId>org.fxmisc.flowless</groupId>
 										<artifactId>flowless</artifactId>
 										<version>0.7.0</version>
@@ -363,6 +397,12 @@
 			<groupId>com.tianscar.javasound</groupId>
 			<artifactId>javasound-aac</artifactId>
 			<version>${javasound-aac.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.tianscar.javasound</groupId>
+			<artifactId>javasound-resloader</artifactId>
+			<version>${javasound-resloader.version}</version>
 		</dependency>
 
 		<dependency>
