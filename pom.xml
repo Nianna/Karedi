@@ -59,9 +59,9 @@
 						</manifest>
 					</archive>
 					<outputDirectory>${project.dist.outputDirectory}</outputDirectory>
-					<descriptorRefs>
-						<descriptorRef>jar-with-dependencies</descriptorRef>
-					</descriptorRefs>
+					<descriptors>
+						<descriptor>src/main/resources/assembly.xml</descriptor>
+					</descriptors>
 					<appendAssemblyId>false</appendAssemblyId>
 				</configuration>
 				<executions>
