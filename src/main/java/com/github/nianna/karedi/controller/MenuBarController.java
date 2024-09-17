@@ -80,6 +80,8 @@ public class MenuBarController implements Controller {
 	@FXML
 	private MenuItem addNoteMenuItem;
 	@FXML
+	private MenuItem addNoteBeforeMenuItem;
+	@FXML
 	private MenuItem addTrackMenuItem;
 	@FXML
 	private MenuItem deleteSelectedNotesMenuItem;
@@ -288,6 +290,7 @@ public class MenuBarController implements Controller {
 		bind(mergeTonesSynchroLyricsMenuItem, KarediActions.SET_TONES_SYNCHRO_AND_LYRICS);
 
 		bind(addNoteMenuItem, KarediActions.ADD_NOTE);
+		bind(addNoteBeforeMenuItem, KarediActions.ADD_NOTE_BEFORE);
 		bind(addTrackMenuItem, KarediActions.ADD_TRACK);
 		bind(deleteSelectedLyricsMenuItem, KarediActions.DELETE_LYRICS);
 		bind(deleteSelectedNotesMenuItem, KarediActions.DELETE_SELECTION);

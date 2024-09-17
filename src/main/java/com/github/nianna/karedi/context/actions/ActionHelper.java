@@ -101,6 +101,7 @@ public class ActionHelper {
                 new MergeAction(appContext, MergeNotesCommand.MergeMode.TONES_SYNCHRO_LYRICS));
 
         add(KarediActions.ADD_NOTE, new AddNoteAction(appContext));
+        add(KarediActions.ADD_NOTE_BEFORE, new AddNoteBeforeAction(appContext));
         add(KarediActions.ADD_TRACK, new AddTrackAction(appContext));
         add(KarediActions.DELETE_SELECTION, new DeleteSelectionAction(appContext, true));
         add(KarediActions.DELETE_LYRICS, new DeleteSelectionLyricsAction(appContext));
