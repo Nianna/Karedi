@@ -116,7 +116,7 @@ public class AudioContext {
         }));
     }
 
-    public List<String> supportedAudioExtensions() {
+    public static List<String> supportedAudioExtensions() {
         return AudioFileLoader.supportedExtensions();
     }
 

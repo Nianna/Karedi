@@ -18,9 +18,12 @@ public final class Utils {
 	}
 
 	public static String getFileExtension(File file) {
-		String name = file.getName();
+		return getFileExtension(file.getName());
+	}
+
+	public static String getFileExtension(String fileName) {
 		try {
-			return name.substring(name.lastIndexOf(".") + 1);
+			return fileName.substring(fileName.lastIndexOf(".") + 1).toLowerCase();
 		} catch (Exception e) {
 			return "";
 		}
@@ -31,7 +34,7 @@ public final class Utils {
 	}
 
 	@SafeVarargs
-	public static final boolean executeUntilFail(Supplier<Boolean>... functions) {
+	public static boolean executeUntilFail(Supplier<Boolean>... functions) {
 		for (int i = 0; i < functions.length; ++i) {
 			if (!functions[i].get()) {
 				return false;

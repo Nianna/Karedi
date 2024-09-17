@@ -1,9 +1,13 @@
 package com.github.nianna.karedi.dialog;
 
-import java.util.Optional;
-
-import org.controlsfx.glyphfont.Glyph;
-
+import com.github.nianna.karedi.I18N;
+import com.github.nianna.karedi.context.AudioContext;
+import com.github.nianna.karedi.control.ManageableGridPane;
+import com.github.nianna.karedi.control.RestrictedTextField;
+import com.github.nianna.karedi.dialog.EditFilenamesDialog.FilenamesEditResult;
+import com.github.nianna.karedi.song.tag.TagKey;
+import com.github.nianna.karedi.song.tag.TagValidators;
+import com.github.nianna.karedi.util.Utils;
 import javafx.application.Platform;
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
@@ -13,15 +17,15 @@ import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
-import com.github.nianna.karedi.I18N;
-import com.github.nianna.karedi.control.ManageableGridPane;
-import com.github.nianna.karedi.control.RestrictedTextField;
-import com.github.nianna.karedi.dialog.EditFilenamesDialog.FilenamesEditResult;
-import com.github.nianna.karedi.song.tag.TagKey;
-import com.github.nianna.karedi.song.tag.TagValidators;
+import javafx.util.Pair;
+import org.controlsfx.glyphfont.Glyph;
+
+import java.util.Optional;
+import java.util.function.Consumer;
 
 public class EditFilenamesDialog extends ValidatedDialog<FilenamesEditResult> {
 	private static final String ARTIST_TITLE_SEPARATOR = " - ";
@@ -50,7 +54,7 @@ public class EditFilenamesDialog extends ValidatedDialog<FilenamesEditResult> {
 	@FXML
 	private TextField audioField;
 	@FXML
-	private TextField audioExtensionField;
+	private ComboBox<String> audioExtensionField;
 
 	@FXML
 	private CheckBox addCoCheckBox;
@@ -119,20 +123,29 @@ public class EditFilenamesDialog extends ValidatedDialog<FilenamesEditResult> {
 				this::onAddCoCheckBoxInvalidated);
 
 		videoExtensionField.setText(DEFAULT_VIDEO_EXTENSION);
-		audioExtensionField.setText(DEFAULT_AUDIO_EXTENSION);
+		audioExtensionField.getItems().addAll(AudioContext.supportedAudioExtensions().stream().sorted().toList());
+		audioExtensionField.getSelectionModel().select(DEFAULT_AUDIO_EXTENSION);
 		coverExtensionField.setText(DEFAULT_IMAGE_EXTENSION);
 		backgroundExtensionField.setText(DEFAULT_IMAGE_EXTENSION);
 
 		Platform.runLater(() -> {
 			validationSupport.registerValidator(titleField, TagValidators.forKey(TagKey.TITLE));
 			validationSupport.registerValidator(artistField, TagValidators.forKey(TagKey.ARTIST));
-			// TODO!!!!
-			validationSupport.registerValidator(audioExtensionField, TagValidators.defaultValidator());
 			validationSupport.registerValidator(coverExtensionField, TagValidators.defaultValidator());
 			validationSupport.initInitialDecoration();
 			includeBackgroundCheckBox.setSelected(!hideBackground);
 			includeVideoCheckBox.setSelected(!hideVideo);
 		});
+	}
+
+	public void initDataFromAudioFilename(String audioFileName) {
+		audioExtensionField.getSelectionModel().select(Utils.getFileExtension(audioFileName));
+		audioExtensionField.getStyleClass().setAll("no-arrow-combobox");
+		audioExtensionField.setDisable(true);
+		String audioNameWithoutExtension = Utils.trimExtension(audioFileName);
+		Pair<String, String> artistTitlePair = ArtistTitleGuesser.guessFromFileName(audioNameWithoutExtension);
+		artistField.setText(artistTitlePair.getKey());
+		titleField.setText(artistTitlePair.getValue());
 	}
 
 	private void setAndExecuteOnMouseClicked(Node node, EventHandler<? super MouseEvent> handler) {
@@ -241,13 +254,18 @@ public class EditFilenamesDialog extends ValidatedDialog<FilenamesEditResult> {
 	}
 
 	private void setFilename(Glyph glyph, TextField field, TextField extensionField, String value) {
-		int index = value.lastIndexOf('.');
-		String fileName;
-		if (index >= 0 && index < value.length() - 1) {
-			fileName = value.substring(0, index);
-			extensionField.setText(value.substring(index + 1));
-		} else {
-			fileName = value;
+		setFilename(glyph, field, extensionField::setText, value);
+	}
+
+	private void setFilename(Glyph glyph, TextField field, ComboBox<String> extensionField, String value) {
+		setFilename(glyph, field, extensionField.getSelectionModel()::select, value);
+	}
+
+	private void setFilename(Glyph glyph, TextField field, Consumer<String> extensionSetter, String value) {
+		String extension = Utils.getFileExtension(value);
+		String fileName = Utils.trimExtension(value);
+		if (!extension.isEmpty()) {
+			extensionSetter.accept(extension);
 		}
 
 		if (!fileName.equals(field.getText())) {
@@ -317,7 +335,7 @@ public class EditFilenamesDialog extends ValidatedDialog<FilenamesEditResult> {
 			super();
 			artist = artistField.getText();
 			title = titleField.getText();
-			audioFilename = generateFilename(audioField.getText(), audioExtensionField.getText());
+			audioFilename = generateFilename(audioField.getText(), audioExtensionField.getValue());
 			coverFilename = generateFilename(coverField.getText(), coverExtensionField.getText());
 			if (includeBackgroundCheckBox.isSelected()) {
 				backgroundFilename = generateFilename(backgroundField.getText(),

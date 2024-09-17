@@ -2,6 +2,7 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.DialogPane?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Separator?>
@@ -16,7 +17,7 @@
 <!-- <?import org.controlsfx.glyphfont.*?> -->
 
 <fx:root type="javafx.scene.control.DialogPane" xmlns="http://javafx.com/javafx/8.0.60"
-	xmlns:fx="http://javafx.com/fxml/1">
+		 xmlns:fx="http://javafx.com/fxml/1">
 	<content>
 		<ManageableGridPane fx:id="gridPane" hgap="10.0">
 			<columnConstraints>
@@ -25,7 +26,7 @@
 				<ColumnConstraints hgrow="SOMETIMES" minWidth="10.0"
 					prefWidth="200.0" />
 				<ColumnConstraints hgrow="SOMETIMES" />
-				<ColumnConstraints hgrow="SOMETIMES" prefWidth="45.0" />
+				<ColumnConstraints hgrow="SOMETIMES" prefWidth="66.0" />
 				<ColumnConstraints />
 			</columnConstraints>
 			<rowConstraints>
@@ -91,7 +92,7 @@
 				<FilenameTextField fx:id="audioField"
 					GridPane.columnIndex="2" GridPane.rowIndex="7" />
 				<Label text="." GridPane.columnIndex="3" GridPane.rowIndex="7" />
-				<TextField fx:id="audioExtensionField"
+				<ComboBox fx:id="audioExtensionField"
 					GridPane.columnIndex="4" GridPane.rowIndex="7" />
 
 				<Glyph fx:id="coverLinkGlyph" fontFamily="FontAwesome" icon="LINK"
