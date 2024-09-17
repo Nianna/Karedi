@@ -15,6 +15,7 @@ public abstract class SkippableDialog<T> extends Dialog<Optional<T>> {
 
 		setResultConverter(dialogButtonType -> {
 			if (dialogButtonType == ButtonType.OK) {
+				onOkClicked();
 				return Optional.of(getData());
 			}
 			if (dialogButtonType == SKIP_TYPE) {
@@ -22,6 +23,10 @@ public abstract class SkippableDialog<T> extends Dialog<Optional<T>> {
 			}
 			return null;
 		});
+	}
+
+	protected void onOkClicked() {
+
 	}
 
 	protected abstract T getData();

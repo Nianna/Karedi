@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Optional;
 
 import com.github.nianna.karedi.I18N;
+import com.github.nianna.karedi.Settings;
 import com.github.nianna.karedi.dialog.AddSongInfoDialog;
 import com.github.nianna.karedi.dialog.ChooseAudioFileDialog;
 import com.github.nianna.karedi.dialog.ChooseDirectoryDialog;
@@ -72,6 +73,11 @@ class NewSongWizard {
 	}
 
 	private boolean chooseDirectory() {
+		Optional<File> rememberedDir = Settings.getNewSongWizardLibraryDirectory();
+		if (rememberedDir.isPresent() && rememberedDir.get().exists()) {
+			outputDir = rememberedDir.get();
+			return true;
+		}
 		ChooseDirectoryDialog dialog = new ChooseDirectoryDialog();
 		Optional<Optional<File>> result = dialog.showAndWait();
 		if (result.isPresent()) {

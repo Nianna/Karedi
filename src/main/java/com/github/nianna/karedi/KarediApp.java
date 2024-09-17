@@ -248,7 +248,9 @@ public class KarediApp extends Application {
 
 		public void setInitialDirectory(File directory) {
 			directoryChooser.setInitialDirectory(directory);
-			fileChooser.setInitialDirectory(directory);
+			if (directory.exists()) {
+				fileChooser.setInitialDirectory(directory);
+			}
 		}
 
 		private File getDirectory() {

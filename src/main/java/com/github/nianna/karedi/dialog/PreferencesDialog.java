@@ -1,17 +1,22 @@
 package com.github.nianna.karedi.dialog;
 
+import com.github.nianna.karedi.I18N;
+import com.github.nianna.karedi.KarediApp;
+import com.github.nianna.karedi.Settings;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Dialog;
+import javafx.scene.control.TextField;
 import javafx.util.StringConverter;
-import com.github.nianna.karedi.I18N;
-import com.github.nianna.karedi.Settings;
 
+import java.io.File;
 import java.util.Locale;
+import java.util.Optional;
 
 public class PreferencesDialog extends Dialog<PreferencesResult> {
 
@@ -21,23 +26,62 @@ public class PreferencesDialog extends Dialog<PreferencesResult> {
 	@FXML
 	private CheckBox displayNoteNodeUnderBarEnabledCheckBox;
 
+	@FXML
+	private TextField newSongWizardLibraryDirTextField;
+
+	@FXML
+	private Button newSongWizardLibraryDirClearButton;
+
+	@FXML
+	private Button newSongWizardLibraryDirChooseButton;
+
+	private File newSongWizardCurrentLibraryDir;
+
 	public PreferencesDialog() {
 		DialogUtils.loadPane(this, getClass().getResource("/fxml/PreferencesLayout.fxml"));
 		setTitle(I18N.get("dialog.preferences.title"));
 		initGeneralTab();
 		initDisplayTab();
+		initNewSongWizardTab();
 		getDialogPane().getButtonTypes().addAll(ButtonType.OK, ButtonType.CANCEL);
 
 		setResultConverter(type -> {
 			if (type == ButtonType.OK) {
 				return new PreferencesResult(
 						languageSelect.getSelectionModel().getSelectedItem(),
-						displayNoteNodeUnderBarEnabledCheckBox.isSelected()
+						displayNoteNodeUnderBarEnabledCheckBox.isSelected(),
+						newSongWizardCurrentLibraryDir
 				);
 			}
 			return null;
 		});
 
+	}
+
+	private void initNewSongWizardTab() {
+		newSongWizardCurrentLibraryDir = Settings.getNewSongWizardLibraryDirectory().orElse(null);
+		resetNewSongWizardLibraryDirLabelValue();
+		newSongWizardLibraryDirChooseButton.setOnAction(event -> {
+			Optional.ofNullable(KarediApp.getInstance().getDirectory())
+					.ifPresent(newDir -> {
+						newSongWizardCurrentLibraryDir = newDir;
+						resetNewSongWizardLibraryDirLabelValue();
+					});
+		});
+		newSongWizardLibraryDirClearButton.setOnAction(event -> {
+			newSongWizardCurrentLibraryDir = null;
+			resetNewSongWizardLibraryDirLabelValue();
+		});
+	}
+
+	private void resetNewSongWizardLibraryDirLabelValue() {
+		newSongWizardLibraryDirTextField.clear();
+		if (newSongWizardCurrentLibraryDir != null) {
+			newSongWizardLibraryDirTextField.setText(newSongWizardCurrentLibraryDir.getAbsolutePath());
+			newSongWizardLibraryDirClearButton.setDisable(false);
+		} else {
+			newSongWizardLibraryDirClearButton.setDisable(true);
+		}
 	}
 
 	private void initDisplayTab() {
