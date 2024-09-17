@@ -17,6 +17,7 @@ class ShowPreferencesAction extends KarediAction {
         dialog.showAndWait().ifPresent(result -> {
             Settings.setLocale(result.getSelectedLocale());
             Settings.setDisplayNoteNodeUnderBarEnabled(result.isDisplayNoteNodeUnderBarEnabled());
+            Settings.setNewSongWizardLibraryDirectory(result.getNewSongWizardLibraryDir());
         });
     }
 }

@@ -1,8 +1,9 @@
 package com.github.nianna.karedi;
 
-import javafx.scene.paint.Color;
 import com.github.nianna.karedi.util.ColorUtils;
+import javafx.scene.paint.Color;
 
+import java.io.File;
 import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
@@ -30,6 +31,8 @@ public final class Settings {
 
 	private static final String TRACKS_COLOR_KEY = "ui_tracks_colors_";
 	private static final String TRACKS_FONT_COLOR_KEY = "ui_tracks_font_colors_";
+
+	private static final String NEW_SONG_WIZARD_LIBRARY_DIR = "ui_new_song_wizard_library_dir";
 
 	private static final Preferences PREFERENCES = Preferences.userNodeForPackage(Settings.class);
 
@@ -104,6 +107,20 @@ public final class Settings {
 
 	public static boolean isDisplayNoteNodeUnderBarEnabled() {
 		return PREFERENCES.getBoolean(DISPLAY_NOTENODE_UNDERBAR_KEY, true);
+	}
+
+	public static void setNewSongWizardLibraryDirectory(File file) {
+		if (file != null) {
+			PREFERENCES.put(NEW_SONG_WIZARD_LIBRARY_DIR, file.getAbsolutePath());
+		} else {
+			PREFERENCES.remove(NEW_SONG_WIZARD_LIBRARY_DIR);
+		}
+	}
+
+	public static Optional<File> getNewSongWizardLibraryDirectory() {
+		String absolutePath = PREFERENCES.get(NEW_SONG_WIZARD_LIBRARY_DIR, null);
+		return Optional.ofNullable(absolutePath)
+				.map(File::new);
 	}
 
 }

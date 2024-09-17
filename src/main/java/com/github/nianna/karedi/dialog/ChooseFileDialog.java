@@ -15,7 +15,6 @@ public class ChooseFileDialog extends SkippableDialog<File> {
 
 	public ChooseFileDialog(Supplier<File> fileSupplier) {
 		this.fileSupplier = fileSupplier;
-		DialogUtils.loadPane(this, getClass().getResource("/fxml/ChooseFileDialogPaneLayout.fxml"));
 	}
 
 	@FXML
