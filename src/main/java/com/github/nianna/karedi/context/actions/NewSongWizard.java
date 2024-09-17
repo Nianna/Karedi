@@ -27,8 +27,8 @@ class NewSongWizard {
 
 	Optional<CreatorResult> start() {
 		Utils.executeUntilFail(
-				this::createSong,
 				this::chooseAudio,
+				this::createSong,
 				this::chooseDirectory,
 				this::setBpm,
 				this::addTags,
@@ -38,6 +38,9 @@ class NewSongWizard {
 
 	private boolean createSong() {
 		EditFilenamesDialog dialog = new EditFilenamesDialog();
+		Optional.ofNullable(audioFile)
+				.map(File::getName)
+				.ifPresent(dialog::initDataFromAudioFilename);
 		dialog.setTitle(I18N.get("dialog.creator.title"));
 		Optional<FilenamesEditResult> optResult = dialog.showAndWait();
 		if (optResult.isPresent()) {

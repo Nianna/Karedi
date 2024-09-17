@@ -2,6 +2,7 @@ package com.github.nianna.karedi;
 
 import com.github.nianna.karedi.action.KarediActions;
 import com.github.nianna.karedi.context.AppContext;
+import com.github.nianna.karedi.context.AudioContext;
 import com.github.nianna.karedi.controller.RootController;
 import com.github.nianna.karedi.dialog.SaveChangesAlert;
 import javafx.application.Application;
@@ -103,7 +104,7 @@ public class KarediApp extends Application {
 			controller.setAppContext(appContext);
 
 			txtExtensionFilter = new FileChooser.ExtensionFilter(I18N.get("filechooser.txt_files"), "*.txt");
-			List<String> supportedAudioExtensionsPatterns = appContext.getAudioContext().supportedAudioExtensions()
+			List<String> supportedAudioExtensionsPatterns = AudioContext.supportedAudioExtensions()
 					.stream()
 					.map(ext -> "*." + ext)
 					.toList();
