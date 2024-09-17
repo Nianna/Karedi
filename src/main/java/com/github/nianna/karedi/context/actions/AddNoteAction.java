@@ -7,37 +7,33 @@ import com.github.nianna.karedi.context.AppContext;
 import com.github.nianna.karedi.song.Note;
 import com.github.nianna.karedi.song.SongLine;
 import javafx.beans.binding.Bindings;
-import javafx.event.ActionEvent;
 
 import java.util.Optional;
+import java.util.function.Supplier;
 
-import static java.lang.Math.max;
-import static java.lang.Math.min;
+abstract class AddNoteAction extends ContextfulKarediAction {
 
-class AddNoteAction extends ContextfulKarediAction {
-
-    private static final int NEW_NOTE_DEFAULT_LENGTH = 3;
+    protected static final int NEW_NOTE_DEFAULT_LENGTH = 3;
 
     AddNoteAction(AppContext appContext) {
         super(appContext);
+    }
+
+    protected void setDisabledCondition(Supplier<Integer> position) {
         setDisabledCondition(Bindings.createBooleanBinding(() -> {
             if (activeSongContext.getActiveTrack() == null) {
                 return true;
             } else {
-                int newNotePosition = computeNewNoteStartBeat();
-                return activeSongContext.getActiveTrack().noteAt(newNotePosition).isPresent();
+                return activeSongContext.getActiveTrack().noteAt(position.get()).isPresent();
             }
         }, selectionContext.getSelectionBounds(), audioContext.markerTimeProperty(), activeSongContext.activeTrackProperty()));
     }
 
-    @Override
-    protected void onAction(ActionEvent event) {
-        int startBeat = computeNewNoteStartBeat();
-        int length = computeNewNoteLength(startBeat);
+    protected void executeAddNoteCommand(int startBeat, int length, int positionForToneCheck) {
         Optional<SongLine> newNoteLine = findLineToAddNoteTo();
 
         int tone = newNoteLine
-                .flatMap(line -> computeTone(line, startBeat))
+                .flatMap(line -> computeTone(line, positionForToneCheck))
                 .orElse(0);
 
         Note note = new Note(startBeat, length, tone);
@@ -47,25 +43,9 @@ class AddNoteAction extends ContextfulKarediAction {
         executeCommand(new ChangePostStateCommandDecorator(addNoteCommand, cmd -> selectOnly(note)));
     }
 
-    private int computeNewNoteStartBeat() {
-        if (getSelectionSize() > 0 && selectionContext.getSelectionBounds().isValid()) {
-            return selectionContext.getSelectionBounds().getUpperXBound();
-        } else {
-            return audioContext.getMarkerBeat();
-        }
-    }
-
     private Optional<Integer> computeTone(SongLine line, int beat) {
         return line.noteAtOrEarlier(beat)
                 .map(Note::getTone);
-    }
-
-    private int computeNewNoteLength(int startBeat) {
-        return activeSongContext.getActiveTrack()
-                .noteAtOrLater(startBeat)
-                .map(Note::getStart)
-                .map(nextNoteStartBeat -> min(NEW_NOTE_DEFAULT_LENGTH, max(nextNoteStartBeat - startBeat - 1, 1)))
-                .orElse(NEW_NOTE_DEFAULT_LENGTH);
     }
 
     private Optional<SongLine> findLineToAddNoteTo() {

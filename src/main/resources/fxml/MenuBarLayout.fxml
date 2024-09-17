@@ -144,6 +144,13 @@
 									control="UP" meta="UP" shift="UP" shortcut="DOWN" />
 							</accelerator>
 						</MenuItem>
+						<MenuItem fx:id="addNoteBeforeMenuItem" mnemonicParsing="false"
+								  text="%ui.menu.add.note.before">
+							<accelerator>
+								<KeyCodeCombination alt="UP" code="ENTER"
+													control="UP" meta="UP" shift="DOWN" shortcut="UP" />
+							</accelerator>
+						</MenuItem>
 						<MenuItem fx:id="addTrackMenuItem" mnemonicParsing="false"
 							text="%ui.menu.add.track" />
 					</items>
