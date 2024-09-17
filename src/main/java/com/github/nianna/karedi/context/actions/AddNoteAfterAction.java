@@ -14,11 +14,11 @@ import java.util.Optional;
 import static java.lang.Math.max;
 import static java.lang.Math.min;
 
-class AddNoteAction extends ContextfulKarediAction {
+class AddNoteAfterAction extends ContextfulKarediAction {
 
     private static final int NEW_NOTE_DEFAULT_LENGTH = 3;
 
-    AddNoteAction(AppContext appContext) {
+    AddNoteAfterAction(AppContext appContext) {
         super(appContext);
         setDisabledCondition(Bindings.createBooleanBinding(() -> {
             if (activeSongContext.getActiveTrack() == null) {
