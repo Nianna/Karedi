@@ -4,6 +4,8 @@ package com.github.nianna.karedi.util;
 import javafx.util.Pair;
 import org.junit.jupiter.api.Test;
 
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class LyricsHelperTest {
@@ -29,6 +31,24 @@ public class LyricsHelperTest {
 	public void splitReturnsDefaultLyricsAsValueIfThereAreNoSpaces() {
 		Pair<String, String> result = LyricsHelper.split("foo");
 		assertEquals(LyricsHelper.defaultLyrics(), result.getValue());
+	}
+
+	@Test
+	public void splitIntoParts() {
+		List<String> result = LyricsHelper.split("Lorem ipsum dolor", 3);
+		assertEquals(List.of("Lorem", " ipsum", " dolor"), result);
+	}
+
+	@Test
+	public void splitIntoMorePartsThanAvailable() {
+		List<String> result = LyricsHelper.split("Lorem ipsum", 4);
+		assertEquals(List.of("Lorem", " ipsum", LyricsHelper.defaultLyrics(), LyricsHelper.defaultLyrics()), result);
+	}
+
+	@Test
+	public void splitIntoLessPartsThanAvailable() {
+		List<String> result = LyricsHelper.split("Lorem ipsum dolor sit amet", 3);
+		assertEquals(List.of("Lorem ipsum dolor", " sit", " amet"), result);
 	}
 
 	// join
