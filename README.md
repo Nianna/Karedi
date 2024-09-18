@@ -30,7 +30,7 @@ Karedi's main features include:
   * auto-syllabification of lyrics in most popular languages
   * automatic search for problems (errors & warnings)
   * solver that offers both safe and potentially risky (useful if safe fix is not available) solutions to almost all the problems
-  * support for multiple mp3 files with the possibility of adjusting the volume for each one of them
+  * support for multiple audio files of various formats with adjustable volume
   * auxiliary note method support:
       * notes are sorted according to their startbeats
       * shortcuts for playing fragments before (alt + UP) or after (alt + DOWN) the selected note
@@ -42,7 +42,7 @@ Please refer to the [wiki](https://karedi.gitbook.io/karedi/) to learn more.
 
 ## Tutorial
 
-For tutorials explaining how to use this software, please refer to the [project's wiki](https://karedi.gitbook.io/karedi/). 
+For tutorials explaining how to use this software, please refer to the [project's wiki](https://karedi.gitbook.io/karedi/).
 
 ## Downloads
 
@@ -54,7 +54,10 @@ Karedi uses the following libraries:
 * [JavaFX](https://github.com/openjdk/jfx) with [ControlsFX](https://github.com/controlsfx/controlsfx) & [RichTextFx](https://github.com/TomasMikula/RichTextFX) for GUI,
 * [mp3agic](https://github.com/mpatric/mp3agic) for reading mp3 info,
 * [jLayer](http://www.javazoom.net/javalayer/javalayer.html) for playing mp3 files,
-* [jFugue](http://www.jfugue.org) to simplify the process of creating MIDI sequences.
+* [jFugue](http://www.jfugue.org) to simplify the process of creating MIDI sequences,
+* [hyphenator](https://github.com/Nianna/hyphenator) for syllabification,
+* [javasound-aac](https://github.com/Tianscar/javasound-aac) for m4a files support,
+* [java-vorbis-support](https://github.com/Trilarion/java-vorbis-support) for Ogg Vorbis support.
 
 ## License
 
