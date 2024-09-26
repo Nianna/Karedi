@@ -13,7 +13,9 @@ public enum TagKey {
 	LANGUAGE,
 	COVER,
 	MP3,
+	AUDIO,
 	VOCALS,
+	INSTRUMENTAL,
 	VIDEO,
 	BACKGROUND,
 	BPM,
@@ -24,8 +26,14 @@ public enum TagKey {
 	PREVIEWSTART,
 	DUETSINGERP1,
 	DUETSINGERP2,
+	P1,
+	P2,
 	MEDLEYSTARTBEAT,
-	MEDLEYENDBEAT;
+	MEDLEYENDBEAT,
+	VERSION,
+	TAGS,
+	COMMENT,
+	PROVIDEDBY;
 
 	public static Optional<TagKey> optionalValueOf(String str) {
 		str = str.trim().toUpperCase(Locale.ROOT);
@@ -62,14 +70,11 @@ public enum TagKey {
 
 	public static boolean expectsAFileName(TagKey key) {
 		switch (key) {
-		case MP3:
-		case COVER:
-		case VIDEO:
-		case BACKGROUND:
-		case VOCALS:
-			return true;
-		default:
-			return false;
+			case MP3, COVER, AUDIO, VIDEO, BACKGROUND, VOCALS, INSTRUMENTAL:
+				return true;
+			default:
+				return false;
 		}
 	}
+
 }
