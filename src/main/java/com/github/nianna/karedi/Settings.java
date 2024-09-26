@@ -34,6 +34,8 @@ public final class Settings {
 
 	private static final String NEW_SONG_WIZARD_LIBRARY_DIR = "ui_new_song_wizard_library_dir";
 
+	private static final String NEW_SONG_WIZARD_TAGS_CREATOR_DEFAULT = "ui_new_song_wizard_tags_creator_default";
+
 	private static final Preferences PREFERENCES = Preferences.userNodeForPackage(Settings.class);
 
 	private Settings() {
@@ -121,6 +123,19 @@ public final class Settings {
 		String absolutePath = PREFERENCES.get(NEW_SONG_WIZARD_LIBRARY_DIR, null);
 		return Optional.ofNullable(absolutePath)
 				.map(File::new);
+	}
+
+	public static void setNewSongWizardDefaultCreator(String value) {
+		if (value != null && !value.isBlank()) {
+			PREFERENCES.put(NEW_SONG_WIZARD_TAGS_CREATOR_DEFAULT, value);
+		} else {
+			PREFERENCES.remove(NEW_SONG_WIZARD_TAGS_CREATOR_DEFAULT);
+		}
+	}
+
+	public static Optional<String> getNewSongWizardDefaultCreator() {
+		String value = PREFERENCES.get(NEW_SONG_WIZARD_TAGS_CREATOR_DEFAULT, null);
+		return Optional.ofNullable(value);
 	}
 
 }

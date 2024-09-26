@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import com.github.nianna.karedi.Settings;
 import org.controlsfx.control.textfield.TextFields;
 import org.controlsfx.validation.ValidationMessage;
 import org.controlsfx.validation.ValidationSupport;
@@ -51,6 +52,7 @@ public class AddSongInfoDialog extends Dialog<List<Tag>> {
 		getDialogPane().getButtonTypes().addAll(ButtonType.CANCEL, ButtonType.OK);
 		setResultConverter(dialogButtonType -> {
 			if (dialogButtonType == ButtonType.OK) {
+				Settings.setNewSongWizardDefaultCreator(creatorField.getText());
 				return generateListOfValidTags();
 			}
 			return null;
@@ -70,6 +72,8 @@ public class AddSongInfoDialog extends Dialog<List<Tag>> {
 			registerValidators();
 			validationSupport.initInitialDecoration();
 		});
+
+		Settings.getNewSongWizardDefaultCreator().ifPresent(creatorField::setText);
 	}
 
 	private void registerValidators() {
