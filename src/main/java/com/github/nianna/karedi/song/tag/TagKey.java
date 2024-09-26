@@ -45,36 +45,24 @@ public enum TagKey {
 	}
 
 	public static boolean expectsAnInteger(TagKey key) {
-		switch (key) {
-		case YEAR:
-		case GAP:
-		case MEDLEYSTARTBEAT:
-		case MEDLEYENDBEAT:
-		case END:
-			return true;
-		default:
-			return false;
-		}
+        return switch (key) {
+            case YEAR, GAP, MEDLEYSTARTBEAT, MEDLEYENDBEAT, END -> true;
+            default -> false;
+        };
 	}
 
 	public static boolean expectsADouble(TagKey key) {
-		switch (key) {
-		case START:
-		case VIDEOGAP:
-		case BPM:
-			return true;
-		default:
-			return false;
-		}
+        return switch (key) {
+            case START, VIDEOGAP, BPM -> true;
+            default -> false;
+        };
 	}
 
 	public static boolean expectsAFileName(TagKey key) {
-		switch (key) {
-			case MP3, COVER, AUDIO, VIDEO, BACKGROUND, VOCALS, INSTRUMENTAL:
-				return true;
-			default:
-				return false;
-		}
+        return switch (key) {
+            case MP3, COVER, AUDIO, VIDEO, BACKGROUND, VOCALS, INSTRUMENTAL -> true;
+            default -> false;
+        };
 	}
 
 }
