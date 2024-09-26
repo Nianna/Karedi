@@ -72,6 +72,10 @@ public class Song implements IntBounded, Problematic {
 		return getTagValue(key.toString());
 	}
 
+	public Optional<String> getMainAudioTagValue() {
+		return getTagValue(TagKey.AUDIO).or(() -> getTagValue(TagKey.MP3));
+	}
+
 	public Optional<String> getTagValue(String key) {
 		return getTag(key).map(Tag::getValue);
 	}

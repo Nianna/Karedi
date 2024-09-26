@@ -24,7 +24,7 @@ class RenameAction extends ContextfulKarediAction {
 
         activeSongContext.getSong().getTagValue(TagKey.ARTIST).ifPresent(dialog::setSongArtist);
         activeSongContext.getSong().getTagValue(TagKey.TITLE).ifPresent(dialog::setSongTitle);
-        activeSongContext.getSong().getTagValue(TagKey.MP3).ifPresent(dialog::setAudioFilename);
+        activeSongContext.getSong().getMainAudioTagValue().ifPresent(dialog::setAudioFilename);
         activeSongContext.getSong().getTagValue(TagKey.COVER).ifPresent(dialog::setCoverFilename);
 
         Optional<String> optVideoFilename = activeSongContext.getSong().getTagValue(TagKey.VIDEO);
