@@ -65,4 +65,8 @@ public enum TagKey {
         };
 	}
 
+	public static boolean expectsASemVer(TagKey key) {
+		return key == VERSION;
+	}
+
 }
