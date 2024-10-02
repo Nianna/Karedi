@@ -72,6 +72,10 @@ public class Song implements IntBounded, Problematic {
 		return getTagValue(key.toString());
 	}
 
+	public Optional<String> getMainAudioTagValue() {
+		return getTagValue(TagKey.AUDIO).or(() -> getTagValue(TagKey.MP3));
+	}
+
 	public Optional<String> getTagValue(String key) {
 		return getTag(key).map(Tag::getValue);
 	}
@@ -128,27 +132,27 @@ public class Song implements IntBounded, Problematic {
 		Optional<TagKey> tagKey = TagKey.optionalValueOf(tag.getKey());
 		tagKey.ifPresent(key -> {
 			switch (key) {
-			case MEDLEYSTARTBEAT:
-				medley.setStartBeat(
-						Converter.toInteger(tag.getValue()).orElse(medley.getEndBeat()));
-				break;
-			case MEDLEYENDBEAT:
-				medley.setEndBeat(
-						Converter.toInteger(tag.getValue()).orElse(medley.getStartBeat()));
-				break;
-			case BPM:
-				Converter.toDouble(tag.getValue()).ifPresent(value -> converter.setBpm(value));
-				break;
-			case GAP:
-				Converter.toInteger(tag.getValue()).ifPresent(value -> converter.setGap(value));
-				break;
-			case DUETSINGERP1:
-				renameTrack(0, tag.getValue());
-				break;
-			case DUETSINGERP2:
-				renameTrack(1, tag.getValue());
-				break;
-			default:
+				case MEDLEYSTARTBEAT:
+					medley.setStartBeat(
+							Converter.toInteger(tag.getValue()).orElse(medley.getEndBeat()));
+					break;
+				case MEDLEYENDBEAT:
+					medley.setEndBeat(
+							Converter.toInteger(tag.getValue()).orElse(medley.getStartBeat()));
+					break;
+				case BPM:
+					Converter.toDouble(tag.getValue()).ifPresent(value -> converter.setBpm(value));
+					break;
+				case GAP:
+					Converter.toInteger(tag.getValue()).ifPresent(value -> converter.setGap(value));
+					break;
+				case DUETSINGERP1, P1:
+					renameTrack(0, tag.getValue());
+					break;
+				case DUETSINGERP2, P2:
+					renameTrack(1, tag.getValue());
+					break;
+				default:
 			}
 		});
 	}

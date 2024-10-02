@@ -14,7 +14,9 @@ import javafx.collections.ObservableList;
 
 import java.io.File;
 import java.util.List;
+import java.util.Optional;
 import java.util.logging.Logger;
+import java.util.stream.Stream;
 
 public class TxtContext {
 
@@ -60,13 +62,19 @@ public class TxtContext {
             reset(resetPlayer);
             setActiveFile(file);
             Song song = txtFacade.loadFromTxtFile(file);
-            song.getTagValue(TagKey.MP3)
-                    .ifPresent(audioFileName -> audioContext.loadAudioFile(new File(file.getParent(), audioFileName)));
+            song.getMainAudioTagValue().ifPresent(filename -> loadAudioFileWithName(file, filename, true));
+            Stream.of(song.getTagValue(TagKey.INSTRUMENTAL), song.getTagValue(TagKey.VOCALS))
+                    .flatMap(Optional::stream)
+                    .forEach(filename -> loadAudioFileWithName(file, filename, false));
             activeSongContext.setSong(song);
             LOGGER.info(I18N.get("load.success"));
         } else {
             LOGGER.severe(I18N.get("load.fail"));
         }
+    }
+
+    private void loadAudioFileWithName(File txtFile, String filename, boolean setAsDefault) {
+        audioContext.loadAudioFile(new File(txtFile.getParent(), filename), setAsDefault);
     }
 
     public boolean saveSongToFile(File file) {

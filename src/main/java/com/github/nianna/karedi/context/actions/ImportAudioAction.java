@@ -18,7 +18,7 @@ class ImportAudioAction extends ContextfulKarediAction {
     protected void onAction(ActionEvent event) {
         File file = KarediApp.getInstance().getAudioFileToOpen();
         if (file != null) {
-            audioContext.loadAudioFile(file);
+            audioContext.loadAudioFile(file, true);
         }
     }
 }

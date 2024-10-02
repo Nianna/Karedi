@@ -104,11 +104,13 @@ public class AudioContext {
         file.releaseResources();
     }
 
-    public void loadAudioFile(File file) {
+    public void loadAudioFile(File file, boolean setAsDefault) {
         AudioFileLoader.loadAudioFile(file, (newAudio -> {
             if (newAudio.isPresent()) {
                 player.addAudioFile(newAudio.get());
-                setActiveAudioFile(newAudio.get());
+                if (setAsDefault) {
+                    setActiveAudioFile(newAudio.get());
+                }
                 LOGGER.info(I18N.get("import.audio.success"));
             } else {
                 LOGGER.severe(I18N.get("import.audio.fail"));

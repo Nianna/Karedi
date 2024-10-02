@@ -92,6 +92,12 @@ public class TagValidators {
 				return StringValidators.forNonNegativeDouble();
 			}
 		}
+		if (TagKey.expectsASemVer(key)) {
+			return StringValidators.forSemVer();
+		}
+		if (TagKey.expectsOnOff(key)) {
+			return StringValidators.forOnOff();
+		}
 		return StringValidators.noForbiddenCharacters(forbiddenCharacterRegex(key).orElse(null));
 	}
 

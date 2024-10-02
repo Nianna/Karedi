@@ -13,7 +13,9 @@ public enum TagKey {
 	LANGUAGE,
 	COVER,
 	MP3,
+	AUDIO,
 	VOCALS,
+	INSTRUMENTAL,
 	VIDEO,
 	BACKGROUND,
 	BPM,
@@ -24,8 +26,15 @@ public enum TagKey {
 	PREVIEWSTART,
 	DUETSINGERP1,
 	DUETSINGERP2,
+	P1,
+	P2,
 	MEDLEYSTARTBEAT,
-	MEDLEYENDBEAT;
+	MEDLEYENDBEAT,
+	VERSION,
+	TAGS,
+	COMMENT,
+	PROVIDEDBY,
+	CALCMEDLEY;
 
 	public static Optional<TagKey> optionalValueOf(String str) {
 		str = str.trim().toUpperCase(Locale.ROOT);
@@ -37,39 +46,32 @@ public enum TagKey {
 	}
 
 	public static boolean expectsAnInteger(TagKey key) {
-		switch (key) {
-		case YEAR:
-		case GAP:
-		case MEDLEYSTARTBEAT:
-		case MEDLEYENDBEAT:
-		case END:
-			return true;
-		default:
-			return false;
-		}
+        return switch (key) {
+            case YEAR, GAP, MEDLEYSTARTBEAT, MEDLEYENDBEAT, END -> true;
+            default -> false;
+        };
 	}
 
 	public static boolean expectsADouble(TagKey key) {
-		switch (key) {
-		case START:
-		case VIDEOGAP:
-		case BPM:
-			return true;
-		default:
-			return false;
-		}
+        return switch (key) {
+            case START, VIDEOGAP, BPM -> true;
+            default -> false;
+        };
 	}
 
 	public static boolean expectsAFileName(TagKey key) {
-		switch (key) {
-		case MP3:
-		case COVER:
-		case VIDEO:
-		case BACKGROUND:
-		case VOCALS:
-			return true;
-		default:
-			return false;
-		}
+        return switch (key) {
+            case MP3, COVER, AUDIO, VIDEO, BACKGROUND, VOCALS, INSTRUMENTAL -> true;
+            default -> false;
+        };
 	}
+
+	public static boolean expectsASemVer(TagKey key) {
+		return key == VERSION;
+	}
+
+	public static boolean expectsOnOff(TagKey key) {
+		return key == CALCMEDLEY;
+	}
+
 }

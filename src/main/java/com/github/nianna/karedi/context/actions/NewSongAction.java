@@ -49,7 +49,7 @@ class NewSongAction extends ContextfulKarediAction {
     private boolean finish() {
         txtContext.reset(true);
         if (outputDir == null && audioFile != null) {
-            audioContext.loadAudioFile(audioFile);
+            audioContext.loadAudioFile(audioFile, true);
         }
         activeSongContext.setSong(song);
         audioContext.setMarkerBeat(0);
@@ -78,7 +78,7 @@ class NewSongAction extends ContextfulKarediAction {
 
     private void copyAudioFile(File songFolder) {
         if (audioFile != null) {
-            song.getTagValue(TagKey.MP3).ifPresent(audioFilename -> {
+            song.getMainAudioTagValue().ifPresent(audioFilename -> {
                 File newAudioFile = new File(songFolder, audioFilename);
                 if (canProceedToWriteFile(newAudioFile)) {
                     try {
@@ -88,7 +88,7 @@ class NewSongAction extends ContextfulKarediAction {
                         LOGGER.warning(I18N.get("creator.copy_audio.fail"));
                         e.printStackTrace();
                     }
-                    audioContext.loadAudioFile(newAudioFile);
+                    audioContext.loadAudioFile(newAudioFile, true);
                 }
             });
         }
