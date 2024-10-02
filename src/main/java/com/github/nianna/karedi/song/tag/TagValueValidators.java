@@ -12,18 +12,18 @@ import com.github.nianna.karedi.util.Converter;
 import com.github.nianna.karedi.util.ForbiddenCharacterRegex;
 import com.github.nianna.karedi.util.StringValidators;
 
-public class TagValidators {
+public class TagValueValidators {
 
-	private TagValidators() {
+	private TagValueValidators() {
 	}
 
 	public static Validator<String> forKey(String key) {
-		return TagKey.optionalValueOf(key).map(TagValidators::forKey).orElse(defaultValidator());
+		return TagKey.optionalValueOf(key).map(TagValueValidators::forKey).orElse(defaultValidator());
 	}
 
 	public static Validator<String> forKey(TagKey key) {
 		return (c, newVal) -> {
-			ValidationResult result = TagValidators.legalInputValidator(key).apply(c, newVal);
+			ValidationResult result = TagValueValidators.legalInputValidator(key).apply(c, newVal);
 			return result.combine(specificForKey(key).apply(c, newVal));
 		};
 	}
@@ -31,9 +31,9 @@ public class TagValidators {
 	private static Validator<String> specificForKey(TagKey key) {
 		switch (key) {
 		case BPM:
-			return TagValidators::bpmValidator;
+			return TagValueValidators::bpmValidator;
 		case YEAR:
-			return TagValidators::yearValidator;
+			return TagValueValidators::yearValidator;
 		default:
 			return defaultValidator();
 		}
@@ -74,7 +74,7 @@ public class TagValidators {
 	}
 
 	public static Optional<String> forbiddenCharacterRegex(String key) {
-		return TagKey.optionalValueOf(key).flatMap(TagValidators::forbiddenCharacterRegex);
+		return TagKey.optionalValueOf(key).flatMap(TagValueValidators::forbiddenCharacterRegex);
 	}
 
 	private static Validator<String> legalInputValidator(TagKey key) {

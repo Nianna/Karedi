@@ -18,7 +18,7 @@ import com.github.nianna.karedi.problem.ProblemsCombiner;
 import com.github.nianna.karedi.problem.TagValidationErrorProblem;
 import com.github.nianna.karedi.song.tag.Tag;
 import com.github.nianna.karedi.song.tag.TagKey;
-import com.github.nianna.karedi.song.tag.TagValidators;
+import com.github.nianna.karedi.song.tag.TagValueValidators;
 import com.github.nianna.karedi.util.Converter;
 import com.github.nianna.karedi.util.ListenersUtils;
 import com.github.nianna.karedi.util.MathUtils;
@@ -109,7 +109,7 @@ public class SongChecker implements Problematic {
 	}
 
 	private void validateValue(TagKey key, String value) {
-		ValidationResult result = TagValidators.validate(key, value);
+		ValidationResult result = TagValueValidators.validate(key, value);
 		if (!result.getErrors().isEmpty()) {
 			addTagValidationProblem(key, Severity.ERROR, result);
 		} else {

@@ -13,7 +13,7 @@ import com.github.nianna.karedi.control.RestrictedTextField;
 import com.github.nianna.karedi.song.Song;
 import com.github.nianna.karedi.song.tag.Tag;
 import com.github.nianna.karedi.song.tag.TagKey;
-import com.github.nianna.karedi.song.tag.TagValidators;
+import com.github.nianna.karedi.song.tag.TagValueValidators;
 import com.github.nianna.karedi.util.ContextMenuBuilder;
 import com.github.nianna.karedi.util.Converter;
 import com.github.nianna.karedi.util.MathUtils;
@@ -78,7 +78,7 @@ public class TagsTableController implements Controller {
         keyColumn.setCellValueFactory(cell -> new SimpleStringProperty(cell.getValue().getKey()));
         valueColumn.setCellValueFactory(cell -> cell.getValue().valueProperty());
         valueColumn.setCellFactory(
-                params -> new TagValueTableCell(tag -> TagValidators.forKey(tag.getKey())));
+                params -> new TagValueTableCell(tag -> TagValueValidators.forKey(tag.getKey())));
     }
 
     @Override
@@ -216,7 +216,7 @@ public class TagsTableController implements Controller {
     }
 
     private void changeTagValueIfValid(TagKey key, String value) {
-        if (!TagValidators.hasValidationErrors(key, value)) {
+        if (!TagValueValidators.hasValidationErrors(key, value)) {
             commandContext.execute(new ChangeTagValueCommand(activeSongContext.getSong(), key, value));
         }
     }
@@ -290,7 +290,7 @@ public class TagsTableController implements Controller {
             setPadding(new Insets(5));
 
             validator = validatorSupplier.apply(tag);
-            TagValidators.forbiddenCharacterRegex(tag.getKey()).ifPresent(regex -> {
+            TagValueValidators.forbiddenCharacterRegex(tag.getKey()).ifPresent(regex -> {
                 textField.setForbiddenCharacterRegex(regex);
             });
             textField.setText(getText());
