@@ -64,6 +64,9 @@
     <!--   <property name="fileExtensions" value="java"/> -->
     <!-- </module> -->
 
+
+    <module name="SuppressWarningsFilter" />
+
     <module name="TreeWalker">
 
         <!-- Checks for Javadoc comments.                     -->
@@ -157,6 +160,8 @@
                       default="checkstyle-xpath-suppressions.xml" />
             <property name="optional" value="true"/>
         </module>
+
+        <module name="SuppressWarningsHolder" />
 
     </module>
 

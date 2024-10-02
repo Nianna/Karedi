@@ -10,6 +10,7 @@ import com.github.nianna.karedi.I18N;
 
 public class StringValidators {
 
+	@SuppressWarnings("checkstyle:linelength")
 	private static final String SEM_VER_REGEX = "^(0|[1-9][0-9]*).(0|[1-9][0-9]*).(0|[1-9][0-9]*)(-(0|[1-9A-Za-z-][0-9A-Za-z-]*)(.[0-9A-Za-z-]+)*)?(\\+[0-9A-Za-z-]+(.[0-9A-Za-z-]+)*)?$";
 
 	private StringValidators() {
