@@ -33,7 +33,8 @@ public enum TagKey {
 	VERSION,
 	TAGS,
 	COMMENT,
-	PROVIDEDBY;
+	PROVIDEDBY,
+	CALCMEDLEY;
 
 	public static Optional<TagKey> optionalValueOf(String str) {
 		str = str.trim().toUpperCase(Locale.ROOT);
@@ -67,6 +68,10 @@ public enum TagKey {
 
 	public static boolean expectsASemVer(TagKey key) {
 		return key == VERSION;
+	}
+
+	public static boolean expectsOnOff(TagKey key) {
+		return key == CALCMEDLEY;
 	}
 
 }

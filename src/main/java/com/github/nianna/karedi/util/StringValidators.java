@@ -31,6 +31,10 @@ public class StringValidators {
 		return StringValidators::semVerValidator;
 	}
 
+	public static Validator<String> forOnOff() {
+		return StringValidators::onOffValidator;
+	}
+
 	public static Validator<String> forDouble() {
 		return StringValidators::doubleValidator;
 	}
@@ -73,6 +77,12 @@ public class StringValidators {
         return ValidationResult.fromErrorIf(c,
                 I18N.get("validator.sem_ver_required"),
                 newValue != null && !newValue.matches(SEM_VER_REGEX));
+	}
+
+	private static ValidationResult onOffValidator(Control c, String newValue) {
+        return ValidationResult.fromErrorIf(c,
+                I18N.get("validator.on_off_required"),
+                newValue != null && !newValue.matches("on|off"));
 	}
 
 }
