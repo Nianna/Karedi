@@ -16,7 +16,7 @@ import com.github.nianna.karedi.I18N;
 import com.github.nianna.karedi.control.RestrictedTextField;
 import com.github.nianna.karedi.song.tag.Tag;
 import com.github.nianna.karedi.song.tag.TagKey;
-import com.github.nianna.karedi.song.tag.TagValidators;
+import com.github.nianna.karedi.song.tag.TagValueValidators;
 import com.github.nianna.karedi.util.ValidationUtils;
 
 public class EditTagDialog extends Dialog<Tag> {
@@ -27,7 +27,7 @@ public class EditTagDialog extends Dialog<Tag> {
 
 	private ValidationDecoration valueDecoration = new GraphicValidationDecoration();
 	private ValidationDecoration keyDecoration = new GraphicValidationDecoration();
-	private Validator<String> valueValidator = TagValidators.defaultValidator();
+	private Validator<String> valueValidator = TagValueValidators.defaultValidator();
 	private Validator<String> keyValidator = Validator
 			.createEmptyValidator(I18N.get("dialog.tag.key_required"));
 
@@ -66,10 +66,10 @@ public class EditTagDialog extends Dialog<Tag> {
 	}
 
 	private void onKeyFieldTextChanged() {
-		TagValidators.forbiddenCharacterRegex(keyField.getText()).ifPresent(regex -> {
+		TagValueValidators.forbiddenCharacterRegex(keyField.getText()).ifPresent(regex -> {
 			valueField.setForbiddenCharacterRegex(regex);
 		});
-		valueValidator = TagValidators.forKey(keyField.getText());
+		valueValidator = TagValueValidators.forKey(keyField.getText());
 		refreshValueFieldDecoration();
 		refreshKeyFieldDecoration();
 	}

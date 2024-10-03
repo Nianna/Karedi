@@ -1,10 +1,5 @@
 package com.github.nianna.karedi.song;
 
-import java.util.Optional;
-
-import org.controlsfx.validation.ValidationResult;
-
-import javafx.collections.ObservableList;
 import com.github.nianna.karedi.problem.InvalidMedleyBeatRangeProblem;
 import com.github.nianna.karedi.problem.InvalidMedleyLengthProblem;
 import com.github.nianna.karedi.problem.MedleyMissingProblem;
@@ -16,13 +11,19 @@ import com.github.nianna.karedi.problem.Problem.Severity;
 import com.github.nianna.karedi.problem.Problematic;
 import com.github.nianna.karedi.problem.ProblemsCombiner;
 import com.github.nianna.karedi.problem.TagValidationErrorProblem;
+import com.github.nianna.karedi.song.tag.FormatSpecification;
 import com.github.nianna.karedi.song.tag.Tag;
 import com.github.nianna.karedi.song.tag.TagKey;
-import com.github.nianna.karedi.song.tag.TagValidators;
+import com.github.nianna.karedi.song.tag.TagKeyValidator;
+import com.github.nianna.karedi.song.tag.TagValueValidators;
 import com.github.nianna.karedi.util.Converter;
 import com.github.nianna.karedi.util.ListenersUtils;
 import com.github.nianna.karedi.util.MathUtils;
 import com.github.nianna.karedi.util.ValidationUtils;
+import javafx.collections.ObservableList;
+import org.controlsfx.validation.ValidationResult;
+
+import java.util.Optional;
 
 public class SongChecker implements Problematic {
 	private Song song;
@@ -35,7 +36,7 @@ public class SongChecker implements Problematic {
 		song.getTracks().addListener(ListenersUtils.createListChangeListener(this::refreshTrack,
 				this::refreshTrack, this::refreshTrack, this::onRemoved));
 		song.getTags().addListener(ListenersUtils.createListChangeListener(ListenersUtils::pass,
-				this::refreshTag, this::refreshTag, this::refreshTag));
+				this::refreshTag, this::refreshTag, this::onTagRemoved));
 
 		song.getBeatMillisConverter().addListener(obs -> {
 			checkStart();
@@ -62,9 +63,9 @@ public class SongChecker implements Problematic {
 		});
 	}
 
-	private void removeTagProblems(TagKey key) {
+	private void removeTagProblems(Tag tag) {
 		combiner.removeIf(problem -> {
-			return problem.getElements().contains(key);
+			return problem.getElements().contains(tag.getKey());
 		});
 	}
 
@@ -83,33 +84,53 @@ public class SongChecker implements Problematic {
 	}
 
 	private void refreshTag(Tag tag) {
+		removeTagProblems(tag);
 		TagKey.optionalValueOf(tag.getKey()).ifPresent(tagKey -> {
-			removeTagProblems(tagKey);
-			if (song.hasTag(tagKey)) {
 				validateValue(tagKey, tag.getValue());
-				performAdditionalValidation(tagKey);
-			}
+				performAdditionalValueValidation(tagKey);
+				DuplicatedTagsConsistencyValidator.validate(song, tagKey).ifPresent(combiner::add);
 		});
+		validateTagKey(tag.getKey());
 	}
 
-	private void performAdditionalValidation(TagKey key) {
+	private void onTagRemoved(Tag tag) {
+		removeTagProblems(tag);
+	}
+
+	private void validateTagKey(String tagKey) {
+		song.getTagValue(TagKey.VERSION)
+				.flatMap(FormatSpecification::tryParse)
+				.flatMap(formatVersion -> TagKeyValidator.validate(tagKey, formatVersion))
+				.ifPresent(combiner::add);
+
+	}
+
+	private void performAdditionalValueValidation(TagKey key) {
 		switch (key) {
-		case MEDLEYSTARTBEAT:
-		case MEDLEYENDBEAT:
-			medleyChecker.check();
-			break;
-		case START:
-			checkStart();
-			break;
-		case END:
-			checkEnd();
-			break;
-		default:
+			case MEDLEYSTARTBEAT, MEDLEYENDBEAT:
+				medleyChecker.check();
+				break;
+			case START:
+				checkStart();
+				break;
+			case END:
+				checkEnd();
+				break;
+			case VERSION:
+				revalidateAllTagsOnVersionChange();
+				break;
+			default:
 		}
 	}
 
+	private void revalidateAllTagsOnVersionChange() {
+		song.getTags().stream()
+				.filter(tag -> !TagKey.isKey(tag.getKey(), TagKey.VERSION))
+				.forEach(this::refreshTag);
+	}
+
 	private void validateValue(TagKey key, String value) {
-		ValidationResult result = TagValidators.validate(key, value);
+		ValidationResult result = TagValueValidators.validate(key, value);
 		if (!result.getErrors().isEmpty()) {
 			addTagValidationProblem(key, Severity.ERROR, result);
 		} else {
@@ -183,8 +204,8 @@ public class SongChecker implements Problematic {
 		}
 
 		private void removeProblems() {
-			combiner.removeIf(problem -> problem.getElements().contains(TagKey.MEDLEYENDBEAT));
-			combiner.removeIf(problem -> problem.getElements().contains(TagKey.MEDLEYSTARTBEAT));
+			combiner.removeIf(problem -> problem.getElements().contains(TagKey.MEDLEYENDBEAT.toString()));
+			combiner.removeIf(problem -> problem.getElements().contains(TagKey.MEDLEYSTARTBEAT.toString()));
 		}
 	}
 }

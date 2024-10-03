@@ -11,7 +11,7 @@ import javafx.scene.control.Button;
 import com.github.nianna.karedi.control.NonNegativeDoubleTextField;
 import com.github.nianna.karedi.dialog.ModifyBpmDialog.BpmEditResult;
 import com.github.nianna.karedi.song.tag.TagKey;
-import com.github.nianna.karedi.song.tag.TagValidators;
+import com.github.nianna.karedi.song.tag.TagValueValidators;
 import com.github.nianna.karedi.util.NumericNodeUtils;
 
 public abstract class ModifyBpmDialog extends ValidatedDialog<BpmEditResult> {
@@ -35,7 +35,7 @@ public abstract class ModifyBpmDialog extends ValidatedDialog<BpmEditResult> {
 				.addListener(this::refreshScalingButtonsDisable);
 
 		Platform.runLater(() -> {
-			validationSupport.registerValidator(bpmField, TagValidators.forKey(TagKey.BPM));
+			validationSupport.registerValidator(bpmField, TagValueValidators.forKey(TagKey.BPM));
 			validationSupport.initInitialDecoration();
 			bpmField.requestFocus();
 		});

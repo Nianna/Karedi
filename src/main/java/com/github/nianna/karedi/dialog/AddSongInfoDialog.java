@@ -20,7 +20,7 @@ import com.github.nianna.karedi.I18N;
 import com.github.nianna.karedi.control.NonNegativeIntegerTextField;
 import com.github.nianna.karedi.song.tag.Tag;
 import com.github.nianna.karedi.song.tag.TagKey;
-import com.github.nianna.karedi.song.tag.TagValidators;
+import com.github.nianna.karedi.song.tag.TagValueValidators;
 import com.github.nianna.karedi.util.Language;
 import com.github.nianna.karedi.util.NumericNodeUtils;
 
@@ -77,12 +77,12 @@ public class AddSongInfoDialog extends Dialog<List<Tag>> {
 	}
 
 	private void registerValidators() {
-		validationSupport.registerValidator(gapField, TagValidators.forKey(TagKey.GAP));
-		validationSupport.registerValidator(yearField, TagValidators.forKey(TagKey.YEAR));
-		validationSupport.registerValidator(languageField, TagValidators.forKey(TagKey.LANGUAGE));
-		validationSupport.registerValidator(creatorField, TagValidators.forKey(TagKey.CREATOR));
-		validationSupport.registerValidator(genreField, TagValidators.forKey(TagKey.GENRE));
-		validationSupport.registerValidator(editionField, TagValidators.forKey(TagKey.EDITION));
+		validationSupport.registerValidator(gapField, TagValueValidators.forKey(TagKey.GAP));
+		validationSupport.registerValidator(yearField, TagValueValidators.forKey(TagKey.YEAR));
+		validationSupport.registerValidator(languageField, TagValueValidators.forKey(TagKey.LANGUAGE));
+		validationSupport.registerValidator(creatorField, TagValueValidators.forKey(TagKey.CREATOR));
+		validationSupport.registerValidator(genreField, TagValueValidators.forKey(TagKey.GENRE));
+		validationSupport.registerValidator(editionField, TagValueValidators.forKey(TagKey.EDITION));
 	}
 
 	private List<Tag> generateListOfValidTags() {

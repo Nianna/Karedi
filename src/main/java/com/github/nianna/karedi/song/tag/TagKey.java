@@ -74,4 +74,8 @@ public enum TagKey {
 		return key == CALCMEDLEY;
 	}
 
+	public static boolean isKey(String key, TagKey expectedKey) {
+		return optionalValueOf(key).filter(expectedKey::equals).isPresent();
+	}
+
 }

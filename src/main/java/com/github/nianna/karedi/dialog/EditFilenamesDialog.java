@@ -6,7 +6,7 @@ import com.github.nianna.karedi.control.ManageableGridPane;
 import com.github.nianna.karedi.control.RestrictedTextField;
 import com.github.nianna.karedi.dialog.EditFilenamesDialog.FilenamesEditResult;
 import com.github.nianna.karedi.song.tag.TagKey;
-import com.github.nianna.karedi.song.tag.TagValidators;
+import com.github.nianna.karedi.song.tag.TagValueValidators;
 import com.github.nianna.karedi.util.Utils;
 import javafx.application.Platform;
 import javafx.beans.InvalidationListener;
@@ -129,9 +129,9 @@ public class EditFilenamesDialog extends ValidatedDialog<FilenamesEditResult> {
 		backgroundExtensionField.setText(DEFAULT_IMAGE_EXTENSION);
 
 		Platform.runLater(() -> {
-			validationSupport.registerValidator(titleField, TagValidators.forKey(TagKey.TITLE));
-			validationSupport.registerValidator(artistField, TagValidators.forKey(TagKey.ARTIST));
-			validationSupport.registerValidator(coverExtensionField, TagValidators.defaultValidator());
+			validationSupport.registerValidator(titleField, TagValueValidators.forKey(TagKey.TITLE));
+			validationSupport.registerValidator(artistField, TagValueValidators.forKey(TagKey.ARTIST));
+			validationSupport.registerValidator(coverExtensionField, TagValueValidators.defaultValidator());
 			validationSupport.initInitialDecoration();
 			includeBackgroundCheckBox.setSelected(!hideBackground);
 			includeVideoCheckBox.setSelected(!hideVideo);

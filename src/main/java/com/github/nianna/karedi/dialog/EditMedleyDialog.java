@@ -8,7 +8,7 @@ import com.github.nianna.karedi.I18N;
 import com.github.nianna.karedi.control.NonNegativeIntegerTextField;
 import com.github.nianna.karedi.song.Song.Medley;
 import com.github.nianna.karedi.song.tag.TagKey;
-import com.github.nianna.karedi.song.tag.TagValidators;
+import com.github.nianna.karedi.song.tag.TagValueValidators;
 import com.github.nianna.karedi.util.NumericNodeUtils;
 
 public class EditMedleyDialog extends ValidatedDialog<Medley> {
@@ -44,7 +44,7 @@ public class EditMedleyDialog extends ValidatedDialog<Medley> {
 	}
 
 	private void configureTagTextField(NonNegativeIntegerTextField textField, TagKey tagKey) {
-		validationSupport.registerValidator(textField, TagValidators.forKey(tagKey));
+		validationSupport.registerValidator(textField, TagValueValidators.forKey(tagKey));
 		textField.setOnScroll(NumericNodeUtils.createUpdateIntValueOnScrollHandler(
 				textField::getValue, textField::setValueIfLegal));
 	}

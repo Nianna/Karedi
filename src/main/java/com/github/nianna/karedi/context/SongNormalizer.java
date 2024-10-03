@@ -4,7 +4,7 @@ import com.github.nianna.karedi.I18N;
 import com.github.nianna.karedi.song.Song;
 import com.github.nianna.karedi.song.SongTrack;
 import com.github.nianna.karedi.song.tag.TagKey;
-import com.github.nianna.karedi.song.tag.TagValidators;
+import com.github.nianna.karedi.song.tag.TagValueValidators;
 import com.github.nianna.karedi.util.Converter;
 
 import java.util.logging.Logger;
@@ -55,7 +55,7 @@ class SongNormalizer {
 
 	private void validateBpm(Song song) {
 		String value = song.getTagValue(TagKey.BPM).orElseThrow();
-		if (TagValidators.hasValidationErrors(TagKey.BPM, value)) {
+		if (TagValueValidators.hasValidationErrors(TagKey.BPM, value)) {
 			LOGGER.severe(I18N.get("normalizer.bpm.invalid", value, Song.DEFAULT_BPM));
 			song.getBeatMillisConverter().setBpm(Song.DEFAULT_BPM);
 		}
@@ -63,7 +63,7 @@ class SongNormalizer {
 
 	private void validateGap(Song song) {
 		String value = song.getTagValue(TagKey.GAP).orElseThrow();
-		if (TagValidators.hasValidationErrors(TagKey.GAP, value)) {
+		if (TagValueValidators.hasValidationErrors(TagKey.GAP, value)) {
 			LOGGER.severe(I18N.get("normalizer.gap.invalid", value, Song.DEFAULT_GAP));
 			song.getBeatMillisConverter().setGap(Song.DEFAULT_GAP);
 		}
