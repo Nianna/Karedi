@@ -1,9 +1,9 @@
-package com.github.nianna.karedi.util;
+package com.github.nianna.karedi.song.tag;
 
 import java.util.Optional;
 
 import com.github.nianna.karedi.song.SongTrack;
-import com.github.nianna.karedi.song.tag.Tag;
+import com.github.nianna.karedi.util.Converter;
 
 public final class MultiplayerTags {
 	private MultiplayerTags() {

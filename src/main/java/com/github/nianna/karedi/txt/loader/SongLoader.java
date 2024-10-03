@@ -6,7 +6,7 @@ import com.github.nianna.karedi.song.tag.Tag;
 import com.github.nianna.karedi.txt.parser.Parser;
 import com.github.nianna.karedi.txt.parser.element.InvalidSongElementException;
 import com.github.nianna.karedi.txt.parser.element.VisitableSongElement;
-import com.github.nianna.karedi.util.MultiplayerTags;
+import com.github.nianna.karedi.song.tag.MultiplayerTags;
 
 import java.io.File;
 import java.nio.file.Path;

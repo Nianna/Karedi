@@ -1,7 +1,6 @@
-package com.github.nianna.karedi.util;
+package com.github.nianna.karedi.song.tag;
 
 import com.github.nianna.karedi.song.SongTrack;
-import com.github.nianna.karedi.song.tag.Tag;
 import org.junit.jupiter.api.Test;
 
 import java.util.Optional;

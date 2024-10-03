@@ -5,7 +5,7 @@ import com.github.nianna.karedi.song.Song;
 import com.github.nianna.karedi.song.SongTrack;
 import com.github.nianna.karedi.song.tag.Tag;
 import com.github.nianna.karedi.txt.parser.Unparser;
-import com.github.nianna.karedi.util.MultiplayerTags;
+import com.github.nianna.karedi.song.tag.MultiplayerTags;
 
 import java.io.File;
 import java.io.FileNotFoundException;
