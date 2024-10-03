@@ -1,20 +1,5 @@
 package com.github.nianna.karedi.song;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Optional;
-import java.util.function.Predicate;
-
-import javafx.beans.InvalidationListener;
-import javafx.beans.Observable;
-import javafx.beans.binding.IntegerBinding;
-import javafx.beans.property.ReadOnlyIntegerProperty;
-import javafx.beans.property.ReadOnlyIntegerWrapper;
-import javafx.beans.property.ReadOnlyObjectProperty;
-import javafx.collections.FXCollections;
-import javafx.collections.ListChangeListener;
-import javafx.collections.ObservableList;
 import com.github.nianna.karedi.problem.Problem;
 import com.github.nianna.karedi.problem.Problematic;
 import com.github.nianna.karedi.region.BoundingBox;
@@ -26,6 +11,22 @@ import com.github.nianna.karedi.util.BindingsUtils;
 import com.github.nianna.karedi.util.Converter;
 import com.github.nianna.karedi.util.ListenersManager;
 import com.github.nianna.karedi.util.ListenersUtils;
+import javafx.beans.InvalidationListener;
+import javafx.beans.Observable;
+import javafx.beans.binding.IntegerBinding;
+import javafx.beans.property.ReadOnlyIntegerProperty;
+import javafx.beans.property.ReadOnlyIntegerWrapper;
+import javafx.beans.property.ReadOnlyObjectProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
+import javafx.collections.ObservableList;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.function.Predicate;
 
 public class Song implements IntBounded, Problematic {
 	public static final double DEFAULT_BPM = 240;
@@ -159,8 +160,8 @@ public class Song implements IntBounded, Problematic {
 
 	public void renameTrack(int index, String name) {
 		if (index < size()) {
-			if (name == "") {
-				name = SongTrack.getDefaultTrackName(index);
+			if (Objects.equals(name, "")) {
+				name = SongTrack.getDefaultTrackName(index + 1);
 			}
 			getTracks().get(index).setName(name);
 		}
