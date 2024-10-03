@@ -4,6 +4,7 @@ import com.github.nianna.karedi.problem.Problem;
 import com.github.nianna.karedi.problem.Problematic;
 import com.github.nianna.karedi.region.BoundingBox;
 import com.github.nianna.karedi.region.IntBounded;
+import com.github.nianna.karedi.song.tag.MultiplayerTags;
 import com.github.nianna.karedi.song.tag.Tag;
 import com.github.nianna.karedi.song.tag.TagKey;
 import com.github.nianna.karedi.util.BeatMillisConverter;
@@ -147,15 +148,12 @@ public class Song implements IntBounded, Problematic {
 				case GAP:
 					Converter.toInteger(tag.getValue()).ifPresent(value -> converter.setGap(value));
 					break;
-				case DUETSINGERP1, P1:
-					renameTrack(0, tag.getValue());
-					break;
-				case DUETSINGERP2, P2:
-					renameTrack(1, tag.getValue());
-					break;
 				default:
 			}
 		});
+		if (MultiplayerTags.isANameTag(tag)) {
+			MultiplayerTags.getTrackNumber(tag).ifPresent(number -> renameTrack(number, tag.getValue()));
+		}
 	}
 
 	public void renameTrack(int index, String name) {

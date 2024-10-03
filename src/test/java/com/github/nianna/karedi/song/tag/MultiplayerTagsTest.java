@@ -2,6 +2,8 @@ package com.github.nianna.karedi.song.tag;
 
 import com.github.nianna.karedi.song.SongTrack;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 import java.util.Optional;
 
@@ -11,9 +13,10 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class MultiplayerTagsTest {
 
-	@Test
-	public void recognizesValidNameTagKeys() {
-		Tag tag = new Tag("DUETSINGERP2", "");
+	@ParameterizedTest
+	@ValueSource(strings = {"DUETSINGERP1", "DUETSINGERP2", "P1", "P2", "P3"})
+	public void recognizesValidNameTagKeys(String key) {
+		Tag tag = new Tag(key, "");
 		assertTrue(MultiplayerTags.isANameTag(tag));
 	}
 
@@ -45,10 +48,18 @@ public class MultiplayerTagsTest {
 	}
 
 	@Test
-	public void extractsCorrectPlayerNumbersFromValidNameTags() {
-		Tag tag = new Tag("DUETSINGERP3", "");
+	public void extractsCorrectPlayerNumbersFromValidDuetSingerPNameTags() {
+		Tag tag = new Tag("DUETSINGERP2", "");
 		Optional<Integer> result = MultiplayerTags.getPlayerNumber(tag);
-		assertTrue( result.isPresent());
+		assertTrue(result.isPresent());
+		assertEquals((Integer) 2, result.get());
+	}
+
+	@Test
+	public void extractsCorrectPlayerNumbersFromValidPNameTags() {
+		Tag tag = new Tag("P3", "");
+		Optional<Integer> result = MultiplayerTags.getPlayerNumber(tag);
+		assertTrue(result.isPresent());
 		assertEquals((Integer) 3, result.get());
 	}
 
