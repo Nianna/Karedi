@@ -88,6 +88,7 @@ public class SongChecker implements Problematic {
 		TagKey.optionalValueOf(tag.getKey()).ifPresent(tagKey -> {
 				validateValue(tagKey, tag.getValue());
 				performAdditionalValueValidation(tagKey);
+				DuplicatedTagsConsistencyValidator.validate(song, tagKey).ifPresent(combiner::add);
 		});
 		validateTagKey(tag.getKey());
 	}
@@ -106,8 +107,7 @@ public class SongChecker implements Problematic {
 
 	private void performAdditionalValueValidation(TagKey key) {
 		switch (key) {
-			case MEDLEYSTARTBEAT:
-			case MEDLEYENDBEAT:
+			case MEDLEYSTARTBEAT, MEDLEYENDBEAT:
 				medleyChecker.check();
 				break;
 			case START:
