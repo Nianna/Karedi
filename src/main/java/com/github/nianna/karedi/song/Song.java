@@ -1,11 +1,18 @@
 package com.github.nianna.karedi.song;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Optional;
-import java.util.function.Predicate;
-
+import com.github.nianna.karedi.problem.Problem;
+import com.github.nianna.karedi.problem.Problematic;
+import com.github.nianna.karedi.region.BoundingBox;
+import com.github.nianna.karedi.region.IntBounded;
+import com.github.nianna.karedi.song.tag.FormatSpecification;
+import com.github.nianna.karedi.song.tag.MultiplayerTags;
+import com.github.nianna.karedi.song.tag.Tag;
+import com.github.nianna.karedi.song.tag.TagKey;
+import com.github.nianna.karedi.util.BeatMillisConverter;
+import com.github.nianna.karedi.util.BindingsUtils;
+import com.github.nianna.karedi.util.Converter;
+import com.github.nianna.karedi.util.ListenersManager;
+import com.github.nianna.karedi.util.ListenersUtils;
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
 import javafx.beans.binding.IntegerBinding;
@@ -15,17 +22,13 @@ import javafx.beans.property.ReadOnlyObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
-import com.github.nianna.karedi.problem.Problem;
-import com.github.nianna.karedi.problem.Problematic;
-import com.github.nianna.karedi.region.BoundingBox;
-import com.github.nianna.karedi.region.IntBounded;
-import com.github.nianna.karedi.song.tag.Tag;
-import com.github.nianna.karedi.song.tag.TagKey;
-import com.github.nianna.karedi.util.BeatMillisConverter;
-import com.github.nianna.karedi.util.BindingsUtils;
-import com.github.nianna.karedi.util.Converter;
-import com.github.nianna.karedi.util.ListenersManager;
-import com.github.nianna.karedi.util.ListenersUtils;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.function.Predicate;
 
 public class Song implements IntBounded, Problematic {
 	public static final double DEFAULT_BPM = 240;
@@ -146,21 +149,18 @@ public class Song implements IntBounded, Problematic {
 				case GAP:
 					Converter.toInteger(tag.getValue()).ifPresent(value -> converter.setGap(value));
 					break;
-				case DUETSINGERP1, P1:
-					renameTrack(0, tag.getValue());
-					break;
-				case DUETSINGERP2, P2:
-					renameTrack(1, tag.getValue());
-					break;
 				default:
 			}
 		});
+		if (MultiplayerTags.isANameTag(tag)) {
+			MultiplayerTags.getTrackNumber(tag).ifPresent(number -> renameTrack(number, tag.getValue()));
+		}
 	}
 
 	public void renameTrack(int index, String name) {
 		if (index < size()) {
-			if (name == "") {
-				name = SongTrack.getDefaultTrackName(index);
+			if (Objects.equals(name, "")) {
+				name = SongTrack.getDefaultTrackName(index + 1);
 			}
 			getTracks().get(index).setName(name);
 		}
@@ -327,6 +327,11 @@ public class Song implements IntBounded, Problematic {
 
 	public BeatMillisConverter getBeatMillisConverter() {
 		return converter;
+	}
+
+	public Optional<FormatSpecification> formatSpecificationVersion() {
+		return getTagValue(TagKey.VERSION)
+				.flatMap(FormatSpecification::tryParse);
 	}
 
 	public static class Medley implements Observable {

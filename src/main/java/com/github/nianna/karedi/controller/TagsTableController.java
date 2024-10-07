@@ -169,7 +169,9 @@ public class TagsTableController implements Controller {
         builder.addItem(I18N.get("common.add"), event -> handleAdd());
         builder.addItem(I18N.get("common.edit"), event -> handleEdit(row.getIndex()));
         builder.addItem(I18N.get("common.delete"), event -> handleRemove(row.getItem()));
-        return builder.getResult();
+        ContextMenu result = builder.getResult();
+        result.getItems().forEach(item -> item.disableProperty().bind(table.editingCellProperty().isNotNull()));
+        return result;
     }
 
     private EventHandler<ScrollEvent> getScrollHandlerForRow(TableRow<Tag> row, TagKey key,

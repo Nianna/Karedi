@@ -2,11 +2,11 @@ package com.github.nianna.karedi.txt.loader;
 
 import com.github.nianna.karedi.I18N;
 import com.github.nianna.karedi.song.Song;
+import com.github.nianna.karedi.song.tag.MultiplayerTags;
 import com.github.nianna.karedi.song.tag.Tag;
 import com.github.nianna.karedi.txt.parser.Parser;
 import com.github.nianna.karedi.txt.parser.element.InvalidSongElementException;
 import com.github.nianna.karedi.txt.parser.element.VisitableSongElement;
-import com.github.nianna.karedi.util.MultiplayerTags;
 
 import java.io.File;
 import java.nio.file.Path;
@@ -64,9 +64,6 @@ class SongLoader {
 	}
 
 	private static void renameTrack(Song song, Tag tag) {
-		MultiplayerTags.getTrackNumber(tag).ifPresent(number -> {
-			song.removeTag(tag);
-			song.renameTrack(number, tag.getValue());
-		});
+		MultiplayerTags.getTrackNumber(tag).ifPresent(number -> song.renameTrack(number, tag.getValue()));
 	}
 }
