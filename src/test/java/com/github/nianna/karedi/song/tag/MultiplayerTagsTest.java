@@ -1,6 +1,5 @@
 package com.github.nianna.karedi.song.tag;
 
-import com.github.nianna.karedi.song.SongTrack;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
@@ -24,27 +23,6 @@ public class MultiplayerTagsTest {
 	public void otherTagKeysAreNotRecognizedAsNameTags() {
 		Tag tag = new Tag("ARTIST", "");
 		assertFalse(MultiplayerTags.isANameTag(tag));
-	}
-
-	@Test
-	public void createsNameTagsForTracksWithCustomizedNames() {
-		assertTrue(MultiplayerTags.nameTagForTrack(0, "Custom name").isPresent());
-	}
-
-	@Test
-	public void createsCorrectNameTagsForTracksWithCustomizedNames() {
-		String name = "Foo";
-		Tag result = MultiplayerTags.nameTagForTrack(0, name).orElseThrow();
-		assertEquals("DUETSINGERP1", result.getKey(), "Wrong key");
-		assertEquals(name, result.getValue(), "Wrong value");
-	}
-
-	@Test
-	public void doesNotCreateNameTagsForTracksWithDefaultNames() {
-		// Track number n is meant for player (n+1)
-		int index = 3;
-		SongTrack track = new SongTrack(index + 1);
-		assertFalse(MultiplayerTags.nameTagForTrack(index, track.getName()).isPresent());
 	}
 
 	@Test

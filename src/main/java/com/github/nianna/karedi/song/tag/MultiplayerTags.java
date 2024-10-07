@@ -1,6 +1,5 @@
 package com.github.nianna.karedi.song.tag;
 
-import com.github.nianna.karedi.song.SongTrack;
 import com.github.nianna.karedi.util.Converter;
 
 import java.util.Optional;
@@ -18,11 +17,8 @@ public final class MultiplayerTags {
 		return MULTIPLAYER_TAG_NAME_PATTERN.matcher(tag.getKey()).matches();
 	}
 
-	public static Optional<Tag> nameTagForTrack(int index, String name) {
-		if (!name.equals(SongTrack.getDefaultTrackName(index + 1))) {
-			return Optional.of(new Tag("DUETSINGERP" + (index + 1), name));
-		}
-		return Optional.empty();
+	public static String getTagKeyForTrackNumber(int index) {
+		return "P" + (index + 1);
 	}
 
 	public static Optional<Integer> getTrackNumber(Tag tag) {
@@ -30,11 +26,9 @@ public final class MultiplayerTags {
 	}
 
 	public static Optional<Integer> getPlayerNumber(Tag tag) {
-		if (isANameTag(tag)) {
-			Matcher matcher = MULTIPLAYER_TAG_NAME_PATTERN.matcher(tag.getKey());
-			if (matcher.find()) {
-				return Converter.toInteger(matcher.group(2));
-			}
+		Matcher matcher = MULTIPLAYER_TAG_NAME_PATTERN.matcher(tag.getKey());
+		if (matcher.find()) {
+			return Converter.toInteger(matcher.group(2));
 		}
 		return Optional.empty();
 	}
