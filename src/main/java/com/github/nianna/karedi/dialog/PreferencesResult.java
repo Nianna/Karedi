@@ -11,12 +11,16 @@ public class PreferencesResult {
 
     private final File newSongWizardLibraryDir;
 
+    private final boolean useDuetSingerTags;
+
     public PreferencesResult(Locale selectedLocale,
                              boolean displayNoteNodeUnderBarEnabled,
-                             File newSongWizardLibraryDir) {
+                             File newSongWizardLibraryDir,
+                             boolean useDuetSingerTags) {
         this.selectedLocale = selectedLocale;
         this.displayNoteNodeUnderBarEnabled = displayNoteNodeUnderBarEnabled;
         this.newSongWizardLibraryDir = newSongWizardLibraryDir;
+        this.useDuetSingerTags = useDuetSingerTags;
     }
 
     public Locale getSelectedLocale() {
@@ -29,5 +33,9 @@ public class PreferencesResult {
 
     public File getNewSongWizardLibraryDir() {
         return newSongWizardLibraryDir;
+    }
+
+    public boolean isUseDuetSingerTags() {
+        return useDuetSingerTags;
     }
 }

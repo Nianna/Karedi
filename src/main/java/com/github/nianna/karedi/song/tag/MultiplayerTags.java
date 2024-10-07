@@ -1,5 +1,6 @@
 package com.github.nianna.karedi.song.tag;
 
+import com.github.nianna.karedi.Settings;
 import com.github.nianna.karedi.util.Converter;
 
 import java.util.Optional;
@@ -17,7 +18,11 @@ public final class MultiplayerTags {
 		return MULTIPLAYER_TAG_NAME_PATTERN.matcher(tag.getKey()).matches();
 	}
 
-	public static String getTagKeyForTrackNumber(int index) {
+	public static String getTagKeyForTrackNumber(int index, FormatSpecification formatSpecification) {
+		if (formatSpecification == null && Settings.isUseDuetSingerTags()) {
+			return "DUETSINGERP" + (index + 1);
+		}
+
 		return "P" + (index + 1);
 	}
 

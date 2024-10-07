@@ -18,6 +18,7 @@ class ShowPreferencesAction extends KarediAction {
             Settings.setLocale(result.getSelectedLocale());
             Settings.setDisplayNoteNodeUnderBarEnabled(result.isDisplayNoteNodeUnderBarEnabled());
             Settings.setNewSongWizardLibraryDirectory(result.getNewSongWizardLibraryDir());
+            Settings.setUseDuetSingerTags(result.isUseDuetSingerTags());
         });
     }
 }

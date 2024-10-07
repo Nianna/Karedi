@@ -1,7 +1,10 @@
 package com.github.nianna.karedi.song.tag;
 
+import com.github.nianna.karedi.Settings;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.EnumSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
 import java.util.Optional;
@@ -61,4 +64,26 @@ public class MultiplayerTagsTest {
 		assertFalse(MultiplayerTags.getTrackNumber(tag).isPresent());
 	}
 
+	@Test
+	public void shouldCreatePTagKeyForTrackByDefault() {
+		assertEquals("P2", MultiplayerTags.getTagKeyForTrackNumber(1, null));
+	}
+
+	@Test
+	public void shouldCreateDuetSingerTagKeyForTrackIfSettingEnabled() {
+		Settings.setUseDuetSingerTags(true);
+		assertEquals("DUETSINGERP2", MultiplayerTags.getTagKeyForTrackNumber(1, null));
+	}
+
+	@ParameterizedTest
+	@EnumSource(FormatSpecification.class)
+	public void shouldCreatePTagKeyForTrackIfSettingEnabledButFormatSpecified(FormatSpecification version) {
+		Settings.setUseDuetSingerTags(true);
+		assertEquals("P2", MultiplayerTags.getTagKeyForTrackNumber(1, version));
+	}
+
+	@AfterEach
+	public void cleanUp() {
+		Settings.setUseDuetSingerTags(false);
+	}
 }

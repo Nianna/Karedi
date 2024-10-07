@@ -36,6 +36,8 @@ public final class Settings {
 
 	private static final String NEW_SONG_WIZARD_TAGS_CREATOR_DEFAULT = "ui_new_song_wizard_tags_creator_default";
 
+	private static final String TAGS_MULTIPLAYER_USE_DUETSINGER = "format_tags_multiplayer_use_duetsinger";
+
 	private static final Preferences PREFERENCES = Preferences.userNodeForPackage(Settings.class);
 
 	private Settings() {
@@ -138,4 +140,15 @@ public final class Settings {
 		return Optional.ofNullable(value);
 	}
 
+	public static void setUseDuetSingerTags(boolean value) {
+		if (value) {
+			PREFERENCES.putBoolean(TAGS_MULTIPLAYER_USE_DUETSINGER, true);
+		} else {
+			PREFERENCES.remove(TAGS_MULTIPLAYER_USE_DUETSINGER);
+		}
+	}
+
+	public static boolean isUseDuetSingerTags() {
+		return PREFERENCES.getBoolean(TAGS_MULTIPLAYER_USE_DUETSINGER, false);
+	}
 }

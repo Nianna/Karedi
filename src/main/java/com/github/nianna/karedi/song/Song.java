@@ -4,6 +4,7 @@ import com.github.nianna.karedi.problem.Problem;
 import com.github.nianna.karedi.problem.Problematic;
 import com.github.nianna.karedi.region.BoundingBox;
 import com.github.nianna.karedi.region.IntBounded;
+import com.github.nianna.karedi.song.tag.FormatSpecification;
 import com.github.nianna.karedi.song.tag.MultiplayerTags;
 import com.github.nianna.karedi.song.tag.Tag;
 import com.github.nianna.karedi.song.tag.TagKey;
@@ -326,6 +327,11 @@ public class Song implements IntBounded, Problematic {
 
 	public BeatMillisConverter getBeatMillisConverter() {
 		return converter;
+	}
+
+	public Optional<FormatSpecification> formatSpecificationVersion() {
+		return getTagValue(TagKey.VERSION)
+				.flatMap(FormatSpecification::tryParse);
 	}
 
 	public static class Medley implements Observable {

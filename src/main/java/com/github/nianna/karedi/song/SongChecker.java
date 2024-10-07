@@ -11,7 +11,6 @@ import com.github.nianna.karedi.problem.Problem.Severity;
 import com.github.nianna.karedi.problem.Problematic;
 import com.github.nianna.karedi.problem.ProblemsCombiner;
 import com.github.nianna.karedi.problem.TagValidationErrorProblem;
-import com.github.nianna.karedi.song.tag.FormatSpecification;
 import com.github.nianna.karedi.song.tag.Tag;
 import com.github.nianna.karedi.song.tag.TagKey;
 import com.github.nianna.karedi.song.tag.TagKeyValidator;
@@ -98,8 +97,7 @@ public class SongChecker implements Problematic {
 	}
 
 	private void validateTagKey(String tagKey) {
-		song.getTagValue(TagKey.VERSION)
-				.flatMap(FormatSpecification::tryParse)
+		song.formatSpecificationVersion()
 				.flatMap(formatVersion -> TagKeyValidator.validate(tagKey, formatVersion))
 				.ifPresent(combiner::add);
 

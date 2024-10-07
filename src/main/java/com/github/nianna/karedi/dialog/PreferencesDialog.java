@@ -35,6 +35,9 @@ public class PreferencesDialog extends Dialog<PreferencesResult> {
 	@FXML
 	private Button newSongWizardLibraryDirChooseButton;
 
+	@FXML
+	private CheckBox useDuetSingerTagsCheckbox;
+
 	private File newSongWizardCurrentLibraryDir;
 
 	public PreferencesDialog() {
@@ -43,6 +46,7 @@ public class PreferencesDialog extends Dialog<PreferencesResult> {
 		initGeneralTab();
 		initDisplayTab();
 		initNewSongWizardTab();
+		initSongFormatTab();
 		getDialogPane().getButtonTypes().addAll(ButtonType.OK, ButtonType.CANCEL);
 
 		setResultConverter(type -> {
@@ -50,12 +54,17 @@ public class PreferencesDialog extends Dialog<PreferencesResult> {
 				return new PreferencesResult(
 						languageSelect.getSelectionModel().getSelectedItem(),
 						displayNoteNodeUnderBarEnabledCheckBox.isSelected(),
-						newSongWizardCurrentLibraryDir
+						newSongWizardCurrentLibraryDir,
+						useDuetSingerTagsCheckbox.isSelected()
 				);
 			}
 			return null;
 		});
 
+	}
+
+	private void initSongFormatTab() {
+		useDuetSingerTagsCheckbox.setSelected(Settings.isUseDuetSingerTags());
 	}
 
 	private void initNewSongWizardTab() {

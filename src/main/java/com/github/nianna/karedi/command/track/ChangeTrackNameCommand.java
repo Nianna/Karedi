@@ -26,36 +26,29 @@ public class ChangeTrackNameCommand extends CommandComposite {
     protected void buildSubCommands() {
         int trackIndex = track.getSong().indexOf(track);
         // Implementation relies on the automatic update of track names on tag change done by Song class
-        List<Tag> trackMultiplayerTags = getMultiplayerTagsForTrack(trackIndex);
+        List<Tag> existingMultiplayerTagsForTrack = getMultiplayerTagsForTrack(trackIndex);
         if (nameIsBlankOrDefault(trackIndex)) {
-            removeMultiplayerTags(trackMultiplayerTags);
+            removeTags(existingMultiplayerTagsForTrack);
         } else {
-            if (trackMultiplayerTags.isEmpty()) {
-                addDefaultMultiplayerTagForTrack(trackIndex);
-            } else {
-                updateMultiplayerTagsValue(trackMultiplayerTags);
+            updateTagsValue(existingMultiplayerTagsForTrack);
+            String defaultMultiplayerTagKeyForTrack = MultiplayerTags.getTagKeyForTrackNumber(
+                    trackIndex,
+                    track.getSong().formatSpecificationVersion().orElse(null)
+            );
+            if (!track.getSong().hasTag(defaultMultiplayerTagKeyForTrack)) {
+                addSubCommand(new ChangeTagValueCommand(track.getSong(), defaultMultiplayerTagKeyForTrack, newValue));
             }
         }
     }
 
-    private void removeMultiplayerTags(List<Tag> multiplayerTags) {
+    private void removeTags(List<Tag> multiplayerTags) {
         multiplayerTags
                 .stream()
                 .map(tag -> new DeleteTagCommand(track.getSong(), tag))
                 .forEach(this::addSubCommand);
     }
 
-    private void addDefaultMultiplayerTagForTrack(int trackIndex) {
-        addSubCommand(
-                new ChangeTagValueCommand(
-                        track.getSong(),
-                        MultiplayerTags.getTagKeyForTrackNumber(trackIndex),
-                        newValue
-                )
-        );
-    }
-
-    private void updateMultiplayerTagsValue(List<Tag> trackMultiplayerTags) {
+    private void updateTagsValue(List<Tag> trackMultiplayerTags) {
         trackMultiplayerTags
                 .stream()
                 .map(tag -> new ChangeTagValueCommand(track.getSong(), tag.getKey(), newValue))
