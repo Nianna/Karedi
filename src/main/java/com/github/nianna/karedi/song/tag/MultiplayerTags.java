@@ -15,7 +15,11 @@ public final class MultiplayerTags {
 	}
 
 	public static boolean isANameTag(Tag tag) {
-		return MULTIPLAYER_TAG_NAME_PATTERN.matcher(tag.getKey()).matches();
+		return isANameTagKey(tag.getKey());
+	}
+
+	public static boolean isANameTagKey(String tagKey) {
+		return MULTIPLAYER_TAG_NAME_PATTERN.matcher(tagKey).matches();
 	}
 
 	public static String getTagKeyForTrackNumber(int index, FormatSpecification formatSpecification) {
@@ -27,11 +31,15 @@ public final class MultiplayerTags {
 	}
 
 	public static Optional<Integer> getTrackNumber(Tag tag) {
-		return getPlayerNumber(tag).map(player -> player - 1);
+		return getTrackNumber(tag.getKey());
 	}
 
-	public static Optional<Integer> getPlayerNumber(Tag tag) {
-		Matcher matcher = MULTIPLAYER_TAG_NAME_PATTERN.matcher(tag.getKey());
+	public static Optional<Integer> getTrackNumber(String tagKey) {
+		return getPlayerNumber(tagKey).map(player -> player - 1);
+	}
+
+	private static Optional<Integer> getPlayerNumber(String tagKey) {
+		Matcher matcher = MULTIPLAYER_TAG_NAME_PATTERN.matcher(tagKey);
 		if (matcher.find()) {
 			return Converter.toInteger(matcher.group(2));
 		}

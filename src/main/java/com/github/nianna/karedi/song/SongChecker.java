@@ -10,7 +10,9 @@ import com.github.nianna.karedi.problem.Problem;
 import com.github.nianna.karedi.problem.Problem.Severity;
 import com.github.nianna.karedi.problem.Problematic;
 import com.github.nianna.karedi.problem.ProblemsCombiner;
+import com.github.nianna.karedi.problem.TagForNonexistentTrackProblem;
 import com.github.nianna.karedi.problem.TagValidationErrorProblem;
+import com.github.nianna.karedi.song.tag.MultiplayerTags;
 import com.github.nianna.karedi.song.tag.Tag;
 import com.github.nianna.karedi.song.tag.TagKey;
 import com.github.nianna.karedi.song.tag.TagKeyValidator;
@@ -33,7 +35,7 @@ public class SongChecker implements Problematic {
 		this.song = song;
 		combiner = new ProblemsCombiner(song.getTracks());
 		song.getTracks().addListener(ListenersUtils.createListChangeListener(this::refreshTrack,
-				this::refreshTrack, this::refreshTrack, this::onRemoved));
+				this::refreshTrack, this::onTrackAdded, this::onTrackRemoved));
 		song.getTags().addListener(ListenersUtils.createListChangeListener(ListenersUtils::pass,
 				this::refreshTag, this::refreshTag, this::onTagRemoved));
 
@@ -46,14 +48,19 @@ public class SongChecker implements Problematic {
 		song.upperXBoundProperty().addListener(obs -> checkEnd());
 	}
 
-	private void onRemoved(SongTrack track) {
+	private void onTrackRemoved(SongTrack track) {
 		removeTrackProblems(track);
 		if (song.getTrackCount() > 0) {
 			refreshTrack(song.getTrack(0));
+			revalidateAllMultiplayerTags();
 		} else {
 			// should never happen
 		}
+	}
 
+	private void onTrackAdded(SongTrack track) {
+		refreshTrack(track);
+		revalidateAllMultiplayerTags();
 	}
 
 	private void removeTrackProblems(SongTrack track) {
@@ -100,6 +107,11 @@ public class SongChecker implements Problematic {
 		song.formatSpecificationVersion()
 				.flatMap(formatVersion -> TagKeyValidator.validate(tagKey, formatVersion))
 				.ifPresent(combiner::add);
+		if (MultiplayerTags.isANameTagKey(tagKey)) {
+			MultiplayerTags.getTrackNumber(tagKey)
+					.filter(trackIndex -> trackIndex >= song.getTrackCount())
+					.ifPresent(ignored -> combiner.add(new TagForNonexistentTrackProblem(tagKey)));
+		}
 
 	}
 
@@ -124,6 +136,12 @@ public class SongChecker implements Problematic {
 	private void revalidateAllTagsOnVersionChange() {
 		song.getTags().stream()
 				.filter(tag -> !TagKey.isKey(tag.getKey(), TagKey.VERSION))
+				.forEach(this::refreshTag);
+	}
+
+	private void revalidateAllMultiplayerTags() {
+		song.getTags().stream()
+				.filter(MultiplayerTags::isANameTag)
 				.forEach(this::refreshTag);
 	}
 

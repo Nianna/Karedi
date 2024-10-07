@@ -29,30 +29,16 @@ public class MultiplayerTagsTest {
 	}
 
 	@Test
-	public void extractsCorrectPlayerNumbersFromValidDuetSingerPNameTags() {
-		Tag tag = new Tag("DUETSINGERP2", "");
-		Optional<Integer> result = MultiplayerTags.getPlayerNumber(tag);
+	public void extractsCorrectTrackNumbersFromValidDuetSingerPTags() {
+		Tag tag = new Tag("DUETSINGERP3", "");
+		Optional<Integer> result = MultiplayerTags.getTrackNumber(tag);
 		assertTrue(result.isPresent());
 		assertEquals((Integer) 2, result.get());
 	}
 
 	@Test
-	public void extractsCorrectPlayerNumbersFromValidPNameTags() {
+	public void extractsCorrectTrackNumbersFromValidPTags() {
 		Tag tag = new Tag("P3", "");
-		Optional<Integer> result = MultiplayerTags.getPlayerNumber(tag);
-		assertTrue(result.isPresent());
-		assertEquals((Integer) 3, result.get());
-	}
-
-	@Test
-	public void doesNotExtractPlayerNumbersFromOtherTags() {
-		Tag tag = new Tag("ARTIST", "");
-		assertFalse(MultiplayerTags.getPlayerNumber(tag).isPresent());
-	}
-
-	@Test
-	public void extractsCorrectTrackNumbersFromValidNameTags() {
-		Tag tag = new Tag("DUETSINGERP3", "");
 		Optional<Integer> result = MultiplayerTags.getTrackNumber(tag);
 		assertTrue(result.isPresent());
 		assertEquals((Integer) 2, result.get());
