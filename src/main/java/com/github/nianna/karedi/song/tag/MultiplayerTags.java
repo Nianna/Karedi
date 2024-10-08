@@ -9,7 +9,7 @@ import java.util.regex.Pattern;
 
 public final class MultiplayerTags {
 
-	private static final Pattern MULTIPLAYER_TAG_NAME_PATTERN = Pattern.compile("(DUETSINGERP|P)(\\d+)");
+	private static final Pattern TAG_KEY_PATTERN = Pattern.compile("DUETSINGERP([12])|P([1-9]\\d*)");
 
 	private MultiplayerTags() {
 	}
@@ -19,7 +19,7 @@ public final class MultiplayerTags {
 	}
 
 	public static boolean isANameTagKey(String tagKey) {
-		return MULTIPLAYER_TAG_NAME_PATTERN.matcher(tagKey).matches();
+		return TAG_KEY_PATTERN.matcher(tagKey).matches();
 	}
 
 	public static String getTagKeyForTrackNumber(int index, FormatSpecification formatSpecification) {
@@ -39,9 +39,10 @@ public final class MultiplayerTags {
 	}
 
 	private static Optional<Integer> getPlayerNumber(String tagKey) {
-		Matcher matcher = MULTIPLAYER_TAG_NAME_PATTERN.matcher(tagKey);
+		Matcher matcher = TAG_KEY_PATTERN.matcher(tagKey);
 		if (matcher.find()) {
-			return Converter.toInteger(matcher.group(2));
+			String playerNumber = Optional.ofNullable(matcher.group(1)).orElseGet(() -> matcher.group(2));
+			return Converter.toInteger(playerNumber);
 		}
 		return Optional.empty();
 	}
