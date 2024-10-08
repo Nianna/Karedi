@@ -159,6 +159,32 @@ public class BasicSongBuilderTest {
         assertEquals(" ~", song.getTrack(0).getLine(0).getNotes().get(0).getLyrics());
     }
 
+    @Test
+    public void shouldMoveTrailingSpaceToNextNoteInLine() {
+        List<VisitableSongElement> elements = List.of(
+                new NoteElement(NoteElementType.RAP, 0, 10, -3, "lorem "),
+                new NoteElement(NoteElementType.RAP, 4, 10, -3, "ipsum "),
+                new LineBreakElement(12),
+                new NoteElement(NoteElementType.RAP, 15, 5, 8, "dolor "),
+                new NoteElement(NoteElementType.RAP, 17, 5, 8, " sit"),
+                new NoteElement(NoteElementType.RAP, 20, 5, 8, "amet "),
+                new NoteElement(NoteElementType.RAP, 24, 5, 8, "consectetuer")
+        );
+
+        elements.forEach(songBuilder::buildPart);
+        Song song = songBuilder.getResult();
+
+        assertEquals(1, song.getTrackCount());
+        ObservableList<SongLine> firstTrackLines = song.getTrack(0).getLines();
+        assertEquals(2, firstTrackLines.size());
+        assertEquals(" lorem", firstTrackLines.get(0).getNotes().get(0).getLyrics());
+        assertEquals(" ipsum", firstTrackLines.get(0).getNotes().get(1).getLyrics());
+        assertEquals(" dolor", firstTrackLines.get(1).getNotes().get(0).getLyrics());
+        assertEquals(" sit", firstTrackLines.get(1).getNotes().get(1).getLyrics());
+        assertEquals("amet", firstTrackLines.get(1).getNotes().get(2).getLyrics());
+        assertEquals(" consectetuer", firstTrackLines.get(1).getNotes().get(3).getLyrics());
+    }
+
     private void assertLineNotesValidity(List<NoteElement> noteElements, List<Note> notes) {
         assertEquals(noteElements.size(), notes.size());
         IntStream.range(0, noteElements.size())

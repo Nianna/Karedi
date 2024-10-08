@@ -1,5 +1,9 @@
 package com.github.nianna.karedi.txt.loader;
 
+import com.github.nianna.karedi.song.Note;
+import com.github.nianna.karedi.song.Song;
+import com.github.nianna.karedi.song.SongLine;
+import com.github.nianna.karedi.song.SongTrack;
 import com.github.nianna.karedi.txt.parser.element.EndOfSongElement;
 import com.github.nianna.karedi.txt.parser.element.LineBreakElement;
 import com.github.nianna.karedi.txt.parser.element.NoteElement;
@@ -8,10 +12,6 @@ import com.github.nianna.karedi.txt.parser.element.SongElementVisitor;
 import com.github.nianna.karedi.txt.parser.element.TagElement;
 import com.github.nianna.karedi.txt.parser.element.TrackElement;
 import com.github.nianna.karedi.txt.parser.element.VisitableSongElement;
-import com.github.nianna.karedi.song.Note;
-import com.github.nianna.karedi.song.Song;
-import com.github.nianna.karedi.song.SongLine;
-import com.github.nianna.karedi.song.SongTrack;
 import com.github.nianna.karedi.util.LyricsHelper;
 
 import java.util.ArrayList;
@@ -37,13 +37,15 @@ class BasicSongBuilder implements SongBuilder, SongElementVisitor {
 
 	private boolean firstNoteInLine = true;
 
+	private boolean leftoverSpaceNeedsToBePrepended = false;
+
 	BasicSongBuilder() {
 		tracks.put(DEFAULT_TRACK, currentTrack);
 	}
 
 	@Override
 	public Song getResult() {
-		if (lineNotes.size() > 0) {
+		if (!lineNotes.isEmpty()) {
 			currentTrack.addLine(buildLine());
 		}
 		song.setTracks(tracks.values());
@@ -60,12 +62,12 @@ class BasicSongBuilder implements SongBuilder, SongElementVisitor {
 	@Override
 	public void visit(NoteElement noteElement) {
 		Note note = getNote(noteElement);
-		if (firstNoteInLine) {
-			note.setLyrics(LyricsHelper.normalize(" " + note.getLyrics()));
-			firstNoteInLine = false;
-		} else {
-			note.setLyrics(LyricsHelper.normalize(note.getLyrics()));
+		if (leftoverSpaceNeedsToBePrepended || firstNoteInLine) {
+			note.setLyrics(" " + note.getLyrics());
 		}
+		leftoverSpaceNeedsToBePrepended = note.getLyrics().endsWith(" ");
+		note.setLyrics(LyricsHelper.normalize(note.getLyrics()));
+		firstNoteInLine = false;
 		lineNotes.add(note);
 	}
 

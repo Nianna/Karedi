@@ -19,6 +19,7 @@ class ShowPreferencesAction extends KarediAction {
             Settings.setDisplayNoteNodeUnderBarEnabled(result.isDisplayNoteNodeUnderBarEnabled());
             Settings.setNewSongWizardLibraryDirectory(result.getNewSongWizardLibraryDir());
             Settings.setUseDuetSingerTags(result.isUseDuetSingerTags());
+            Settings.setPlaceSpacesAfterWords(result.isPlaceSpacesAfterWords());
         });
     }
 }

@@ -1,10 +1,12 @@
 package com.github.nianna.karedi.txt;
 
+import com.github.nianna.karedi.Settings;
 import com.github.nianna.karedi.song.Note;
 import com.github.nianna.karedi.song.Song;
 import com.github.nianna.karedi.song.SongLine;
 import com.github.nianna.karedi.song.SongTrack;
 import com.github.nianna.karedi.txt.clipboard.DummyClipboardHelper;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 
@@ -15,6 +17,7 @@ import java.nio.file.Path;
 import java.util.stream.IntStream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertIterableEquals;
 
 public class TxtFacadeTest {
 
@@ -31,7 +34,48 @@ public class TxtFacadeTest {
         Song song = txtFacade.loadFromTxtFile(inputFile);
         txtFacade.saveSongToFile(outputFile, song);
 
-        assertEquals(Files.readAllLines(inputFile.toPath()), Files.readAllLines(outputFile.toPath()));
+        assertIterableEquals(Files.readAllLines(inputFile.toPath()), Files.readAllLines(outputFile.toPath()));
+    }
+
+    @Test
+    public void shouldSaveSameFileWithSpacesAfterWordsAsWasLoadedIfItIsValid() throws IOException {
+        File inputFile = prepareFile("validSongFileWithSpacesAfterWords.txt");
+        File outputFile = newTmpFile("output.txt");
+
+        Song song = txtFacade.loadFromTxtFile(inputFile);
+        Settings.setPlaceSpacesAfterWords(true);
+        txtFacade.saveSongToFile(outputFile, song);
+
+        assertIterableEquals(Files.readAllLines(inputFile.toPath()), Files.readAllLines(outputFile.toPath()));
+    }
+
+    @Test
+    public void shouldConvertFileWithSpacesBeforeWordsToAfter() throws IOException {
+        File inputFile = prepareFile("validSongFile.txt");
+        File outputFile = newTmpFile("output.txt");
+
+        Song song = txtFacade.loadFromTxtFile(inputFile);
+        Settings.setPlaceSpacesAfterWords(true);
+        txtFacade.saveSongToFile(outputFile, song);
+
+        assertIterableEquals(
+                Files.readAllLines(prepareFile("validSongFileWithSpacesAfterWords.txt").toPath()),
+                Files.readAllLines(outputFile.toPath())
+        );
+    }
+
+    @Test
+    public void shouldConvertFileWithSpacesAfterWordsToBefore() throws IOException {
+        File inputFile = prepareFile("validSongFileWithSpacesAfterWords.txt");
+        File outputFile = newTmpFile("output.txt");
+
+        Song song = txtFacade.loadFromTxtFile(inputFile);
+        txtFacade.saveSongToFile(outputFile, song);
+
+        assertIterableEquals(
+                Files.readAllLines(prepareFile("validSongFile.txt").toPath()),
+                Files.readAllLines(outputFile.toPath())
+        );
     }
 
     @Test
@@ -43,7 +87,7 @@ public class TxtFacadeTest {
         Song song = txtFacade.loadFromTxtFile(cp1250File);
         txtFacade.saveSongToFile(outputFile, song);
 
-        assertEquals(Files.readAllLines(expectedUtf8File.toPath()), Files.readAllLines(outputFile.toPath()));
+        assertIterableEquals(Files.readAllLines(expectedUtf8File.toPath()), Files.readAllLines(outputFile.toPath()));
     }
 
     @Test
@@ -55,6 +99,11 @@ public class TxtFacadeTest {
         Song readSong = txtFacade.loadFromClipboard();
 
         assertSameTracks(song, readSong);
+    }
+
+    @AfterEach
+    public void cleanUp() {
+        Settings.setPlaceSpacesAfterWords(false);
     }
 
     private void assertSameTracks(Song expectedSong, Song actualSong) {

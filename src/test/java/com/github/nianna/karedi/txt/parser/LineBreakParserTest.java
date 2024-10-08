@@ -6,6 +6,8 @@ import com.github.nianna.karedi.txt.parser.element.VisitableSongElement;
 import com.github.nianna.karedi.txt.parser.elementparser.LineBreakParser;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -38,9 +40,10 @@ public class LineBreakParserTest {
 		assertNotNull(result);
 	}
 
-	@Test
-	public void returnsElementWithValidPositionForCorrectInput() throws InvalidSongElementException {
-		LineBreakElement result = (LineBreakElement) parser.parse("- 2");
+	@ParameterizedTest
+	@ValueSource(strings = {"- 2", "- 2		 "})
+	public void returnsElementWithValidPositionForCorrectInput(String input) throws InvalidSongElementException {
+		LineBreakElement result = (LineBreakElement) parser.parse(input);
 		assertNotNull(result);
 		assertEquals((Integer) 2, result.position());
 	}
