@@ -20,19 +20,14 @@ public class NoteParserTest {
 		parser = new NoteParser();
 	}
 
-	@Test()
+	@Test
 	public void doesNotRecognizeWrongTypes() {
 		assertThrows(InvalidSongElementException.class, () -> parser.parse(". 0 0 0 Foo"));
 	}
 
-	@Test()
+	@Test
 	public void doesNotAllowNegativeLength() {
 		assertThrows(InvalidSongElementException.class, () -> parser.parse(": 0 -3 0 Foo"));
-	}
-
-	@Test()
-	public void doesNotAllowEmptyLyrics() {
-		assertThrows(InvalidSongElementException.class, () -> parser.parse(": 0 -3 0 "));
 	}
 
 	@Test
@@ -40,6 +35,12 @@ public class NoteParserTest {
 		VisitableSongElement result = parser.parse(": 0 1 2 Foo");
 		assertNotNull(result);
 		assertEquals(NoteElement.class, result.getClass());
+	}
+
+	@Test
+	public void allowsEmptyLyrics() throws InvalidSongElementException {
+		NoteElement result = (NoteElement) parser.parse(": 0 1 2 ");
+		assertEquals("", result.lyrics());
 	}
 
 	@Test
@@ -83,4 +84,9 @@ public class NoteParserTest {
 		assertEquals("Foo bar", result.lyrics());
 	}
 
+	@Test
+	public void allowsLyricsWithLeadingAndTrailingWhitespaces() throws InvalidSongElementException {
+		NoteElement result = (NoteElement) parser.parse(": 0 1 2  Foo bar 		");
+		assertEquals(" Foo bar 		", result.lyrics());
+	}
 }

@@ -4,10 +4,10 @@ import com.github.nianna.karedi.txt.parser.element.InvalidSongElementException;
 import com.github.nianna.karedi.txt.parser.element.TrackElement;
 import com.github.nianna.karedi.txt.parser.element.VisitableSongElement;
 import com.github.nianna.karedi.txt.parser.elementparser.TrackParser;
-
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -38,9 +38,10 @@ public class TrackParserTest {
 		assertEquals(TrackElement.class, result.getClass());
 	}
 
-	@Test
-	public void returnsElementWithValidPlayerForCorrectInput() throws InvalidSongElementException {
-		TrackElement result = (TrackElement) parser.parse("P 2");
+	@ParameterizedTest
+	@ValueSource(strings = {"P 2", "P 2 		 "})
+	public void returnsElementWithValidPlayerForCorrectInput(String input) throws InvalidSongElementException {
+		TrackElement result = (TrackElement) parser.parse(input);
 		assertNotNull(result);
 		assertEquals(2, result.number());
 	}

@@ -1,5 +1,9 @@
 package com.github.nianna.karedi.txt.loader;
 
+import com.github.nianna.karedi.song.Note;
+import com.github.nianna.karedi.song.Song;
+import com.github.nianna.karedi.song.SongLine;
+import com.github.nianna.karedi.song.SongTrack;
 import com.github.nianna.karedi.txt.parser.element.EndOfSongElement;
 import com.github.nianna.karedi.txt.parser.element.LineBreakElement;
 import com.github.nianna.karedi.txt.parser.element.NoteElement;
@@ -8,10 +12,6 @@ import com.github.nianna.karedi.txt.parser.element.SongElementVisitor;
 import com.github.nianna.karedi.txt.parser.element.TagElement;
 import com.github.nianna.karedi.txt.parser.element.TrackElement;
 import com.github.nianna.karedi.txt.parser.element.VisitableSongElement;
-import com.github.nianna.karedi.song.Note;
-import com.github.nianna.karedi.song.Song;
-import com.github.nianna.karedi.song.SongLine;
-import com.github.nianna.karedi.song.SongTrack;
 import com.github.nianna.karedi.util.LyricsHelper;
 
 import java.util.ArrayList;

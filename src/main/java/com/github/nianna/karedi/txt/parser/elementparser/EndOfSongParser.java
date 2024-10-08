@@ -12,7 +12,7 @@ import com.github.nianna.karedi.txt.parser.element.VisitableSongElement;
  */
 public class EndOfSongParser extends SongElementParser {
 
-	private static final String END_OF_SONG_PATTERN = "E";
+	private static final String END_OF_SONG_PATTERN = "E\\p{javaWhitespace}*";
 
 	public EndOfSongParser() {
 		super(END_OF_SONG_PATTERN);

@@ -37,7 +37,7 @@ class SongLoader {
 	Song buildSong(List<String> lines) {
 		SongBuilder songBuilder = new BasicSongBuilder();
 		lines.stream()
-				.map(String::strip)
+				.map(String::stripLeading)
 				.filter(line -> !line.isBlank())
 				.map(this::parseLine)
 				.filter(Objects::nonNull)

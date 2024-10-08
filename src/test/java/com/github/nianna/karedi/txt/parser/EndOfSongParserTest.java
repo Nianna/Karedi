@@ -4,9 +4,10 @@ import com.github.nianna.karedi.txt.parser.element.EndOfSongElement;
 import com.github.nianna.karedi.txt.parser.element.InvalidSongElementException;
 import com.github.nianna.karedi.txt.parser.element.VisitableSongElement;
 import com.github.nianna.karedi.txt.parser.elementparser.EndOfSongParser;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -25,9 +26,10 @@ public class EndOfSongParserTest {
 		assertThrows(InvalidSongElementException.class, () -> parser.parse("P"));
 	}
 
-	@Test
-	public void returnsEndOfSongElement() throws InvalidSongElementException {
-		VisitableSongElement result = parser.parse("E");
+	@ParameterizedTest
+	@ValueSource(strings = {"E", "E 		 "})
+	public void returnsEndOfSongElement(String input) throws InvalidSongElementException {
+		VisitableSongElement result = parser.parse(input);
 		assertNotNull(result);
 		assertEquals(EndOfSongElement.class, result.getClass());
 	}
