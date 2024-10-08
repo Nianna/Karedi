@@ -334,6 +334,10 @@ public class Song implements IntBounded, Problematic {
 				.flatMap(FormatSpecification::tryParse);
 	}
 
+	public FormatSpecification getFormatSpecificationVersion() {
+		return formatSpecificationVersion().orElse(null);
+	}
+
 	public static class Medley implements Observable {
 		private int startBeat;
 		private int endBeat;

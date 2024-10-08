@@ -33,7 +33,7 @@ public class ChangeTrackNameCommand extends CommandComposite {
             updateTagsValue(existingMultiplayerTagsForTrack);
             String defaultMultiplayerTagKeyForTrack = MultiplayerTags.getTagKeyForTrackNumber(
                     trackIndex,
-                    track.getSong().formatSpecificationVersion().orElse(null)
+                    track.getSong().getFormatSpecificationVersion()
             );
             if (!track.getSong().hasTag(defaultMultiplayerTagKeyForTrack)) {
                 addSubCommand(new ChangeTagValueCommand(track.getSong(), defaultMultiplayerTagKeyForTrack, newValue));

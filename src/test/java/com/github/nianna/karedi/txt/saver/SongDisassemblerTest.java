@@ -47,7 +47,7 @@ public class SongDisassemblerTest {
     @Test
     public void shouldDisassembleDuetSong() {
         List<Tag> tags = List.of(new Tag("foo", "bar"), new Tag("foo2", "bar2"));
-        List<SongTrack> songTracks = List.of(createSongTrack(1), createSongTrack(2));
+        List<SongTrack> songTracks = List.of(createSongTrack(1), createSongTrack(3));
 
         List<VisitableSongElement> result = songDisassembler.disassemble(tags, songTracks);
 

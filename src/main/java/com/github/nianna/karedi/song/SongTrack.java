@@ -165,6 +165,10 @@ public class SongTrack implements IntBounded, Problematic, MovableContainer<Song
 		name.set(value);
 	}
 
+	public boolean hasCustomName() {
+		return !SongTrack.getDefaultTrackName(getPlayer()).equals(getName());
+	}
+
 	public Integer indexOf(SongLine line) {
 		return sortedLines.indexOf(line);
 	}
