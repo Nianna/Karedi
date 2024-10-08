@@ -10,7 +10,6 @@ import com.github.nianna.karedi.song.tag.TagKey;
 import com.github.nianna.karedi.txt.TxtFacade;
 import javafx.beans.binding.BooleanBinding;
 import javafx.beans.property.ReadOnlyObjectWrapper;
-import javafx.collections.ObservableList;
 
 import java.io.File;
 import java.util.List;
@@ -87,7 +86,7 @@ public class TxtContext {
         return false;
     }
 
-    public void exportSongToFile(File file, ObservableList<Tag> tags, List<SongTrack> tracks) {
+    public void exportSongToFile(File file, List<Tag> tags, List<SongTrack> tracks) {
         txtFacade.exportSongToFile(file, tags, tracks);
     }
 
