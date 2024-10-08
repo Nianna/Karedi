@@ -1,5 +1,6 @@
 package com.github.nianna.karedi.song;
 
+import com.github.nianna.karedi.problem.DuetTagNotForDuetProblem;
 import com.github.nianna.karedi.problem.InvalidMedleyBeatRangeProblem;
 import com.github.nianna.karedi.problem.InvalidMedleyLengthProblem;
 import com.github.nianna.karedi.problem.MedleyMissingProblem;
@@ -113,6 +114,15 @@ public class SongChecker implements Problematic {
 					.ifPresent(ignored -> combiner.add(new TagForNonexistentTrackProblem(tagKey)));
 		}
 
+		if (isADuetSingerTagForExistingTrackInNotDuetSong(tagKey)) {
+			combiner.add(new DuetTagNotForDuetProblem(tagKey));
+		}
+
+	}
+
+	private boolean isADuetSingerTagForExistingTrackInNotDuetSong(String tagKey) {
+		return TagKey.isKey(tagKey, TagKey.DUETSINGERP1) && song.getTrackCount() != 2
+				|| TagKey.isKey(tagKey, TagKey.DUETSINGERP2) && song.getTrackCount() > 2;
 	}
 
 	private void performAdditionalValueValidation(TagKey key) {
