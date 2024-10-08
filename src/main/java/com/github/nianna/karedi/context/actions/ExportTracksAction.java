@@ -78,6 +78,7 @@ class ExportTracksAction extends ContextfulKarediAction {
 
     private static List<Tag> recreatedMultiplayerTags(Song song, List<SongTrack> tracks) {
         return IntStream.range(0, tracks.size())
+                .filter(i -> tracks.get(i).hasCustomName())
                 .mapToObj(i ->
                         new Tag(
                                 MultiplayerTags.getTagKeyForTrackNumber(i, song.getFormatSpecificationVersion()),
