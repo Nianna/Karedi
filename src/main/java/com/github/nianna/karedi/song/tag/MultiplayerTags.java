@@ -23,7 +23,7 @@ public final class MultiplayerTags {
 	}
 
 	public static String getTagKeyForTrackNumber(int index, FormatSpecification formatSpecification) {
-		if (formatSpecification == null && Settings.isUseDuetSingerTags()) {
+		if (index < 2 && formatSpecification == null && Settings.isUseDuetSingerTags()) {
 			return "DUETSINGERP" + (index + 1);
 		}
 

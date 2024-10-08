@@ -68,6 +68,12 @@ public class MultiplayerTagsTest {
 		assertEquals("DUETSINGERP2", MultiplayerTags.getTagKeyForTrackNumber(1, null));
 	}
 
+	@Test
+	public void shouldCreatePTagKeyForNonDuetTracksEvenIfSettingEnabled() {
+		Settings.setUseDuetSingerTags(true);
+		assertEquals("P3", MultiplayerTags.getTagKeyForTrackNumber(2, null));
+	}
+
 	@ParameterizedTest
 	@EnumSource(FormatSpecification.class)
 	public void shouldCreatePTagKeyForTrackIfSettingEnabledButFormatSpecified(FormatSpecification version) {
