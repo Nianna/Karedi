@@ -37,13 +37,15 @@ class BasicSongBuilder implements SongBuilder, SongElementVisitor {
 
 	private boolean firstNoteInLine = true;
 
+	private boolean leftoverSpaceNeedsToBePrepended = false;
+
 	BasicSongBuilder() {
 		tracks.put(DEFAULT_TRACK, currentTrack);
 	}
 
 	@Override
 	public Song getResult() {
-		if (lineNotes.size() > 0) {
+		if (!lineNotes.isEmpty()) {
 			currentTrack.addLine(buildLine());
 		}
 		song.setTracks(tracks.values());
@@ -60,12 +62,12 @@ class BasicSongBuilder implements SongBuilder, SongElementVisitor {
 	@Override
 	public void visit(NoteElement noteElement) {
 		Note note = getNote(noteElement);
-		if (firstNoteInLine) {
-			note.setLyrics(LyricsHelper.normalize(" " + note.getLyrics()));
-			firstNoteInLine = false;
-		} else {
-			note.setLyrics(LyricsHelper.normalize(note.getLyrics()));
+		if (leftoverSpaceNeedsToBePrepended || firstNoteInLine) {
+			note.setLyrics(" " + note.getLyrics());
 		}
+		leftoverSpaceNeedsToBePrepended = note.getLyrics().endsWith(" ");
+		note.setLyrics(LyricsHelper.normalize(note.getLyrics()));
+		firstNoteInLine = false;
 		lineNotes.add(note);
 	}
 
