@@ -1,5 +1,6 @@
 package com.github.nianna.karedi.txt.saver;
 
+import com.github.nianna.karedi.Settings;
 import com.github.nianna.karedi.song.Note;
 import com.github.nianna.karedi.song.SongLine;
 import com.github.nianna.karedi.song.SongTrack;
@@ -11,6 +12,7 @@ import com.github.nianna.karedi.txt.parser.element.NoteElementType;
 import com.github.nianna.karedi.txt.parser.element.TagElement;
 import com.github.nianna.karedi.txt.parser.element.TrackElement;
 import com.github.nianna.karedi.txt.parser.element.VisitableSongElement;
+import com.github.nianna.karedi.util.LyricsHelper;
 
 import java.util.List;
 import java.util.function.Function;
@@ -69,8 +71,13 @@ public class SongDisassembler {
 
 	public NoteElement disassemble(Note note) {
 		String lyrics = note.getLyrics();
-		if (note.isFirstInLine()) {
+		if (note.isFirstInLine() || Settings.isPlaceSpacesAfterWords()) {
 			lyrics = lyrics.trim();
+		}
+		boolean shouldMoveSpaceFromNextNote = Settings.isPlaceSpacesAfterWords()
+				&& note.getNextInLine().map(Note::getLyrics).filter(LyricsHelper::startsNewWord).isPresent();
+		if (shouldMoveSpaceFromNextNote) {
+			lyrics = lyrics + LyricsHelper.WORD_SEPARATOR;
 		}
 		return new NoteElement(
 				noteElementType(note.getType()),

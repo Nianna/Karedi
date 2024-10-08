@@ -13,14 +13,18 @@ public class PreferencesResult {
 
     private final boolean useDuetSingerTags;
 
+    private final boolean placeSpacesAfterWords;
+
     public PreferencesResult(Locale selectedLocale,
                              boolean displayNoteNodeUnderBarEnabled,
                              File newSongWizardLibraryDir,
-                             boolean useDuetSingerTags) {
+                             boolean useDuetSingerTags,
+                             boolean placeSpacesAfterWords) {
         this.selectedLocale = selectedLocale;
         this.displayNoteNodeUnderBarEnabled = displayNoteNodeUnderBarEnabled;
         this.newSongWizardLibraryDir = newSongWizardLibraryDir;
         this.useDuetSingerTags = useDuetSingerTags;
+        this.placeSpacesAfterWords = placeSpacesAfterWords;
     }
 
     public Locale getSelectedLocale() {
@@ -37,5 +41,9 @@ public class PreferencesResult {
 
     public boolean isUseDuetSingerTags() {
         return useDuetSingerTags;
+    }
+
+    public boolean isPlaceSpacesAfterWords() {
+        return placeSpacesAfterWords;
     }
 }

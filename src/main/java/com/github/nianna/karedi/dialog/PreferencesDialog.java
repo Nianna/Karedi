@@ -38,6 +38,9 @@ public class PreferencesDialog extends Dialog<PreferencesResult> {
 	@FXML
 	private CheckBox useDuetSingerTagsCheckbox;
 
+	@FXML
+	private CheckBox placeSpacesAfterWordsCheckbox;
+
 	private File newSongWizardCurrentLibraryDir;
 
 	public PreferencesDialog() {
@@ -55,7 +58,8 @@ public class PreferencesDialog extends Dialog<PreferencesResult> {
 						languageSelect.getSelectionModel().getSelectedItem(),
 						displayNoteNodeUnderBarEnabledCheckBox.isSelected(),
 						newSongWizardCurrentLibraryDir,
-						useDuetSingerTagsCheckbox.isSelected()
+						useDuetSingerTagsCheckbox.isSelected(),
+						placeSpacesAfterWordsCheckbox.isSelected()
 				);
 			}
 			return null;
@@ -65,6 +69,7 @@ public class PreferencesDialog extends Dialog<PreferencesResult> {
 
 	private void initSongFormatTab() {
 		useDuetSingerTagsCheckbox.setSelected(Settings.isUseDuetSingerTags());
+		placeSpacesAfterWordsCheckbox.setSelected(Settings.isPlaceSpacesAfterWords());
 	}
 
 	private void initNewSongWizardTab() {

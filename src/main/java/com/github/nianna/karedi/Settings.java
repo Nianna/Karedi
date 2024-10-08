@@ -38,6 +38,8 @@ public final class Settings {
 
 	private static final String TAGS_MULTIPLAYER_USE_DUETSINGER = "format_tags_multiplayer_use_duetsinger";
 
+	private static final String FORMAT_PLACE_SPACE_AFTER_WORDS = "format_whitespaces_after_words";
+
 	private static final Preferences PREFERENCES = Preferences.userNodeForPackage(Settings.class);
 
 	private Settings() {
@@ -150,5 +152,17 @@ public final class Settings {
 
 	public static boolean isUseDuetSingerTags() {
 		return PREFERENCES.getBoolean(TAGS_MULTIPLAYER_USE_DUETSINGER, false);
+	}
+
+	public static void setPlaceSpacesAfterWords(boolean value) {
+		if (value) {
+			PREFERENCES.putBoolean(FORMAT_PLACE_SPACE_AFTER_WORDS, true);
+		} else {
+			PREFERENCES.remove(FORMAT_PLACE_SPACE_AFTER_WORDS);
+		}
+	}
+
+	public static boolean isPlaceSpacesAfterWords() {
+		return PREFERENCES.getBoolean(FORMAT_PLACE_SPACE_AFTER_WORDS, false);
 	}
 }

@@ -126,8 +126,10 @@
                                         <ColumnConstraints />
                                     </columnConstraints>
                                     <children>
-                                        <Label text="%dialog.preferences.txt_format.use_duetsinger_tags_enabled.label" GridPane.rowIndex="1" />
-                                        <CheckBox fx:id="useDuetSingerTagsCheckbox" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                        <Label text="%dialog.preferences.txt_format.place_spaces_after_words_enabled.label" GridPane.rowIndex="1" />
+                                        <CheckBox fx:id="placeSpacesAfterWordsCheckbox" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                        <Label text="%dialog.preferences.txt_format.use_duetsinger_tags_enabled.label" GridPane.rowIndex="2" />
+                                        <CheckBox fx:id="useDuetSingerTagsCheckbox" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                                     </children>
                                     <rowConstraints>
                                         <RowConstraints />
