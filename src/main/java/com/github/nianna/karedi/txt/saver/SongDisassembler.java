@@ -1,5 +1,9 @@
 package com.github.nianna.karedi.txt.saver;
 
+import com.github.nianna.karedi.song.Note;
+import com.github.nianna.karedi.song.SongLine;
+import com.github.nianna.karedi.song.SongTrack;
+import com.github.nianna.karedi.song.tag.Tag;
 import com.github.nianna.karedi.txt.parser.element.EndOfSongElement;
 import com.github.nianna.karedi.txt.parser.element.LineBreakElement;
 import com.github.nianna.karedi.txt.parser.element.NoteElement;
@@ -7,10 +11,6 @@ import com.github.nianna.karedi.txt.parser.element.NoteElementType;
 import com.github.nianna.karedi.txt.parser.element.TagElement;
 import com.github.nianna.karedi.txt.parser.element.TrackElement;
 import com.github.nianna.karedi.txt.parser.element.VisitableSongElement;
-import com.github.nianna.karedi.song.Note;
-import com.github.nianna.karedi.song.SongLine;
-import com.github.nianna.karedi.song.SongTrack;
-import com.github.nianna.karedi.song.tag.Tag;
 
 import java.util.List;
 import java.util.function.Function;
@@ -37,13 +37,13 @@ public class SongDisassembler {
 	private Stream<VisitableSongElement> disassembleTracks(List<SongTrack> tracks) {
 		boolean shouldSkipFirstPlayerTag = tracks.size() == 1;
 		return tracks.stream()
-				.flatMap(this::disassemble)
+				.flatMap(track -> disassemble(track, tracks.indexOf(track)))
 				.skip(shouldSkipFirstPlayerTag ? 1 : 0);
 	}
 
-	private Stream<VisitableSongElement> disassemble(SongTrack track) {
+	private Stream<VisitableSongElement> disassemble(SongTrack track, int trackIndex) {
 		return Stream.concat(
-				Stream.of(new TrackElement(track.getPlayer())),
+				Stream.of(new TrackElement(trackIndex + 1)),
 				disassembleLines(track.getLines())
 		);
 	}
