@@ -29,6 +29,7 @@ import javafx.util.Pair;
 import org.controlsfx.glyphfont.Glyph;
 
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.Optional;
 import java.util.function.Consumer;
 
@@ -157,7 +158,10 @@ public class EditFilenamesDialog extends ValidatedDialog<FilenamesEditResult> {
 	private static ObservableList<String> supportedFormatSpecificationVersions() {
 		ObservableList<String> formatSpecifications = FXCollections
 				.observableArrayList("None");
-		Arrays.stream(FormatSpecification.values()).map(Enum::toString).forEach(formatSpecifications::add);
+		Arrays.stream(FormatSpecification.values())
+				.map(Enum::toString)
+				.sorted(Comparator.reverseOrder())
+				.forEach(formatSpecifications::add);
 		return formatSpecifications;
 	}
 
