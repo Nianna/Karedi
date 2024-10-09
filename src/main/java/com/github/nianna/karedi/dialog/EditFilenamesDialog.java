@@ -43,7 +43,9 @@ public class EditFilenamesDialog extends ValidatedDialog<FilenamesEditResult> {
 	private static final String DEFAULT_VIDEO_EXTENSION = "mp4";
 
 	@FXML
-	private ManageableGridPane gridPane;
+	private ManageableGridPane artistTitleGridPane;
+	@FXML
+	private ManageableGridPane filenamesGridPane;
 
 	@FXML
 	private TextField artistField;
@@ -150,9 +152,9 @@ public class EditFilenamesDialog extends ValidatedDialog<FilenamesEditResult> {
 	}
 
 	public void hideFormatSpecificationChoiceBox() {
-		int formatChoiceBoxRowIndex = gridPane.getChildRowIndex(formatSpecificationChoiceBox);
-		gridPane.changeRowVisibility(formatChoiceBoxRowIndex, false);
-		gridPane.changeRowVisibility(formatChoiceBoxRowIndex - 1, false);
+		int formatChoiceBoxRowIndex = artistTitleGridPane.getChildRowIndex(formatSpecificationChoiceBox);
+		artistTitleGridPane.changeRowVisibility(formatChoiceBoxRowIndex, false);
+		artistTitleGridPane.changeRowVisibility(formatChoiceBoxRowIndex - 1, false);
 	}
 
 	private static ObservableList<String> supportedFormatSpecificationVersions() {
@@ -244,13 +246,13 @@ public class EditFilenamesDialog extends ValidatedDialog<FilenamesEditResult> {
 	}
 
 	private void onIncludeVideoInvalidated(Observable obs) {
-		gridPane.changeRowVisibility(gridPane.getChildRowIndex(videoField),
+		filenamesGridPane.changeRowVisibility(filenamesGridPane.getChildRowIndex(videoField),
 				includeVideoCheckBox.isSelected());
 	}
 
 	private void onIncludeBackgroundInvalidated(Observable obs) {
 		boolean isSelected = includeBackgroundCheckBox.isSelected();
-		gridPane.changeRowVisibility(gridPane.getChildRowIndex(backgroundField), isSelected);
+		filenamesGridPane.changeRowVisibility(filenamesGridPane.getChildRowIndex(backgroundField), isSelected);
 		addCoCheckBox.setDisable(isSelected);
 		if (isSelected) {
 			addCoCheckBox.setSelected(true);
