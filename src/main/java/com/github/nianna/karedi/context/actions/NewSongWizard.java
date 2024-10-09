@@ -45,6 +45,7 @@ class NewSongWizard {
 		dialog.setTitle(I18N.get("dialog.creator.title"));
 		dialog.hideInstrumental();
 		dialog.hideVocals();
+		Settings.getDefaultFormatSpecificationVersion().ifPresent(dialog::setFormatVersion);
 		Optional<FilenamesEditResult> optResult = dialog.showAndWait();
 		if (optResult.isPresent()) {
 			FilenamesEditResult result = optResult.get();
@@ -60,6 +61,8 @@ class NewSongWizard {
 			result.getVideoFilename().ifPresent(filename -> song.setTagValue(TagKey.VIDEO, filename));
 			result.getInstrumentalFilename().ifPresent(filename -> song.setTagValue(TagKey.INSTRUMENTAL, filename));
 			result.getVocalsFilename().ifPresent(filename -> song.setTagValue(TagKey.VOCALS, filename));
+
+			Settings.setDefaultFormatSpecificationVersion(result.getFormatSpecification().orElse(null));
 			return true;
 		}
 		return false;
