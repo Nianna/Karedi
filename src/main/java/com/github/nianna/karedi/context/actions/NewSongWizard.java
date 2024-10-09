@@ -51,12 +51,9 @@ class NewSongWizard {
 			song.setTagValue(TagKey.TITLE, result.getTitle());
 			song.setTagValue(TagKey.MP3, result.getAudioFilename());
 			song.setTagValue(TagKey.COVER, result.getCoverFilename());
-			result.getBackgroundFilename().ifPresent(filename -> {
-				song.setTagValue(TagKey.BACKGROUND, filename);
-			});
-			result.getVideoFilename().ifPresent(filename -> {
-				song.setTagValue(TagKey.VIDEO, filename);
-			});
+			result.getBackgroundFilename().ifPresent(filename -> song.setTagValue(TagKey.BACKGROUND, filename));
+			result.getVideoFilename().ifPresent(filename -> song.setTagValue(TagKey.VIDEO, filename));
+			result.getFormatSpecification().ifPresent(version -> song.setTagValue(TagKey.VERSION, version.toString()));
 			return true;
 		}
 		return false;
@@ -112,10 +109,10 @@ class NewSongWizard {
 		return true;
 	}
 
-	class CreatorResult {
-		private Song song;
-		private File audioFile;
-		private File outputDir;
+	static class CreatorResult {
+		private final Song song;
+		private final File audioFile;
+		private final File outputDir;
 
 		CreatorResult(Song song, File audioFile, File outputDir) {
 			this.song = song;

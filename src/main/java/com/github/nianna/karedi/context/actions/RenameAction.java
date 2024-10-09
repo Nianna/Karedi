@@ -21,6 +21,7 @@ class RenameAction extends ContextfulKarediAction {
     @Override
     protected void onAction(ActionEvent event) {
         EditFilenamesDialog dialog = new EditFilenamesDialog();
+        dialog.hideFormatSpecificationChoiceBox();
 
         activeSongContext.getSong().getTagValue(TagKey.ARTIST).ifPresent(dialog::setSongArtist);
         activeSongContext.getSong().getTagValue(TagKey.TITLE).ifPresent(dialog::setSongTitle);

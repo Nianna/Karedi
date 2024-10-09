@@ -5,6 +5,7 @@ import com.github.nianna.karedi.context.AudioContext;
 import com.github.nianna.karedi.control.ManageableGridPane;
 import com.github.nianna.karedi.control.RestrictedTextField;
 import com.github.nianna.karedi.dialog.EditFilenamesDialog.FilenamesEditResult;
+import com.github.nianna.karedi.song.tag.FormatSpecification;
 import com.github.nianna.karedi.song.tag.TagKey;
 import com.github.nianna.karedi.song.tag.TagValueValidators;
 import com.github.nianna.karedi.util.Utils;
@@ -12,11 +13,14 @@ import javafx.application.Platform;
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
 import javafx.beans.binding.Bindings;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
@@ -24,6 +28,7 @@ import javafx.scene.paint.Color;
 import javafx.util.Pair;
 import org.controlsfx.glyphfont.Glyph;
 
+import java.util.Arrays;
 import java.util.Optional;
 import java.util.function.Consumer;
 
@@ -82,6 +87,8 @@ public class EditFilenamesDialog extends ValidatedDialog<FilenamesEditResult> {
 	private TextField backgroundField;
 	@FXML
 	private TextField backgroundExtensionField;
+	@FXML
+	private ChoiceBox<String> formatSpecificationChoiceBox;
 
 	private boolean hideVideo = false;
 	private boolean hideBackground = false;
@@ -128,6 +135,9 @@ public class EditFilenamesDialog extends ValidatedDialog<FilenamesEditResult> {
 		coverExtensionField.setText(DEFAULT_IMAGE_EXTENSION);
 		backgroundExtensionField.setText(DEFAULT_IMAGE_EXTENSION);
 
+		formatSpecificationChoiceBox.setItems(supportedFormatSpecificationVersions());
+		formatSpecificationChoiceBox.getSelectionModel().selectFirst();
+
 		Platform.runLater(() -> {
 			validationSupport.registerValidator(titleField, TagValueValidators.forKey(TagKey.TITLE));
 			validationSupport.registerValidator(artistField, TagValueValidators.forKey(TagKey.ARTIST));
@@ -136,6 +146,19 @@ public class EditFilenamesDialog extends ValidatedDialog<FilenamesEditResult> {
 			includeBackgroundCheckBox.setSelected(!hideBackground);
 			includeVideoCheckBox.setSelected(!hideVideo);
 		});
+	}
+
+	public void hideFormatSpecificationChoiceBox() {
+		int formatChoiceBoxRowIndex = gridPane.getChildRowIndex(formatSpecificationChoiceBox);
+		gridPane.changeRowVisibility(formatChoiceBoxRowIndex, false);
+		gridPane.changeRowVisibility(formatChoiceBoxRowIndex - 1, false);
+	}
+
+	private static ObservableList<String> supportedFormatSpecificationVersions() {
+		ObservableList<String> formatSpecifications = FXCollections
+				.observableArrayList("None");
+		Arrays.stream(FormatSpecification.values()).map(Enum::toString).forEach(formatSpecifications::add);
+		return formatSpecifications;
 	}
 
 	public void initDataFromAudioFilename(String audioFileName) {
@@ -330,6 +353,7 @@ public class EditFilenamesDialog extends ValidatedDialog<FilenamesEditResult> {
 		private String coverFilename;
 		private String backgroundFilename;
 		private String videoFilename;
+		private FormatSpecification formatSpecification;
 
 		private FilenamesEditResult() {
 			super();
@@ -345,6 +369,9 @@ public class EditFilenamesDialog extends ValidatedDialog<FilenamesEditResult> {
 				videoFilename = generateFilename(videoField.getText(),
 						videoExtensionField.getText());
 			}
+			formatSpecification = FormatSpecification
+					.tryParse(formatSpecificationChoiceBox.getSelectionModel().getSelectedItem())
+					.orElse(null);
 		}
 
 		private String generateFilename(String name, String extension) {
@@ -373,6 +400,10 @@ public class EditFilenamesDialog extends ValidatedDialog<FilenamesEditResult> {
 
 		public Optional<String> getVideoFilename() {
 			return Optional.ofNullable(videoFilename);
+		}
+
+		public Optional<FormatSpecification> getFormatSpecification() {
+			return Optional.ofNullable(formatSpecification);
 		}
 
 	}
