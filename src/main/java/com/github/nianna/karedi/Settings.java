@@ -1,5 +1,6 @@
 package com.github.nianna.karedi;
 
+import com.github.nianna.karedi.song.tag.FormatSpecification;
 import com.github.nianna.karedi.util.ColorUtils;
 import javafx.scene.paint.Color;
 
@@ -35,6 +36,8 @@ public final class Settings {
 	private static final String NEW_SONG_WIZARD_LIBRARY_DIR = "ui_new_song_wizard_library_dir";
 
 	private static final String NEW_SONG_WIZARD_TAGS_CREATOR_DEFAULT = "ui_new_song_wizard_tags_creator_default";
+
+	private static final String NEW_SONG_WIZARD_FORMAT_VERSION_DEFAULT = "ui_new_song_wizard_format_version_default";
 
 	private static final String TAGS_MULTIPLAYER_USE_DUETSINGER = "format_tags_multiplayer_use_duetsinger";
 
@@ -164,5 +167,19 @@ public final class Settings {
 
 	public static boolean isPlaceSpacesAfterWords() {
 		return PREFERENCES.getBoolean(FORMAT_PLACE_SPACE_AFTER_WORDS, false);
+	}
+
+	public static void setDefaultFormatSpecificationVersion(FormatSpecification value) {
+		if (value != null) {
+			PREFERENCES.put(NEW_SONG_WIZARD_FORMAT_VERSION_DEFAULT, value.toString());
+		} else {
+			PREFERENCES.remove(NEW_SONG_WIZARD_FORMAT_VERSION_DEFAULT);
+		}
+	}
+
+	public static Optional<FormatSpecification> getDefaultFormatSpecificationVersion() {
+		String value = PREFERENCES.get(NEW_SONG_WIZARD_FORMAT_VERSION_DEFAULT, null);
+		return Optional.ofNullable(value)
+				.flatMap(FormatSpecification::tryParse);
 	}
 }

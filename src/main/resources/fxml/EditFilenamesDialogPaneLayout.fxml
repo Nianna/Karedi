@@ -1,7 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<!-- <?import org.controlsfx.glyphfont.*?> -->
+
+<?import com.github.nianna.karedi.control.FilenameTextField?>
+<?import com.github.nianna.karedi.control.ManageableGridPane?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.DialogPane?>
 <?import javafx.scene.control.Label?>
@@ -10,127 +15,182 @@
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
-<?import org.controlsfx.glyphfont.*?>
-<?import com.github.nianna.karedi.control.FilenameTextField?>
-<?import com.github.nianna.karedi.control.ManageableGridPane?>
-
-<!-- <?import org.controlsfx.glyphfont.*?> -->
+<?import org.controlsfx.glyphfont.Glyph?>
+<?import javafx.scene.layout.VBox?>
 
 <fx:root type="javafx.scene.control.DialogPane" xmlns="http://javafx.com/javafx/8.0.60"
-		 xmlns:fx="http://javafx.com/fxml/1">
-	<content>
-		<ManageableGridPane fx:id="gridPane" hgap="10.0">
-			<columnConstraints>
-				<ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
-				<ColumnConstraints hgrow="SOMETIMES" />
-				<ColumnConstraints hgrow="SOMETIMES" minWidth="10.0"
-					prefWidth="200.0" />
-				<ColumnConstraints hgrow="SOMETIMES" />
-				<ColumnConstraints hgrow="SOMETIMES" prefWidth="75.0" />
-				<ColumnConstraints />
-			</columnConstraints>
-			<rowConstraints>
-				<RowConstraints minHeight="10.0" prefHeight="30.0"
-					vgrow="NEVER" />
-				<RowConstraints minHeight="10.0" prefHeight="30.0"
-					vgrow="NEVER" />
-				<RowConstraints minHeight="10.0" prefHeight="30.0"
-					vgrow="NEVER" />
-				<RowConstraints minHeight="10.0" prefHeight="30.0"
-					vgrow="NEVER" />
-				<RowConstraints minHeight="10.0" prefHeight="30.0"
-					vgrow="NEVER" />
-				<RowConstraints minHeight="10.0" prefHeight="30.0"
-					vgrow="NEVER" />
-				<RowConstraints minHeight="10.0" prefHeight="30.0"
-					vgrow="NEVER" />
-				<RowConstraints minHeight="10.0" prefHeight="30.0"
-					vgrow="NEVER" />
-				<RowConstraints minHeight="10.0" prefHeight="30.0"
-					vgrow="NEVER" />
-				<RowConstraints prefHeight="30.0" vgrow="NEVER" />
-				<RowConstraints prefHeight="30.0" vgrow="NEVER" />
-			</rowConstraints>
-			<children>
-				<Label text="%dialog.edit_filenames.artist"
-					GridPane.columnIndex="1" />
-				<TextField fx:id="artistField" promptText="%common.artist"
-					GridPane.columnIndex="2" />
+         xmlns:fx="http://javafx.com/fxml/1">
+    <content>
+        <VBox>
+            <ManageableGridPane fx:id="artistTitleGridPane" hgap="10.0">
+                <columnConstraints>
+                    <ColumnConstraints hgrow="NEVER" minWidth="10.0"/>
+                    <ColumnConstraints hgrow="SOMETIMES" minWidth="50.0"/>
+                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0"
+                                       prefWidth="200.0"/>
+                    <ColumnConstraints hgrow="SOMETIMES"/>
+                    <ColumnConstraints hgrow="SOMETIMES" prefWidth="75.0"/>
+                    <ColumnConstraints/>
+                </columnConstraints>
+                <rowConstraints>
+                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="NEVER"/>
+                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="NEVER"/>
+                    <RowConstraints prefHeight="30.0" vgrow="NEVER"/>
+                    <RowConstraints prefHeight="30.0" vgrow="NEVER"/>
+                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="NEVER"/>
+                </rowConstraints>
+                <padding>
+                    <Insets left="20.0" right="20.0" top="10.0"/>
+                </padding>
+                <Label text="%dialog.edit_filenames.artist"
+                       GridPane.columnIndex="1"/>
+                <TextField fx:id="artistField" promptText="%common.artist"
+                           GridPane.columnIndex="2"/>
 
-				<Label text="%dialog.edit_filenames.title"
-					GridPane.columnIndex="1" GridPane.rowIndex="1" />
-				<TextField fx:id="titleField" promptText="%common.title"
-					GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                <Label text="%dialog.edit_filenames.title"
+                       GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+                <TextField fx:id="titleField" promptText="%common.title"
+                           GridPane.columnIndex="2" GridPane.rowIndex="1"/>
 
-				<Separator prefHeight="5.0" prefWidth="151.0"
-					GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="2" />
+                <Separator prefWidth="162.0" GridPane.columnIndex="0" GridPane.columnSpan="3" GridPane.rowIndex="2"/>
 
-				<Glyph fx:id="filenameLinkGlyph" fontFamily="FontAwesome"
-					icon="LINK" GridPane.rowIndex="3" />
-				<Label text="%dialog.edit_filenames.filename"
-					GridPane.columnIndex="1" GridPane.rowIndex="3" />
-				<FilenameTextField fx:id="filenameField"
-					GridPane.columnIndex="2" GridPane.rowIndex="3" />
+                <Label text="%dialog.edit_filenames.format_ver" GridPane.columnSpan="3" GridPane.columnIndex="1"
+                       GridPane.rowIndex="3"/>
+                <ChoiceBox fx:id="formatSpecificationChoiceBox" minWidth="75" GridPane.columnSpan="2"
+                           GridPane.columnIndex="3" GridPane.rowIndex="3"/>
 
-				<Separator prefHeight="0.0" prefWidth="162.0"
-					GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="4" />
+                <Separator prefWidth="200.0" GridPane.columnIndex="0" GridPane.columnSpan="3" GridPane.rowIndex="4"/>
+            </ManageableGridPane>
+            <ManageableGridPane hgap="20.0">
+                <columnConstraints>
+                    <ColumnConstraints hgrow="NEVER"/>
+                    <ColumnConstraints hgrow="NEVER"/>
+                    <ColumnConstraints hgrow="NEVER"/>
+                    <ColumnConstraints hgrow="NEVER"/>
+                    <ColumnConstraints/>
+                </columnConstraints>
+                <rowConstraints>
+                    <RowConstraints minHeight="10.0" prefHeight="30.0"
+                                    vgrow="NEVER"/>
+                </rowConstraints>
+                <padding>
+                    <Insets left="20.0" right="20.0" />
+                </padding>
+                <CheckBox fx:id="includeVideoCheckBox" mnemonicParsing="false"
+                          selected="true" text="%common.video" GridPane.columnIndex="1"/>
+                <CheckBox fx:id="includeBackgroundCheckBox"
+                          mnemonicParsing="false" selected="true" text="%common.background"
+                          GridPane.columnIndex="2" />
+                <CheckBox fx:id="includeInstrumentalCheckBox"
+                          mnemonicParsing="false" selected="true" text="%common.instrumental"
+                          GridPane.columnIndex="3"/>
+                <CheckBox fx:id="includeVocalsCheckBox" mnemonicParsing="false"
+                          selected="true" text="%common.vocals" GridPane.columnIndex="4"/>
+            </ManageableGridPane>
+            <ManageableGridPane fx:id="filenamesGridPane" hgap="10.0">
+                <columnConstraints>
+                    <ColumnConstraints hgrow="NEVER" minWidth="10.0"/>
+                    <ColumnConstraints hgrow="SOMETIMES" minWidth="50.0"/>
+                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0"
+                                       prefWidth="200.0"/>
+                    <ColumnConstraints hgrow="SOMETIMES"/>
+                    <ColumnConstraints hgrow="SOMETIMES" prefWidth="75.0"/>
+                    <ColumnConstraints/>
+                </columnConstraints>
+                <rowConstraints>
+                    <RowConstraints minHeight="10.0" prefHeight="30.0"
+                                    vgrow="NEVER"/>
+                    <RowConstraints prefHeight="30.0" vgrow="NEVER"/>
+                    <RowConstraints minHeight="10.0" prefHeight="30.0"
+                                    vgrow="NEVER"/>
+                    <RowConstraints minHeight="10.0" prefHeight="30.0"
+                                    vgrow="NEVER"/>
+                    <RowConstraints minHeight="10.0" prefHeight="30.0"
+                                    vgrow="NEVER"/>
+                    <RowConstraints prefHeight="30.0" vgrow="NEVER"/>
+                    <RowConstraints prefHeight="30.0" vgrow="NEVER"/>
+                    <RowConstraints prefHeight="30.0" vgrow="NEVER"/>
+                    <RowConstraints prefHeight="30.0" vgrow="NEVER"/>
+                </rowConstraints>
+                <padding>
+                    <Insets left="20.0" right="20.0" />
+                </padding>
 
-				<CheckBox fx:id="includeVideoCheckBox" mnemonicParsing="false"
-					selected="true" text="%common.video" GridPane.columnIndex="1"
-					GridPane.rowIndex="5" />
-				<CheckBox fx:id="includeBackgroundCheckBox"
-					mnemonicParsing="false" selected="true" text="%common.background"
-					GridPane.columnIndex="2" GridPane.rowIndex="5" />
+                <Separator prefHeight="5.0" prefWidth="151.0"
+                           GridPane.columnIndex="0" GridPane.columnSpan="5" GridPane.rowIndex="0"/>
 
-				<Separator prefWidth="200.0" GridPane.columnIndex="1"
-					GridPane.columnSpan="5" GridPane.rowIndex="6" />
+                <Glyph fx:id="filenameLinkGlyph" fontFamily="FontAwesome"
+                       icon="LINK" GridPane.rowIndex="1"/>
+                <Label text="%dialog.edit_filenames.filename"
+                       GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+                <FilenameTextField fx:id="filenameField"
+                                   GridPane.columnIndex="2" GridPane.rowIndex="1"/>
 
-				<Glyph fx:id="audioLinkGlyph" fontFamily="FontAwesome" icon="LINK"
-					GridPane.rowIndex="7" />
-				<Label text="%dialog.edit_filenames.audio"
-					GridPane.columnIndex="1" GridPane.rowIndex="7" />
-				<FilenameTextField fx:id="audioField"
-					GridPane.columnIndex="2" GridPane.rowIndex="7" />
-				<Label text="." GridPane.columnIndex="3" GridPane.rowIndex="7" />
-				<ComboBox fx:id="audioExtensionField"
-					GridPane.columnIndex="4" GridPane.rowIndex="7" />
+                <Separator prefWidth="200.0" GridPane.columnIndex="0"
+                           GridPane.columnSpan="5" GridPane.rowIndex="2"/>
 
-				<Glyph fx:id="coverLinkGlyph" fontFamily="FontAwesome" icon="LINK"
-					GridPane.rowIndex="8" />
-				<Label text="%dialog.edit_filenames.cover"
-					GridPane.columnIndex="1" GridPane.rowIndex="8" />
-				<FilenameTextField fx:id="coverField"
-					GridPane.columnIndex="2" GridPane.rowIndex="8" />
-				<Label text="." GridPane.columnIndex="3" GridPane.rowIndex="8" />
-				<TextField fx:id="coverExtensionField"
-					GridPane.columnIndex="4" GridPane.rowIndex="8" />
-				<CheckBox fx:id="addCoCheckBox" mnemonicParsing="false"
-					selected="true" text="[CO]" GridPane.columnIndex="5"
-					GridPane.rowIndex="8" />
+                <Glyph fx:id="audioLinkGlyph" fontFamily="FontAwesome" icon="LINK"
+                       GridPane.rowIndex="3"/>
+                <Label text="%dialog.edit_filenames.audio"
+                       GridPane.columnIndex="1" GridPane.rowIndex="3"/>
+                <FilenameTextField fx:id="audioField"
+                                   GridPane.columnIndex="2" GridPane.rowIndex="3"/>
+                <Label text="." GridPane.columnIndex="3" GridPane.rowIndex="3"/>
+                <ComboBox fx:id="audioExtensionField"
+                          GridPane.columnIndex="4" GridPane.rowIndex="3"/>
 
-				<Glyph fx:id="videoLinkGlyph" fontFamily="FontAwesome" icon="LINK"
-					GridPane.rowIndex="9" />
-				<Label fx:id="videoLabel" text="%dialog.edit_filenames.video"
-					GridPane.columnIndex="1" GridPane.rowIndex="9" />
-				<FilenameTextField fx:id="videoField"
-					GridPane.columnIndex="2" GridPane.rowIndex="9" />
-				<Label text="." GridPane.columnIndex="3" GridPane.rowIndex="9" />
-				<TextField fx:id="videoExtensionField"
-					GridPane.columnIndex="4" GridPane.rowIndex="9" />
+                <Glyph fx:id="coverLinkGlyph" fontFamily="FontAwesome" icon="LINK"
+                       GridPane.rowIndex="4"/>
+                <Label text="%dialog.edit_filenames.cover"
+                       GridPane.columnIndex="1" GridPane.rowIndex="4"/>
+                <FilenameTextField fx:id="coverField"
+                                   GridPane.columnIndex="2" GridPane.rowIndex="4"/>
+                <Label text="." GridPane.columnIndex="3" GridPane.rowIndex="4"/>
+                <TextField fx:id="coverExtensionField"
+                           GridPane.columnIndex="4" GridPane.rowIndex="4"/>
+                <CheckBox fx:id="addCoCheckBox" mnemonicParsing="false" selected="true" text="[CO]"
+                          GridPane.columnIndex="5" GridPane.rowIndex="4"/>
 
-				<Glyph fx:id="backgroundLinkGlyph" fontFamily="FontAwesome"
-					icon="LINK" GridPane.rowIndex="10" />
-				<Label fx:id="backgroundLabel" text="%dialog.edit_filenames.background"
-					GridPane.columnIndex="1" GridPane.rowIndex="10" />
-				<FilenameTextField fx:id="backgroundField"
-					GridPane.columnIndex="2" GridPane.rowIndex="10" />
-				<Label text="." GridPane.columnIndex="3" GridPane.rowIndex="10" />
-				<TextField fx:id="backgroundExtensionField"
-					GridPane.columnIndex="4" GridPane.rowIndex="10" />
-			</children>
-			<padding>
-				<Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
-			</padding>
-		</ManageableGridPane>
-	</content>
+                <Glyph fx:id="videoLinkGlyph" fontFamily="FontAwesome" icon="LINK"
+                       GridPane.rowIndex="5"/>
+                <Label fx:id="videoLabel" text="%dialog.edit_filenames.video"
+                       GridPane.columnIndex="1" GridPane.rowIndex="5"/>
+                <FilenameTextField fx:id="videoField"
+                                   GridPane.columnIndex="2" GridPane.rowIndex="5"/>
+                <Label text="." GridPane.columnIndex="3" GridPane.rowIndex="5"/>
+                <TextField fx:id="videoExtensionField"
+                           GridPane.columnIndex="4" GridPane.rowIndex="5"/>
+
+                <Glyph fx:id="backgroundLinkGlyph" fontFamily="FontAwesome"
+                       icon="LINK" GridPane.rowIndex="6"/>
+                <Label fx:id="backgroundLabel" text="%dialog.edit_filenames.background"
+                       GridPane.columnIndex="1" GridPane.rowIndex="6"/>
+                <FilenameTextField fx:id="backgroundField"
+                                   GridPane.columnIndex="2" GridPane.rowIndex="6"/>
+                <Label text="." GridPane.columnIndex="3" GridPane.rowIndex="6"/>
+                <TextField fx:id="backgroundExtensionField"
+                           GridPane.columnIndex="4" GridPane.rowIndex="6"/>
+
+                <Glyph fx:id="instrumentalLinkGlyph" fontFamily="FontAwesome"
+                       icon="LINK" GridPane.rowIndex="7"/>
+                <Label fx:id="instrumentalLabel" text="%dialog.edit_filenames.instrumental"
+                       GridPane.columnIndex="1" GridPane.rowIndex="7"/>
+                <FilenameTextField fx:id="instrumentalField"
+                                   GridPane.columnIndex="2" GridPane.rowIndex="7"/>
+                <Label text="." GridPane.columnIndex="3" GridPane.rowIndex="7"/>
+                <ComboBox fx:id="instrumentalExtensionField"
+                          GridPane.columnIndex="4" GridPane.rowIndex="7"/>
+
+                <Glyph fx:id="vocalsLinkGlyph" fontFamily="FontAwesome"
+                       icon="LINK" GridPane.rowIndex="8"/>
+                <Label fx:id="vocalsLabel" text="%dialog.edit_filenames.vocals"
+                       GridPane.columnIndex="1" GridPane.rowIndex="8"/>
+                <FilenameTextField fx:id="vocalsField"
+                                   GridPane.columnIndex="2" GridPane.rowIndex="8"/>
+                <Label text="." GridPane.columnIndex="3" GridPane.rowIndex="8"/>
+                <ComboBox fx:id="vocalsExtensionField"
+                          GridPane.columnIndex="4" GridPane.rowIndex="8"/>
+            </ManageableGridPane>
+        </VBox>
+    </content>
 </fx:root>

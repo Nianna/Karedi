@@ -5,6 +5,7 @@ import com.github.nianna.karedi.context.AudioContext;
 import com.github.nianna.karedi.control.ManageableGridPane;
 import com.github.nianna.karedi.control.RestrictedTextField;
 import com.github.nianna.karedi.dialog.EditFilenamesDialog.FilenamesEditResult;
+import com.github.nianna.karedi.song.tag.FormatSpecification;
 import com.github.nianna.karedi.song.tag.TagKey;
 import com.github.nianna.karedi.song.tag.TagValueValidators;
 import com.github.nianna.karedi.util.Utils;
@@ -12,11 +13,14 @@ import javafx.application.Platform;
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
 import javafx.beans.binding.Bindings;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
@@ -24,6 +28,9 @@ import javafx.scene.paint.Color;
 import javafx.util.Pair;
 import org.controlsfx.glyphfont.Glyph;
 
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.List;
 import java.util.Optional;
 import java.util.function.Consumer;
 
@@ -31,13 +38,17 @@ public class EditFilenamesDialog extends ValidatedDialog<FilenamesEditResult> {
 	private static final String ARTIST_TITLE_SEPARATOR = " - ";
 	private static final String BACKGROUND_SUFFIX = " [BG]";
 	private static final String COVER_SUFFIX = " [CO]";
+	private static final String INSTRUMENTAL_SUFFIX = " [INSTR]";
+	private static final String VOCAL_SUFFIX = " [VOC]";
 
 	private static final String DEFAULT_IMAGE_EXTENSION = "jpg";
 	private static final String DEFAULT_AUDIO_EXTENSION = "mp3";
 	private static final String DEFAULT_VIDEO_EXTENSION = "mp4";
 
 	@FXML
-	private ManageableGridPane gridPane;
+	private ManageableGridPane artistTitleGridPane;
+	@FXML
+	private ManageableGridPane filenamesGridPane;
 
 	@FXML
 	private TextField artistField;
@@ -83,8 +94,31 @@ public class EditFilenamesDialog extends ValidatedDialog<FilenamesEditResult> {
 	@FXML
 	private TextField backgroundExtensionField;
 
+	@FXML
+	private CheckBox includeInstrumentalCheckBox;
+	@FXML
+	private Glyph instrumentalLinkGlyph;
+	@FXML
+	private TextField instrumentalField;
+	@FXML
+	private ComboBox<String> instrumentalExtensionField;
+
+	@FXML
+	private CheckBox includeVocalsCheckBox;
+	@FXML
+	private Glyph vocalsLinkGlyph;
+	@FXML
+	private TextField vocalsField;
+	@FXML
+	private ComboBox<String> vocalsExtensionField;
+
+	@FXML
+	private ChoiceBox<String> formatSpecificationChoiceBox;
+
 	private boolean hideVideo = false;
 	private boolean hideBackground = false;
+	private boolean hideInstrumental = false;
+	private boolean hideVocals = false;
 
 	public EditFilenamesDialog() {
 		setTitle(I18N.get("dialog.edit_filenames.dialog-title"));
@@ -114,19 +148,37 @@ public class EditFilenamesDialog extends ValidatedDialog<FilenamesEditResult> {
 		});
 		setAndExecuteOnMouseClicked(backgroundLinkGlyph,
 				event -> toggleBinding(backgroundLinkGlyph, backgroundField, BACKGROUND_SUFFIX));
+		setAndExecuteOnMouseClicked(instrumentalLinkGlyph,
+				event -> toggleBinding(instrumentalLinkGlyph, instrumentalField, INSTRUMENTAL_SUFFIX));
+		setAndExecuteOnMouseClicked(vocalsLinkGlyph,
+				event -> toggleBinding(vocalsLinkGlyph, vocalsField, VOCAL_SUFFIX));
 
 		addAndExecuteInvalidationListener(includeVideoCheckBox.selectedProperty(),
 				this::onIncludeVideoInvalidated);
 		addAndExecuteInvalidationListener(includeBackgroundCheckBox.selectedProperty(),
 				this::onIncludeBackgroundInvalidated);
+		addAndExecuteInvalidationListener(includeInstrumentalCheckBox.selectedProperty(),
+				this::onIncludeInstrumentalInvalidated);
+		addAndExecuteInvalidationListener(includeVocalsCheckBox.selectedProperty(),
+				this::onIncludeVocalsInvalidated);
 		addAndExecuteInvalidationListener(addCoCheckBox.selectedProperty(),
 				this::onAddCoCheckBoxInvalidated);
 
 		videoExtensionField.setText(DEFAULT_VIDEO_EXTENSION);
-		audioExtensionField.getItems().addAll(AudioContext.supportedAudioExtensions().stream().sorted().toList());
+		List<String> supportedAudioExtensions = AudioContext.supportedAudioExtensions().stream().sorted().toList();
+		audioExtensionField.getItems().addAll(supportedAudioExtensions);
 		audioExtensionField.getSelectionModel().select(DEFAULT_AUDIO_EXTENSION);
 		coverExtensionField.setText(DEFAULT_IMAGE_EXTENSION);
 		backgroundExtensionField.setText(DEFAULT_IMAGE_EXTENSION);
+		instrumentalExtensionField.getItems().addAll(supportedAudioExtensions);
+		instrumentalExtensionField.getSelectionModel().select(DEFAULT_AUDIO_EXTENSION);
+		vocalsExtensionField.getItems().addAll(supportedAudioExtensions);
+		vocalsExtensionField.getSelectionModel().select(DEFAULT_AUDIO_EXTENSION);
+
+		formatSpecificationChoiceBox.setItems(supportedFormatSpecificationVersions());
+		formatSpecificationChoiceBox.getSelectionModel().selectFirst();
+		formatSpecificationChoiceBox.getSelectionModel().selectedItemProperty()
+				.addListener(this::onSelectedFormatSpecificationInvalidated);
 
 		Platform.runLater(() -> {
 			validationSupport.registerValidator(titleField, TagValueValidators.forKey(TagKey.TITLE));
@@ -135,7 +187,25 @@ public class EditFilenamesDialog extends ValidatedDialog<FilenamesEditResult> {
 			validationSupport.initInitialDecoration();
 			includeBackgroundCheckBox.setSelected(!hideBackground);
 			includeVideoCheckBox.setSelected(!hideVideo);
+			includeInstrumentalCheckBox.setSelected(!hideInstrumental);
+			includeVocalsCheckBox.setSelected(!hideVocals);
 		});
+	}
+
+	public void hideFormatSpecificationChoiceBox() {
+		int formatChoiceBoxRowIndex = artistTitleGridPane.getChildRowIndex(formatSpecificationChoiceBox);
+		artistTitleGridPane.changeRowVisibility(formatChoiceBoxRowIndex, false);
+		artistTitleGridPane.changeRowVisibility(formatChoiceBoxRowIndex - 1, false);
+	}
+
+	private static ObservableList<String> supportedFormatSpecificationVersions() {
+		ObservableList<String> formatSpecifications = FXCollections
+				.observableArrayList(I18N.get("dialog.edit_filenames.no_format"));
+		Arrays.stream(FormatSpecification.values())
+				.map(Enum::toString)
+				.sorted(Comparator.reverseOrder())
+				.forEach(formatSpecifications::add);
+		return formatSpecifications;
 	}
 
 	public void initDataFromAudioFilename(String audioFileName) {
@@ -217,17 +287,27 @@ public class EditFilenamesDialog extends ValidatedDialog<FilenamesEditResult> {
 	}
 
 	private void onIncludeVideoInvalidated(Observable obs) {
-		gridPane.changeRowVisibility(gridPane.getChildRowIndex(videoField),
+		filenamesGridPane.changeRowVisibility(filenamesGridPane.getChildRowIndex(videoField),
 				includeVideoCheckBox.isSelected());
 	}
 
 	private void onIncludeBackgroundInvalidated(Observable obs) {
 		boolean isSelected = includeBackgroundCheckBox.isSelected();
-		gridPane.changeRowVisibility(gridPane.getChildRowIndex(backgroundField), isSelected);
+		filenamesGridPane.changeRowVisibility(filenamesGridPane.getChildRowIndex(backgroundField), isSelected);
 		addCoCheckBox.setDisable(isSelected);
 		if (isSelected) {
 			addCoCheckBox.setSelected(true);
 		}
+	}
+
+	private void onIncludeInstrumentalInvalidated(Observable obs) {
+		filenamesGridPane.changeRowVisibility(filenamesGridPane.getChildRowIndex(instrumentalField),
+				includeInstrumentalCheckBox.isSelected());
+	}
+
+	private void onIncludeVocalsInvalidated(Observable obs) {
+		filenamesGridPane.changeRowVisibility(filenamesGridPane.getChildRowIndex(vocalsField),
+				includeVocalsCheckBox.isSelected());
 	}
 
 	private void onAddCoCheckBoxInvalidated(Observable obs) {
@@ -250,7 +330,23 @@ public class EditFilenamesDialog extends ValidatedDialog<FilenamesEditResult> {
 				}
 			}
 		}
+	}
 
+	private void onSelectedFormatSpecificationInvalidated(Observable obs) {
+		FormatSpecification.tryParse(formatSpecificationChoiceBox.getSelectionModel().getSelectedItem())
+				.filter(FormatSpecification.V_1_0_0::equals)
+				.ifPresentOrElse(
+						ignored -> {
+							hideInstrumental();
+							hideVocals();
+							includeInstrumentalCheckBox.setDisable(true);
+							includeVocalsCheckBox.setDisable(true);
+						},
+						() -> {
+							includeInstrumentalCheckBox.setDisable(false);
+							includeVocalsCheckBox.setDisable(false);
+						}
+				);
 	}
 
 	private void setFilename(Glyph glyph, TextField field, TextField extensionField, String value) {
@@ -307,9 +403,21 @@ public class EditFilenamesDialog extends ValidatedDialog<FilenamesEditResult> {
 		setFilename(backgroundLinkGlyph, backgroundField, backgroundExtensionField, value);
 	}
 
+	public void setInstrumentalFilename(String value) {
+		setFilename(instrumentalLinkGlyph, instrumentalField, instrumentalExtensionField, value);
+	}
+
+	public void setVocalsFilename(String value) {
+		setFilename(vocalsLinkGlyph, vocalsField, vocalsExtensionField, value);
+	}
+
+	public void setFormatVersion(FormatSpecification formatSpecification) {
+		formatSpecificationChoiceBox.getSelectionModel().select(formatSpecification.toString());
+	}
+
 	public void hideBackground() {
 		if (this.isShowing()) {
-			includeBackgroundCheckBox.setSelected(true);
+			includeBackgroundCheckBox.setSelected(false);
 		} else {
 			hideBackground = true;
 		}
@@ -317,9 +425,25 @@ public class EditFilenamesDialog extends ValidatedDialog<FilenamesEditResult> {
 
 	public void hideVideo() {
 		if (this.isShowing()) {
-			includeVideoCheckBox.setSelected(true);
+			includeVideoCheckBox.setSelected(false);
 		} else {
 			hideVideo = true;
+		}
+	}
+
+	public void hideInstrumental() {
+		if (this.isShowing()) {
+			includeInstrumentalCheckBox.setSelected(false);
+		} else {
+			hideInstrumental = true;
+		}
+	}
+
+	public void hideVocals() {
+		if (this.isShowing()) {
+			includeVocalsCheckBox.setSelected(false);
+		} else {
+			hideVocals = true;
 		}
 	}
 
@@ -330,6 +454,9 @@ public class EditFilenamesDialog extends ValidatedDialog<FilenamesEditResult> {
 		private String coverFilename;
 		private String backgroundFilename;
 		private String videoFilename;
+		private String instrumentalFilename;
+		private String vocalsFilename;
+		private FormatSpecification formatSpecification;
 
 		private FilenamesEditResult() {
 			super();
@@ -345,6 +472,17 @@ public class EditFilenamesDialog extends ValidatedDialog<FilenamesEditResult> {
 				videoFilename = generateFilename(videoField.getText(),
 						videoExtensionField.getText());
 			}
+			if (includeInstrumentalCheckBox.isSelected()) {
+				instrumentalFilename = generateFilename(instrumentalField.getText(),
+						instrumentalExtensionField.getValue());
+			}
+			if (includeVocalsCheckBox.isSelected()) {
+				vocalsFilename = generateFilename(vocalsField.getText(),
+						vocalsExtensionField.getValue());
+			}
+			formatSpecification = FormatSpecification
+					.tryParse(formatSpecificationChoiceBox.getSelectionModel().getSelectedItem())
+					.orElse(null);
 		}
 
 		private String generateFilename(String name, String extension) {
@@ -373,6 +511,18 @@ public class EditFilenamesDialog extends ValidatedDialog<FilenamesEditResult> {
 
 		public Optional<String> getVideoFilename() {
 			return Optional.ofNullable(videoFilename);
+		}
+
+		public Optional<String> getInstrumentalFilename() {
+			return Optional.ofNullable(instrumentalFilename);
+		}
+
+		public Optional<String> getVocalsFilename() {
+			return Optional.ofNullable(vocalsFilename);
+		}
+
+		public Optional<FormatSpecification> getFormatSpecification() {
+			return Optional.ofNullable(formatSpecification);
 		}
 
 	}

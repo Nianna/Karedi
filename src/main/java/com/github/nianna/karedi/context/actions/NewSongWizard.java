@@ -43,20 +43,26 @@ class NewSongWizard {
 				.map(File::getName)
 				.ifPresent(dialog::initDataFromAudioFilename);
 		dialog.setTitle(I18N.get("dialog.creator.title"));
+		dialog.hideInstrumental();
+		dialog.hideVocals();
+		Settings.getDefaultFormatSpecificationVersion().ifPresent(dialog::setFormatVersion);
 		Optional<FilenamesEditResult> optResult = dialog.showAndWait();
 		if (optResult.isPresent()) {
 			FilenamesEditResult result = optResult.get();
 			song = new Song();
+			result.getFormatSpecification().ifPresent(version -> song.setTagValue(TagKey.VERSION, version.toString()));
 			song.setTagValue(TagKey.ARTIST, result.getArtist());
 			song.setTagValue(TagKey.TITLE, result.getTitle());
+			song.formatSpecificationVersion()
+					.ifPresent(ignored -> song.setTagValue(TagKey.AUDIO, result.getAudioFilename()));
 			song.setTagValue(TagKey.MP3, result.getAudioFilename());
 			song.setTagValue(TagKey.COVER, result.getCoverFilename());
-			result.getBackgroundFilename().ifPresent(filename -> {
-				song.setTagValue(TagKey.BACKGROUND, filename);
-			});
-			result.getVideoFilename().ifPresent(filename -> {
-				song.setTagValue(TagKey.VIDEO, filename);
-			});
+			result.getBackgroundFilename().ifPresent(filename -> song.setTagValue(TagKey.BACKGROUND, filename));
+			result.getVideoFilename().ifPresent(filename -> song.setTagValue(TagKey.VIDEO, filename));
+			result.getInstrumentalFilename().ifPresent(filename -> song.setTagValue(TagKey.INSTRUMENTAL, filename));
+			result.getVocalsFilename().ifPresent(filename -> song.setTagValue(TagKey.VOCALS, filename));
+
+			Settings.setDefaultFormatSpecificationVersion(result.getFormatSpecification().orElse(null));
 			return true;
 		}
 		return false;
@@ -112,10 +118,10 @@ class NewSongWizard {
 		return true;
 	}
 
-	class CreatorResult {
-		private Song song;
-		private File audioFile;
-		private File outputDir;
+	static class CreatorResult {
+		private final Song song;
+		private final File audioFile;
+		private final File outputDir;
 
 		CreatorResult(Song song, File audioFile, File outputDir) {
 			this.song = song;
