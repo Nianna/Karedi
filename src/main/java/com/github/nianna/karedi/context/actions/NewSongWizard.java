@@ -47,13 +47,15 @@ class NewSongWizard {
 		if (optResult.isPresent()) {
 			FilenamesEditResult result = optResult.get();
 			song = new Song();
+			result.getFormatSpecification().ifPresent(version -> song.setTagValue(TagKey.VERSION, version.toString()));
 			song.setTagValue(TagKey.ARTIST, result.getArtist());
 			song.setTagValue(TagKey.TITLE, result.getTitle());
+			song.formatSpecificationVersion()
+					.ifPresent(ignored -> song.setTagValue(TagKey.AUDIO, result.getAudioFilename()));
 			song.setTagValue(TagKey.MP3, result.getAudioFilename());
 			song.setTagValue(TagKey.COVER, result.getCoverFilename());
 			result.getBackgroundFilename().ifPresent(filename -> song.setTagValue(TagKey.BACKGROUND, filename));
 			result.getVideoFilename().ifPresent(filename -> song.setTagValue(TagKey.VIDEO, filename));
-			result.getFormatSpecification().ifPresent(version -> song.setTagValue(TagKey.VERSION, version.toString()));
 			return true;
 		}
 		return false;
