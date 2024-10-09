@@ -6,6 +6,7 @@ import com.github.nianna.karedi.command.CommandComposite;
 import com.github.nianna.karedi.command.tag.ChangeTagValueCommand;
 import com.github.nianna.karedi.context.AppContext;
 import com.github.nianna.karedi.dialog.EditFilenamesDialog;
+import com.github.nianna.karedi.song.Song;
 import com.github.nianna.karedi.song.tag.TagKey;
 import javafx.event.ActionEvent;
 
@@ -51,18 +52,22 @@ class RenameAction extends ContextfulKarediAction {
 
             @Override
             protected void buildSubCommands() {
-                addSubCommand(new ChangeTagValueCommand(activeSongContext.getSong(), TagKey.ARTIST,
+                Song song = activeSongContext.getSong();
+                addSubCommand(new ChangeTagValueCommand(song, TagKey.ARTIST,
                         result.getArtist()));
-                addSubCommand(new ChangeTagValueCommand(activeSongContext.getSong(), TagKey.TITLE, result.getTitle()));
-                addSubCommand(new ChangeTagValueCommand(activeSongContext.getSong(), TagKey.MP3, result.getAudioFilename()));
-                addSubCommand(new ChangeTagValueCommand(activeSongContext.getSong(), TagKey.COVER, result.getCoverFilename()));
+                addSubCommand(new ChangeTagValueCommand(song, TagKey.TITLE, result.getTitle()));
+                addSubCommand(new ChangeTagValueCommand(song, TagKey.MP3, result.getAudioFilename()));
+                if (song.hasTag(TagKey.AUDIO) || song.formatSpecificationVersion().isPresent()) {
+                    addSubCommand(new ChangeTagValueCommand(song, TagKey.AUDIO, result.getAudioFilename()));
+                }
+                addSubCommand(new ChangeTagValueCommand(song, TagKey.COVER, result.getCoverFilename()));
                 result.getBackgroundFilename()
                         .ifPresent(filename -> addSubCommand(
-                                new ChangeTagValueCommand(activeSongContext.getSong(), TagKey.BACKGROUND, filename))
+                                new ChangeTagValueCommand(song, TagKey.BACKGROUND, filename))
                         );
                 result.getVideoFilename()
                         .ifPresent(filename -> addSubCommand(
-                                new ChangeTagValueCommand(activeSongContext.getSong(), TagKey.VIDEO, filename))
+                                new ChangeTagValueCommand(song, TagKey.VIDEO, filename))
                         );
             }
         };
