@@ -38,6 +38,8 @@ class RenameAction extends ContextfulKarediAction {
         activeSongContext.getSong().getTagValue(TagKey.VOCALS)
                 .ifPresentOrElse(dialog::setVocalsFilename, dialog::hideVocals);
 
+        activeSongContext.getSong().formatSpecificationVersion().ifPresent(dialog::setFormatVersion);
+
         Optional<EditFilenamesDialog.FilenamesEditResult> optionalResult = dialog.showAndWait();
         optionalResult.ifPresent(result -> executeCommand(commandFromResults(result)));
     }

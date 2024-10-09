@@ -161,7 +161,6 @@ public class EditFilenamesDialog extends ValidatedDialog<FilenamesEditResult> {
 				this::onIncludeInstrumentalInvalidated);
 		addAndExecuteInvalidationListener(includeVocalsCheckBox.selectedProperty(),
 				this::onIncludeVocalsInvalidated);
-
 		addAndExecuteInvalidationListener(addCoCheckBox.selectedProperty(),
 				this::onAddCoCheckBoxInvalidated);
 
@@ -178,6 +177,8 @@ public class EditFilenamesDialog extends ValidatedDialog<FilenamesEditResult> {
 
 		formatSpecificationChoiceBox.setItems(supportedFormatSpecificationVersions());
 		formatSpecificationChoiceBox.getSelectionModel().selectFirst();
+		formatSpecificationChoiceBox.getSelectionModel().selectedItemProperty()
+				.addListener(this::onSelectedFormatSpecificationInvalidated);
 
 		Platform.runLater(() -> {
 			validationSupport.registerValidator(titleField, TagValueValidators.forKey(TagKey.TITLE));
@@ -329,7 +330,23 @@ public class EditFilenamesDialog extends ValidatedDialog<FilenamesEditResult> {
 				}
 			}
 		}
+	}
 
+	private void onSelectedFormatSpecificationInvalidated(Observable obs) {
+		FormatSpecification.tryParse(formatSpecificationChoiceBox.getSelectionModel().getSelectedItem())
+				.filter(FormatSpecification.V_1_0_0::equals)
+				.ifPresentOrElse(
+						ignored -> {
+							hideInstrumental();
+							hideVocals();
+							includeInstrumentalCheckBox.setDisable(true);
+							includeVocalsCheckBox.setDisable(true);
+						},
+						() -> {
+							includeInstrumentalCheckBox.setDisable(false);
+							includeVocalsCheckBox.setDisable(false);
+						}
+				);
 	}
 
 	private void setFilename(Glyph glyph, TextField field, TextField extensionField, String value) {
@@ -394,9 +411,13 @@ public class EditFilenamesDialog extends ValidatedDialog<FilenamesEditResult> {
 		setFilename(vocalsLinkGlyph, vocalsField, vocalsExtensionField, value);
 	}
 
+	public void setFormatVersion(FormatSpecification formatSpecification) {
+		formatSpecificationChoiceBox.getSelectionModel().select(formatSpecification.toString());
+	}
+
 	public void hideBackground() {
 		if (this.isShowing()) {
-			includeBackgroundCheckBox.setSelected(true);
+			includeBackgroundCheckBox.setSelected(false);
 		} else {
 			hideBackground = true;
 		}
@@ -404,7 +425,7 @@ public class EditFilenamesDialog extends ValidatedDialog<FilenamesEditResult> {
 
 	public void hideVideo() {
 		if (this.isShowing()) {
-			includeVideoCheckBox.setSelected(true);
+			includeVideoCheckBox.setSelected(false);
 		} else {
 			hideVideo = true;
 		}
@@ -412,7 +433,7 @@ public class EditFilenamesDialog extends ValidatedDialog<FilenamesEditResult> {
 
 	public void hideInstrumental() {
 		if (this.isShowing()) {
-			includeInstrumentalCheckBox.setSelected(true);
+			includeInstrumentalCheckBox.setSelected(false);
 		} else {
 			hideInstrumental = true;
 		}
@@ -420,7 +441,7 @@ public class EditFilenamesDialog extends ValidatedDialog<FilenamesEditResult> {
 
 	public void hideVocals() {
 		if (this.isShowing()) {
-			includeVocalsCheckBox.setSelected(true);
+			includeVocalsCheckBox.setSelected(false);
 		} else {
 			hideVocals = true;
 		}
