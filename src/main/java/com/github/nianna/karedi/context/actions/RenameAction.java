@@ -29,19 +29,14 @@ class RenameAction extends ContextfulKarediAction {
         activeSongContext.getSong().getMainAudioTagValue().ifPresent(dialog::setAudioFilename);
         activeSongContext.getSong().getTagValue(TagKey.COVER).ifPresent(dialog::setCoverFilename);
 
-        Optional<String> optVideoFilename = activeSongContext.getSong().getTagValue(TagKey.VIDEO);
-        if (optVideoFilename.isPresent()) {
-            dialog.setVideoFilename(optVideoFilename.get());
-        } else {
-            dialog.hideVideo();
-        }
-
-        Optional<String> optBackgroundFilename = activeSongContext.getSong().getTagValue(TagKey.BACKGROUND);
-        if (optBackgroundFilename.isPresent()) {
-            dialog.setBackgroundFilename(optBackgroundFilename.get());
-        } else {
-            dialog.hideBackground();
-        }
+        activeSongContext.getSong().getTagValue(TagKey.VIDEO)
+                .ifPresentOrElse(dialog::setVideoFilename, dialog::hideVideo);
+        activeSongContext.getSong().getTagValue(TagKey.BACKGROUND)
+                .ifPresentOrElse(dialog::setBackgroundFilename, dialog::hideBackground);
+        activeSongContext.getSong().getTagValue(TagKey.INSTRUMENTAL)
+                .ifPresentOrElse(dialog::setInstrumentalFilename, dialog::hideInstrumental);
+        activeSongContext.getSong().getTagValue(TagKey.VOCALS)
+                .ifPresentOrElse(dialog::setVocalsFilename, dialog::hideVocals);
 
         Optional<EditFilenamesDialog.FilenamesEditResult> optionalResult = dialog.showAndWait();
         optionalResult.ifPresent(result -> executeCommand(commandFromResults(result)));
@@ -69,6 +64,12 @@ class RenameAction extends ContextfulKarediAction {
                         .ifPresent(filename -> addSubCommand(
                                 new ChangeTagValueCommand(song, TagKey.VIDEO, filename))
                         );
+                result.getInstrumentalFilename()
+                        .ifPresent(filename -> addSubCommand(
+                                new ChangeTagValueCommand(song, TagKey.INSTRUMENTAL, filename))
+                        );
+                result.getVocalsFilename()
+                        .ifPresent(filename -> addSubCommand(new ChangeTagValueCommand(song, TagKey.VOCALS, filename)));
             }
         };
     }

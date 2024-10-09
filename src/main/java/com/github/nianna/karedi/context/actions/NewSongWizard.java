@@ -43,6 +43,8 @@ class NewSongWizard {
 				.map(File::getName)
 				.ifPresent(dialog::initDataFromAudioFilename);
 		dialog.setTitle(I18N.get("dialog.creator.title"));
+		dialog.hideInstrumental();
+		dialog.hideVocals();
 		Optional<FilenamesEditResult> optResult = dialog.showAndWait();
 		if (optResult.isPresent()) {
 			FilenamesEditResult result = optResult.get();
@@ -56,6 +58,8 @@ class NewSongWizard {
 			song.setTagValue(TagKey.COVER, result.getCoverFilename());
 			result.getBackgroundFilename().ifPresent(filename -> song.setTagValue(TagKey.BACKGROUND, filename));
 			result.getVideoFilename().ifPresent(filename -> song.setTagValue(TagKey.VIDEO, filename));
+			result.getInstrumentalFilename().ifPresent(filename -> song.setTagValue(TagKey.INSTRUMENTAL, filename));
+			result.getVocalsFilename().ifPresent(filename -> song.setTagValue(TagKey.VOCALS, filename));
 			return true;
 		}
 		return false;
