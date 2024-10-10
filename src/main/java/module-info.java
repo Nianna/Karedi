@@ -17,7 +17,7 @@ module karedi {
 
     opens com.github.nianna.karedi to javafx.graphics;
     opens com.github.nianna.karedi.controller to javafx.fxml;
-    opens com.github.nianna.karedi.dialog to javafx.fxml;
+    opens com.github.nianna.karedi.dialog to javafx.fxml, javafx.base;
     opens com.github.nianna.karedi.display to javafx.fxml;
     opens com.github.nianna.karedi.control to javafx.fxml;
 }

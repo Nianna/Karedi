@@ -221,6 +221,12 @@ public class MenuBarController implements Controller {
 	@FXML
 	private MenuItem setMedleyEndMenuItem;
 	@FXML
+	private MenuItem versionNoneMenuItem;
+	@FXML
+	private MenuItem version110MenuItem;
+	@FXML
+	private MenuItem version100MenuItem;
+	@FXML
 	private MenuItem renameMenuItem;
 	@FXML
 	private MenuItem addTagMenuItem;
@@ -376,6 +382,10 @@ public class MenuBarController implements Controller {
 		bind(medleyFromSelectionMenuItem, KarediActions.MEDLEY_FROM_SELECTION);
 		bind(setMedleyEndMenuItem, KarediActions.MEDLEY_SET_END);
 		bind(setMedleyStartMenuItem, KarediActions.MEDLEY_SET_START);
+
+		bind(versionNoneMenuItem, KarediActions.CONVERT_VERSION_TO_NONE);
+		bind(version110MenuItem, KarediActions.CONVERT_VERSION_TO_1_1_0);
+		bind(version100MenuItem, KarediActions.CONVERT_VERSION_TO_1_0_0);
 
 		bind(setGapTagValueMenuItem, KarediActions.SET_GAP_TAG);
 		bind(setStartTagValueMenuItem, KarediActions.SET_START_TAG);

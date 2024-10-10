@@ -12,6 +12,7 @@ import com.github.nianna.karedi.context.BeatRangeContext;
 import com.github.nianna.karedi.context.VisibleAreaContext;
 import com.github.nianna.karedi.region.Direction;
 import com.github.nianna.karedi.song.Note;
+import com.github.nianna.karedi.song.tag.FormatSpecification;
 import com.github.nianna.karedi.song.tag.TagKey;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.IntegerBinding;
@@ -237,6 +238,12 @@ public class ActionHelper {
         add(KarediActions.MEDLEY_SET_START, new SetMedleyFromSelectionAction(appContext, true, false));
         add(KarediActions.MEDLEY_SET_END, new SetMedleyFromSelectionAction(appContext, false, true));
         add(KarediActions.EDIT_MEDLEY, new EditMedleyAction(appContext));
+
+        add(KarediActions.CONVERT_VERSION_TO_NONE, new ConvertFormatVersionAction(appContext, null));
+        add(KarediActions.CONVERT_VERSION_TO_1_1_0,
+                new ConvertFormatVersionAction(appContext, FormatSpecification.V_1_1_0));
+        add(KarediActions.CONVERT_VERSION_TO_1_0_0,
+                new ConvertFormatVersionAction(appContext, FormatSpecification.V_1_0_0));
 
         add(KarediActions.SET_START_TAG, new SetTagValueFromMarkerPositionAction(appContext, TagKey.START));
         add(KarediActions.SET_END_TAG, new SetTagValueFromMarkerPositionAction(appContext, TagKey.END));

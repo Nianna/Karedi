@@ -604,6 +604,16 @@
 						</MenuItem>
 					</items>
 				</Menu>
+				<Menu mnemonicParsing="false" text="%ui.menu.tags.version">
+					<items>
+						<MenuItem fx:id="versionNoneMenuItem" disable="true"
+							mnemonicParsing="false" text="%ui.menu.tags.version.none"/>
+						<MenuItem fx:id="version110MenuItem" disable="true"
+                                       mnemonicParsing="false" text="%ui.menu.tags.version.1_1_0" />
+						<MenuItem fx:id="version100MenuItem" disable="true"
+									   mnemonicParsing="false" text="%ui.menu.tags.version.1_0_0" />
+					</items>
+				</Menu>
 				<SeparatorMenuItem mnemonicParsing="false" />
 				<MenuItem fx:id="renameMenuItem" disable="true"
 					mnemonicParsing="false" text="%ui.menu.tags.rename_files">
