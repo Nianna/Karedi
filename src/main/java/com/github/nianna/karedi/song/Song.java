@@ -76,7 +76,11 @@ public class Song implements IntBounded, Problematic {
 	}
 
 	public Optional<String> getMainAudioTagValue() {
-		return getTagValue(TagKey.AUDIO).or(() -> getTagValue(TagKey.MP3));
+		TagKey mainAudioTagKey = formatSpecificationVersion()
+				.filter(format -> format.supports(TagKey.AUDIO))
+				.map(ignored -> TagKey.AUDIO)
+				.orElse(TagKey.MP3);
+		return getTagValue(mainAudioTagKey);
 	}
 
 	public Optional<String> getTagValue(String key) {

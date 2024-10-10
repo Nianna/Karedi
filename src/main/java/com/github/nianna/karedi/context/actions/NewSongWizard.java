@@ -54,6 +54,7 @@ class NewSongWizard {
 			song.setTagValue(TagKey.ARTIST, result.getArtist());
 			song.setTagValue(TagKey.TITLE, result.getTitle());
 			song.formatSpecificationVersion()
+					.filter(format -> format.supports(TagKey.AUDIO))
 					.ifPresent(ignored -> song.setTagValue(TagKey.AUDIO, result.getAudioFilename()));
 			song.setTagValue(TagKey.MP3, result.getAudioFilename());
 			song.setTagValue(TagKey.COVER, result.getCoverFilename());

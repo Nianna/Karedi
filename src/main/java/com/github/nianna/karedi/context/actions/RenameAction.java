@@ -54,7 +54,7 @@ class RenameAction extends ContextfulKarediAction {
                         result.getArtist()));
                 addSubCommand(new ChangeTagValueCommand(song, TagKey.TITLE, result.getTitle()));
                 addSubCommand(new ChangeTagValueCommand(song, TagKey.MP3, result.getAudioFilename()));
-                if (song.hasTag(TagKey.AUDIO) || song.formatSpecificationVersion().isPresent()) {
+                if (song.hasTag(TagKey.AUDIO) || formatSupportsAudio(song)) {
                     addSubCommand(new ChangeTagValueCommand(song, TagKey.AUDIO, result.getAudioFilename()));
                 }
                 addSubCommand(new ChangeTagValueCommand(song, TagKey.COVER, result.getCoverFilename()));
@@ -74,6 +74,12 @@ class RenameAction extends ContextfulKarediAction {
                         .ifPresent(filename -> addSubCommand(new ChangeTagValueCommand(song, TagKey.VOCALS, filename)));
             }
         };
+    }
+
+    private static boolean formatSupportsAudio(Song song) {
+        return song.formatSpecificationVersion()
+                .filter(format -> format.supports(TagKey.AUDIO))
+                .isPresent();
     }
 
 }

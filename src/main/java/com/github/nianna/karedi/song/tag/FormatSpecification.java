@@ -19,6 +19,15 @@ public enum FormatSpecification {
                 .findFirst();
     }
 
+    public boolean supports(String tagKey) {
+        return TagKey.optionalValueOf(tagKey)
+                .filter(this::supports)
+                .isPresent();
+    }
+
+    public boolean supports(TagKey tagKey) {
+        return FormatSpecificationSupportedTags.isSupported(this, tagKey);
+    }
 
     @Override
     public String toString() {
