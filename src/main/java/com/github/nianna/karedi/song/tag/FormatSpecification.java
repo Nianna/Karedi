@@ -21,8 +21,12 @@ public enum FormatSpecification {
 
     public boolean supports(String tagKey) {
         return TagKey.optionalValueOf(tagKey)
-                .filter(recognizedKey -> FormatSpecificationSupportedTags.isSupported(this, recognizedKey))
+                .filter(this::supports)
                 .isPresent();
+    }
+
+    public boolean supports(TagKey tagKey) {
+        return FormatSpecificationSupportedTags.isSupported(this, tagKey);
     }
 
     @Override
