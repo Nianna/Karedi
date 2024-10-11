@@ -17,6 +17,7 @@ class TagKeySuggestedValues {
             case LANGUAGE -> Arrays.stream(Language.values())
                     .filter(lang -> lang != Language.ESPANOL)
                     .toList();
+            case CALCMEDLEY -> List.of("on", "off");
             default -> List.of();
         };
     }
