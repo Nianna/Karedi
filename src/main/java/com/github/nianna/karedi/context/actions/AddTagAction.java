@@ -1,6 +1,5 @@
 package com.github.nianna.karedi.context.actions;
 
-import com.github.nianna.karedi.I18N;
 import com.github.nianna.karedi.command.tag.ChangeTagValueCommand;
 import com.github.nianna.karedi.context.AppContext;
 import com.github.nianna.karedi.dialog.EditTagDialog;
@@ -17,9 +16,9 @@ class AddTagAction extends TagAction {
 
     @Override
     protected void onAction(ActionEvent event) {
-        EditTagDialog dialog = new EditTagDialog(I18N.get("dialog.new_tag.title"));
+        EditTagDialog dialog = new EditTagDialog(activeSongContext.getSong().getFormatSpecificationVersion());
         Optional<Tag> result = dialog.showAndWait();
-        result.ifPresent(tag -> executeCommand(
-                new ChangeTagValueCommand(activeSongContext.getSong(), tag.getKey(), tag.getValue())));
+        result.ifPresent(tag ->
+                executeCommand(new ChangeTagValueCommand(activeSongContext.getSong(), tag.getKey(), tag.getValue())));
     }
 }

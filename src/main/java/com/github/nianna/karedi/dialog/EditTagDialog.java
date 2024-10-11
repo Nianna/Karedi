@@ -1,23 +1,26 @@
 package com.github.nianna.karedi.dialog;
 
-import org.controlsfx.control.textfield.TextFields;
-import org.controlsfx.validation.ValidationResult;
-import org.controlsfx.validation.Validator;
-import org.controlsfx.validation.decoration.GraphicValidationDecoration;
-import org.controlsfx.validation.decoration.ValidationDecoration;
-
+import com.github.nianna.karedi.I18N;
+import com.github.nianna.karedi.control.RestrictedTextField;
+import com.github.nianna.karedi.song.tag.FormatSpecification;
+import com.github.nianna.karedi.song.tag.Tag;
+import com.github.nianna.karedi.song.tag.TagKey;
+import com.github.nianna.karedi.song.tag.TagValueValidators;
+import com.github.nianna.karedi.util.ValidationUtils;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Dialog;
 import javafx.scene.control.TextField;
-import com.github.nianna.karedi.I18N;
-import com.github.nianna.karedi.control.RestrictedTextField;
-import com.github.nianna.karedi.song.tag.Tag;
-import com.github.nianna.karedi.song.tag.TagKey;
-import com.github.nianna.karedi.song.tag.TagValueValidators;
-import com.github.nianna.karedi.util.ValidationUtils;
+import org.controlsfx.control.textfield.TextFields;
+import org.controlsfx.validation.ValidationResult;
+import org.controlsfx.validation.Validator;
+import org.controlsfx.validation.decoration.GraphicValidationDecoration;
+import org.controlsfx.validation.decoration.ValidationDecoration;
+
+import java.util.Arrays;
+import java.util.List;
 
 public class EditTagDialog extends Dialog<Tag> {
 	@FXML
@@ -33,8 +36,13 @@ public class EditTagDialog extends Dialog<Tag> {
 
 	private Node okButton;
 
-	public EditTagDialog() {
+	private final FormatSpecification formatSpecification;
+
+	public EditTagDialog(FormatSpecification formatSpecification) {
+		this.formatSpecification = formatSpecification;
+
 		DialogUtils.loadPane(this, getClass().getResource("/fxml/EditTagDialogPaneLayout.fxml"));
+		setTitle(I18N.get("dialog.new_tag.title"));
 
 		getDialogPane().getButtonTypes().addAll(ButtonType.OK, ButtonType.CANCEL);
 		okButton = getDialogPane().lookupButton(ButtonType.OK);
@@ -48,14 +56,12 @@ public class EditTagDialog extends Dialog<Tag> {
 
 	}
 
-	public EditTagDialog(String title) {
-		this();
-		setTitle(title);
-	}
-
 	@FXML
 	public void initialize() {
-		TextFields.bindAutoCompletion(keyField, TagKey.values());
+		List<TagKey> suggestedKeys = Arrays.stream(TagKey.values())
+				.filter(key -> formatSpecification == null || formatSpecification.supports(key))
+				.toList();
+		TextFields.bindAutoCompletion(keyField, suggestedKeys);
 		keyField.textProperty().addListener(obs -> onKeyFieldTextChanged());
 		valueField.textProperty().addListener(obs -> refreshValueFieldDecoration());
 
