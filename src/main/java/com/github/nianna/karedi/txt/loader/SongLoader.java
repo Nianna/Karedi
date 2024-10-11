@@ -2,8 +2,6 @@ package com.github.nianna.karedi.txt.loader;
 
 import com.github.nianna.karedi.I18N;
 import com.github.nianna.karedi.song.Song;
-import com.github.nianna.karedi.song.tag.MultiplayerTags;
-import com.github.nianna.karedi.song.tag.Tag;
 import com.github.nianna.karedi.txt.parser.Parser;
 import com.github.nianna.karedi.txt.parser.element.InvalidSongElementException;
 import com.github.nianna.karedi.txt.parser.element.VisitableSongElement;
@@ -42,9 +40,7 @@ class SongLoader {
 				.map(this::parseLine)
 				.filter(Objects::nonNull)
 				.forEach(songBuilder::buildPart);
-		Song song = songBuilder.getResult();
-		extractTrackNamesFromTags(song);
-		return song;
+		return songBuilder.getResult();
 	}
 
 	private VisitableSongElement parseLine(String line) {
@@ -56,14 +52,4 @@ class SongLoader {
 		}
 	}
 
-	private void extractTrackNamesFromTags(Song song) {
-		List<Tag> trackNameTags = song.getTags().stream()
-				.filter(MultiplayerTags::isANameTag)
-				.toList();
-		trackNameTags.forEach(tag -> renameTrack(song, tag));
-	}
-
-	private static void renameTrack(Song song, Tag tag) {
-		MultiplayerTags.getTrackNumber(tag).ifPresent(number -> song.renameTrack(number, tag.getValue()));
-	}
 }
