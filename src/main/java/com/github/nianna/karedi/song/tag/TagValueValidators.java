@@ -98,6 +98,9 @@ public class TagValueValidators {
 		if (TagKey.expectsOnOff(key)) {
 			return StringValidators.forOnOff();
 		}
+		if (TagKey.expectsAFileName(key)) {
+			return StringValidators::filenameValidator;
+		}
 		return StringValidators.noForbiddenCharacters(forbiddenCharacterRegex(key).orElse(null));
 	}
 
