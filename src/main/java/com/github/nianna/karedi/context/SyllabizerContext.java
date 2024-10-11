@@ -29,6 +29,8 @@ public class SyllabizerContext {
     public Optional<Syllabizer> findSyllabizer() {
         return Optional.of(activeSongProperty.get())
                 .flatMap(song -> song.getTagValue(TagKey.LANGUAGE))
+                .map(value -> value.split(",")[0])
+                .map(String::strip)
                 .flatMap(Language::parse)
                 .map(language -> SYLLABIZERS.computeIfAbsent(language, this::createSyllabizer));
     }
