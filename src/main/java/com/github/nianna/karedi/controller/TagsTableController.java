@@ -14,6 +14,7 @@ import com.github.nianna.karedi.song.Song;
 import com.github.nianna.karedi.song.tag.Tag;
 import com.github.nianna.karedi.song.tag.TagKey;
 import com.github.nianna.karedi.song.tag.TagValueValidators;
+import com.github.nianna.karedi.util.BindingsUtils;
 import com.github.nianna.karedi.util.ContextMenuBuilder;
 import com.github.nianna.karedi.util.Converter;
 import com.github.nianna.karedi.util.MathUtils;
@@ -39,6 +40,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.input.TransferMode;
 import javafx.util.Callback;
+import org.controlsfx.control.textfield.AutoCompletionBinding;
 import org.controlsfx.validation.ValidationResult;
 import org.controlsfx.validation.Validator;
 import org.controlsfx.validation.decoration.GraphicValidationDecoration;
@@ -250,6 +252,7 @@ public class TagsTableController implements Controller {
         private Validator<String> validator;
         private ValidationDecoration validationDecoration = new GraphicValidationDecoration();
         private Tag lastTag;
+        private AutoCompletionBinding<?> valueSuggestions;
 
         private ValidationResult applyValidator() {
             return validator.apply(textField, textField.getText());
@@ -289,15 +292,23 @@ public class TagsTableController implements Controller {
             setPadding(new Insets(5));
 
             validator = validatorSupplier.apply(tag);
-            TagValueValidators.forbiddenCharacterRegex(tag.getKey()).ifPresent(regex -> {
-                textField.setForbiddenCharacterRegex(regex);
-            });
+            TagValueValidators.forbiddenCharacterRegex(tag.getKey()).ifPresent(textField::setForbiddenCharacterRegex);
+            resetValueSuggestions(tag);
             textField.setText(getText());
             setText(null);
             textField.selectAll();
 
             textField.requestFocus();
+        }
 
+        private void resetValueSuggestions(Tag tag) {
+            if (valueSuggestions != null) {
+                valueSuggestions.dispose();
+            }
+            valueSuggestions = TagKey.optionalValueOf(tag.getKey())
+                    .map(TagKey::suggestedValues)
+                    .map(suggestions -> BindingsUtils.bindAutoCompletion(textField, suggestions))
+                    .orElse(null);
         }
 
         @Override
