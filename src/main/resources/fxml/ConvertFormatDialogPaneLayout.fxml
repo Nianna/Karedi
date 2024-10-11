@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.DialogPane?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.GridPane?>
+<fx:root type="javafx.scene.control.DialogPane" xmlns="http://javafx.com/javafx/8.0.60"
+		 xmlns:fx="http://javafx.com/fxml/1">
+	<content>
+	<GridPane vgap="10">
+		<Label text="%dialog.convert_format.description"/>
+		<TableView fx:id="tagsChangesView" prefHeight="150" prefWidth="300" GridPane.rowIndex="1">
+			<columns>
+				<TableColumn fx:id="keyColumn" text="%common.tag_key" maxWidth="350"/>
+				<TableColumn fx:id="valueColumn" text="%common.tag_value" maxWidth="650"/>
+			</columns>
+			<columnResizePolicy>
+				<TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+			</columnResizePolicy>
+		</TableView>
+	</GridPane>
+	</content>
+</fx:root>
