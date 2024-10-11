@@ -8,6 +8,11 @@ import javafx.beans.binding.ObjectBinding;
 import javafx.beans.property.ReadOnlyObjectProperty;
 import javafx.beans.value.ObservableNumberValue;
 import javafx.collections.ObservableList;
+import javafx.scene.control.TextField;
+import org.controlsfx.control.textfield.AutoCompletionBinding;
+import org.controlsfx.control.textfield.TextFields;
+
+import java.util.Collection;
 
 public final class BindingsUtils {
 	private BindingsUtils() {
@@ -49,4 +54,12 @@ public final class BindingsUtils {
 			}
 		};
 	}
+
+	public static <T> AutoCompletionBinding<T> bindAutoCompletion(TextField textField, Collection<T> possibleSuggestions) {
+		if (!possibleSuggestions.isEmpty()) {
+			return TextFields.bindAutoCompletion(textField, possibleSuggestions);
+		}
+		return null;
+	}
+
 }

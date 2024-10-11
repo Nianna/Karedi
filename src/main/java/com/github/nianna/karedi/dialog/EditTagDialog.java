@@ -6,6 +6,7 @@ import com.github.nianna.karedi.song.tag.FormatSpecification;
 import com.github.nianna.karedi.song.tag.Tag;
 import com.github.nianna.karedi.song.tag.TagKey;
 import com.github.nianna.karedi.song.tag.TagValueValidators;
+import com.github.nianna.karedi.util.BindingsUtils;
 import com.github.nianna.karedi.util.ValidationUtils;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -14,7 +15,6 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.Dialog;
 import javafx.scene.control.TextField;
 import org.controlsfx.control.textfield.AutoCompletionBinding;
-import org.controlsfx.control.textfield.TextFields;
 import org.controlsfx.validation.ValidationResult;
 import org.controlsfx.validation.Validator;
 import org.controlsfx.validation.decoration.GraphicValidationDecoration;
@@ -39,7 +39,7 @@ public class EditTagDialog extends Dialog<Tag> {
 
 	private final FormatSpecification formatSpecification;
 
-	private AutoCompletionBinding<FormatSpecification> valueSuggestions;
+	private AutoCompletionBinding<?> valueSuggestions;
 
 	public EditTagDialog(FormatSpecification formatSpecification) {
 		this.formatSpecification = formatSpecification;
@@ -64,7 +64,7 @@ public class EditTagDialog extends Dialog<Tag> {
 		List<TagKey> suggestedKeys = Arrays.stream(TagKey.values())
 				.filter(key -> formatSpecification == null || formatSpecification.supports(key))
 				.toList();
-		TextFields.bindAutoCompletion(keyField, suggestedKeys);
+		BindingsUtils.bindAutoCompletion(keyField, suggestedKeys);
 		keyField.textProperty().addListener(obs -> onKeyFieldTextChanged());
 		valueField.textProperty().addListener(obs -> refreshValueFieldDecoration());
 
@@ -84,24 +84,6 @@ public class EditTagDialog extends Dialog<Tag> {
 		refreshValueFieldAutoCompletion();
 	}
 
-	private void refreshValueFieldAutoCompletion() {
-		if (valueSuggestions != null) {
-			valueSuggestions.dispose();
-			valueSuggestions = null;
-		}
-		TagKey.optionalValueOf(keyField.getText())
-				.map(this::getSuggestions)
-				.filter(suggestions -> !suggestions.isEmpty())
-				.ifPresent(suggestions -> TextFields.bindAutoCompletion(valueField, suggestions));
-	}
-
-	private List<Object> getSuggestions(TagKey tagKey) {
-		if (tagKey == TagKey.VERSION) {
-			return Arrays.asList(FormatSpecification.values());
-		}
-		return List.of();
-	}
-
 	private void refreshValueFieldDecoration() {
 		refreshDecoration(valueValidator, valueDecoration, valueField);
 	}
@@ -115,13 +97,23 @@ public class EditTagDialog extends Dialog<Tag> {
 		ValidationResult result = validator.apply(field, field.getText());
 		decoration.removeDecorations(field);
 		ValidationUtils.getHighestPriorityMessage(result)
-				.ifPresent(msg -> decoration.applyValidationDecoration(msg));
+				.ifPresent(decoration::applyValidationDecoration);
 
-		if (result.getErrors().size() > 0) {
+		if (!result.getErrors().isEmpty()) {
 			okButton.setDisable(true);
 		} else {
 			refreshOkButtonDisable();
 		}
+	}
+
+	private void refreshValueFieldAutoCompletion() {
+		if (valueSuggestions != null) {
+			valueSuggestions.dispose();
+		}
+		valueSuggestions = TagKey.optionalValueOf(keyField.getText())
+				.map(TagKey::suggestedValues)
+				.map(suggestions -> BindingsUtils.bindAutoCompletion(valueField, suggestions))
+				.orElse(null);
 	}
 
 	private void refreshOkButtonDisable() {

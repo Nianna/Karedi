@@ -1,28 +1,26 @@
 package com.github.nianna.karedi.dialog;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
-
+import com.github.nianna.karedi.I18N;
 import com.github.nianna.karedi.Settings;
-import org.controlsfx.control.textfield.TextFields;
-import org.controlsfx.validation.ValidationMessage;
-import org.controlsfx.validation.ValidationSupport;
-
+import com.github.nianna.karedi.control.NonNegativeIntegerTextField;
+import com.github.nianna.karedi.song.tag.Tag;
+import com.github.nianna.karedi.song.tag.TagKey;
+import com.github.nianna.karedi.song.tag.TagValueValidators;
+import com.github.nianna.karedi.util.BindingsUtils;
+import com.github.nianna.karedi.util.NumericNodeUtils;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Control;
 import javafx.scene.control.Dialog;
 import javafx.scene.control.TextField;
-import com.github.nianna.karedi.I18N;
-import com.github.nianna.karedi.control.NonNegativeIntegerTextField;
-import com.github.nianna.karedi.song.tag.Tag;
-import com.github.nianna.karedi.song.tag.TagKey;
-import com.github.nianna.karedi.song.tag.TagValueValidators;
-import com.github.nianna.karedi.util.Language;
-import com.github.nianna.karedi.util.NumericNodeUtils;
+import org.controlsfx.validation.ValidationMessage;
+import org.controlsfx.validation.ValidationSupport;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 public class AddSongInfoDialog extends Dialog<List<Tag>> {
 
@@ -61,7 +59,7 @@ public class AddSongInfoDialog extends Dialog<List<Tag>> {
 
 	@FXML
 	private void initialize() {
-		TextFields.bindAutoCompletion(languageField, Language.values());
+		BindingsUtils.bindAutoCompletion(languageField, TagKey.LANGUAGE.suggestedValues());
 
 		gapField.setOnScroll(NumericNodeUtils.createUpdateIntValueOnScrollHandler(
 				gapField::getValue, gapField::setValueIfLegal));
