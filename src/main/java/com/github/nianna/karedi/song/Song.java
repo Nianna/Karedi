@@ -29,6 +29,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Predicate;
+import java.util.stream.IntStream;
 
 public class Song implements IntBounded, Problematic {
 	public static final double DEFAULT_BPM = 240;
@@ -153,12 +154,22 @@ public class Song implements IntBounded, Problematic {
 				case GAP:
 					Converter.toInteger(tag.getValue()).ifPresent(value -> converter.setGap(value));
 					break;
+				case VERSION:
+					refreshTrackNames();
 				default:
 			}
 		});
 		if (MultiplayerTags.isANameTag(tag)) {
-			MultiplayerTags.getTrackNumber(tag).ifPresent(number -> renameTrack(number, tag.getValue()));
+			refreshTrackNames();
 		}
+	}
+
+	private void refreshTrackNames() {
+		IntStream.range(0, tracks.size())
+				.forEach(i -> {
+					String expectedKey = MultiplayerTags.getTagKeyForTrackNumber(i, getFormatSpecificationVersion());
+					renameTrack(i, getTagValue(expectedKey).orElse(""));
+				});
 	}
 
 	public void renameTrack(int index, String name) {
@@ -177,6 +188,7 @@ public class Song implements IntBounded, Problematic {
 	public void setTracks(Collection<? extends SongTrack> tracksCollection) {
 		tracksCollection.forEach(track -> track.setSong(this));
 		tracks.addAll(tracksCollection);
+		refreshTrackNames();
 	}
 
 	public void addTrack(SongTrack track) {
@@ -190,10 +202,11 @@ public class Song implements IntBounded, Problematic {
 		} else {
 			tracks.add(index, track);
 		}
+		refreshTrackNames();
 	}
 
 	public Optional<SongTrack> getDefaultTrack() {
-		if (tracks.size() > 0) {
+		if (!tracks.isEmpty()) {
 			return Optional.of(tracks.get(0));
 		}
 		return Optional.empty();

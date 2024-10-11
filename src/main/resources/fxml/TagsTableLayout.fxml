@@ -6,7 +6,7 @@
 <?import javafx.scene.control.TableView?>
 
 <TableView fx:id="table" disable="true" editable="true"
-           onMouseClicked="#onTableMouseClicked" xmlns="http://javafx.com/javafx/8.0.60"
+           onMouseClicked="#onTableMouseClicked" onKeyPressed="#onKeyPressed" xmlns="http://javafx.com/javafx/8.0.60"
            xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.github.nianna.karedi.controller.TagsTableController">
     <columns>
         <TableColumn fx:id="keyColumn" onEditStart="#onKeyColumnEditStart"
