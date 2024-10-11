@@ -12,6 +12,7 @@ public class StringValidators {
 
 	@SuppressWarnings("checkstyle:linelength")
 	private static final String SEM_VER_REGEX = "^(0|[1-9][0-9]*).(0|[1-9][0-9]*).(0|[1-9][0-9]*)(-(0|[1-9A-Za-z-][0-9A-Za-z-]*)(.[0-9A-Za-z-]+)*)?(\\+[0-9A-Za-z-]+(.[0-9A-Za-z-]+)*)?$";
+	private static final String FILENAME_REGEX = "[^" + ForbiddenCharacterRegex.FOR_FILENAME + "]+\\.(\\w+)";
 
 	private StringValidators() {
 	}
@@ -48,6 +49,12 @@ public class StringValidators {
 								.matches(ForbiddenCharacterRegex.forbiddenInputRegex(charRegex));
 					}).orElse(false));
 		};
+	}
+
+	public static ValidationResult filenameValidator(Control c, String newValue) {
+		return ValidationResult.fromErrorIf(c,
+				I18N.get("validator.filename_required"),
+				newValue != null && !newValue.matches(FILENAME_REGEX));
 	}
 
 	private static ValidationResult nonNegativeIntegerValidator(Control c, String newValue) {
