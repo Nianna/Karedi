@@ -38,7 +38,6 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.input.TransferMode;
-import javafx.scene.layout.AnchorPane;
 import javafx.util.Callback;
 import org.controlsfx.validation.ValidationResult;
 import org.controlsfx.validation.Validator;
@@ -50,8 +49,6 @@ import java.util.List;
 import java.util.function.Function;
 
 public class TagsTableController implements Controller {
-    @FXML
-    private AnchorPane pane;
 
     @FXML
     private TableView<Tag> table;
@@ -103,7 +100,7 @@ public class TagsTableController implements Controller {
 
     @Override
     public Node getContent() {
-        return pane;
+        return table;
     }
 
     @FXML
