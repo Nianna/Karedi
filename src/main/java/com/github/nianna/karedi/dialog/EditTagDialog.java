@@ -13,6 +13,7 @@ import javafx.scene.Node;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Dialog;
 import javafx.scene.control.TextField;
+import org.controlsfx.control.textfield.AutoCompletionBinding;
 import org.controlsfx.control.textfield.TextFields;
 import org.controlsfx.validation.ValidationResult;
 import org.controlsfx.validation.Validator;
@@ -37,6 +38,8 @@ public class EditTagDialog extends Dialog<Tag> {
 	private Node okButton;
 
 	private final FormatSpecification formatSpecification;
+
+	private AutoCompletionBinding<FormatSpecification> valueSuggestions;
 
 	public EditTagDialog(FormatSpecification formatSpecification) {
 		this.formatSpecification = formatSpecification;
@@ -78,6 +81,25 @@ public class EditTagDialog extends Dialog<Tag> {
 		valueValidator = TagValueValidators.forKey(keyField.getText());
 		refreshValueFieldDecoration();
 		refreshKeyFieldDecoration();
+		refreshValueFieldAutoCompletion();
+	}
+
+	private void refreshValueFieldAutoCompletion() {
+		if (valueSuggestions != null) {
+			valueSuggestions.dispose();
+			valueSuggestions = null;
+		}
+		TagKey.optionalValueOf(keyField.getText())
+				.map(this::getSuggestions)
+				.filter(suggestions -> !suggestions.isEmpty())
+				.ifPresent(suggestions -> TextFields.bindAutoCompletion(valueField, suggestions));
+	}
+
+	private List<Object> getSuggestions(TagKey tagKey) {
+		if (tagKey == TagKey.VERSION) {
+			return Arrays.asList(FormatSpecification.values());
+		}
+		return List.of();
 	}
 
 	private void refreshValueFieldDecoration() {
