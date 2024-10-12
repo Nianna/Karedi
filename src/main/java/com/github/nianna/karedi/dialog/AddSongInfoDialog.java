@@ -60,6 +60,7 @@ public class AddSongInfoDialog extends Dialog<List<Tag>> {
 	@FXML
 	private void initialize() {
 		BindingsUtils.bindAutoCompletion(languageField, TagKey.LANGUAGE.suggestedValues());
+		BindingsUtils.bindAutoCompletion(genreField, TagKey.GENRE.suggestedValues());
 
 		gapField.setOnScroll(NumericNodeUtils.createUpdateIntValueOnScrollHandler(
 				gapField::getValue, gapField::setValueIfLegal));
