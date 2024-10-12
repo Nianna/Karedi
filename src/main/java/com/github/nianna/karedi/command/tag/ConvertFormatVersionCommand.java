@@ -66,9 +66,7 @@ public class ConvertFormatVersionCommand extends CommandComposite {
 
     private Map<TagKey, String> tagsToBeAdded() {
         Map<TagKey, String> result = new HashMap<>();
-		if (FormatSpecification.supports(targetFormat, TagKey.AUDIO)) {
-			copyTagValue(TagKey.MP3, TagKey.AUDIO, result);
-		}
+        copyTagValue(TagKey.MP3, TagKey.AUDIO, result);
         copyTagValue(TagKey.AUDIO, TagKey.MP3, result);
 		copyTagValue(TagKey.DUETSINGERP1, TagKey.P1, result);
 		copyTagValue(TagKey.DUETSINGERP2, TagKey.P2, result);
@@ -79,7 +77,7 @@ public class ConvertFormatVersionCommand extends CommandComposite {
     }
 
 	private void copyTagValue(TagKey sourceKey, TagKey targetKey, Map<TagKey, String> result) {
-		if (!song.hasTag(targetKey)) {
+		if (!song.hasTag(targetKey) && FormatSpecification.supports(targetFormat, targetKey)) {
 			song.getTagValue(sourceKey).ifPresent(value -> result.put(targetKey, value));
 		}
 	}
