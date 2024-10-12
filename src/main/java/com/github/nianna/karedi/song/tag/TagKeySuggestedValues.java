@@ -23,6 +23,11 @@ class TagKeySuggestedValues {
                     "J-Rock", "Jazz", "K-Pop", "Metal", "New Wave", "Oldies", "Pop", "Pop Rock", "Power Metal",
                     "Progressive Metal", "Progressive Rock", "Punk", "Punk Rock", "R&B", "Reggae", "Rock", "Schlager",
                     "Soft Rock", "Soul", "Techno", "Trance");
+            case TAGS -> List.of("Anime", "Charts", "Christmas", "Club", "Cover", "Disney", "Duet",
+                    "Eurovision Song Contest", "Explicit", "Fan Song", "Feel-Good", "Funny", "Guilty Pleasure",
+                    "Halloween", "Heartbreak", "Live", "Love Song", "Mainstream", "Movies", "Musical", "Party",
+                    "Pride/LGBTQ", "Relaxed", "Slow", "Song-checked", "Special interest", "Summer", "TV Show",
+                    "Underground", "Underrated", "Video Game", "Viral Hit", "Vocaloid");
             default -> List.of();
         };
     }
