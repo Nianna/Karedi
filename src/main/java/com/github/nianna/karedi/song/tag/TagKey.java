@@ -1,5 +1,6 @@
 package com.github.nianna.karedi.song.tag;
 
+import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
 
@@ -35,6 +36,10 @@ public enum TagKey {
 	COMMENT,
 	PROVIDEDBY,
 	CALCMEDLEY;
+
+	public List<?> suggestedValues() {
+		return TagKeySuggestedValues.forKey(this);
+	}
 
 	public static Optional<TagKey> optionalValueOf(String str) {
 		str = str.trim().toUpperCase(Locale.ROOT);

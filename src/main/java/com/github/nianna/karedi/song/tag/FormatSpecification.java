@@ -19,14 +19,18 @@ public enum FormatSpecification {
                 .findFirst();
     }
 
-    public boolean supports(String tagKey) {
+    public static boolean supportsMultipleValues(FormatSpecification formatSpecification, TagKey tagKey) {
+        return FormatSpecificationMultiValuedTags.isSupported(formatSpecification, tagKey);
+    }
+
+    public static boolean supports(FormatSpecification formatSpecification, String tagKey) {
         return TagKey.optionalValueOf(tagKey)
-                .filter(this::supports)
+                .filter(parsedKey -> FormatSpecification.supports(formatSpecification, parsedKey))
                 .isPresent();
     }
 
-    public boolean supports(TagKey tagKey) {
-        return FormatSpecificationSupportedTags.isSupported(this, tagKey);
+    public static boolean supports(FormatSpecification formatSpecification, TagKey tagKey) {
+        return FormatSpecificationSupportedTags.isSupported(formatSpecification, tagKey);
     }
 
     @Override

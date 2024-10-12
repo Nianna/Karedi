@@ -7,6 +7,7 @@ import com.github.nianna.karedi.command.tag.ChangeTagValueCommand;
 import com.github.nianna.karedi.context.AppContext;
 import com.github.nianna.karedi.dialog.EditFilenamesDialog;
 import com.github.nianna.karedi.song.Song;
+import com.github.nianna.karedi.song.tag.FormatSpecification;
 import com.github.nianna.karedi.song.tag.TagKey;
 import javafx.event.ActionEvent;
 
@@ -53,8 +54,10 @@ class RenameAction extends ContextfulKarediAction {
                 addSubCommand(new ChangeTagValueCommand(song, TagKey.ARTIST,
                         result.getArtist()));
                 addSubCommand(new ChangeTagValueCommand(song, TagKey.TITLE, result.getTitle()));
-                addSubCommand(new ChangeTagValueCommand(song, TagKey.MP3, result.getAudioFilename()));
-                if (song.hasTag(TagKey.AUDIO) || formatSupportsAudio(song)) {
+                if (isTagKeySupportedOrDefined(song, TagKey.MP3)) {
+                    addSubCommand(new ChangeTagValueCommand(song, TagKey.MP3, result.getAudioFilename()));
+                }
+                if (isTagKeySupportedOrDefined(song, TagKey.AUDIO)) {
                     addSubCommand(new ChangeTagValueCommand(song, TagKey.AUDIO, result.getAudioFilename()));
                 }
                 addSubCommand(new ChangeTagValueCommand(song, TagKey.COVER, result.getCoverFilename()));
@@ -76,10 +79,8 @@ class RenameAction extends ContextfulKarediAction {
         };
     }
 
-    private static boolean formatSupportsAudio(Song song) {
-        return song.formatSpecificationVersion()
-                .filter(format -> format.supports(TagKey.AUDIO))
-                .isPresent();
+    private static boolean isTagKeySupportedOrDefined(Song song, TagKey tagKey) {
+        return FormatSpecification.supports(song.getFormatSpecificationVersion(), tagKey) || song.hasTag(tagKey);
     }
 
 }

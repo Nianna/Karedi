@@ -1,28 +1,27 @@
 package com.github.nianna.karedi.dialog;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
-
+import com.github.nianna.karedi.I18N;
 import com.github.nianna.karedi.Settings;
-import org.controlsfx.control.textfield.TextFields;
-import org.controlsfx.validation.ValidationMessage;
-import org.controlsfx.validation.ValidationSupport;
-
+import com.github.nianna.karedi.control.NonNegativeIntegerTextField;
+import com.github.nianna.karedi.song.tag.FormatSpecification;
+import com.github.nianna.karedi.song.tag.Tag;
+import com.github.nianna.karedi.song.tag.TagKey;
+import com.github.nianna.karedi.song.tag.TagValueValidators;
+import com.github.nianna.karedi.util.BindingsUtils;
+import com.github.nianna.karedi.util.NumericNodeUtils;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Control;
 import javafx.scene.control.Dialog;
 import javafx.scene.control.TextField;
-import com.github.nianna.karedi.I18N;
-import com.github.nianna.karedi.control.NonNegativeIntegerTextField;
-import com.github.nianna.karedi.song.tag.Tag;
-import com.github.nianna.karedi.song.tag.TagKey;
-import com.github.nianna.karedi.song.tag.TagValueValidators;
-import com.github.nianna.karedi.util.Language;
-import com.github.nianna.karedi.util.NumericNodeUtils;
+import org.controlsfx.validation.ValidationMessage;
+import org.controlsfx.validation.ValidationSupport;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 public class AddSongInfoDialog extends Dialog<List<Tag>> {
 
@@ -39,9 +38,12 @@ public class AddSongInfoDialog extends Dialog<List<Tag>> {
 	@FXML
 	private TextField editionField;
 
+	private final FormatSpecification formatSpecification;
+	
 	private ValidationSupport validationSupport = new ValidationSupport();
 
-	public AddSongInfoDialog() {
+	public AddSongInfoDialog(FormatSpecification formatSpecification) {
+		this.formatSpecification = formatSpecification;
 		setTitle(I18N.get("dialog.creator.add_info.title"));
 		setHeaderText(I18N.get("dialog.creator.add_info.header"));
 
@@ -61,7 +63,8 @@ public class AddSongInfoDialog extends Dialog<List<Tag>> {
 
 	@FXML
 	private void initialize() {
-		TextFields.bindAutoCompletion(languageField, Language.values());
+		addSuggestions(languageField, TagKey.LANGUAGE);
+		addSuggestions(genreField, TagKey.GENRE);
 
 		gapField.setOnScroll(NumericNodeUtils.createUpdateIntValueOnScrollHandler(
 				gapField::getValue, gapField::setValueIfLegal));
@@ -74,6 +77,14 @@ public class AddSongInfoDialog extends Dialog<List<Tag>> {
 		});
 
 		Settings.getNewSongWizardDefaultCreator().ifPresent(creatorField::setText);
+	}
+
+	private void addSuggestions(TextField field, TagKey key) {
+		BindingsUtils.bindAutoCompletion(
+				field,
+				key.suggestedValues(),
+				FormatSpecification.supportsMultipleValues(formatSpecification, key)
+		);
 	}
 
 	private void registerValidators() {
