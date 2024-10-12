@@ -62,7 +62,7 @@ public class EditTagDialog extends Dialog<Tag> {
 	@FXML
 	public void initialize() {
 		List<TagKey> suggestedKeys = Arrays.stream(TagKey.values())
-				.filter(key -> formatSpecification == null || formatSpecification.supports(key))
+				.filter(key -> FormatSpecification.supports(formatSpecification, key))
 				.toList();
 		BindingsUtils.bindAutoCompletion(keyField, suggestedKeys, false);
 		keyField.textProperty().addListener(obs -> onKeyFieldTextChanged());

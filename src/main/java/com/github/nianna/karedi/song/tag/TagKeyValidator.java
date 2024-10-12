@@ -12,11 +12,7 @@ public abstract class TagKeyValidator {
     }
 
     public static Optional<TagProblem> validate(String tagKey, FormatSpecification formatSpecification) {
-        if (formatSpecification == null) {
-            return Optional.empty();
-        }
-
-        if (!formatSpecification.supports(tagKey)) {
+        if (!FormatSpecification.supports(formatSpecification, tagKey)) {
             return Optional.of(new UnsupportedTagProblem(tagKey));
         }
         return Optional.empty();

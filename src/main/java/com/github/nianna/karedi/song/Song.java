@@ -30,6 +30,7 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Predicate;
 import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 public class Song implements IntBounded, Problematic {
 	public static final double DEFAULT_BPM = 240;
@@ -77,11 +78,11 @@ public class Song implements IntBounded, Problematic {
 	}
 
 	public Optional<String> getMainAudioTagValue() {
-		TagKey mainAudioTagKey = formatSpecificationVersion()
-				.filter(format -> format.supports(TagKey.AUDIO))
-				.map(ignored -> TagKey.AUDIO)
-				.orElse(TagKey.MP3);
-		return getTagValue(mainAudioTagKey);
+		return Stream.of(TagKey.MP3, TagKey.AUDIO)
+				.filter(key -> FormatSpecification.supports(getFormatSpecificationVersion(), key))
+				.map(this::getTagValue)
+				.flatMap(Optional::stream)
+				.findFirst();
 	}
 
 	public Optional<String> getTagValue(String key) {

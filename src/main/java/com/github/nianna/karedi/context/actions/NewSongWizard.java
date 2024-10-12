@@ -1,9 +1,5 @@
 package com.github.nianna.karedi.context.actions;
 
-import java.io.File;
-import java.util.List;
-import java.util.Optional;
-
 import com.github.nianna.karedi.I18N;
 import com.github.nianna.karedi.Settings;
 import com.github.nianna.karedi.dialog.AddSongInfoDialog;
@@ -15,10 +11,15 @@ import com.github.nianna.karedi.dialog.ModifyBpmDialog;
 import com.github.nianna.karedi.dialog.ModifyBpmDialog.BpmEditResult;
 import com.github.nianna.karedi.dialog.SetBpmDialog;
 import com.github.nianna.karedi.song.Song;
+import com.github.nianna.karedi.song.tag.FormatSpecification;
 import com.github.nianna.karedi.song.tag.Tag;
 import com.github.nianna.karedi.song.tag.TagKey;
 import com.github.nianna.karedi.util.Converter;
 import com.github.nianna.karedi.util.Utils;
+
+import java.io.File;
+import java.util.List;
+import java.util.Optional;
 
 class NewSongWizard {
 	private Song song;
@@ -53,10 +54,8 @@ class NewSongWizard {
 			result.getFormatSpecification().ifPresent(version -> song.setTagValue(TagKey.VERSION, version.toString()));
 			song.setTagValue(TagKey.ARTIST, result.getArtist());
 			song.setTagValue(TagKey.TITLE, result.getTitle());
-			song.formatSpecificationVersion()
-					.filter(format -> format.supports(TagKey.AUDIO))
-					.ifPresent(ignored -> song.setTagValue(TagKey.AUDIO, result.getAudioFilename()));
-			song.setTagValue(TagKey.MP3, result.getAudioFilename());
+			setTagValueIfSupported(TagKey.AUDIO, result.getAudioFilename());
+			setTagValueIfSupported(TagKey.MP3, result.getAudioFilename());
 			song.setTagValue(TagKey.COVER, result.getCoverFilename());
 			result.getBackgroundFilename().ifPresent(filename -> song.setTagValue(TagKey.BACKGROUND, filename));
 			result.getVideoFilename().ifPresent(filename -> song.setTagValue(TagKey.VIDEO, filename));
@@ -67,6 +66,12 @@ class NewSongWizard {
 			return true;
 		}
 		return false;
+	}
+
+	private void setTagValueIfSupported(TagKey key, String value) {
+		if (FormatSpecification.supports(song.getFormatSpecificationVersion(), key)) {
+			song.setTagValue(key, value);
+		}
 	}
 
 	private boolean chooseAudio() {

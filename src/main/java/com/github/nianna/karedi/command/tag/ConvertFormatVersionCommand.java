@@ -60,13 +60,13 @@ public class ConvertFormatVersionCommand extends CommandComposite {
 
 	private List<Tag> tagsToBeRemoved() {
         return song.getTags().stream()
-                .filter(tag -> !targetFormat.supports(tag.getKey()))
+                .filter(tag -> !FormatSpecification.supports(targetFormat, tag.getKey()))
                 .toList();
     }
 
     private Map<TagKey, String> tagsToBeAdded() {
         Map<TagKey, String> result = new HashMap<>();
-		if (targetFormat.supports(TagKey.AUDIO)) {
+		if (FormatSpecification.supports(targetFormat, TagKey.AUDIO)) {
 			copyTagValue(TagKey.MP3, TagKey.AUDIO, result);
 		}
         copyTagValue(TagKey.AUDIO, TagKey.MP3, result);

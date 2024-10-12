@@ -48,6 +48,6 @@ class FormatSpecificationSupportedTags {
     }
 
     static boolean isSupported(FormatSpecification formatSpecification, TagKey tagKey) {
-        return SUPPORTED_KEYS.get(formatSpecification).contains(tagKey);
+        return formatSpecification == null || SUPPORTED_KEYS.get(formatSpecification).contains(tagKey);
     }
 }
