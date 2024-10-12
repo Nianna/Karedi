@@ -88,12 +88,16 @@ public class AddSongInfoDialog extends Dialog<List<Tag>> {
 	}
 
 	private void registerValidators() {
-		validationSupport.registerValidator(gapField, TagValueValidators.forKey(TagKey.GAP));
-		validationSupport.registerValidator(yearField, TagValueValidators.forKey(TagKey.YEAR));
-		validationSupport.registerValidator(languageField, TagValueValidators.forKey(TagKey.LANGUAGE));
-		validationSupport.registerValidator(creatorField, TagValueValidators.forKey(TagKey.CREATOR));
-		validationSupport.registerValidator(genreField, TagValueValidators.forKey(TagKey.GENRE));
-		validationSupport.registerValidator(editionField, TagValueValidators.forKey(TagKey.EDITION));
+		registerValidator(gapField, TagKey.GAP);
+		registerValidator(yearField, TagKey.YEAR);
+		registerValidator(languageField, TagKey.LANGUAGE);
+		registerValidator(creatorField, TagKey.CREATOR);
+		registerValidator(genreField, TagKey.GENRE);
+		registerValidator(editionField, TagKey.EDITION);
+	}
+
+	private void registerValidator(Control control, TagKey key) {
+		validationSupport.registerValidator(control, TagValueValidators.forKey(key));
 	}
 
 	private List<Tag> generateListOfValidTags() {
