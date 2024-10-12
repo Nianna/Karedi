@@ -2,6 +2,7 @@ package com.github.nianna.karedi.dialog;
 
 import com.github.nianna.karedi.I18N;
 import com.github.nianna.karedi.Settings;
+import com.github.nianna.karedi.control.ManageableGridPane;
 import com.github.nianna.karedi.control.NonNegativeIntegerTextField;
 import com.github.nianna.karedi.song.tag.FormatSpecification;
 import com.github.nianna.karedi.song.tag.Tag;
@@ -26,6 +27,8 @@ import java.util.stream.Collectors;
 public class AddSongInfoDialog extends Dialog<List<Tag>> {
 
 	@FXML
+	private ManageableGridPane gridPane;
+	@FXML
 	private NonNegativeIntegerTextField gapField;
 	@FXML
 	private NonNegativeIntegerTextField yearField;
@@ -35,6 +38,8 @@ public class AddSongInfoDialog extends Dialog<List<Tag>> {
 	private TextField creatorField;
 	@FXML
 	private TextField genreField;
+	@FXML
+	private TextField tagsField;
 	@FXML
 	private TextField editionField;
 
@@ -65,11 +70,16 @@ public class AddSongInfoDialog extends Dialog<List<Tag>> {
 	private void initialize() {
 		addSuggestions(languageField, TagKey.LANGUAGE);
 		addSuggestions(genreField, TagKey.GENRE);
+		addSuggestions(tagsField, TagKey.TAGS);
 
 		gapField.setOnScroll(NumericNodeUtils.createUpdateIntValueOnScrollHandler(
 				gapField::getValue, gapField::setValueIfLegal));
 		yearField.setOnScroll(NumericNodeUtils.createUpdateIntValueOnScrollHandler(
 				yearField::getValue, yearField::setValueIfLegal));
+
+		if (!FormatSpecification.supports(formatSpecification, TagKey.TAGS)) {
+			gridPane.hideRowWith(tagsField);
+		}
 
 		Platform.runLater(() -> {
 			registerValidators();
@@ -94,6 +104,7 @@ public class AddSongInfoDialog extends Dialog<List<Tag>> {
 		registerValidator(creatorField, TagKey.CREATOR);
 		registerValidator(genreField, TagKey.GENRE);
 		registerValidator(editionField, TagKey.EDITION);
+		registerValidator(tagsField, TagKey.TAGS);
 	}
 
 	private void registerValidator(Control control, TagKey key) {
@@ -112,6 +123,7 @@ public class AddSongInfoDialog extends Dialog<List<Tag>> {
 		addTag(TagKey.CREATOR, creatorField, invalidFields).ifPresent(list::add);
 		addTag(TagKey.EDITION, editionField, invalidFields).ifPresent(list::add);
 		addTag(TagKey.GENRE, genreField, invalidFields).ifPresent(list::add);
+		addTag(TagKey.TAGS, tagsField, invalidFields).ifPresent(list::add);
 		return list;
 	}
 

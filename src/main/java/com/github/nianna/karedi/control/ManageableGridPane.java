@@ -48,6 +48,10 @@ public class ManageableGridPane extends GridPane {
 		getRowConstraints(index).setMaxHeight(visible ? Region.USE_COMPUTED_SIZE : 0);
 	}
 
+	public void hideRowWith(Node node) {
+		changeRowVisibility(getChildRowIndex(node), false);
+	}
+
 	public int getMaxRowIndex() {
 		return getChildren().stream().map(this::getChildRowIndex).max(Integer::compare).orElse(0);
 	}
