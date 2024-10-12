@@ -34,6 +34,10 @@ public abstract class TagProblem extends Problem {
 
 	@Override
 	public List<? extends Object> getElements() {
+		return getAffectedKeys();
+	}
+
+	public List<String> getAffectedKeys() {
 		return Arrays.asList(keys);
 	}
 

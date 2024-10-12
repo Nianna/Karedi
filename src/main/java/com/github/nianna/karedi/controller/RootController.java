@@ -69,6 +69,8 @@ public class RootController implements Controller {
     @FXML
     private Tab lyricsTab;
     @FXML
+    private Tab tagsTab;
+    @FXML
     private Node editor;
 
     private TxtContext txtContext;
@@ -94,6 +96,11 @@ public class RootController implements Controller {
         });
         rootPane.addEventHandler(ControllerEvent.FOCUS_EDITOR,
                 event -> editorController.requestFocus());
+        rootPane.addEventHandler(ControllerEvent.FOCUS_TAGS_TABLE, event -> {
+            tagsTab.getTabPane().getSelectionModel().select(tagsTab);
+            tagsTableController.requestFocus();
+            tagsTableController.handleEvent(event);
+        });
         editor.setOnDragDropped(this::onDragDropped);
         editor.setOnDragOver(this::onDragOver);
     }

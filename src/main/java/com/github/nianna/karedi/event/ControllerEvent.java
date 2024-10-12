@@ -13,6 +13,8 @@ public class ControllerEvent extends Event {
 			"CONTROLLER_EVENT_ENABLE_ACTION_CONTROLLERS");
 	public static final EventType<ControllerEvent> FOCUS_EDITOR = new EventType<>(ANY,
 			"CONTROLLER_EVENT_FOCUS_EDITOR");
+	public static final EventType<ControllerEvent> FOCUS_TAGS_TABLE = new EventType<>(ANY,
+			"CONTROLLER_EVENT_FOCUS_TAGS_TABLE");
 
 	public ControllerEvent(EventType<ControllerEvent> type) {
 		super(type);
