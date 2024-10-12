@@ -105,7 +105,7 @@ class NewSongWizard {
 	}
 
 	private boolean addTags() {
-		AddSongInfoDialog dialog = new AddSongInfoDialog();
+		AddSongInfoDialog dialog = new AddSongInfoDialog(song.getFormatSpecificationVersion());
 		Optional<List<Tag>> result = dialog.showAndWait();
 		if (result.isPresent()) {
 			result.get().forEach(song::addTag);

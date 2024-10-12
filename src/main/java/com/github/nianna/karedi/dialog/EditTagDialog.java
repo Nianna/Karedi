@@ -64,7 +64,7 @@ public class EditTagDialog extends Dialog<Tag> {
 		List<TagKey> suggestedKeys = Arrays.stream(TagKey.values())
 				.filter(key -> formatSpecification == null || formatSpecification.supports(key))
 				.toList();
-		BindingsUtils.bindAutoCompletion(keyField, suggestedKeys);
+		BindingsUtils.bindAutoCompletion(keyField, suggestedKeys, false);
 		keyField.textProperty().addListener(obs -> onKeyFieldTextChanged());
 		valueField.textProperty().addListener(obs -> refreshValueFieldDecoration());
 
@@ -111,8 +111,11 @@ public class EditTagDialog extends Dialog<Tag> {
 			valueSuggestions.dispose();
 		}
 		valueSuggestions = TagKey.optionalValueOf(keyField.getText())
-				.map(TagKey::suggestedValues)
-				.map(suggestions -> BindingsUtils.bindAutoCompletion(valueField, suggestions))
+				.map(key -> BindingsUtils.bindAutoCompletion(
+						valueField,
+						key.suggestedValues(),
+						FormatSpecification.supportsMultipleValues(formatSpecification, key))
+				)
 				.orElse(null);
 	}
 

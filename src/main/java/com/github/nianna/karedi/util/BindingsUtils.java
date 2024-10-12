@@ -1,5 +1,6 @@
 package com.github.nianna.karedi.util;
 
+import com.github.nianna.karedi.control.MultiValuedSuggestionsProvider;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.BooleanBinding;
 import javafx.beans.binding.DoubleBinding;
@@ -55,11 +56,18 @@ public final class BindingsUtils {
 		};
 	}
 
-	public static <T> AutoCompletionBinding<T> bindAutoCompletion(TextField textField, Collection<T> possibleSuggestions) {
-		if (!possibleSuggestions.isEmpty()) {
-			return TextFields.bindAutoCompletion(textField, possibleSuggestions);
-		}
-		return null;
-	}
+    public static AutoCompletionBinding<?> bindAutoCompletion(TextField textField,
+                                                              Collection<?> suggestions,
+                                                              boolean multipleValuesAllowed) {
+        if (suggestions.isEmpty()) {
+            return null;
+        }
+
+        if (multipleValuesAllowed) {
+            return TextFields.bindAutoCompletion(textField, new MultiValuedSuggestionsProvider<>(suggestions));
+        }
+
+        return TextFields.bindAutoCompletion(textField, suggestions);
+    }
 
 }

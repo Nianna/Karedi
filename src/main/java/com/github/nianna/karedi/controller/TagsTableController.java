@@ -11,6 +11,7 @@ import com.github.nianna.karedi.context.AppContext;
 import com.github.nianna.karedi.context.CommandContext;
 import com.github.nianna.karedi.control.RestrictedTextField;
 import com.github.nianna.karedi.song.Song;
+import com.github.nianna.karedi.song.tag.FormatSpecification;
 import com.github.nianna.karedi.song.tag.Tag;
 import com.github.nianna.karedi.song.tag.TagKey;
 import com.github.nianna.karedi.song.tag.TagValueValidators;
@@ -306,8 +307,11 @@ public class TagsTableController implements Controller {
                 valueSuggestions.dispose();
             }
             valueSuggestions = TagKey.optionalValueOf(tag.getKey())
-                    .map(TagKey::suggestedValues)
-                    .map(suggestions -> BindingsUtils.bindAutoCompletion(textField, suggestions))
+                    .map(key -> BindingsUtils.bindAutoCompletion(
+                            textField,
+                            key.suggestedValues(),
+                            FormatSpecification.supportsMultipleValues(song.getFormatSpecificationVersion(), key))
+                    )
                     .orElse(null);
         }
 

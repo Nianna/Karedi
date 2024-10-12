@@ -19,6 +19,10 @@ public enum FormatSpecification {
                 .findFirst();
     }
 
+    public static boolean supportsMultipleValues(FormatSpecification formatSpecification, TagKey tagKey) {
+        return FormatSpecificationMultiValuedTags.isSupported(formatSpecification, tagKey);
+    }
+
     public boolean supports(String tagKey) {
         return TagKey.optionalValueOf(tagKey)
                 .filter(this::supports)
