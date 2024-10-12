@@ -2,6 +2,7 @@ package com.github.nianna.karedi.dialog;
 
 import com.github.nianna.karedi.I18N;
 import com.github.nianna.karedi.Settings;
+import com.github.nianna.karedi.control.ManageableGridPane;
 import com.github.nianna.karedi.control.NonNegativeIntegerTextField;
 import com.github.nianna.karedi.song.tag.FormatSpecification;
 import com.github.nianna.karedi.song.tag.Tag;
@@ -26,6 +27,8 @@ import java.util.stream.Collectors;
 public class AddSongInfoDialog extends Dialog<List<Tag>> {
 
 	@FXML
+	private ManageableGridPane gridPane;
+	@FXML
 	private NonNegativeIntegerTextField gapField;
 	@FXML
 	private NonNegativeIntegerTextField yearField;
@@ -36,7 +39,7 @@ public class AddSongInfoDialog extends Dialog<List<Tag>> {
 	@FXML
 	private TextField genreField;
 	@FXML
-	private TextField editionField;
+	private TextField tagsField;
 
 	private final FormatSpecification formatSpecification;
 	
@@ -65,11 +68,16 @@ public class AddSongInfoDialog extends Dialog<List<Tag>> {
 	private void initialize() {
 		addSuggestions(languageField, TagKey.LANGUAGE);
 		addSuggestions(genreField, TagKey.GENRE);
+		addSuggestions(tagsField, TagKey.TAGS);
 
 		gapField.setOnScroll(NumericNodeUtils.createUpdateIntValueOnScrollHandler(
 				gapField::getValue, gapField::setValueIfLegal));
 		yearField.setOnScroll(NumericNodeUtils.createUpdateIntValueOnScrollHandler(
 				yearField::getValue, yearField::setValueIfLegal));
+
+		if (!FormatSpecification.supports(formatSpecification, TagKey.TAGS)) {
+			gridPane.hideRowWith(tagsField);
+		}
 
 		Platform.runLater(() -> {
 			registerValidators();
@@ -88,12 +96,16 @@ public class AddSongInfoDialog extends Dialog<List<Tag>> {
 	}
 
 	private void registerValidators() {
-		validationSupport.registerValidator(gapField, TagValueValidators.forKey(TagKey.GAP));
-		validationSupport.registerValidator(yearField, TagValueValidators.forKey(TagKey.YEAR));
-		validationSupport.registerValidator(languageField, TagValueValidators.forKey(TagKey.LANGUAGE));
-		validationSupport.registerValidator(creatorField, TagValueValidators.forKey(TagKey.CREATOR));
-		validationSupport.registerValidator(genreField, TagValueValidators.forKey(TagKey.GENRE));
-		validationSupport.registerValidator(editionField, TagValueValidators.forKey(TagKey.EDITION));
+		registerValidator(gapField, TagKey.GAP);
+		registerValidator(yearField, TagKey.YEAR);
+		registerValidator(languageField, TagKey.LANGUAGE);
+		registerValidator(creatorField, TagKey.CREATOR);
+		registerValidator(genreField, TagKey.GENRE);
+		registerValidator(tagsField, TagKey.TAGS);
+	}
+
+	private void registerValidator(Control control, TagKey key) {
+		validationSupport.registerValidator(control, TagValueValidators.forKey(key));
 	}
 
 	private List<Tag> generateListOfValidTags() {
@@ -106,8 +118,8 @@ public class AddSongInfoDialog extends Dialog<List<Tag>> {
 		addTag(TagKey.YEAR, yearField, invalidFields).ifPresent(list::add);
 		addTag(TagKey.LANGUAGE, languageField, invalidFields).ifPresent(list::add);
 		addTag(TagKey.CREATOR, creatorField, invalidFields).ifPresent(list::add);
-		addTag(TagKey.EDITION, editionField, invalidFields).ifPresent(list::add);
 		addTag(TagKey.GENRE, genreField, invalidFields).ifPresent(list::add);
+		addTag(TagKey.TAGS, tagsField, invalidFields).ifPresent(list::add);
 		return list;
 	}
 
