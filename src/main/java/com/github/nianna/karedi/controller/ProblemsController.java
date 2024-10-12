@@ -8,7 +8,9 @@ import com.github.nianna.karedi.context.CommandContext;
 import com.github.nianna.karedi.context.SelectionContext;
 import com.github.nianna.karedi.event.StateEvent;
 import com.github.nianna.karedi.event.StateEvent.State;
+import com.github.nianna.karedi.event.TagsControllerEvent;
 import com.github.nianna.karedi.problem.Problem;
+import com.github.nianna.karedi.problem.TagProblem;
 import com.github.nianna.karedi.song.Note;
 import com.github.nianna.karedi.song.Song;
 import com.github.nianna.karedi.song.SongLine;
@@ -116,7 +118,15 @@ public class ProblemsController implements Controller {
     private void onSelectionInvalidated(Observable obs) {
         if (tree.getSelectionModel().getSelectedItem() != null) {
             TreeViewChild child = tree.getSelectionModel().getSelectedItem().getValue();
-            child.getProblem().ifPresent(this::selectAffectedBounds);
+            child.getProblem().ifPresent(this::onProblemSelected);
+        }
+    }
+
+    private void onProblemSelected(Problem problem) {
+        if (problem instanceof TagProblem tagProblem) {
+            pane.fireEvent(new TagsControllerEvent(tagProblem.getAffectedKeys()));
+        } else {
+            selectAffectedBounds(problem);
         }
     }
 
@@ -126,7 +136,7 @@ public class ProblemsController implements Controller {
             if (bounds.isValid()) {
                 List<Note> affectedNotes = activeSongContext.getActiveTrack()
                         .getNotes(bounds.getLowerXBound(), bounds.getUpperXBound());
-                if (affectedNotes.size() > 0) {
+                if (!affectedNotes.isEmpty()) {
                     SongLine line = affectedNotes.get(0).getLine();
                     if (line != null
                             && line == affectedNotes.get(affectedNotes.size() - 1).getLine()) {

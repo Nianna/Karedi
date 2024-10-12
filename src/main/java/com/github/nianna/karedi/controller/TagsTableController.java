@@ -10,6 +10,8 @@ import com.github.nianna.karedi.context.ActiveSongContext;
 import com.github.nianna.karedi.context.AppContext;
 import com.github.nianna.karedi.context.CommandContext;
 import com.github.nianna.karedi.control.RestrictedTextField;
+import com.github.nianna.karedi.event.ControllerEvent;
+import com.github.nianna.karedi.event.TagsControllerEvent;
 import com.github.nianna.karedi.song.Song;
 import com.github.nianna.karedi.song.tag.FormatSpecification;
 import com.github.nianna.karedi.song.tag.Tag;
@@ -245,6 +247,19 @@ public class TagsTableController implements Controller {
 
     private int absoluteDropIndex(int dropIndex) {
         return dropIndex == -1 ? table.getItems().size() - 1 : dropIndex;
+    }
+
+    @Override
+    public void handleEvent(ControllerEvent controllerEvent) {
+        if (controllerEvent instanceof TagsControllerEvent tagsEvent) {
+            tagsEvent.getAffectedKeys().stream()
+                    .findFirst()
+                    .flatMap(song::getTag)
+                    .ifPresent(tag -> {
+                        table.scrollTo(tag);
+                        table.getSelectionModel().select(tag);
+                    });
+        }
     }
 
     private class TagValueTableCell extends TableCell<Tag, String> {

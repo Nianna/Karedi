@@ -1,5 +1,6 @@
 package com.github.nianna.karedi.controller;
 
+import com.github.nianna.karedi.event.ControllerEvent;
 import javafx.beans.property.ReadOnlyBooleanProperty;
 import javafx.scene.Node;
 import com.github.nianna.karedi.context.AppContext;
@@ -32,4 +33,7 @@ public interface Controller {
 		return getFocusableContent().focusedProperty();
 	}
 
+	default void handleEvent(ControllerEvent controllerEvent) {
+
+	}
 }
