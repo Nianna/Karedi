@@ -40,8 +40,6 @@ public class AddSongInfoDialog extends Dialog<List<Tag>> {
 	private TextField genreField;
 	@FXML
 	private TextField tagsField;
-	@FXML
-	private TextField editionField;
 
 	private final FormatSpecification formatSpecification;
 	
@@ -103,7 +101,6 @@ public class AddSongInfoDialog extends Dialog<List<Tag>> {
 		registerValidator(languageField, TagKey.LANGUAGE);
 		registerValidator(creatorField, TagKey.CREATOR);
 		registerValidator(genreField, TagKey.GENRE);
-		registerValidator(editionField, TagKey.EDITION);
 		registerValidator(tagsField, TagKey.TAGS);
 	}
 
@@ -121,7 +118,6 @@ public class AddSongInfoDialog extends Dialog<List<Tag>> {
 		addTag(TagKey.YEAR, yearField, invalidFields).ifPresent(list::add);
 		addTag(TagKey.LANGUAGE, languageField, invalidFields).ifPresent(list::add);
 		addTag(TagKey.CREATOR, creatorField, invalidFields).ifPresent(list::add);
-		addTag(TagKey.EDITION, editionField, invalidFields).ifPresent(list::add);
 		addTag(TagKey.GENRE, genreField, invalidFields).ifPresent(list::add);
 		addTag(TagKey.TAGS, tagsField, invalidFields).ifPresent(list::add);
 		return list;

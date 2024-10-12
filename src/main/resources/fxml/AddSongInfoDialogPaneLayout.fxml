@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<!-- <?import org.controlsfx.glyphfont.*?> -->
+
+<?import com.github.nianna.karedi.control.ManageableGridPane?>
+<?import com.github.nianna.karedi.control.NonNegativeIntegerTextField?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.DialogPane?>
 <?import javafx.scene.control.Label?>
@@ -9,11 +13,6 @@
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
-<?import com.github.nianna.karedi.control.NonNegativeIntegerTextField?>
-
-<!-- <?import org.controlsfx.glyphfont.*?> -->
-
-<?import com.github.nianna.karedi.control.ManageableGridPane?>
 <fx:root type="javafx.scene.control.DialogPane" xmlns="http://javafx.com/javafx/8.0.60"
 		 xmlns:fx="http://javafx.com/fxml/1">
 	<content>
@@ -37,8 +36,6 @@
 				<RowConstraints minHeight="10.0" prefHeight="30.0"
 					vgrow="SOMETIMES" />
 				<RowConstraints prefHeight="30.0" vgrow="SOMETIMES" />
-				<RowConstraints minHeight="10.0" prefHeight="30.0"
-					vgrow="SOMETIMES" />
 			</rowConstraints>
 			<children>
 				<Label text="GAP" GridPane.columnIndex="0">
@@ -81,17 +78,14 @@
 				</Label>
 				<TextField fx:id="genreField" GridPane.columnIndex="1"
 					GridPane.rowIndex="5" />
+
 				<Label text="TAGS" GridPane.rowIndex="6">
+					<tooltip>
+						<Tooltip text="%tag.tags.tooltip" />
+					</tooltip>
 				</Label>
 				<TextField fx:id="tagsField" GridPane.columnIndex="1"
 						   GridPane.rowIndex="6" />
-				<Label text="EDITION" GridPane.rowIndex="7">
-					<tooltip>
-						<Tooltip text="%tag.edition.tooltip" />
-					</tooltip>
-				</Label>
-				<TextField fx:id="editionField" GridPane.columnIndex="1"
-					GridPane.rowIndex="7" />
 			</children>
 			<padding>
 				<Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
