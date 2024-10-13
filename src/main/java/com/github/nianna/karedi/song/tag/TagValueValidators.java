@@ -17,7 +17,7 @@ public class TagValueValidators {
 	}
 
 	public static Validator<String> forKey(String key) {
-		return TagKey.optionalValueOf(key).map(TagValueValidators::forKey).orElse(defaultValidator());
+		return TagKey.optionalValueOf(key).map(TagValueValidators::forKey).orElse(requiredValueValidator());
 	}
 
 	public static Validator<String> forKey(TagKey key) {
@@ -27,7 +27,7 @@ public class TagValueValidators {
 		};
 	}
 
-	public static Validator<String> defaultValidator() {
+	public static Validator<String> requiredValueValidator() {
 		return Validator.createEmptyValidator(I18N.get("validator.tag.value_required"));
 	}
 
@@ -68,7 +68,7 @@ public class TagValueValidators {
         return switch (key) {
             case BPM -> TagValueValidators::bpmValidator;
             case YEAR -> TagValueValidators::yearValidator;
-            default -> defaultValidator();
+            default -> requiredValueValidator();
         };
 	}
 

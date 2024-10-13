@@ -31,7 +31,7 @@ public class EditTagDialog extends Dialog<Tag> {
 
 	private ValidationDecoration valueDecoration = new GraphicValidationDecoration();
 	private ValidationDecoration keyDecoration = new GraphicValidationDecoration();
-	private Validator<String> valueValidator = TagValueValidators.defaultValidator();
+	private Validator<String> valueValidator = TagValueValidators.requiredValueValidator();
 	private Validator<String> keyValidator = Validator
 			.createEmptyValidator(I18N.get("dialog.tag.key_required"));
 

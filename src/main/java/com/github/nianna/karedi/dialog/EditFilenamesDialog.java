@@ -183,7 +183,7 @@ public class EditFilenamesDialog extends ValidatedDialog<FilenamesEditResult> {
 		Platform.runLater(() -> {
 			validationSupport.registerValidator(titleField, TagValueValidators.forKey(TagKey.TITLE));
 			validationSupport.registerValidator(artistField, TagValueValidators.forKey(TagKey.ARTIST));
-			validationSupport.registerValidator(coverExtensionField, TagValueValidators.defaultValidator());
+			validationSupport.registerValidator(coverExtensionField, TagValueValidators.requiredValueValidator());
 			validationSupport.initInitialDecoration();
 			includeBackgroundCheckBox.setSelected(!hideBackground);
 			includeVideoCheckBox.setSelected(!hideVideo);
