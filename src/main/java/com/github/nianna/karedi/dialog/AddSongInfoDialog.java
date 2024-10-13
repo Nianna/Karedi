@@ -14,17 +14,15 @@ import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Control;
-import javafx.scene.control.Dialog;
 import javafx.scene.control.TextField;
-import org.controlsfx.validation.ValidationMessage;
-import org.controlsfx.validation.ValidationSupport;
+import org.controlsfx.validation.ValidationResult;
+import org.controlsfx.validation.Validator;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
-public class AddSongInfoDialog extends Dialog<List<Tag>> {
+public class AddSongInfoDialog extends ValidatedDialog<List<Tag>> {
 
 	@FXML
 	private ManageableGridPane gridPane;
@@ -43,8 +41,6 @@ public class AddSongInfoDialog extends Dialog<List<Tag>> {
 
 	private final FormatSpecification formatSpecification;
 	
-	private ValidationSupport validationSupport = new ValidationSupport();
-
 	public AddSongInfoDialog(FormatSpecification formatSpecification) {
 		this.formatSpecification = formatSpecification;
 		setTitle(I18N.get("dialog.creator.add_info.title"));
@@ -105,29 +101,27 @@ public class AddSongInfoDialog extends Dialog<List<Tag>> {
 	}
 
 	private void registerValidator(Control control, TagKey key) {
-		validationSupport.registerValidator(control, TagValueValidators.forKey(key));
+		Validator<String> tagValidator = TagValueValidators.forKey(key);
+		Validator<String> allowEmptyInputWrapper = (c, value) ->
+				value.isEmpty() ? new ValidationResult() : tagValidator.apply(c, value);
+		validationSupport.registerValidator(control, allowEmptyInputWrapper);
 	}
 
 	private List<Tag> generateListOfValidTags() {
 		List<Tag> list = new ArrayList<>();
-		List<Control> invalidFields = validationSupport.getValidationResult().getErrors().stream()
-				.map(ValidationMessage::getTarget)
-				.distinct()
-				.collect(Collectors.toList());
-		addTag(TagKey.GAP, gapField, invalidFields).ifPresent(list::add);
-		addTag(TagKey.YEAR, yearField, invalidFields).ifPresent(list::add);
-		addTag(TagKey.LANGUAGE, languageField, invalidFields).ifPresent(list::add);
-		addTag(TagKey.CREATOR, creatorField, invalidFields).ifPresent(list::add);
-		addTag(TagKey.GENRE, genreField, invalidFields).ifPresent(list::add);
-		addTag(TagKey.TAGS, tagsField, invalidFields).ifPresent(list::add);
+		createTagIfDefined(TagKey.GAP, gapField).ifPresent(list::add);
+		createTagIfDefined(TagKey.YEAR, yearField).ifPresent(list::add);
+		createTagIfDefined(TagKey.LANGUAGE, languageField).ifPresent(list::add);
+		createTagIfDefined(TagKey.CREATOR, creatorField).ifPresent(list::add);
+		createTagIfDefined(TagKey.GENRE, genreField).ifPresent(list::add);
+		createTagIfDefined(TagKey.TAGS, tagsField).ifPresent(list::add);
 		return list;
 	}
 
-	private Optional<Tag> addTag(TagKey key, TextField field, List<Control> invalidControls) {
-		if (!invalidControls.contains(field)) {
-			return Optional.of(new Tag(key, field.getText()));
-		}
-		return Optional.empty();
+	private Optional<Tag> createTagIfDefined(TagKey key, TextField field) {
+		return Optional.of(field.getText())
+				.filter(value -> !value.isEmpty())
+				.map(value -> new Tag(key, value));
 	}
 
 }

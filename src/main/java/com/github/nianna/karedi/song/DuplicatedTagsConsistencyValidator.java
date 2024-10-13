@@ -8,8 +8,6 @@ import com.github.nianna.karedi.song.tag.TagKey;
 import java.util.Map;
 import java.util.Optional;
 
-import static java.util.Objects.nonNull;
-
 public class DuplicatedTagsConsistencyValidator {
 
     private static final Map<TagKey, TagKey> TAG_DUPLICATES = Map.of(
