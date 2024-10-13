@@ -3,6 +3,7 @@ package com.github.nianna.karedi.song;
 import com.github.nianna.karedi.problem.DuetTagNotForDuetProblem;
 import com.github.nianna.karedi.problem.InvalidMedleyBeatRangeProblem;
 import com.github.nianna.karedi.problem.InvalidMedleyLengthProblem;
+import com.github.nianna.karedi.problem.MandatoryTagMissingProblem;
 import com.github.nianna.karedi.problem.MedleyMissingProblem;
 import com.github.nianna.karedi.problem.NonZeroFirstBeatProblem;
 import com.github.nianna.karedi.problem.NotesAfterEndProblem;
@@ -26,6 +27,7 @@ import com.github.nianna.karedi.util.ValidationUtils;
 import javafx.collections.ObservableList;
 import org.controlsfx.validation.ValidationResult;
 
+import java.util.Comparator;
 import java.util.Optional;
 
 public class SongChecker implements Problematic {
@@ -39,7 +41,7 @@ public class SongChecker implements Problematic {
 		song.getTracks().addListener(ListenersUtils.createListChangeListener(this::refreshTrack,
 				this::refreshTrack, this::onTrackAdded, this::onTrackRemoved));
 		song.getTags().addListener(ListenersUtils.createListChangeListener(ListenersUtils::pass,
-				this::refreshTag, this::refreshTag, this::onTagRemoved));
+				this::refreshTag, this::onTagAdded, this::onTagRemoved));
 
 		song.getBeatMillisConverter().addListener(obs -> {
 			checkStart();
@@ -111,6 +113,12 @@ public class SongChecker implements Problematic {
 
 	private void onTagRemoved(Tag tag) {
 		removeTagProblems(tag);
+		revalidateMandatoryTags();
+	}
+
+	private void onTagAdded(Tag tag) {
+		refreshTag(tag);
+		revalidateMandatoryTags();
 	}
 
 	private void validateTagKey(String tagKey) {
@@ -153,12 +161,23 @@ public class SongChecker implements Problematic {
 		song.getTags().stream()
 				.filter(tag -> !TagKey.isKey(tag.getKey(), TagKey.VERSION))
 				.forEach(this::refreshTag);
+		revalidateMandatoryTags();
 	}
 
 	private void revalidateAllMultiplayerTags() {
 		song.getTags().stream()
 				.filter(MultiplayerTags::isANameTag)
 				.forEach(this::refreshTag);
+	}
+
+	private void revalidateMandatoryTags() {
+		combiner.removeIf(problem -> problem instanceof MandatoryTagMissingProblem);
+
+		FormatSpecification.mandatoryTags(song.getFormatSpecificationVersion()).stream()
+				.sorted(Comparator.comparing(Enum::toString))
+				.filter(key -> !song.hasTag(key))
+				.map(MandatoryTagMissingProblem::new)
+				.forEach(combiner::add);
 	}
 
 	private void validateValue(TagKey key, String value) {

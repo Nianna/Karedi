@@ -2,6 +2,7 @@ package com.github.nianna.karedi.song.tag;
 
 import java.util.Arrays;
 import java.util.Optional;
+import java.util.Set;
 
 public enum FormatSpecification {
     V_1_0_0("1.0.0"),
@@ -31,6 +32,10 @@ public enum FormatSpecification {
 
     public static boolean supports(FormatSpecification formatSpecification, TagKey tagKey) {
         return FormatSpecificationSupportedTags.isSupported(formatSpecification, tagKey);
+    }
+
+    public static Set<TagKey> mandatoryTags(FormatSpecification formatSpecification) {
+        return FormatSpecificationMandatoryTags.forFormat(formatSpecification);
     }
 
     @Override

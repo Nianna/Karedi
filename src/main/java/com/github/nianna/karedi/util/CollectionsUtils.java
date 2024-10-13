@@ -11,7 +11,7 @@ public final class CollectionsUtils {
 
     }
 
-    public static <T> Set<T> join(Set<T> first, Set<T> second){
+    public static <T> Set<T> join(Set<T> first, Set<T> second) {
         return Stream.of(first, second)
                 .flatMap(Collection::stream)
                 .collect(Collectors.toUnmodifiableSet());
