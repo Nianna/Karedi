@@ -1,12 +1,13 @@
 package com.github.nianna.karedi.song.tag;
 
-import java.util.List;
+import com.github.nianna.karedi.util.CollectionsUtils;
+
 import java.util.Map;
-import java.util.stream.Stream;
+import java.util.Set;
 
 class FormatSpecificationSupportedTags {
 
-    private static final List<TagKey> V_1_0_0_SUPPORTED_KEYS = List.of(
+    private static final Set<TagKey> V_1_0_0_SUPPORTED_KEYS = Set.of(
             TagKey.VERSION,
             TagKey.TITLE,
             TagKey.ARTIST,
@@ -33,12 +34,12 @@ class FormatSpecificationSupportedTags {
             TagKey.COMMENT
     );
 
-    private static final List<TagKey> V_1_1_0_SUPPORTED_KEYS = Stream.concat(
-            V_1_0_0_SUPPORTED_KEYS.stream(),
-            Stream.of(TagKey.AUDIO, TagKey.VOCALS, TagKey.INSTRUMENTAL, TagKey.TAGS, TagKey.PROVIDEDBY)
-    ).toList();
+    private static final Set<TagKey> V_1_1_0_SUPPORTED_KEYS = CollectionsUtils.join(
+            V_1_0_0_SUPPORTED_KEYS,
+            Set.of(TagKey.AUDIO, TagKey.VOCALS, TagKey.INSTRUMENTAL, TagKey.TAGS, TagKey.PROVIDEDBY)
+    );
 
-    private static final Map<FormatSpecification, List<TagKey>> SUPPORTED_KEYS = Map.of(
+    private static final Map<FormatSpecification, Set<TagKey>> SUPPORTED_KEYS = Map.of(
             FormatSpecification.V_1_0_0, V_1_0_0_SUPPORTED_KEYS,
             FormatSpecification.V_1_1_0, V_1_1_0_SUPPORTED_KEYS
     );

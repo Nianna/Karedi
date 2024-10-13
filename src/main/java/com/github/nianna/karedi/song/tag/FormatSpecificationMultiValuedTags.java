@@ -1,10 +1,10 @@
 package com.github.nianna.karedi.song.tag;
 
-import java.util.List;
+import java.util.Set;
 
 class FormatSpecificationMultiValuedTags {
 
-    private static final List<TagKey> MULTI_VALUED_KEYS = List.of(
+    private static final Set<TagKey> MULTI_VALUED_KEYS = Set.of(
             TagKey.CREATOR,
             TagKey.EDITION,
             TagKey.GENRE,
