@@ -2,6 +2,7 @@ package com.github.nianna.karedi.song;
 
 import com.github.nianna.karedi.problem.InconsistentTagsProblem;
 import com.github.nianna.karedi.problem.TagProblem;
+import com.github.nianna.karedi.song.tag.FormatSpecification;
 import com.github.nianna.karedi.song.tag.TagKey;
 
 import java.util.Map;
@@ -25,14 +26,18 @@ public class DuplicatedTagsConsistencyValidator {
     }
 
     public static Optional<TagProblem> validate(Song song, TagKey key) {
-        if (TAG_DUPLICATES.containsKey(key)) {
+        if (hasSupportedDuplicateKey(song, key)) {
             String tagValue = song.getTagValue(key).orElseThrow();
-            String similarTagValue = song.getTagValue(TAG_DUPLICATES.get(key)).orElse(null);
-            if (nonNull(similarTagValue) && !tagValue.equals(similarTagValue)) {
-                return Optional.of(new InconsistentTagsProblem(key, TAG_DUPLICATES.get(key)));
-            }
+            return song.getTagValue(TAG_DUPLICATES.get(key))
+                    .filter(similarTagValue -> !tagValue.equals(similarTagValue))
+                    .map(ignored -> new InconsistentTagsProblem(key, TAG_DUPLICATES.get(key)));
         }
         return Optional.empty();
+    }
+
+    private static boolean hasSupportedDuplicateKey(Song song, TagKey key) {
+        return TAG_DUPLICATES.containsKey(key)
+                && FormatSpecification.supports(song.getFormatSpecificationVersion(), TAG_DUPLICATES.get(key));
     }
 
 }

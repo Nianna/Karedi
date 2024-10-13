@@ -13,10 +13,11 @@ import com.github.nianna.karedi.problem.Problematic;
 import com.github.nianna.karedi.problem.ProblemsCombiner;
 import com.github.nianna.karedi.problem.TagForNonexistentTrackProblem;
 import com.github.nianna.karedi.problem.TagValidationErrorProblem;
+import com.github.nianna.karedi.problem.UnsupportedTagProblem;
+import com.github.nianna.karedi.song.tag.FormatSpecification;
 import com.github.nianna.karedi.song.tag.MultiplayerTags;
 import com.github.nianna.karedi.song.tag.Tag;
 import com.github.nianna.karedi.song.tag.TagKey;
-import com.github.nianna.karedi.song.tag.TagKeyValidator;
 import com.github.nianna.karedi.song.tag.TagValueValidators;
 import com.github.nianna.karedi.util.Converter;
 import com.github.nianna.karedi.util.ListenersUtils;
@@ -92,10 +93,18 @@ public class SongChecker implements Problematic {
 
 	private void refreshTag(Tag tag) {
 		removeTagProblems(tag);
+		if (FormatSpecification.supports(song.getFormatSpecificationVersion(), tag.getKey())) {
+			doValidateTag(tag);
+		} else {
+			combiner.add(new UnsupportedTagProblem(tag.getKey()));
+		}
+	}
+
+	private void doValidateTag(Tag tag) {
 		TagKey.optionalValueOf(tag.getKey()).ifPresent(tagKey -> {
-				validateValue(tagKey, tag.getValue());
-				performAdditionalValueValidation(tagKey);
-				DuplicatedTagsConsistencyValidator.validate(song, tagKey).ifPresent(combiner::add);
+			validateValue(tagKey, tag.getValue());
+			performAdditionalValueValidation(tagKey);
+			DuplicatedTagsConsistencyValidator.validate(song, tagKey).ifPresent(combiner::add);
 		});
 		validateTagKey(tag.getKey());
 	}
@@ -105,9 +114,6 @@ public class SongChecker implements Problematic {
 	}
 
 	private void validateTagKey(String tagKey) {
-		song.formatSpecificationVersion()
-				.flatMap(formatVersion -> TagKeyValidator.validate(tagKey, formatVersion))
-				.ifPresent(combiner::add);
 		if (MultiplayerTags.isANameTagKey(tagKey)) {
 			MultiplayerTags.getTrackNumber(tagKey)
 					.filter(trackIndex -> trackIndex >= song.getTrackCount())
