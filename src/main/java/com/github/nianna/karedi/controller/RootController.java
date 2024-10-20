@@ -112,18 +112,24 @@ public class RootController implements Controller {
 
     private void onDragOver(DragEvent event) {
         Dragboard db = event.getDragboard();
-        if (db.hasFiles() && db.getFiles().stream().anyMatch(this::isATxtFile)) {
+        if (db.hasFiles() && findDraggedTxtFileToOpen(db).isPresent()) {
             event.acceptTransferModes(TransferMode.MOVE);
         } else {
             event.consume();
         }
     }
 
+    private Optional<File> findDraggedTxtFileToOpen(Dragboard db) {
+        return db.getFiles().stream()
+                .filter(File::exists)
+                .findFirst()
+                .flatMap(this::getTxtFileFromFile);
+    }
+
     private void onDragDropped(DragEvent event) {
         Dragboard db = event.getDragboard();
         if (db.hasFiles()) {
-            Optional<File> optFile = db.getFiles().stream().filter(this::isATxtFile).findFirst();
-            optFile.ifPresent(file -> {
+            findDraggedTxtFileToOpen(db).ifPresent(file -> {
                 Platform.runLater(() -> {
                     KarediApp.getInstance().saveChangesIfUserWantsTo();
                     txtContext.loadSongFile(file);
