@@ -21,6 +21,7 @@ import javafx.scene.input.TransferMode;
 import javafx.scene.layout.BorderPane;
 
 import java.io.File;
+import java.util.Arrays;
 import java.util.Optional;
 
 public class RootController implements Controller {
@@ -111,18 +112,24 @@ public class RootController implements Controller {
 
     private void onDragOver(DragEvent event) {
         Dragboard db = event.getDragboard();
-        if (db.hasFiles() && db.getFiles().stream().anyMatch(this::isATxtFile)) {
+        if (db.hasFiles() && findDraggedTxtFileToOpen(db).isPresent()) {
             event.acceptTransferModes(TransferMode.MOVE);
         } else {
             event.consume();
         }
     }
 
+    private Optional<File> findDraggedTxtFileToOpen(Dragboard db) {
+        return db.getFiles().stream()
+                .filter(File::exists)
+                .findFirst()
+                .flatMap(this::getTxtFileFromFile);
+    }
+
     private void onDragDropped(DragEvent event) {
         Dragboard db = event.getDragboard();
         if (db.hasFiles()) {
-            Optional<File> optFile = db.getFiles().stream().filter(this::isATxtFile).findFirst();
-            optFile.ifPresent(file -> {
+            findDraggedTxtFileToOpen(db).ifPresent(file -> {
                 Platform.runLater(() -> {
                     KarediApp.getInstance().saveChangesIfUserWantsTo();
                     txtContext.loadSongFile(file);
@@ -211,9 +218,26 @@ public class RootController implements Controller {
     private Optional<File> findTxtFileToOpenFromRunParams() {
         return KarediApp.getInstance().getParameters().getRaw()
                 .stream()
-                .filter(param -> param.endsWith(".txt"))
                 .findFirst()
-				.map(File::new);
+                .map(File::new)
+                .filter(File::exists)
+                .flatMap(this::getTxtFileFromFile);
+    }
+
+    private Optional<File> getTxtFileFromFile(File file) {
+        if (isATxtFile(file)) {
+            return Optional.of(file);
+        }
+        if (file.isDirectory()) {
+            File[] txtFiles = file.listFiles(this::isATxtFile);
+            if (txtFiles != null) {
+                return Arrays.stream(txtFiles)
+                        .filter(txtFile -> file.getName().equalsIgnoreCase(Utils.trimExtension(txtFile.getName())))
+                        .findFirst()
+                        .or(() -> Arrays.stream(txtFiles).findFirst());
+            }
+        }
+        return Optional.empty();
     }
 
     private class EditLyricsAction extends KarediAction {
