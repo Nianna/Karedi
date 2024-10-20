@@ -21,6 +21,7 @@ import javafx.scene.input.TransferMode;
 import javafx.scene.layout.BorderPane;
 
 import java.io.File;
+import java.util.Arrays;
 import java.util.Optional;
 
 public class RootController implements Controller {
@@ -211,9 +212,26 @@ public class RootController implements Controller {
     private Optional<File> findTxtFileToOpenFromRunParams() {
         return KarediApp.getInstance().getParameters().getRaw()
                 .stream()
-                .filter(param -> param.endsWith(".txt"))
                 .findFirst()
-				.map(File::new);
+                .map(File::new)
+                .filter(File::exists)
+                .flatMap(this::getTxtFileFromFile);
+    }
+
+    private Optional<File> getTxtFileFromFile(File file) {
+        if (isATxtFile(file)) {
+            return Optional.of(file);
+        }
+        if (file.isDirectory()) {
+            File[] txtFiles = file.listFiles(this::isATxtFile);
+            if (txtFiles != null) {
+                return Arrays.stream(txtFiles)
+                        .filter(txtFile -> file.getName().equalsIgnoreCase(Utils.trimExtension(txtFile.getName())))
+                        .findFirst()
+                        .or(() -> Arrays.stream(txtFiles).findFirst());
+            }
+        }
+        return Optional.empty();
     }
 
     private class EditLyricsAction extends KarediAction {
