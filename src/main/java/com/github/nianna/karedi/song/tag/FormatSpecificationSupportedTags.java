@@ -4,6 +4,7 @@ import com.github.nianna.karedi.util.CollectionsUtils;
 
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 class FormatSpecificationSupportedTags {
 
@@ -39,16 +40,22 @@ class FormatSpecificationSupportedTags {
             Set.of(TagKey.AUDIO, TagKey.VOCALS, TagKey.INSTRUMENTAL, TagKey.TAGS, TagKey.PROVIDEDBY)
     );
 
-    private static final Map<FormatSpecification, Set<TagKey>> SUPPORTED_KEYS = Map.of(
-            FormatSpecification.V_1_0_0, V_1_0_0_SUPPORTED_KEYS,
-            FormatSpecification.V_1_1_0, V_1_1_0_SUPPORTED_KEYS
+    private static final Map<FormatSpecification, Set<String>> SUPPORTED_KEYS = Map.of(
+            FormatSpecification.V_1_0_0, enumToString(V_1_0_0_SUPPORTED_KEYS),
+            FormatSpecification.V_1_1_0, enumToString(V_1_1_0_SUPPORTED_KEYS)
     );
 
     private FormatSpecificationSupportedTags() {
 
     }
 
-    static boolean isSupported(FormatSpecification formatSpecification, TagKey tagKey) {
+    private static Set<String> enumToString(Set<TagKey> tagKeySet) {
+        return tagKeySet.stream()
+                .map(Enum::toString)
+                .collect(Collectors.toSet());
+    }
+
+    static boolean isSupported(FormatSpecification formatSpecification, String tagKey) {
         return formatSpecification == null || SUPPORTED_KEYS.get(formatSpecification).contains(tagKey);
     }
 }
