@@ -333,19 +333,19 @@ public class EditFilenamesDialog extends ValidatedDialog<FilenamesEditResult> {
 	}
 
 	private void onSelectedFormatSpecificationInvalidated(Observable obs) {
+		hideIfUnsupportedByFormat(TagKey.INSTRUMENTAL, this::hideInstrumental, includeInstrumentalCheckBox);
+		hideIfUnsupportedByFormat(TagKey.VOCALS, this::hideVocals, includeVocalsCheckBox);
+	}
+
+	private void hideIfUnsupportedByFormat(TagKey tagKey, Runnable hidingMethod, CheckBox includeCheckBox) {
 		FormatSpecification.tryParse(formatSpecificationChoiceBox.getSelectionModel().getSelectedItem())
-				.filter(FormatSpecification.V_1_0_0::equals)
+				.filter(version -> !FormatSpecification.supports(version, tagKey))
 				.ifPresentOrElse(
 						ignored -> {
-							hideInstrumental();
-							hideVocals();
-							includeInstrumentalCheckBox.setDisable(true);
-							includeVocalsCheckBox.setDisable(true);
+							hidingMethod.run();
+							includeCheckBox.setDisable(true);
 						},
-						() -> {
-							includeInstrumentalCheckBox.setDisable(false);
-							includeVocalsCheckBox.setDisable(false);
-						}
+						() -> includeCheckBox.setDisable(false)
 				);
 	}
 
