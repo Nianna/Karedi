@@ -25,13 +25,11 @@ public enum FormatSpecification {
     }
 
     public static boolean supports(FormatSpecification formatSpecification, String tagKey) {
-        return TagKey.optionalValueOf(tagKey)
-                .filter(parsedKey -> FormatSpecification.supports(formatSpecification, parsedKey))
-                .isPresent();
+        return FormatSpecificationSupportedTags.isSupported(formatSpecification, tagKey);
     }
 
     public static boolean supports(FormatSpecification formatSpecification, TagKey tagKey) {
-        return FormatSpecificationSupportedTags.isSupported(formatSpecification, tagKey);
+        return supports(formatSpecification, tagKey.toString());
     }
 
     public static Set<TagKey> mandatoryTags(FormatSpecification formatSpecification) {
