@@ -223,6 +223,8 @@ public class MenuBarController implements Controller {
 	@FXML
 	private MenuItem versionNoneMenuItem;
 	@FXML
+	private MenuItem version120MenuItem;
+	@FXML
 	private MenuItem version110MenuItem;
 	@FXML
 	private MenuItem version100MenuItem;
@@ -384,6 +386,7 @@ public class MenuBarController implements Controller {
 		bind(setMedleyStartMenuItem, KarediActions.MEDLEY_SET_START);
 
 		bind(versionNoneMenuItem, KarediActions.CONVERT_VERSION_TO_NONE);
+		bind(version120MenuItem, KarediActions.CONVERT_VERSION_TO_1_2_0);
 		bind(version110MenuItem, KarediActions.CONVERT_VERSION_TO_1_1_0);
 		bind(version100MenuItem, KarediActions.CONVERT_VERSION_TO_1_0_0);
 

@@ -26,7 +26,8 @@ class FormatSpecificationMandatoryTags {
 
     private static final Map<FormatSpecification, Set<TagKey>> MANDATORY_KEYS = Map.of(
             FormatSpecification.V_1_0_0, V_1_0_0_MANDATORY_KEYS,
-            FormatSpecification.V_1_1_0, V_1_1_0_MANDATORY_KEYS
+            FormatSpecification.V_1_1_0, V_1_1_0_MANDATORY_KEYS,
+            FormatSpecification.V_1_2_0, V_1_1_0_MANDATORY_KEYS
     );
 
 

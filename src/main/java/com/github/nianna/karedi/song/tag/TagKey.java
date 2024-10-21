@@ -35,7 +35,11 @@ public enum TagKey {
 	TAGS,
 	COMMENT,
 	PROVIDEDBY,
-	CALCMEDLEY;
+	CALCMEDLEY,
+	AUDIOURL,
+	VIDEOURL,
+	COVERURL,
+	BACKGROUNDURL;
 
 	public List<?> suggestedValues() {
 		return TagKeySuggestedValues.forKey(this);

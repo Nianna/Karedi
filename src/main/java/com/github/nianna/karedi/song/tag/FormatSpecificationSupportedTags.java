@@ -40,9 +40,15 @@ class FormatSpecificationSupportedTags {
             Set.of(TagKey.AUDIO, TagKey.VOCALS, TagKey.INSTRUMENTAL, TagKey.TAGS, TagKey.PROVIDEDBY)
     );
 
+    private static final Set<TagKey> V_1_2_0_SUPPORTED_KEYS = CollectionsUtils.join(
+            V_1_1_0_SUPPORTED_KEYS,
+            Set.of(TagKey.AUDIOURL, TagKey.VIDEOURL, TagKey.COVERURL, TagKey.BACKGROUNDURL)
+    );
+
     private static final Map<FormatSpecification, Set<String>> SUPPORTED_KEYS = Map.of(
             FormatSpecification.V_1_0_0, enumToString(V_1_0_0_SUPPORTED_KEYS),
-            FormatSpecification.V_1_1_0, enumToString(V_1_1_0_SUPPORTED_KEYS)
+            FormatSpecification.V_1_1_0, enumToString(V_1_1_0_SUPPORTED_KEYS),
+            FormatSpecification.V_1_2_0, enumToString(V_1_2_0_SUPPORTED_KEYS)
     );
 
     private FormatSpecificationSupportedTags() {

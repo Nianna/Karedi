@@ -240,6 +240,8 @@ public class ActionHelper {
         add(KarediActions.EDIT_MEDLEY, new EditMedleyAction(appContext));
 
         add(KarediActions.CONVERT_VERSION_TO_NONE, new ConvertFormatVersionAction(appContext, null));
+        add(KarediActions.CONVERT_VERSION_TO_1_2_0,
+                new ConvertFormatVersionAction(appContext, FormatSpecification.V_1_2_0));
         add(KarediActions.CONVERT_VERSION_TO_1_1_0,
                 new ConvertFormatVersionAction(appContext, FormatSpecification.V_1_1_0));
         add(KarediActions.CONVERT_VERSION_TO_1_0_0,

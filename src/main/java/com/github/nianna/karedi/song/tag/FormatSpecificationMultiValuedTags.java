@@ -17,6 +17,8 @@ class FormatSpecificationMultiValuedTags {
     }
 
     static boolean isSupported(FormatSpecification formatSpecification, TagKey tagKey) {
-        return formatSpecification == FormatSpecification.V_1_1_0 && MULTI_VALUED_KEYS.contains(tagKey);
+        return formatSpecification != null
+                && formatSpecification.isAtLeast(FormatSpecification.V_1_1_0)
+                && MULTI_VALUED_KEYS.contains(tagKey);
     }
 }
