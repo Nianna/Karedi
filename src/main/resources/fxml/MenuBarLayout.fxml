@@ -608,10 +608,12 @@
 					<items>
 						<MenuItem fx:id="versionNoneMenuItem" disable="true"
 							mnemonicParsing="false" text="%ui.menu.tags.version.none"/>
+						<MenuItem fx:id="version120MenuItem" disable="true"
+								  mnemonicParsing="false" text="1.2.0" />
 						<MenuItem fx:id="version110MenuItem" disable="true"
-                                       mnemonicParsing="false" text="%ui.menu.tags.version.1_1_0" />
+                                       mnemonicParsing="false" text="1.1.0" />
 						<MenuItem fx:id="version100MenuItem" disable="true"
-									   mnemonicParsing="false" text="%ui.menu.tags.version.1_0_0" />
+									   mnemonicParsing="false" text="1.0.0" />
 					</items>
 				</Menu>
 				<SeparatorMenuItem mnemonicParsing="false" />
