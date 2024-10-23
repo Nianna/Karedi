@@ -43,4 +43,11 @@ public class BeatMillisConverterTest {
 		assertEquals(1, converter.millisToBeat(millis));
 	}
 
+	@Test
+	public void conversionMethodsAreConsistent() {
+		converter = new BeatMillisConverter(440, 223.94);
+		int testBeat = 255;
+		assertEquals(testBeat, converter.millisToBeat(converter.beatToMillis(testBeat)));
+	}
+
 }
