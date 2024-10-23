@@ -111,9 +111,9 @@ public class AudioContext {
                 if (setAsDefault) {
                     setActiveAudioFile(newAudio.get());
                 }
-                LOGGER.info(I18N.get("import.audio.success"));
+                LOGGER.info(I18N.get("import.audio.success", file.getName()));
             } else {
-                LOGGER.severe(I18N.get("import.audio.fail"));
+                LOGGER.severe(I18N.get("import.audio.fail", file.getName()));
             }
         }));
     }
