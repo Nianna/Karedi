@@ -21,8 +21,11 @@ public class BeatMillisConverter implements Observable {
 	}
 
 	public int millisToBeat(long millis) {
-		Long beat = Math.round((millis - gap) / beatDuration);
-		return beat.intValue();
+		int beatCandidate = (int) Math.floor((millis - gap) / beatDuration);
+		if (beatToMillis(beatCandidate + 1) <= millis) {
+			return beatCandidate + 1;
+		}
+		return beatCandidate;
 	}
 
 	public double getBeatDuration() {
