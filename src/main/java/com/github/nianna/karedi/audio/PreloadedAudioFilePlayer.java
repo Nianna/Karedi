@@ -29,8 +29,8 @@ class PreloadedAudioFilePlayer {
 		if (file instanceof Mp3File) {
 			return new Mp3FilePlayTask((Mp3File) file, startMillis, endMillis);
 		}
-		if (file instanceof ClipAudioFile) {
-			return new ClipAudioFilePlayTask((ClipAudioFile) file, startMillis, endMillis);
+		if (file instanceof SourceDataLineAudioFile) {
+			return new SourceDataLineAudioFilePlayTask((SourceDataLineAudioFile) file, startMillis, endMillis);
 		}
 		throw new IllegalArgumentException("Unsupported preloaded audio file type");
 	}
