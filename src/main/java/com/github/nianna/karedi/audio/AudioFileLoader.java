@@ -63,13 +63,13 @@ public class AudioFileLoader {
 				return new Mp3File(file);
 			}
 			if (WAV_EXT.contains(extension)) {
-				return ClipAudioFile.wavFile(file);
+				return SourceDataLineAudioFile.wavFile(file);
 			}
 			if (VORBIS_EXT.contains(extension)) {
-				return ClipAudioFile.vorbisFile(file);
+				return SourceDataLineAudioFile.vorbisFile(file);
 			}
 			if (SUPPORTED_EXTENSIONS.contains(extension)) {
-				return ClipAudioFile.aacFile(file);
+				return SourceDataLineAudioFile.aacFile(file);
 			}
             throw new RuntimeException("Unsupported file format " + extension);
         }

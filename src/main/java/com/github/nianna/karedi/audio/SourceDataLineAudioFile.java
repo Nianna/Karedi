@@ -3,36 +3,48 @@ package com.github.nianna.karedi.audio;
 import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
 import javax.sound.sampled.DataLine;
 import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.SourceDataLine;
 import java.io.File;
 import java.io.IOException;
-import java.util.concurrent.TimeUnit;
 
-class ClipAudioFile extends PreloadedAudioFile {
-    private final Clip clip;
+class SourceDataLineAudioFile extends PreloadedAudioFile {
 
-    private ClipAudioFile(File file, Clip clip) {
+    private final SourceDataLine sourceDataLine;
+    private final byte[] content;
+    private final long duration;
+
+    private SourceDataLineAudioFile(File file, SourceDataLine sourceDataLine, byte[] content, long duration) {
         super(file);
-        this.clip = clip;
+        this.sourceDataLine = sourceDataLine;
+        this.content = content;
+        this.duration = duration;
     }
 
     @Override
     public long getDuration() {
-        return TimeUnit.MICROSECONDS.toMillis(clip.getMicrosecondLength());
+        return duration;
     }
 
-    public Clip getClip() {
-        return clip;
+    public SourceDataLine getSourceDataLine() {
+        return sourceDataLine;
+    }
+
+    public AudioFormat getFormat() {
+        return sourceDataLine.getFormat();
+    }
+
+    public byte[] getContent() {
+        return content;
     }
 
     @Override
     public void releaseResources() {
-        clip.close();
+        sourceDataLine.close();
     }
 
-    public static ClipAudioFile aacFile(File file) {
+    public static SourceDataLineAudioFile aacFile(File file) {
         try {
             AudioInputStream in = AudioSystem.getAudioInputStream(file);
             AudioFormat inAudioFormat = in.getFormat();
@@ -68,7 +80,8 @@ class ClipAudioFile extends PreloadedAudioFile {
         }
     }
 
-    private static ClipAudioFile convertAndLoadAudio(File file, AudioInputStream in) throws LineUnavailableException, IOException {
+    private static SourceDataLineAudioFile convertAndLoadAudio(File file, AudioInputStream in)
+            throws LineUnavailableException, IOException {
         AudioFormat convertedFormat = in.getFormat();
         AudioFormat targetFormat = new AudioFormat(
                 AudioFormat.Encoding.PCM_SIGNED,
@@ -83,11 +96,14 @@ class ClipAudioFile extends PreloadedAudioFile {
         return loadAudio(file, in);
     }
 
-    private static ClipAudioFile loadAudio(File file, AudioInputStream in) throws LineUnavailableException, IOException {
-        DataLine.Info info = new DataLine.Info(Clip.class, in.getFormat());
-        Clip clip = (Clip) AudioSystem.getLine(info);
-        clip.open(in);
+    private static SourceDataLineAudioFile loadAudio(File file, AudioInputStream in) throws LineUnavailableException, IOException {
+        SourceDataLine sourceDataLine = (SourceDataLine) AudioSystem.getLine(new DataLine.Info(SourceDataLine.class, in.getFormat()));
+        sourceDataLine.open(in.getFormat());
+        byte[] content = in.readAllBytes();
+        long lengthInFrames = content.length / in.getFormat().getFrameSize();
+        long duration = (long) ((double) lengthInFrames * (1000.0 / (double) in.getFormat().getSampleRate()));
         in.close();
-        return new ClipAudioFile(file, clip);
+        return new SourceDataLineAudioFile(file, sourceDataLine, content, duration);
     }
+
 }
