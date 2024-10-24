@@ -2,10 +2,8 @@ module karedi {
     requires javafx.controls;
     requires javafx.fxml;
     requires org.controlsfx.controls;
-    requires jlayer;
     requires java.logging;
     requires java.desktop;
-    requires mp3agic;
     requires java.prefs;
     requires jfugue;
     requires org.fxmisc.richtext;
@@ -14,6 +12,7 @@ module karedi {
     requires wellbehavedfx;
     requires com.github.trilarion.sound;
     requires nianna.hyphenator;
+    requires mp3spi;
 
     opens com.github.nianna.karedi to javafx.graphics;
     opens com.github.nianna.karedi.controller to javafx.fxml;
