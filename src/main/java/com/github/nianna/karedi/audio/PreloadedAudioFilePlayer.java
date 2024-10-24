@@ -26,9 +26,6 @@ class PreloadedAudioFilePlayer {
 	}
 
 	private static Task<Long> createPlayTask(PreloadedAudioFile file, Long startMillis, Long endMillis) {
-		if (file instanceof Mp3File) {
-			return new Mp3FilePlayTask((Mp3File) file, startMillis, endMillis);
-		}
 		if (file instanceof SourceDataLineAudioFile) {
 			return new SourceDataLineAudioFilePlayTask((SourceDataLineAudioFile) file, startMillis, endMillis);
 		}

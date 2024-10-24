@@ -24,7 +24,7 @@ public class AudioFileLoader {
 	}
 
 	/**
-	 * Loads the specified mp3 file on a background thread and passes the
+	 * Loads the specified audio file on a background thread and passes the
 	 * optional result to the given consumer.
 	 * 
 	 * @param file
@@ -57,10 +57,10 @@ public class AudioFileLoader {
 		}
 
 		@Override
-		protected PreloadedAudioFile call() throws Exception {
+		protected PreloadedAudioFile call() {
 			String extension = Utils.getFileExtension(file);
 			if (MP3_EXT.contains(extension)) {
-				return new Mp3File(file);
+				return SourceDataLineAudioFile.mp3File(file);
 			}
 			if (WAV_EXT.contains(extension)) {
 				return SourceDataLineAudioFile.wavFile(file);

@@ -52,11 +52,10 @@ You can found the newest version in the [Releases](https://github.com/Nianna/Kar
 
 Karedi uses the following libraries:
 * [JavaFX](https://github.com/openjdk/jfx) with [ControlsFX](https://github.com/controlsfx/controlsfx) & [RichTextFx](https://github.com/TomasMikula/RichTextFX) for GUI,
-* [mp3agic](https://github.com/mpatric/mp3agic) for reading mp3 info,
-* [jLayer](http://www.javazoom.net/javalayer/javalayer.html) for playing mp3 files,
 * [jFugue](http://www.jfugue.org) to simplify the process of creating MIDI sequences,
 * [hyphenator](https://github.com/Nianna/hyphenator) for syllabification,
 * [javasound-aac](https://github.com/Tianscar/javasound-aac) for m4a files support,
+* mp3spi for mp3 files support,
 * [java-vorbis-support](https://github.com/Trilarion/java-vorbis-support) for Ogg Vorbis support.
 
 ## License

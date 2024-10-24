@@ -1,5 +1,7 @@
 package com.github.nianna.karedi.audio;
 
+import net.sourceforge.jaad.spi.javasound.AACAudioFileReader;
+
 import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
@@ -46,7 +48,7 @@ class SourceDataLineAudioFile extends PreloadedAudioFile {
 
     public static SourceDataLineAudioFile aacFile(File file) {
         try {
-            AudioInputStream in = AudioSystem.getAudioInputStream(file);
+            AudioInputStream in = new AACAudioFileReader().getAudioInputStream(file);
             AudioFormat inAudioFormat = in.getFormat();
             AudioFormat decodedAudioFormat = new AudioFormat(
                     AudioSystem.NOT_SPECIFIED,
@@ -63,6 +65,15 @@ class SourceDataLineAudioFile extends PreloadedAudioFile {
     }
 
     public static PreloadedAudioFile vorbisFile(File file) {
+        try {
+            AudioInputStream in = AudioSystem.getAudioInputStream(file);
+            return convertAndLoadAudio(file, in);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static PreloadedAudioFile mp3File(File file) {
         try {
             AudioInputStream in = AudioSystem.getAudioInputStream(file);
             return convertAndLoadAudio(file, in);
