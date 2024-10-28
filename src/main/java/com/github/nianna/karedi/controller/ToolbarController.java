@@ -4,9 +4,14 @@ import com.github.nianna.karedi.KarediApp.ViewMode;
 import com.github.nianna.karedi.action.KarediActions;
 import com.github.nianna.karedi.context.ActionContext;
 import com.github.nianna.karedi.context.AppContext;
+import com.github.nianna.karedi.event.ControllerEvent;
+import com.github.nianna.karedi.util.PercentageStringConverter;
+import javafx.beans.property.ObjectProperty;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.control.Control;
+import javafx.scene.control.Spinner;
 import javafx.scene.control.ToolBar;
 import org.controlsfx.control.action.Action;
 import org.controlsfx.glyphfont.FontAwesome;
@@ -17,8 +22,6 @@ public class ToolbarController implements Controller {
 	private ToolBar toolBar;
 	@FXML
 	private Button saveButton;
-	@FXML
-	private Glyph saveGlyph;
 	@FXML
 	private Button openButton;
 	@FXML
@@ -62,9 +65,17 @@ public class ToolbarController implements Controller {
 	@FXML
 	private Glyph switchModeGlyph;
 
+	@FXML
+	private Glyph playbackSpeedGlyph;
+	@FXML
+	private Spinner<Integer> playbackSpeedSpinner;
+
 	private AppContext appContext;
 
 	private ActionContext actionContext;
+
+	// Must be saved as a field to avoid premature garbage collection
+	private ObjectProperty<Integer> playbackSpeedPropertyWrapper;
 
 	@Override
 	public void setAppContext(AppContext appContext) {
@@ -100,12 +111,38 @@ public class ToolbarController implements Controller {
 		appContext.activeViewModeProperty().addListener(inv -> {
 			switchModeGlyph.setIcon(iconForViewMode(appContext.getActiveViewMode()));
 		});
+
+		configurePlaybackSpeedController();
+	}
+
+	private void configurePlaybackSpeedController() {
+		playbackSpeedSpinner.getValueFactory().setConverter(new PercentageStringConverter());
+		playbackSpeedPropertyWrapper = appContext.getAudioContext().playbackSpeedProperty().asObject();
+		playbackSpeedSpinner.getValueFactory().valueProperty().bindBidirectional(playbackSpeedPropertyWrapper);
+		playbackSpeedSpinner.setOnScroll(event -> {
+			if (event.getDeltaY() > 0) {
+				playbackSpeedSpinner.increment();
+			} else {
+				playbackSpeedSpinner.decrement();
+			}
+		});
+		playbackSpeedSpinner.setOnMouseClicked(
+				event -> toolBar.fireEvent(new ControllerEvent(ControllerEvent.FOCUS_EDITOR))
+		);
+		playbackSpeedGlyph.setOnMouseClicked(event -> playbackSpeedSpinner.getValueFactory().setValue(100));
+		playbackSpeedSpinner.disableProperty().bind(appContext.getActiveSongContext().activeSongIsNullBinding());
+		playbackSpeedGlyph.disableProperty().bind(playbackSpeedSpinner.disabledProperty());
 	}
 
 	private void bind(Button button, KarediActions actionKey) {
+		Action action = bindDisable(button, actionKey);
+		button.setOnAction(action);
+	}
+
+	private Action bindDisable(Control control, KarediActions actionKey) {
 		Action action = actionContext.getAction(actionKey);
-		button.disableProperty().bind(action.disabledProperty());
-		button.setOnAction(action::handle);
+		control.disableProperty().bind(action.disabledProperty());
+		return action;
 	}
 
 	private FontAwesome.Glyph iconForViewMode(ViewMode mode) {

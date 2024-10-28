@@ -8,6 +8,7 @@ import com.github.nianna.karedi.audio.Playlist;
 import com.github.nianna.karedi.song.Note;
 import com.github.nianna.karedi.song.Song;
 import com.github.nianna.karedi.util.BeatMillisConverter;
+import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.ReadOnlyIntegerProperty;
 import javafx.beans.property.ReadOnlyLongProperty;
 import javafx.beans.property.ReadOnlyObjectProperty;
@@ -147,5 +148,9 @@ public class SongPlayer {
 
 	public ReadOnlyLongProperty markerTimeProperty() {
 		return marker.timeProperty();
+	}
+
+	public IntegerProperty playbackSpeedProperty() {
+		return player.playbackSpeedProperty();
 	}
 }

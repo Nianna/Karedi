@@ -1,11 +1,13 @@
 package com.github.nianna.karedi.audio;
 
 import javafx.beans.Observable;
+import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.LongProperty;
 import javafx.beans.property.ReadOnlyLongProperty;
 import javafx.beans.property.ReadOnlyLongWrapper;
 import javafx.beans.property.ReadOnlyObjectProperty;
 import javafx.beans.property.ReadOnlyObjectWrapper;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleLongProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -37,6 +39,7 @@ public class Player {
 	private LongProperty updateInterval = new SimpleLongProperty(TIME_UPDATE_INTERVAL_MS);
 	private ReadOnlyLongWrapper currentTime = new ReadOnlyLongWrapper();
 	private ReadOnlyObjectWrapper<Status> status = new ReadOnlyObjectWrapper<>(Status.UNKNOWN);
+	private final IntegerProperty playbackSpeedProperty = new SimpleIntegerProperty(100);
 	private TimeUpdater timeUpdater;
 
 	private boolean tickingEnabled = true;
@@ -55,11 +58,14 @@ public class Player {
 
 	private Mode mode;
 
+
 	public Player() {
 		clipPlayer.setClip(getClass().getResource("/player/Tick.wav"));
 		preloadedAudioFilePlayer.playbackState().addListener(playbackStateChangeListener);
 		playlist.activeAudioFileProperty().addListener(activeAudioFileChangeListener);
 		setStatus(Status.READY);
+
+		playbackSpeedProperty.addListener(obs -> stop());
 	}
 
 	private void onTimeChanged(ObservableValue<? extends Number> obs, Number oldTime,
@@ -122,6 +128,10 @@ public class Player {
 		play();
 	}
 
+	public IntegerProperty playbackSpeedProperty() {
+		return playbackSpeedProperty;
+	}
+
 	private void setMode(Mode mode) {
 		this.mode = mode;
 		updateMidiEnabled();
@@ -145,7 +155,7 @@ public class Player {
 	}
 
 	private void resetTimeUpdater() {
-		timeUpdater = new TimeUpdater(startMillis, endMillis, updateInterval.get());
+		timeUpdater = new TimeUpdater(startMillis, endMillis, updateInterval.get(), playbackSpeedProperty.get());
 		timeUpdater.setOnCancelled(event -> setStatus(Status.READY));
 		timeUpdater.setOnSucceeded(event -> setStatus(Status.READY));
 		currentTime.bind(timeUpdater.valueProperty());
@@ -167,7 +177,7 @@ public class Player {
 		if (getActivePreloadedAudioFile() == null || mode.equals(Mode.MIDI_ONLY)) {
 			startTimeUpdater();
 		} else {
-			preloadedAudioFilePlayer.play(startMillis, endMillis);
+			preloadedAudioFilePlayer.play(startMillis, endMillis, playbackSpeedProperty.get());
 			getActivePreloadedAudioFile().volumeProperty().addListener(volumeChangeListener);
 		}
 	}
@@ -225,6 +235,7 @@ public class Player {
 	public void reset() {
 		stop();
 		playlist.clear();
+		playbackSpeedProperty.setValue(100);
 	}
 
 	public void setTickingEnabled(boolean value) {
@@ -235,17 +246,19 @@ public class Player {
 		return tickingEnabled;
 	}
 
-	private class TimeUpdater extends Task<Long> {
-		private long startMillis;
-		private long endMillis;
-		private long updateInterval;
+	private static class TimeUpdater extends Task<Long> {
+		private final long startMillis;
+		private final long endMillis;
+		private final long updateInterval;
+        private final int speedPercent;
 
-		TimeUpdater(long startMillis, long endMillis, long updateInterval) {
+        TimeUpdater(long startMillis, long endMillis, long updateInterval, int speedPercent) {
 			super();
 			this.startMillis = startMillis;
 			this.endMillis = endMillis;
 			this.updateInterval = updateInterval;
-			updateValue(startMillis);
+            this.speedPercent = speedPercent;
+            updateValue(startMillis);
 		}
 
 		@Override
@@ -254,7 +267,7 @@ public class Player {
 			long curTime = base;
 			while (!isCancelled()) {
 				long timeElapsed = (System.nanoTime() - base) / 1_000_000;
-				curTime = (startMillis + timeElapsed);
+				curTime = (startMillis + timeElapsed * speedPercent / 100);
 				updateValue(curTime);
 				if (curTime > endMillis) {
 					break;
