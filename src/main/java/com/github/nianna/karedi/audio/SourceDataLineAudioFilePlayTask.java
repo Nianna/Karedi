@@ -64,7 +64,7 @@ class SourceDataLineAudioFilePlayTask extends Task<Long> {
         int bytesToRead = framesToPlay * line.getFormat().getFrameSize();
 
         line.start();
-        while ((readBytes = bis.read(bufferBytes)) != -1 && totalRead < bytesToRead) {
+        while (!isCancelled() && (readBytes = bis.read(bufferBytes)) != -1 && totalRead < bytesToRead) {
             int relevantBytes = Math.min(readBytes, bytesToRead - totalRead);
             line.write(bufferBytes, 0, relevantBytes);
             totalRead += relevantBytes;
