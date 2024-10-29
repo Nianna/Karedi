@@ -1,16 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Separator?>
-<?import javafx.scene.control.SplitMenuButton?>
 <?import javafx.scene.control.ToolBar?>
 <?import javafx.scene.control.Tooltip?>
-<?import org.controlsfx.glyphfont.*?>
-
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import org.controlsfx.glyphfont.Glyph?>
+<?import javafx.scene.control.Spinner?>
 <ToolBar fx:id="toolBar" xmlns="http://javafx.com/javafx/8.0.60"
-	xmlns:fx="http://javafx.com/fxml/1"
-	fx:controller="com.github.nianna.karedi.controller.ToolbarController">
+		 xmlns:fx="http://javafx.com/fxml/1"
+		 fx:controller="com.github.nianna.karedi.controller.ToolbarController">
 	<items>
 		<Button fx:id="newButton" focusTraversable="false"
 			mnemonicParsing="false" alignment="center">
@@ -180,5 +181,19 @@
 				<Tooltip text="%ui.menu.view.switch_mode" />
 			</tooltip>
 		</Button>
+
+		<Pane HBox.hgrow="ALWAYS" />
+
+		<Separator orientation="VERTICAL" />
+		<Glyph fx:id="playbackSpeedGlyph" fontFamily="FontAwesome" icon="PLAY_CIRCLE">
+			<tooltip>
+				<Tooltip text="%ui.menu.view.playback_speed_reset" />
+			</tooltip>
+		</Glyph>
+		<Spinner prefWidth="75" fx:id="playbackSpeedSpinner" min="30" max="200" amountToStepBy="10">
+			<tooltip>
+				<Tooltip text="%ui.menu.view.playback_speed" />
+			</tooltip>
+		</Spinner>
 	</items>
 </ToolBar>

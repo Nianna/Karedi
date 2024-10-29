@@ -6,6 +6,7 @@ import com.github.nianna.karedi.audio.Player;
 import com.github.nianna.karedi.audio.PreloadedAudioFile;
 import com.github.nianna.karedi.song.Note;
 import javafx.beans.binding.BooleanBinding;
+import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.ReadOnlyIntegerProperty;
 import javafx.beans.property.ReadOnlyLongProperty;
 import javafx.beans.property.ReadOnlyObjectProperty;
@@ -140,5 +141,9 @@ public class AudioContext {
 
     public BooleanBinding getActiveAudioIsNull() {
         return activeAudioIsNull;
+    }
+
+    public IntegerProperty playbackSpeedProperty() {
+        return player.playbackSpeedProperty();
     }
 }

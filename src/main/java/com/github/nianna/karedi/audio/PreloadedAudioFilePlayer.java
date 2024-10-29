@@ -13,11 +13,11 @@ class PreloadedAudioFilePlayer {
 	private PreloadedAudioFile file;
 	private Task<Long> playTask;
 
-	void play(long startMillis, long endMillis) {
+	void play(long startMillis, long endMillis, int speedPercent) {
 		stop();
 
 		if (file != null && startMillis < endMillis) {
-			playTask = createPlayTask(file, startMillis, endMillis);
+			playTask = createPlayTask(file, startMillis, endMillis, speedPercent);
 			Thread th = new Thread(playTask);
 			th.setDaemon(true);
 			th.start();
@@ -25,9 +25,14 @@ class PreloadedAudioFilePlayer {
 		}
 	}
 
-	private static Task<Long> createPlayTask(PreloadedAudioFile file, Long startMillis, Long endMillis) {
+	private static Task<Long> createPlayTask(PreloadedAudioFile file, Long startMillis, Long endMillis, int speedPercent) {
 		if (file instanceof SourceDataLineAudioFile) {
-			return new SourceDataLineAudioFilePlayTask((SourceDataLineAudioFile) file, startMillis, endMillis);
+			return new SourceDataLineAudioFilePlayTask(
+					(SourceDataLineAudioFile) file,
+					startMillis,
+					endMillis,
+					speedPercent
+			);
 		}
 		throw new IllegalArgumentException("Unsupported preloaded audio file type");
 	}
