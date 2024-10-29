@@ -4,6 +4,7 @@ import com.github.nianna.karedi.KarediApp;
 import com.github.nianna.karedi.action.KarediAction;
 import com.github.nianna.karedi.action.KarediActions;
 import com.github.nianna.karedi.context.AppContext;
+import com.github.nianna.karedi.context.AudioContext;
 import com.github.nianna.karedi.context.SelectionContext;
 import com.github.nianna.karedi.context.TxtContext;
 import com.github.nianna.karedi.event.ControllerEvent;
@@ -75,8 +76,8 @@ public class RootController implements Controller {
     private Node editor;
 
     private TxtContext txtContext;
-
     private SelectionContext selectionContext;
+    private AudioContext audioContext;
 
     @FXML
     private void initialize() {
@@ -112,18 +113,32 @@ public class RootController implements Controller {
 
     private void onDragOver(DragEvent event) {
         Dragboard db = event.getDragboard();
-        if (db.hasFiles() && findDraggedTxtFileToOpen(db).isPresent()) {
+        if (db.hasFiles() && findDraggedFileToOpen(db).isPresent()) {
             event.acceptTransferModes(TransferMode.MOVE);
         } else {
             event.consume();
         }
     }
 
+    private Optional<File> findDraggedFileToOpen(Dragboard db) {
+        return findDraggedTxtFileToOpen(db)
+                .or(() -> findDraggedAudioFileToOpen(db));
+    }
+
     private Optional<File> findDraggedTxtFileToOpen(Dragboard db) {
+        return findFirstExistingFile(db)
+                .flatMap(this::getTxtFileFromFile);
+    }
+
+    private Optional<File> findDraggedAudioFileToOpen(Dragboard db) {
+        return findFirstExistingFile(db)
+                .filter(file -> AudioContext.supportedAudioExtensions().contains(Utils.getFileExtension(file)));
+    }
+
+    private static Optional<File> findFirstExistingFile(Dragboard db) {
         return db.getFiles().stream()
                 .filter(File::exists)
-                .findFirst()
-                .flatMap(this::getTxtFileFromFile);
+                .findFirst();
     }
 
     private void onDragDropped(DragEvent event) {
@@ -136,6 +151,8 @@ public class RootController implements Controller {
                 });
                 event.setDropCompleted(true);
             });
+            findDraggedAudioFileToOpen(db)
+                    .ifPresent(file -> Platform.runLater(() -> audioContext.loadAudioFile(file, true)));
         } else {
             event.setDropCompleted(false);
         }
@@ -154,6 +171,7 @@ public class RootController implements Controller {
     public void setAppContext(AppContext appContext) {
         this.txtContext = appContext.getTxtContext();
         this.selectionContext = appContext.getSelectionContext();
+        this.audioContext = appContext.getAudioContext();
 
         appContext.getActionContext().addAction(KarediActions.EDIT_LYRICS, new EditLyricsAction());
 
