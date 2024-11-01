@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>Karedi</groupId>
 	<artifactId>Karedi</artifactId>
-	<version>1.5.0</version>
+	<version>1.6.0</version>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
