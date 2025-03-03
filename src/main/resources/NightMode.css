@@ -53,6 +53,9 @@
 	-fx-fill: -fx-foreground;
 }
 .code-area .main-selection {
+	-fx-fill: derive(-fx-background, 40%);
+}
+.code-area:focused  .main-selection {
 	-fx-fill: -fx-accent;
 }
 .code-area .lineno {
