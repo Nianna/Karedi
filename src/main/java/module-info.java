@@ -13,6 +13,7 @@ module karedi {
     requires com.github.trilarion.sound;
     requires nianna.hyphenator;
     requires mp3spi;
+    requires vavi.sound.flac.nayuki;
 
     opens com.github.nianna.karedi to javafx.graphics;
     opens com.github.nianna.karedi.controller to javafx.fxml;

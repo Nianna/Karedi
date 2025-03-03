@@ -21,6 +21,7 @@
 		<junit.version>5.11.0</junit.version>
 		<richtextfx.version>0.11.0</richtextfx.version>
 		<hyphenator.version>1.0.1</hyphenator.version>
+		<vavi-sound-flac-nayuki.version>0.0.2</vavi-sound-flac-nayuki.version>
 	</properties>
 
 	<build>
@@ -417,6 +418,10 @@
 
 	<repositories>
 		<repository>
+			<id>jitpack.io</id>
+			<url>https://jitpack.io</url>
+		</repository>
+		<repository>
 			<id>repo</id>
 			<url>file:///${project.basedir}/lib</url>
 		</repository>
@@ -521,6 +526,12 @@
 			<groupId>org.openjfx</groupId>
 			<artifactId>javafx-fxml</artifactId>
 			<version>${javafx.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.github.umjammer</groupId>
+			<artifactId>vavi-sound-flac-nayuki</artifactId>
+			<version>${vavi-sound-flac-nayuki.version}</version>
 		</dependency>
 
 	</dependencies>
