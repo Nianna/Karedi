@@ -37,6 +37,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableColumn.CellEditEvent;
 import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TablePosition;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
@@ -74,6 +75,19 @@ public class TagsTableController implements Controller {
     private CommandContext commandContext;
 
     private Song song;
+
+    private TablePosition<Tag, ?> nextFocusPosition;
+
+
+    @Override
+    public void requestFocus() {
+        Controller.super.requestFocus();
+        if (nextFocusPosition != null) {
+            table.getFocusModel().focus(nextFocusPosition);
+            table.edit(nextFocusPosition.getRow(), nextFocusPosition.getTableColumn());
+            nextFocusPosition = null;
+        }
+    }
 
     @FXML
     private void initialize() {
@@ -258,6 +272,10 @@ public class TagsTableController implements Controller {
                     .ifPresent(tag -> {
                         table.scrollTo(tag);
                         table.getSelectionModel().select(tag);
+                        nextFocusPosition = new TablePosition<>(
+                                table,
+                                table.getSelectionModel().getSelectedIndex(),
+                                !table.getColumns().isEmpty() ? table.getColumns().get(1) : null);
                     });
         }
     }
