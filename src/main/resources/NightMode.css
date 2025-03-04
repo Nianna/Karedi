@@ -27,13 +27,15 @@
 	-fx-border-color: transparent derive(-fx-color,5%) transparent transparent;
 	-fx-text-fill: -fx-foreground;
 }
-.table-view .table-row-cell:selected {
-	-fx-background-color: derive(-fx-background, 40%);
-}
 .table-view:focused .table-row-cell:selected {
 	-fx-background-color: -fx-accent;
 }
-
+.editor-context-provider.table-view .table-row-cell:selected {
+	-fx-background-color: derive(-fx-background, 40%);
+}
+.editor-context-provider.table-view:focused .table-row-cell:selected {
+	-fx-background-color: -fx-accent;
+}
 
 
 /* Lyrics editor */
@@ -81,17 +83,20 @@
 .list-view {
 	-fx-background-color: -fx-inactive-background; /* bg for empty list */
 }
-.list-cell{
+.list-view .list-cell {
 	-fx-background-color: -fx-background;
 	-fx-text-fill: -fx-foreground;
 }
-.list-cell:odd {
+.list-view .list-cell:odd {
 	-fx-background-color: derive(-fx-background, 5%);
 }
-.list-cell:selected {
+.list-view:focused .list-cell:selected {
+	-fx-background-color: -fx-accent;
+}
+.editor-context-provider.list-view .list-cell:selected {
 	-fx-background-color: derive(-fx-background, 40%);
 }
-.list-view:focused .list-cell:selected {
+.editor-context-provider.list-view:focused .list-cell:selected {
 	-fx-background-color: -fx-accent;
 }
 
@@ -101,10 +106,13 @@
 .tree-view {
 	-fx-background-color: -fx-inactive-background;
 }
-.tree-view .tree-cell:selected {
+.tree-view:focused .tree-cell:selected {
+	-fx-background-color: -fx-accent;
+}
+.editor-context-provider.tree-view .tree-cell:selected {
 	-fx-background-color: derive(-fx-background, 40%);
 }
-.tree-view:focused .tree-cell:selected {
+.editor-context-provider.tree-view:focused .tree-cell:selected {
 	-fx-background-color: -fx-accent;
 }
 
