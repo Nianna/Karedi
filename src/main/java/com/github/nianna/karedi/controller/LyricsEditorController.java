@@ -96,6 +96,8 @@ public class LyricsEditorController implements Controller {
 
 	private Timer lyricsUpdateTimer = new Timer(true);
 
+	private boolean overwriteModeOn;
+
 	@FXML
 	public void initialize() {
 		initTextArea();
@@ -224,6 +226,11 @@ public class LyricsEditorController implements Controller {
 	private void insertText(String text) {
 		int startPos = textArea.getSelection().getStart();
 		int endPos = textArea.getSelection().getEnd();
+
+		if (overwriteModeOn && startPos == endPos) {
+			endPos = Math.min(startPos + 1, textArea.getLength());
+			textArea.selectRange(startPos, endPos);
+		}
 
 		text = filterOutIllegalChars(text);
 		if (isLegal(text)) {
@@ -398,6 +405,12 @@ public class LyricsEditorController implements Controller {
 			return;
 		}
 
+		if (event.getCode().equals(KeyCode.INSERT)) {
+			overwriteModeOn = !overwriteModeOn;
+			event.consume();
+			return;
+		}
+
 		if (event.getCode().equals(KeyCode.BACK_SPACE)) {
 			removeText(true);
 			return; // do not consume
@@ -431,7 +444,6 @@ public class LyricsEditorController implements Controller {
 		case A:
 			// Copying
 		case C:
-		case INSERT:
 		case COPY:
 			return true;
 		default:
