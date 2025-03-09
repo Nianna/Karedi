@@ -11,7 +11,7 @@
 	fx:controller="com.github.nianna.karedi.controller.TracksController"
 	onKeyPressed="#onKeyPressed">
 	<children>
-		<TableView fx:id="table" disable="true" editable="true"
+		<TableView fx:id="table" styleClass="editor-context-provider" disable="true" editable="true"
 			AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
 			AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" onKeyPressed="#onKeyPressed">
 			<columns>

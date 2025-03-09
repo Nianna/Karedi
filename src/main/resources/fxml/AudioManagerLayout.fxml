@@ -10,7 +10,7 @@
 	xmlns:fx="http://javafx.com/fxml/1"
 	fx:controller="com.github.nianna.karedi.controller.AudioManagerController">
 	<children>
-		<TableView fx:id="table" disable="true" onKeyPressed="#onKeyPressed"
+		<TableView fx:id="table" styleClass="editor-context-provider" disable="true" onKeyPressed="#onKeyPressed"
 			AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
 			AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
 			<columns>

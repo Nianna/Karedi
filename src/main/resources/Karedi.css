@@ -96,6 +96,14 @@
 	-fx-background-color: white;
 }
 
+.code-area .main-selection {
+	-fx-fill: derive(-fx-background, -20%);
+}
+
+.code-area:focused  .main-selection {
+	-fx-fill: -fx-accent;
+}
+
 .check-box:disabled {
 	-fx-opacity: 0.4;
 }

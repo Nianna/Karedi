@@ -100,8 +100,9 @@ public class RootController implements Controller {
                 event -> editorController.requestFocus());
         rootPane.addEventHandler(ControllerEvent.FOCUS_TAGS_TABLE, event -> {
             tagsTab.getTabPane().getSelectionModel().select(tagsTab);
-            tagsTableController.requestFocus();
+            // do not change order of 2 following lines
             tagsTableController.handleEvent(event);
+            Platform.runLater(() -> tagsTableController.requestFocus());
         });
         editor.setOnDragDropped(this::onDragDropped);
         editor.setOnDragOver(this::onDragOver);
