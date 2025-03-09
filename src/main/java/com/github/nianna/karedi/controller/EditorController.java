@@ -84,6 +84,8 @@ public class EditorController implements Controller {
 
     private static final Color MARKER_COLOR_WRITING = Color.ORANGE;
 
+    private static final int MOVE_AREA_SPEED_MULTIPLIER = 10;
+
     @FXML
     private AnchorPane pane;
 
@@ -424,33 +426,156 @@ public class EditorController implements Controller {
         }
     }
 
+    /**
+     * Takes scroll event, and dispatch consuming to other specialized handlers.
+     *
+     * @param event ScrollEvent in editor area
+     */
     @FXML
     private void onScroll(ScrollEvent event) {
-        boolean wheelDown = event.getDeltaY() < 0 || event.getDeltaX() < 0;
+        // Catch for unexpected events, that might happen when javafx.graphics native-glass handles GTK's events.
+        // Fix for HI_RES scroll on Linux, GTK. Maybe even more.
+        if (event.getDeltaY() == 0 && event.getDeltaX() == 0) {
+            event.consume();
+            return;
+        }
 
         if (event.isControlDown()) {
-            int increaseBy = wheelDown ? 1 : -1;
-            if (event.isShiftDown() || !event.isAltDown()) {
-                visibleAreaContext.increaseVisibleAreaXBounds(increaseBy);
+            handleZoomScroll(event);
+        } else {
+            if (event.getDeltaX() != 0) {
+                handleHorizontalScroll(event);
+            } else {
+                if (event.isAltDown()) {
+                    handleVerticalScroll(event);
+                } else {
+                    handleLineScroll(event);
+                }
             }
-            if (event.isAltDown() || !event.isShiftDown()) {
-                visibleAreaContext.increaseVisibleAreaYBounds(increaseBy);
-            }
-            event.consume();
-            return;
         }
-        if (event.isAltDown()) {
-            moveAreaVertically(wheelDown);
-            event.consume();
-            return;
-        }
-        if (event.isShiftDown()) {
-            moveAreaHorizontally(wheelDown);
-            event.consume();
-            return;
-        }
-        changeLine(wheelDown);
+
         event.consume();
+    }
+
+    /**
+     * <h1> Zooms in or out, verticaly and/or horizontally. </h1>
+     *
+     * <h2> Scroll wheel and key modifiers mapping: </h2>
+     * <h3> ↕ Scrolled by standard, physically vertical scroll wheel on the mouse </h3>
+     * <table>
+     *   <tr>
+     *     <td> <b> ⌨ Shift </b> </td> <td> <b> ⌨ Alt </b> </td> <td> <b> Zoom </b> </td>
+     *   </tr>
+     *   <tr>
+     *     <td> - </td> <td> - </td> <td> ↔️↕️ both directions </td>
+     *   </tr>
+     *   <tr>
+     *     <td> Shift </td> <td> - </td> <td> ↔️ horizontally </td>
+     *   </tr>
+     *   <tr>
+     *     <td> - </td> <td> Alt </td> <td> ↕️ vertically </td>
+     *   </tr>
+     *   <tr>
+     *     <td> Shift </td> <td> Alt </td> <td> - </td>
+     *   </tr>
+     * </table>
+     * <h3> ↔ Scrolled by additional, physically horizontal scroll wheel on the mouse </h3>
+     * <table>
+     *   <tr>
+     *     <td> <b> ⌨ Shift </b> </td> <td> <b> ⌨ Alt </b> </td> <td> <b> Zoom </b> </td>
+     *   </tr>
+     *   <tr>
+     *     <td> - </td> <td> - </td> <td> ↔️ horizontally </td>
+     *   </tr>
+     *   <tr>
+     *     <td> Shift </td> <td> - </td> <td> - </td>
+     *   </tr>
+     *   <tr>
+     *     <td> - </td> <td> Alt </td> <td> ↕️ vertically </td>
+     *   </tr>
+     *   <tr>
+     *     <td> Shift </td> <td> Alt </td> <td> - </td>
+     *   </tr>
+     * </table>
+     * @param event ScrollEvent that caused the decision to zoom in/out. <br/>
+     *              If both deltaX and deltaY are 0, the function has no effect.
+     */
+    private void handleZoomScroll(ScrollEvent event) {
+        if (event.getDeltaY() == 0 && event.getDeltaX() == 0) {
+            return;
+        }
+
+        boolean zoomOut = event.getDeltaY() < 0 || event.getDeltaX() < 0;
+
+        int increaseBy = zoomOut ? 1 : -1;
+
+        if (!event.isAltDown() && (event.getDeltaX() != 0 || !event.isShiftDown())) {
+            visibleAreaContext.increaseVisibleAreaXBounds(increaseBy);
+        }
+
+        if ((event.isAltDown() || event.getDeltaY() != 0) && !event.isShiftDown()) {
+            visibleAreaContext.increaseVisibleAreaYBounds(increaseBy);
+        }
+    }
+
+    /**
+     * Shifts the area horizontally by deltaX, optionally by deltaY if deltaX is zero. <br/>
+     * If the Alt key is pressed, the movement speed will be increased.
+     *
+     * @param event ScrollEvent that caused the decision to shift horizontally. <br/>
+     *              If both deltaX and deltaY are 0, the function has no effect.
+     */
+    private void handleHorizontalScroll(ScrollEvent event) {
+        double horizontalDelta = event.getDeltaX() != 0 ? event.getDeltaX() : event.getDeltaY();
+        if (horizontalDelta == 0) {
+            return;
+        }
+
+        boolean right = horizontalDelta < 0;
+        int by = event.isAltDown() ? MOVE_AREA_SPEED_MULTIPLIER : 1;
+
+        for (int i = 0; i < by; i++) {
+            moveAreaHorizontally(right);
+        }
+
+    }
+
+    /**
+     * Shifts the area vertically by deltaY, optionally by deltaX if deltaY is zero.
+     *
+     * @param event ScrollEvent that caused the decision to shift vertically. <br/>
+     *              If both deltaY and deltaX are 0, the function has no effect.
+     */
+    private void handleVerticalScroll(ScrollEvent event) {
+        double verticalDelta = event.getDeltaY() != 0 ? event.getDeltaY() : event.getDeltaX();
+        if (verticalDelta == 0) {
+            return;
+        }
+
+        boolean down = verticalDelta < 0;
+
+        moveAreaVertically(down);
+    }
+
+    /**
+     * Shifts the area horizontally by whole line, based on whether delta is positive/negative.
+     * <ul>
+     *      <li>Only based on deltaX (when deltaX is non-zero)</li>
+     *      <li>Only based on deltaY (when deltaX is zero)</li>
+     * </ul>
+     *
+     * @param event ScrollEvent that caused the decision to shift by whole line. <br/>
+     *              If both deltaX and deltaY are 0, the function has no effect.
+     */
+    private void handleLineScroll(ScrollEvent event) {
+        double horizontalDelta = event.getDeltaX() != 0 ? event.getDeltaX() : event.getDeltaY();
+        if (horizontalDelta == 0) {
+            return;
+        }
+
+        boolean next = horizontalDelta < 0;
+
+        changeLine(next);
     }
 
     private void moveAreaVertically(boolean down) {
