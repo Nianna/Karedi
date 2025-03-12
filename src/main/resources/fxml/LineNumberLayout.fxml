@@ -12,7 +12,7 @@
 			AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
 			AnchorPane.topAnchor="0.0">
 			<children>
-				<Text fx:id="label" strokeType="OUTSIDE" strokeWidth="0.0"
+				<Text fx:id="label" id="lineNumberLabel" strokeType="OUTSIDE" strokeWidth="0.0"
 					styleClass="important-text" />
 			</children>
 		</StackPane>
