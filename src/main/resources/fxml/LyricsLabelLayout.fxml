@@ -17,7 +17,7 @@
 				<Insets left="10.0" right="10.0" />
 			</padding>
 			<children>
-				<TextFlow fx:id="textFlow" styleClass="important-text" />
+				<TextFlow fx:id="textFlow" id="lineLyricsLabel" styleClass="important-text" />
 			</children>
 			<clip>
 				<Rectangle fx:id="clip" x="30.0" />

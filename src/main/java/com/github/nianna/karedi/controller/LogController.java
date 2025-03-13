@@ -40,6 +40,11 @@ public class LogController implements Controller {
 	@FXML
 	public void initialize() {
 		list.setCellFactory(param -> new LogListCell());
+		list.focusedProperty().addListener((observable, oldValue, newValue) -> {
+			if (!newValue) {
+				list.getSelectionModel().clearSelection();
+			}
+		});
 	}
 
 	@FXML

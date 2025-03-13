@@ -1,11 +1,169 @@
+.root, .root * {
+	-fx-background: #1e1f22;
+	-fx-base: -fx-background;
+	-fx-inactive-background: #2a2c31;
+	-fx-foreground: white;
+}
+
 .root {
-    -fx-base: gray;
+	-fx-fill: -fx-foreground;
+	-fx-text-fill: -fx-foreground;
+	-fx-color: #2b2d30;
 }
 
-.code-area {
-	-fx-background-color: -fx-color;
-}
 
-.code-area:focused {
+/* Tracks, audio and tags tables */
+.table-view {
+	-fx-background-color: -fx-inactive-background; /* bg for empty tables */
+}
+.table-view .table-row-cell {
 	-fx-background-color: -fx-background;
+	-fx-table-cell-border-color:transparent;
+}
+.table-view .table-row-cell:odd {
+	-fx-background-color: derive(-fx-background, 5%);
+}
+.table-view .table-cell {
+	-fx-border-color: transparent derive(-fx-color,5%) transparent transparent;
+	-fx-text-fill: -fx-foreground;
+}
+.table-view .table-row-cell:selected {
+	-fx-background-color: derive(-fx-background, 40%);
+}
+.table-view:focused .table-row-cell:selected {
+	-fx-background-color: -fx-accent;
+}
+
+
+
+/* Lyrics editor */
+.code-area {
+	-fx-background-color: -fx-background;
+}
+.code-area .text {
+	-fx-fill: #babec4;
+}
+.code-area .caret {
+	-fx-stroke: -fx-foreground;
+}
+.code-area:focused {
+	-fx-background-color: derive(-fx-background, 5%);
+}
+.code-area:focused .text {
+	-fx-fill: -fx-foreground;
+}
+.code-area .main-selection {
+	-fx-fill: derive(-fx-background, 40%);
+}
+.code-area:focused  .main-selection {
+	-fx-fill: -fx-accent;
+}
+.code-area .lineno {
+	-fx-background-color: -fx-background;
+}
+.code-area .lineno .text {
+	-fx-fill: #4b5059;
+}
+
+
+
+/* Scratchpad */
+#scratchpadTextArea {
+	-fx-text-fill: -fx-foreground;
+}
+#scratchpadTextArea * {
+	-fx-background-color: -fx-background;
+}
+
+
+
+/* History and log lists */
+.list-view {
+	-fx-background-color: -fx-inactive-background; /* bg for empty list */
+}
+.list-cell{
+	-fx-background-color: -fx-background;
+	-fx-text-fill: -fx-foreground;
+}
+.list-cell:odd {
+	-fx-background-color: derive(-fx-background, 5%);
+}
+.list-cell:selected {
+	-fx-background-color: derive(-fx-background, 40%);
+}
+.list-view:focused .list-cell:selected {
+	-fx-background-color: -fx-accent;
+}
+
+
+
+/* Problems list */
+.tree-view {
+	-fx-background-color: -fx-inactive-background;
+}
+.tree-view .tree-cell:selected {
+	-fx-background-color: derive(-fx-background, 40%);
+}
+.tree-view:focused .tree-cell:selected {
+	-fx-background-color: -fx-accent;
+}
+
+
+
+/* Bar above display */
+#trackFillBar #rect {
+	-fx-stroke: -fx-foreground;
+}
+
+
+
+/* Display */
+.selection-area {
+	-fx-fill: -fx-foreground;
+	-fx-opacity: 0.1;
+}
+.axis-tick-mark {
+	-fx-stroke: #6a6a6a;
+}
+.chart-vertical-grid-lines {
+	-fx-stroke: #454545;
+}
+.chart-bigger-vertical-grid-lines {
+	-fx-stroke: #6a6a6a;
+}
+.chart-horizontal-grid-lines {
+	-fx-stroke: #454545;
+}
+.under-note-lyrics {
+	-fx-fill: -fx-foreground;
+}
+#markerLine {
+	-fx-fill: -fx-foreground;
+}
+
+
+
+/* Text below the display */
+#lineLyricsLabel > * {
+	-fx-fill: -fx-foreground;
+}
+#lineLyricsLabel > .active-lyrics {
+	-fx-fill: -fx-accent;
+}
+
+
+
+/* Line counter below piano */
+#lineNumberLabel {
+	-fx-fill: -fx-foreground;
+}
+
+
+
+/* Other fixes */
+.increment-arrow, .decrement-arrow {
+	-fx-background-color: -fx-foreground;
+}
+#tabBar {
+	-fx-background-color: -fx-inactive-background;
 }
