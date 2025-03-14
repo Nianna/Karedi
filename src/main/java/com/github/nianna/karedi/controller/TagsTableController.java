@@ -154,7 +154,9 @@ public class TagsTableController implements Controller {
 
     @FXML
     private void onKeyColumnEditStart(CellEditEvent<Tag, String> event) {
-        table.edit(event.getTablePosition().getRow(), valueColumn);
+        if (event.getTablePosition().getRow() != table.getEditingCell().getRow()) {
+            table.edit(event.getTablePosition().getRow(), valueColumn);
+        }
     }
 
     @FXML
