@@ -20,10 +20,10 @@ class PianoDisplayer extends ResizableCanvas {
 		gc = getGraphicsContext2D();
 	}
 
-	void refresh(int lowerBound, int upperBound) {
+	void refresh(int lowerBound, int upperBound, Color whiteKeysColor) {
 		notesCount = upperBound - lowerBound;
 		keyHeight = getHeight() / notesCount;
-		drawBorder(gc, width, getHeight(), Color.WHITE, Color.BLACK);
+		drawBorder(gc, width, getHeight(), whiteKeysColor, Color.BLACK);
 		gc.setFill(Color.BLACK);
 		for (int i = 0; i <= notesCount; ++i) {
 			Note note = MusicalScale.getNote(upperBound - i);
