@@ -160,6 +160,12 @@
 
 
 
+#piano {
+    -fx-white-keys-fill: derive(-fx-background, 99%);
+}
+
+
+
 /* Other fixes */
 .increment-arrow, .decrement-arrow {
 	-fx-background-color: -fx-foreground;
