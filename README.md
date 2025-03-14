@@ -56,7 +56,8 @@ Karedi uses the following libraries:
 * [hyphenator](https://github.com/Nianna/hyphenator) for syllabification,
 * [javasound-aac](https://github.com/Tianscar/javasound-aac) for m4a files support,
 * mp3spi for mp3 files support,
-* [java-vorbis-support](https://github.com/Trilarion/java-vorbis-support) for Ogg Vorbis support.
+* [java-vorbis-support](https://github.com/Trilarion/java-vorbis-support) for Ogg Vorbis support,
+* [vavi-sound-flac-nayuki](https://github.com/umjammer/vavi-sound-flac-nayuki?tab=GPL-3.0-1-ov-file) for flac files support.
 
 ## License
 
