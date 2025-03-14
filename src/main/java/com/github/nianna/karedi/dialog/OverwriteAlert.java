@@ -1,11 +1,10 @@
 package com.github.nianna.karedi.dialog;
 
-import java.io.File;
-
-import javafx.scene.control.Alert;
 import com.github.nianna.karedi.I18N;
 
-public class OverwriteAlert extends Alert {
+import java.io.File;
+
+public class OverwriteAlert extends StyleableAlert {
 
 	public OverwriteAlert(File file) {
 		super(AlertType.CONFIRMATION);

@@ -5,7 +5,6 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.ButtonType;
-import javafx.scene.control.Dialog;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
@@ -18,7 +17,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
-public class ConvertFormatDialog extends Dialog<ButtonType> {
+public class ConvertFormatDialog extends StyleableDialog<ButtonType> {
 
 	private final List<TagRepresentation> allTags;
 	private final List<TagRepresentation> tagsToBeRemoved;

@@ -11,11 +11,10 @@ import javafx.scene.Node;
 import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.CheckBox;
-import javafx.scene.control.Dialog;
 import javafx.scene.control.Label;
 import com.github.nianna.karedi.control.ManageableGridPane;
 
-public class CheckListViewDialog<T> extends Dialog<List<T>> {
+public class CheckListViewDialog<T> extends StyleableDialog<List<T>> {
 	private ManageableGridPane grid = new ManageableGridPane();
 	private Function<T, String> stringConverter;
 	private Optional<Integer> upperLimit = Optional.empty();

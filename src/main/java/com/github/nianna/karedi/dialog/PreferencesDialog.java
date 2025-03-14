@@ -10,7 +10,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.Dialog;
 import javafx.scene.control.TextField;
 import javafx.util.StringConverter;
 
@@ -18,7 +17,7 @@ import java.io.File;
 import java.util.Locale;
 import java.util.Optional;
 
-public class PreferencesDialog extends Dialog<PreferencesResult> {
+public class PreferencesDialog extends StyleableDialog<PreferencesResult> {
 
 	@FXML
 	private ChoiceBox<Locale> languageSelect;

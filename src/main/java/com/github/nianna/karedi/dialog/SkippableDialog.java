@@ -1,13 +1,12 @@
 package com.github.nianna.karedi.dialog;
 
-import java.util.Optional;
-
+import com.github.nianna.karedi.I18N;
 import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.control.ButtonType;
-import javafx.scene.control.Dialog;
-import com.github.nianna.karedi.I18N;
 
-public abstract class SkippableDialog<T> extends Dialog<Optional<T>> {
+import java.util.Optional;
+
+public abstract class SkippableDialog<T> extends StyleableDialog<Optional<T>> {
 	protected static final ButtonType SKIP_TYPE = new ButtonType(I18N.get("common.skip"), ButtonData.NEXT_FORWARD);
 
 	public SkippableDialog() {
