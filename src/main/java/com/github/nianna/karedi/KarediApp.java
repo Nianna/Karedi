@@ -160,6 +160,10 @@ public class KarediApp extends Application {
 		return primaryStage.getScene().getStylesheets().contains(NIGHT_MODE_CSS_STYLESHEET);
 	}
 
+	public List<String> getActiveStylesheets() {
+		return primaryStage.getScene().getStylesheets().stream().toList();
+	}
+
 	public boolean saveChangesIfUserWantsTo() {
 		if (appContext.getTxtContext().needsSaving()) {
 			Alert alert = new SaveChangesAlert(getFileName(appContext.getTxtContext().getActiveFile()));

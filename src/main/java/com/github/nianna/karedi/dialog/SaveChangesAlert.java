@@ -1,10 +1,9 @@
 package com.github.nianna.karedi.dialog;
 
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
 import com.github.nianna.karedi.I18N;
+import javafx.scene.control.ButtonType;
 
-public class SaveChangesAlert extends Alert {
+public class SaveChangesAlert extends StyleableAlert {
 	public static final ButtonType SAVE_BUTTON = new ButtonType(I18N.get("common.save"));
 	public static final ButtonType DISCARD_BUTTON = new ButtonType(I18N.get("common.not_save"));
 

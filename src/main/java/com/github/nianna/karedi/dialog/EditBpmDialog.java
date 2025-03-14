@@ -1,8 +1,8 @@
 package com.github.nianna.karedi.dialog;
 
+import com.github.nianna.karedi.I18N;
 import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.control.ButtonType;
-import com.github.nianna.karedi.I18N;
 
 public class EditBpmDialog extends ModifyBpmDialog {
 

@@ -7,6 +7,7 @@ import com.github.nianna.karedi.context.ActionContext;
 import com.github.nianna.karedi.context.AppContext;
 import com.github.nianna.karedi.context.AudioContext;
 import com.github.nianna.karedi.control.SliderTableCell;
+import com.github.nianna.karedi.dialog.StyleableAlert;
 import com.github.nianna.karedi.util.ContextMenuBuilder;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.DoubleProperty;
@@ -116,7 +117,7 @@ public class AudioManagerController implements Controller {
 	private void confirmAndRemoveSelected() {
 		if (!table.getSelectionModel().isEmpty()) {
 			PreloadedAudioFile file = table.getSelectionModel().getSelectedItem();
-			Alert alert = new Alert(AlertType.CONFIRMATION);
+			Alert alert = new StyleableAlert(AlertType.CONFIRMATION);
 			alert.setTitle(I18N.get("dialog.delete_audio.title"));
 			alert.setHeaderText(I18N.get("dialog.delete_audio.header"));
 			alert.setContentText(file.getName());

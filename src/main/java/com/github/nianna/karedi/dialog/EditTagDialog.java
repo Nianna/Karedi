@@ -12,7 +12,6 @@ import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.ButtonType;
-import javafx.scene.control.Dialog;
 import javafx.scene.control.TextField;
 import org.controlsfx.control.textfield.AutoCompletionBinding;
 import org.controlsfx.validation.ValidationResult;
@@ -23,7 +22,7 @@ import org.controlsfx.validation.decoration.ValidationDecoration;
 import java.util.Arrays;
 import java.util.List;
 
-public class EditTagDialog extends Dialog<Tag> {
+public class EditTagDialog extends StyleableDialog<Tag> {
 	@FXML
 	private TextField keyField;
 	@FXML

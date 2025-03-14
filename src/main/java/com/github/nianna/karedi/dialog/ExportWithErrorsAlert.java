@@ -1,9 +1,8 @@
 package com.github.nianna.karedi.dialog;
 
-import javafx.scene.control.Alert;
 import com.github.nianna.karedi.I18N;
 
-public class ExportWithErrorsAlert extends Alert {
+public class ExportWithErrorsAlert extends StyleableAlert {
 
 	public ExportWithErrorsAlert() {
 		super(AlertType.CONFIRMATION);

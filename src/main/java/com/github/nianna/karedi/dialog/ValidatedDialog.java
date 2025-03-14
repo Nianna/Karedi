@@ -1,13 +1,11 @@
 package com.github.nianna.karedi.dialog;
 
-import org.controlsfx.validation.ValidationSupport;
-
 import javafx.collections.transformation.FilteredList;
 import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.control.ButtonType;
-import javafx.scene.control.Dialog;
+import org.controlsfx.validation.ValidationSupport;
 
-public abstract class ValidatedDialog<T> extends Dialog<T> {
+public abstract class ValidatedDialog<T> extends StyleableDialog<T> {
 	protected ValidationSupport validationSupport;
 
 	public ValidatedDialog() {
