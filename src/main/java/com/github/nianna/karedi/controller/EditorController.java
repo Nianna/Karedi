@@ -31,6 +31,7 @@ import com.github.nianna.karedi.song.Song;
 import com.github.nianna.karedi.song.Song.Medley;
 import com.github.nianna.karedi.song.SongLine;
 import com.github.nianna.karedi.song.SongTrack;
+import com.github.nianna.karedi.util.ColorUtils;
 import com.github.nianna.karedi.util.KeyEventUtils;
 import com.github.nianna.karedi.util.ListenersUtils;
 import com.github.nianna.karedi.util.MathUtils;
@@ -401,13 +402,21 @@ public class EditorController implements Controller {
     private void onPlayerStatusChanged(Observable obs, Status oldStatus, Status newStatus) {
         if (newStatus == Status.PLAYING) {
             if (tapping) {
-                markerLine.setFill(MARKER_COLOR_TAPPING);
+                setMarkerLineColor(MARKER_COLOR_TAPPING);
             } else {
-                markerLine.setFill(MARKER_COLOR_PLAYING);
+                setMarkerLineColor(MARKER_COLOR_PLAYING);
             }
         } else {
-            markerLine.setFill(MARKER_COLOR_READY);
+            resetMarkerLineColor();
         }
+    }
+
+    private void setMarkerLineColor(Color color) {
+        markerLine.setStyle("-fx-fill: " + ColorUtils.toHexString(color));
+    }
+
+    private void resetMarkerLineColor() {
+        markerLine.setStyle(null);
     }
 
     private void onMedleyChanged(Observable obs) {
@@ -836,7 +845,7 @@ public class EditorController implements Controller {
             hBox.setOnKeyReleased(this::onKeyReleasedWhileWriting);
             addListeners();
             disableActions();
-            markerLine.setFill(MARKER_COLOR_WRITING);
+            setMarkerLineColor(MARKER_COLOR_WRITING);
         }
 
         private void backupState() {
@@ -848,7 +857,7 @@ public class EditorController implements Controller {
         private void restoreEditorState() {
             hBox.setOnKeyPressed(onKeyPressed);
             hBox.setOnKeyReleased(onKeyReleased);
-            markerLine.setFill(MARKER_COLOR_READY);
+            resetMarkerLineColor();
         }
 
         private void addListeners() {
