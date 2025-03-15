@@ -98,6 +98,7 @@ public class KarediApp extends Application {
 			Scene scene = new Scene(rootLayout);
 			scene.getStylesheets().add(BASIC_CSS_STYLESHEET);
 			primaryStage.setScene(scene);
+			changeThemeToDefault();
 
 			appContext = new AppContext();
 			RootController controller = loader.getController();
@@ -140,6 +141,12 @@ public class KarediApp extends Application {
 		primaryStage.setTitle(getFileName(file) + " - " + APP_NAME);
 	}
 
+	private void changeThemeToDefault() {
+		Settings.getDefaultTheme()
+				.filter(ViewMode.NIGHT.name()::equals)
+				.ifPresent(ignored -> setViewMode(ViewMode.NIGHT));
+	}
+
 	public void setViewMode(ViewMode mode) {
 		if (getViewMode() != mode) {
 			switch (mode) {
@@ -149,6 +156,7 @@ public class KarediApp extends Application {
 			case NIGHT:
 				primaryStage.getScene().getStylesheets().add(NIGHT_MODE_CSS_STYLESHEET);
 			}
+			Settings.setDefaultTheme(mode.name());
 		}
 	}
 

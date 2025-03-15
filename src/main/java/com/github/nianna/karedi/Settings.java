@@ -28,6 +28,8 @@ public final class Settings {
 	private static final String LOCALE_LANGUAGE_KEY = "ui_locale_language";
 	private static final String LOCALE_COUNTRY_KEY = "ui_locale_country";
 
+	private static final String DEFAULT_THEME = "ui_default_theme";
+
 	private static final String DISPLAY_NOTENODE_UNDERBAR_KEY = "ui_display_notenode_underbar";
 
 	private static final String TRACKS_COLOR_KEY = "ui_tracks_colors_";
@@ -108,6 +110,14 @@ public final class Settings {
 			PREFERENCES.remove(LOCALE_LANGUAGE_KEY);
 			PREFERENCES.remove(LOCALE_COUNTRY_KEY);
 		}
+	}
+
+	public static void setDefaultTheme(String defaultTheme) {
+		PREFERENCES.put(DEFAULT_THEME, defaultTheme);
+	}
+
+	public static Optional<String> getDefaultTheme() {
+		return Optional.ofNullable(PREFERENCES.get(DEFAULT_THEME, null));
 	}
 
 	public static void setDisplayNoteNodeUnderBarEnabled(boolean enabled) {
