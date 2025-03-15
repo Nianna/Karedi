@@ -22,6 +22,7 @@
 		<richtextfx.version>0.11.0</richtextfx.version>
 		<hyphenator.version>1.0.1</hyphenator.version>
 		<vavi-sound-flac-nayuki.version>0.0.2</vavi-sound-flac-nayuki.version>
+		<vavi-commons.version>1.1.12</vavi-commons.version>
 	</properties>
 
 	<build>
@@ -301,6 +302,43 @@
                                 </module>
 								<module>
 									<artifact>
+										<groupId>com.github.umjammer.vavi-commons</groupId>
+										<artifactId>vavi-commons</artifactId>
+										<version>${vavi-commons.version}</version>
+									</artifact>
+									<moduleInfoSource>
+										module vavi.commons {
+											requires java.logging;
+											requires java.desktop;
+
+											exports vavi.util;
+											exports vavi.io;
+										}
+									</moduleInfoSource>
+								</module>
+								<module>
+									<artifact>
+										<groupId>com.github.umjammer</groupId>
+										<artifactId>vavi-sound-flac-nayuki</artifactId>
+										<version>${vavi-sound-flac-nayuki.version}</version>
+									</artifact>
+									<moduleInfoSource>
+										module vavi.sound.flac.nayuki {
+											requires java.desktop;
+											requires java.logging;
+											requires vavi.commons;
+
+											exports vavi.sound.sampled.flac.nayuki.spi;
+
+											provides javax.sound.sampled.spi.AudioFileReader
+												with vavi.sound.sampled.flac.nayuki.spi.FlacAudioFileReader;
+											provides javax.sound.sampled.spi.FormatConversionProvider
+												with vavi.sound.sampled.flac.nayuki.spi.FlacFormatConversionProvider;
+										}
+									</moduleInfoSource>
+								</module>
+								<module>
+									<artifact>
 										<groupId>org.fxmisc.flowless</groupId>
 										<artifactId>flowless</artifactId>
 										<version>0.7.0</version>
@@ -418,12 +456,12 @@
 
 	<repositories>
 		<repository>
-			<id>jitpack.io</id>
-			<url>https://jitpack.io</url>
-		</repository>
-		<repository>
 			<id>repo</id>
 			<url>file:///${project.basedir}/lib</url>
+		</repository>
+		<repository>
+			<id>jitpack.io</id>
+			<url>https://jitpack.io</url>
 		</repository>
 	</repositories>
 
