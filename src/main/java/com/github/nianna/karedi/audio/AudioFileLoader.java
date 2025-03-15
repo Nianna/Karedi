@@ -16,7 +16,8 @@ public class AudioFileLoader {
 	private static final List<String> WAV_EXT = List.of("wav");
 	private static final List<String> AAC_EXT = List.of("m4a", "mp4", "aac");
 	private static final List<String> VORBIS_EXT = List.of("ogg");
-	private static final List<String> SUPPORTED_EXTENSIONS = Stream.of(MP3_EXT, WAV_EXT, AAC_EXT, VORBIS_EXT)
+	private static final List<String> FLAC_EXT = List.of("flac");
+	private static final List<String> SUPPORTED_EXTENSIONS = Stream.of(MP3_EXT, WAV_EXT, AAC_EXT, VORBIS_EXT, FLAC_EXT)
 			.flatMap(Collection::stream)
 			.toList();
 
@@ -67,6 +68,9 @@ public class AudioFileLoader {
 			}
 			if (VORBIS_EXT.contains(extension)) {
 				return SourceDataLineAudioFile.vorbisFile(file);
+			}
+			if (FLAC_EXT.contains(extension)) {
+				return SourceDataLineAudioFile.flacFile(file);
 			}
 			if (SUPPORTED_EXTENSIONS.contains(extension)) {
 				return SourceDataLineAudioFile.aacFile(file);

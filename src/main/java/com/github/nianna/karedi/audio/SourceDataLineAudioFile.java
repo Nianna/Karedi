@@ -91,6 +91,16 @@ class SourceDataLineAudioFile extends PreloadedAudioFile {
         }
     }
 
+
+    public static PreloadedAudioFile flacFile(File file) {
+        try {
+            AudioInputStream in = AudioSystem.getAudioInputStream(file);
+            return convertAndLoadAudio(file, in);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     private static SourceDataLineAudioFile convertAndLoadAudio(File file, AudioInputStream in)
             throws LineUnavailableException, IOException {
         AudioFormat convertedFormat = in.getFormat();
