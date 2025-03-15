@@ -145,3 +145,7 @@
     -fx-padding: 0em 0em 0em 0em;
     -fx-shape: null;
 }
+
+.table-view .table-row-cell .scroll-edit-active {
+	-fx-font-weight: bold;
+}
