@@ -24,7 +24,9 @@ import com.github.nianna.karedi.util.MathUtils;
 import com.github.nianna.karedi.util.NumericNodeUtils;
 import com.github.nianna.karedi.util.TableViewUtils;
 import com.github.nianna.karedi.util.ValidationUtils;
+import javafx.beans.InvalidationListener;
 import javafx.beans.binding.Bindings;
+import javafx.beans.binding.BooleanBinding;
 import javafx.beans.property.ReadOnlyStringProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.event.EventHandler;
@@ -35,9 +37,9 @@ import javafx.scene.control.ContextMenu;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableColumn.CellEditEvent;
+import javafx.scene.control.TablePosition;
 import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
-import javafx.scene.control.TablePosition;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
@@ -52,6 +54,7 @@ import org.controlsfx.validation.decoration.ValidationDecoration;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import java.util.function.Function;
 
 public class TagsTableController implements Controller {
@@ -170,20 +173,8 @@ public class TagsTableController implements Controller {
     private Callback<TableView<Tag>, TableRow<Tag>> getRowFactory() {
         return (tv -> {
             TableRow<Tag> row = new TableRow<Tag>();
-
             row.contextMenuProperty().bind(Bindings.when(row.emptyProperty()).then(baseContextMenu)
                     .otherwise(getContextMenuForRow(row)));
-
-            row.itemProperty().addListener((obs, oldItem, newItem) -> {
-                row.setOnScroll(null);
-                if (newItem != null) {
-                    TagKey.optionalValueOf(newItem.getKey()).ifPresent(tagKey -> {
-                        row.setOnScroll(
-                                getScrollHandlerForRow(row, tagKey, newItem.valueProperty()));
-                    });
-                }
-            });
-
             return row;
         });
     }
@@ -196,34 +187,6 @@ public class TagsTableController implements Controller {
         ContextMenu result = builder.getResult();
         result.getItems().forEach(item -> item.disableProperty().bind(table.editingCellProperty().isNotNull()));
         return result;
-    }
-
-    private EventHandler<ScrollEvent> getScrollHandlerForRow(TableRow<Tag> row, TagKey key,
-                                                             ReadOnlyStringProperty value) {
-        EventHandler<ScrollEvent> handler = null;
-        if (TagKey.expectsAnInteger(key)) {
-            handler = NumericNodeUtils.createUpdateIntValueOnScrollHandler(
-                    () -> Converter.toInteger(value.get()), newValue -> changeTagValueIfValid(key,
-                            Converter.toString(newValue.intValue())));
-        }
-        if (TagKey.expectsADouble(key)) {
-            handler = NumericNodeUtils.createUpdateDoubleValueOnScrollHandler(
-                    () -> Converter.toDouble(value.get()), newValue -> changeTagValueIfValid(key,
-                            Converter.toString(MathUtils.roundTo(newValue.doubleValue(), 3))));
-        }
-        return adaptScrollHandlerForRow(row, handler);
-    }
-
-    private EventHandler<ScrollEvent> adaptScrollHandlerForRow(TableRow<Tag> row,
-                                                               EventHandler<ScrollEvent> handler) {
-        if (handler != null) {
-            return (event -> {
-                if (row.isSelected() && !row.isEditing()) {
-                    handler.handle(event);
-                }
-            });
-        }
-        return null;
     }
 
     @FXML
@@ -289,12 +252,18 @@ public class TagsTableController implements Controller {
     }
 
     private class TagValueTableCell extends TableCell<Tag, String> {
+
+        private static final String SCROLL_EDIT_ACTIVE_STYLE_CLASS = "scroll-edit-active";
+
         private final RestrictedTextField textField = new RestrictedTextField("");
         private Function<Tag, Validator<String>> validatorSupplier;
         private Validator<String> validator;
         private ValidationDecoration validationDecoration = new GraphicValidationDecoration();
         private Tag lastTag;
         private AutoCompletionBinding<?> valueSuggestions;
+
+        private BooleanBinding isScrollEditAllowed;
+        private InvalidationListener isScrollEditAllowedInvalidationListener = obs -> refreshScrollEditEffect();
 
         private ValidationResult applyValidator() {
             return validator.apply(textField, textField.getText());
@@ -325,6 +294,71 @@ public class TagsTableController implements Controller {
                     cancelEdit();
                 }
             });
+            addListenerUpdatingEditViaScrollAvailability();
+        }
+
+        private void addListenerUpdatingEditViaScrollAvailability() {
+            itemProperty().addListener(obs -> Optional.ofNullable(getTableRow().getItem())
+                    .map(Tag::getKey)
+                    .flatMap(TagKey::optionalValueOf)
+                    .flatMap(tagKey -> scrollHandlerForCell(tagKey, getTableRow().getItem().valueProperty()))
+                    .ifPresentOrElse(handler -> {
+                        isScrollEditAllowed = getTableRow().selectedProperty().and(editingProperty().not());
+                        setOnScroll(handler);
+                        setOnMouseEntered(event -> {
+                            isScrollEditAllowed.addListener(isScrollEditAllowedInvalidationListener);
+                            isScrollEditAllowed.invalidate();
+                        });
+                        setOnMouseExited(event -> {
+                            isScrollEditAllowed.removeListener(isScrollEditAllowedInvalidationListener);
+                            removeScrollEditEffect();
+                        });
+                    }, () -> {
+                        setOnScroll(null);
+                        setOnMouseEntered(null);
+                        setOnMouseExited(null);
+                        removeScrollEditEffect();
+                    }));
+        }
+
+        private void refreshScrollEditEffect() {
+            if (isScrollEditAllowed.get()) {
+                if (!getStyleClass().contains(SCROLL_EDIT_ACTIVE_STYLE_CLASS)) {
+                    getStyleClass().add(SCROLL_EDIT_ACTIVE_STYLE_CLASS);
+                }
+            } else {
+                removeScrollEditEffect();
+            }
+        }
+
+        private void removeScrollEditEffect() {
+            getStyleClass().remove(SCROLL_EDIT_ACTIVE_STYLE_CLASS);
+        }
+
+        private Optional<EventHandler<ScrollEvent>> scrollHandlerForCell(TagKey key, ReadOnlyStringProperty value) {
+            EventHandler<ScrollEvent> handler = null;
+            if (TagKey.expectsAnInteger(key)) {
+                handler = NumericNodeUtils.createUpdateIntValueOnScrollHandler(
+                        () -> Converter.toInteger(value.get()), newValue -> changeTagValueIfValid(key,
+                                Converter.toString(newValue.intValue())));
+            }
+            if (TagKey.expectsADouble(key)) {
+                handler = NumericNodeUtils.createUpdateDoubleValueOnScrollHandler(
+                        () -> Converter.toDouble(value.get()), newValue -> changeTagValueIfValid(key,
+                                Converter.toString(MathUtils.roundTo(newValue.doubleValue(), 3))));
+            }
+            return Optional.ofNullable(adaptScrollHandlerForCell(handler));
+        }
+
+        private EventHandler<ScrollEvent> adaptScrollHandlerForCell(EventHandler<ScrollEvent> handler) {
+            if (handler != null) {
+                return (event -> {
+                    if (isScrollEditAllowed.get()) {
+                        handler.handle(event);
+                    }
+                });
+            }
+            return null;
         }
 
         @Override
@@ -346,6 +380,7 @@ public class TagsTableController implements Controller {
             textField.selectAll();
 
             textField.requestFocus();
+            removeScrollEditEffect();
         }
 
         private void resetValueSuggestions(Tag tag) {
