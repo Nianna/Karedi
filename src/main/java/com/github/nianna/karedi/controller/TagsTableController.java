@@ -154,7 +154,9 @@ public class TagsTableController implements Controller {
 
     @FXML
     private void onKeyColumnEditStart(CellEditEvent<Tag, String> event) {
-        table.edit(event.getTablePosition().getRow(), valueColumn);
+        if (event.getTablePosition().getRow() != table.getEditingCell().getRow()) {
+            table.edit(event.getTablePosition().getRow(), valueColumn);
+        }
     }
 
     @FXML
@@ -318,6 +320,11 @@ public class TagsTableController implements Controller {
                 ValidationUtils.getHighestPriorityMessage(result)
                         .ifPresent(msg -> validationDecoration.applyValidationDecoration(msg));
             });
+            textField.focusedProperty().addListener(obs -> {
+                if (!textField.isFocused() && isEditing()) {
+                    cancelEdit();
+                }
+            });
         }
 
         @Override
@@ -395,7 +402,7 @@ public class TagsTableController implements Controller {
         @Override
         public void cancelEdit() {
             super.cancelEdit();
-            setPadding(new Insets(0));
+            setPadding(new Insets(2));
             setText(getItemText());
             setGraphic(null);
         }
