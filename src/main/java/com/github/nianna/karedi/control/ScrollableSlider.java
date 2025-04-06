@@ -8,7 +8,7 @@ public class ScrollableSlider extends Slider {
 		setOnScroll(event -> {
 			if (event.getDeltaY() > 0) {
 				increment();
-			} else {
+			} else if (event.getDeltaY() < 0) {
 				decrement();
 			}
 		});
