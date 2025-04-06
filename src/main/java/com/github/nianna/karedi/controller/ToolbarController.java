@@ -122,7 +122,7 @@ public class ToolbarController implements Controller {
 		playbackSpeedSpinner.setOnScroll(event -> {
 			if (event.getDeltaY() > 0) {
 				playbackSpeedSpinner.increment();
-			} else {
+			} else if (event.getDeltaY() < 0) {
 				playbackSpeedSpinner.decrement();
 			}
 		});

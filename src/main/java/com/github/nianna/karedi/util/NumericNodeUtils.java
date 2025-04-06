@@ -18,6 +18,13 @@ public final class NumericNodeUtils {
 			Supplier<Optional<? extends Number>> supplier, Consumer<Double> consumer,
 			double basicStep) {
 		return (event -> {
+			// Catch for unexpected events, that might happen when javafx.graphics native-glass handles GTK's events.
+			// Fix for HI_RES scroll on Linux, GTK. Maybe even more.
+			if (event.getDeltaY() == 0 && event.getDeltaX() == 0) {
+				event.consume();
+				return;
+			}
+
 			boolean wheelDown = event.getDeltaY() < 0 || event.getDeltaX() < 0;
 
 			supplier.get().ifPresent(oldValue -> {
