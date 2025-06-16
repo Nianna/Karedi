@@ -48,6 +48,15 @@ For tutorials explaining how to use this software, please refer to the [project'
 
 You can found the newest version in the [Releases](https://github.com/Nianna/Karedi/releases) section.
 
+## Building
+In order to build Karedi, you can run `mvn package`; this will create a JAR file in `target/dist`.
+
+For example, you can run the built program like this:
+```bash
+mvn package  # Compile, build, and run tests
+java -jar target/dist/Karedi-1.7.0.jar  # Replace "1.7.0" with current version
+```
+
 ## Libraries
 
 Karedi uses the following libraries:
