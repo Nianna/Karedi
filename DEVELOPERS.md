@@ -275,7 +275,7 @@ If the new dependency is not modular, more steps are needed to make sure everyth
 First, add the dependency as usual and make sure your code is working properly:
 * from IDE (check if some additional `add-opens` directives are necessary for the new feature to work)
 * from fat jar.
-Test if on multiple operating systems and architectures if you can.
+Test it on multiple operating systems and architectures if you can.
 
 Please note that without additional config, installer creation will fail.
 
