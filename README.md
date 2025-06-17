@@ -44,6 +44,10 @@ Please refer to the [wiki](https://karedi.gitbook.io/karedi/) to learn more.
 
 For tutorials explaining how to use this software, please refer to the [project's wiki](https://karedi.gitbook.io/karedi/).
 
+## Technical guides
+
+All guides for developers e.g. how to build the project can be found in [DEVELOPERS.md](https://github.com/Nianna/Karedi/blob/master/DEVELOPERS.md) file.
+
 ## Downloads
 
 You can found the newest version in the [Releases](https://github.com/Nianna/Karedi/releases) section.
