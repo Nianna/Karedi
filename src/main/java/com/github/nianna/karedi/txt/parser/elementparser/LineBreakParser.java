@@ -15,7 +15,7 @@ import com.github.nianna.karedi.txt.parser.element.VisitableSongElement;
  */
 public class LineBreakParser extends SongElementParser {
 
-	private static final String LINE_BREAK_PATTERN = "- (-*[0-9]+)\\p{javaWhitespace}*";
+	private static final String LINE_BREAK_PATTERN = "-\\p{javaWhitespace}*(-*[0-9]+)\\p{javaWhitespace}*";
 
 	public LineBreakParser() {
 		super(LINE_BREAK_PATTERN);

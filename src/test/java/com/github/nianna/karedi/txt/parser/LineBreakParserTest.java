@@ -26,9 +26,10 @@ public class LineBreakParserTest {
 		assertThrows(InvalidSongElementException.class, () -> parser.parse(": 20"));
 	}
 
-	@Test
-	public void returnsLineBreakElement() throws InvalidSongElementException {
-		VisitableSongElement result = parser.parse("- 20");
+	@ParameterizedTest
+	@ValueSource(strings = {"- 20", "- \t      50", "-40"})
+	public void returnsLineBreakElement(String line) throws InvalidSongElementException {
+		VisitableSongElement result = parser.parse(line);
 		assertNotNull(result);
 		assertEquals(LineBreakElement.class, result.getClass());
 	}

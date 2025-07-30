@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
  */
 public class NoteParser extends SongElementParser {
 
-	private static final String NOTE_PATTERN = "([%s]) (-*[0-9]+) ([0-9]+) (-*[0-9]+) (.*)"
+	private static final String NOTE_PATTERN = "([%s])\\p{javaWhitespace}+(-*[0-9]+)\\p{javaWhitespace}+([0-9]+)\\p{javaWhitespace}+(-*[0-9]+) (.*)"
 			.formatted(allTypesRepresentationsPattern());
 
 	private static String allTypesRepresentationsPattern() {
