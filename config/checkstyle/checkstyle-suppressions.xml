@@ -6,4 +6,5 @@
 
 <suppressions>
     <suppress files="Sonic\.java" checks="[a-zA-Z0-9]*"/>
+    <suppress files="NoteParser\.java" lines="22" checks="LineLength"/>
 </suppressions>

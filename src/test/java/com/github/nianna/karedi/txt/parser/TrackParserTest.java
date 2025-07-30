@@ -31,9 +31,10 @@ public class TrackParserTest {
 		assertThrows(InvalidSongElementException.class, () -> parser.parse("P -2"));
 	}
 
-	@Test
-	public void returnsTrackElement() throws InvalidSongElementException {
-		VisitableSongElement result = parser.parse("P 2");
+	@ParameterizedTest
+	@ValueSource(strings = {"P 2", "P1", "P       3"})
+	public void returnsTrackElement(String line) throws InvalidSongElementException {
+		VisitableSongElement result = parser.parse(line);
 		assertNotNull(result);
 		assertEquals(TrackElement.class, result.getClass());
 	}

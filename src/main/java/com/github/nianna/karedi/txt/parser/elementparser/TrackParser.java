@@ -13,7 +13,7 @@ import java.util.regex.Matcher;
  */
 public class TrackParser extends SongElementParser {
 
-	private static final String TRACK_PATTERN = "P ([0-9]+)\\p{javaWhitespace}*";
+	private static final String TRACK_PATTERN = "P\\p{javaWhitespace}*([0-9]+)\\p{javaWhitespace}*";
 
 	public TrackParser() {
 		super(TRACK_PATTERN);

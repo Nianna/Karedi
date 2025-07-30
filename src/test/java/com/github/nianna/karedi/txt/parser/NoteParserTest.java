@@ -7,6 +7,8 @@ import com.github.nianna.karedi.txt.parser.element.VisitableSongElement;
 import com.github.nianna.karedi.txt.parser.elementparser.NoteParser;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -30,9 +32,10 @@ public class NoteParserTest {
 		assertThrows(InvalidSongElementException.class, () -> parser.parse(": 0 -3 0 Foo"));
 	}
 
-	@Test
-	public void returnsNoteElement() throws InvalidSongElementException {
-		VisitableSongElement result = parser.parse(": 0 1 2 Foo");
+	@ParameterizedTest
+	@ValueSource(strings = {": 0 1 2 Foo", ":    0\t\t 1   2 Foo"})
+	public void returnsNoteElement(String line) throws InvalidSongElementException {
+		VisitableSongElement result = parser.parse(line);
 		assertNotNull(result);
 		assertEquals(NoteElement.class, result.getClass());
 	}
