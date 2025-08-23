@@ -168,7 +168,7 @@
 							mnemonicParsing="false" text="%ui.menu.delete.lyrics">
 							<accelerator>
 								<KeyCodeCombination alt="UP" code="DELETE"
-									control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+									control="UP" meta="UP" shift="UP" shortcut="DOWN" />
 							</accelerator>
 						</MenuItem>
 						<MenuItem fx:id="deleteSelectedNotesAndLyricsMenuItem"
@@ -204,14 +204,14 @@
 							mnemonicParsing="false" text="%ui.menu.move.down">
 							<accelerator>
 								<KeyCodeCombination alt="UP" code="DOWN"
-									control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+									control="UP" meta="UP" shift="UP" shortcut="DOWN" />
 							</accelerator>
 						</MenuItem>
 						<MenuItem fx:id="moveSelectionUpMenuItem"
 							mnemonicParsing="false" text="%ui.menu.move.up">
 							<accelerator>
 								<KeyCodeCombination alt="UP" code="UP"
-									control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+									control="UP" meta="UP" shift="UP" shortcut="DOWN" />
 							</accelerator>
 						</MenuItem>
 					</items>
@@ -222,14 +222,14 @@
 							text="%ui.menu.start.earlier">
 							<accelerator>
 								<KeyCodeCombination alt="UP" code="LEFT"
-									control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+									control="UP" meta="UP" shift="UP" shortcut="DOWN" />
 							</accelerator>
 						</MenuItem>
 						<MenuItem fx:id="startLaterMenuItem" mnemonicParsing="false"
 							text="%ui.menu.start.later">
 							<accelerator>
 								<KeyCodeCombination alt="UP" code="RIGHT"
-									control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+									control="UP" meta="UP" shift="UP" shortcut="DOWN" />
 							</accelerator>
 						</MenuItem>
 					</items>
@@ -393,7 +393,7 @@
 							mnemonicParsing="false" text="%ui.menu.play.mode.audio_midi">
 							<accelerator>
 								<KeyCodeCombination alt="UP" code="SPACE"
-									control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+									control="UP" meta="UP" shift="UP" shortcut="DOWN" />
 							</accelerator>
 						</MenuItem>
 					</items>
@@ -418,7 +418,7 @@
 							mnemonicParsing="false" text="%ui.menu.play.mode.audio_midi">
 							<accelerator>
 								<KeyCodeCombination alt="UP" code="P"
-									control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+									control="UP" meta="UP" shift="UP" shortcut="DOWN" />
 							</accelerator>
 						</MenuItem>
 					</items>
@@ -489,8 +489,8 @@
 				<CheckMenuItem fx:id="toggleTicksMenuItem"
 					mnemonicParsing="false" text="%ui.menu.play.enable_ticks">
 					<accelerator>
-						<KeyCodeCombination alt="UP" code="W" control="DOWN"
-							meta="UP" shift="UP" shortcut="UP" />
+						<KeyCodeCombination alt="UP" code="W" control="UP"
+							meta="UP" shift="UP" shortcut="DOWN" />
 					</accelerator>
 				</CheckMenuItem>
 			</items>
@@ -530,8 +530,8 @@
 				<MenuItem fx:id="selectNoneMenuItem" mnemonicParsing="false"
 					text="%ui.menu.select.none">
 					<accelerator>
-						<KeyCodeCombination alt="UP" code="D" control="DOWN"
-							meta="UP" shift="UP" shortcut="UP" />
+						<KeyCodeCombination alt="UP" code="D" control="UP"
+							meta="UP" shift="UP" shortcut="DOWN" />
 					</accelerator>
 				</MenuItem>
 				<MenuItem fx:id="selectVisibleMenuItem" mnemonicParsing="false"
@@ -665,8 +665,8 @@
 				<MenuItem fx:id="fitToVisibleMenuItem" mnemonicParsing="false"
 					text="%ui.menu.view.fit.visible">
 					<accelerator>
-						<KeyCodeCombination alt="UP" code="F" control="DOWN"
-							meta="UP" shift="UP" shortcut="UP" />
+						<KeyCodeCombination alt="UP" code="F" control="UP"
+							meta="UP" shift="UP" shortcut="DOWN" />
 					</accelerator>
 				</MenuItem>
 				<MenuItem fx:id="fitToSelectionMenuItem" mnemonicParsing="false"
@@ -679,23 +679,23 @@
 				<MenuItem fx:id="fitHorizontallyMenuItem" mnemonicParsing="false"
 					text="%ui.menu.view.fit.horizontally">
 					<accelerator>
-						<KeyCodeCombination alt="UP" code="F" control="DOWN"
-							meta="UP" shift="DOWN" shortcut="UP" />
+						<KeyCodeCombination alt="UP" code="F" control="UP"
+							meta="UP" shift="DOWN" shortcut="DOWN" />
 					</accelerator>
 				</MenuItem>
 				<MenuItem fx:id="fitVerticallyMenuItem" mnemonicParsing="false"
 					text="%ui.menu.view.fit.vertically">
 					<accelerator>
 						<KeyCodeCombination alt="DOWN" code="F"
-							control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+							control="UP" meta="UP" shift="UP" shortcut="DOWN" />
 					</accelerator>
 				</MenuItem>
 				<SeparatorMenuItem mnemonicParsing="false" />
 				<MenuItem fx:id="togglePianoMenuItem" mnemonicParsing="false"
 					text="%ui.menu.toggle_piano">
 					<accelerator>
-						<KeyCodeCombination alt="UP" code="B" control="DOWN"
-							meta="UP" shift="UP" shortcut="UP" />
+						<KeyCodeCombination alt="UP" code="B" control="UP"
+							meta="UP" shift="UP" shortcut="DOWN" />
 					</accelerator>
 				</MenuItem>
 				<MenuItem fx:id="switchModeMenuItem" mnemonicParsing="false"

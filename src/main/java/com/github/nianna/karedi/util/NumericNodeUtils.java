@@ -29,7 +29,7 @@ public final class NumericNodeUtils {
 
 			supplier.get().ifPresent(oldValue -> {
 				double step = basicStep;
-				if (event.isControlDown()) {
+				if (event.isShortcutDown()) {
 					step *= 10;
 				}
 				if (event.isShiftDown()) {
