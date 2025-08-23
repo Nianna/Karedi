@@ -140,7 +140,7 @@ public class NoteNode {
     private void onMouseClicked(MouseEvent event) {
         if (event.isStillSincePress()) {
             noteDisplayer.requestFocus();
-            if (event.isControlDown()) {
+            if (event.isShortcutDown()) {
                 selection.toggleSelection(note);
                 return;
             }

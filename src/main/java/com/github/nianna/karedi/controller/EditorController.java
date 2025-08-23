@@ -449,7 +449,7 @@ public class EditorController implements Controller {
             return;
         }
 
-        if (event.isControlDown()) {
+        if (event.isShortcutDown()) {
             handleZoomScroll(event);
         } else {
             if (event.getDeltaX() != 0) {
@@ -991,7 +991,7 @@ public class EditorController implements Controller {
                 case F:
                 case G:
                 case A:
-                    if (event.isControlDown()) {
+                    if (event.isShortcutDown()) {
                         tone += 1;
                     }
                     // fall through
