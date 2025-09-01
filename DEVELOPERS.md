@@ -45,9 +45,9 @@ Make sure to install all dependencies required by jpackage. The list of required
 
 #### Creating the installer
 Once `jpackage` is properly set-up, you can run the command dedicated to your operating system:
-* Windows: `mvn clean jpackage jpackage@win`
-* Linux: `mvn clean jpackage jpackage@linux`
-* macOS: `mvn clean jpackage jpackage@mac`
+* Windows: `mvn clean package jpackage:jpackage@win`
+* Linux: `mvn clean package jpackage:jpackage@linux`
+* macOS: `mvn clean package jpackage:jpackage@mac`
 
 The installer will be created in the `target/dist` directory. After installation, you can just run the app - no additional steps are required.
 
